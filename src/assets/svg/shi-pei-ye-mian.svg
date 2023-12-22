@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>2.图标/6.影音类/适配页面</title>
+    <g id="2.图标/6.影音类/适配页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="路径" points="0 0 24 0 24 24 0 24"></polygon>
+        <g id="编组备份" transform="translate(2.000000, 2.000000)" fill="#848a9a" fill-rule="nonzero">
+            <path d="M19,0 C19.5522847,0 20,0.44771525 20,1 L20,19 C20,19.5522847 19.5522847,20 19,20 L1,20 C0.44771525,20 0,19.5522847 0,19 L0,1 C0,0.44771525 0.44771525,0 1,0 L19,0 Z M18,2 L2,2 L2,18 L18,18 L18,2 Z M6,11.199 L6,14 L8.8,14 L8.8,16 L4,16 L4,11.199 L6,11.199 Z M16,11.199 L16,16 L11.199,16 L11.199,14 L14,14 L14,11.199 L16,11.199 Z M8.8,4 L8.8,6 L6,6 L6,8.799 L4,8.799 L4,4 L8.8,4 Z M16,4 L16,8.799 L14,8.799 L14,6 L11.199,6 L11.199,4 L16,4 Z" id="形状"></path>
+        </g>
+    </g>
+</svg>
