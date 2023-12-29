@@ -452,9 +452,6 @@ url("fonts/cw-icon.eot?#iefix") format("embedded-opentype");
 .cw-icon.weops-log-node:before {
 	content: "\eab0";
 }
-.cw-icon.weops-probe:before {
-	content: "\eab1";
-}
 .cw-icon.weops-lian-jie:before {
 	content: "\eab2";
 }
@@ -505,4 +502,154 @@ url("fonts/cw-icon.eot?#iefix") format("embedded-opentype");
 }
 .cw-icon.weops-show:before {
 	content: "\ec66";
+}
+.cw-icon.weops-fail-fill:before {
+	content: "\ec69";
+}
+.cw-icon.weops-ren-qi:before {
+	content: "\ec6a";
+}
+.cw-icon.weops-triangle-up:before {
+	content: "\ec7a";
+}
+.cw-icon.weops-auto-fit-view:before {
+	content: "\ec7d";
+}
+.cw-icon.weops-nav-down:before {
+	content: "\ec88";
+}
+.cw-icon.weops-nav-up:before {
+	content: "\ec89";
+}
+.cw-icon.weops-performance-observation:before {
+	content: "\ec93";
+}
+.cw-icon.weops-application-observation:before {
+	content: "\ec94";
+}
+.cw-icon.weops-chain-analysis:before {
+	content: "\ec95";
+}
+.cw-icon.weops-mu-lu:before {
+	content: "\eca6";
+}
+.cw-icon.weops-wen-ben:before {
+	content: "\eca7";
+}
+.cw-icon.weops-qie-huan:before {
+	content: "\ece6";
+}
+.cw-icon.weops-incident-fill:before {
+	content: "\ece7";
+}
+.cw-icon.weops-auto-refresh:before {
+	content: "\ece8";
+}
+.cw-icon.weops-topo-hor:before {
+	content: "\ece9";
+}
+.cw-icon.weops-cloud-platform-fill-1:before {
+	content: "\ecea";
+}
+.cw-icon.weops-yun-ping-tai:before {
+	content: "\eceb";
+}
+.cw-icon.weops-monitor-fill-1-1:before {
+	content: "\ecec";
+}
+.cw-icon.weops-monitor-1-1:before {
+	content: "\eced";
+}
+.cw-icon.weops-zi-ding-yi-jian-kong-tian-chong:before {
+	content: "\ecee";
+}
+.cw-icon.weops-zi-ding-yi-chang-jing:before {
+	content: "\ecef";
+}
+.cw-icon.weops-application-1:before {
+	content: "\ecf0";
+}
+.cw-icon.weops-k-8-s---1:before {
+	content: "\ecf1";
+}
+.cw-icon.weops-k-8-s:before {
+	content: "\ecf2";
+}
+.cw-icon.weops-ying-yong-xian:before {
+	content: "\ecf3";
+}
+.cw-icon.weops-ying-yong-xian-1:before {
+	content: "\ecf4";
+}
+.cw-icon.weops-bao-cun:before {
+	content: "\ecf5";
+}
+.cw-icon.weops-tian-jia-gao-jing-ce-lüe:before {
+	content: "\ecf7";
+}
+.cw-icon.weops-camera:before {
+	content: "\ecf8";
+}
+.cw-icon.weops-zhe-xian-tu-mian:before {
+	content: "\ecf9";
+}
+.cw-icon.weops-linux-colours:before {
+	content: "\ecfa";
+}
+.cw-icon.weops-linux-1:before {
+	content: "\ecfb";
+}
+.cw-icon.weops-windows-colours:before {
+	content: "\ecfc";
+}
+.cw-icon.weops-windows-1:before {
+	content: "\ecfd";
+}
+.cw-icon.weops-dan-jian-tou:before {
+	content: "\ecfe";
+}
+.cw-icon.weops-shuang-jian-tou:before {
+	content: "\ecff";
+}
+.cw-icon.weops-wu-jian-tou:before {
+	content: "\ed00";
+}
+.cw-icon.weops-chui-zhi-fen-bu:before {
+	content: "\ed01";
+}
+.cw-icon.weops-chui-zhi-ju-zhong:before {
+	content: "\ed02";
+}
+.cw-icon.weops-di-dui-qi:before {
+	content: "\ed03";
+}
+.cw-icon.weops-ding-dui-qi:before {
+	content: "\ed04";
+}
+.cw-icon.weops-shui-ping-fen-bu:before {
+	content: "\ed05";
+}
+.cw-icon.weops-shui-ping-ju-zhong:before {
+	content: "\ed06";
+}
+.cw-icon.weops-you-dui-qi:before {
+	content: "\ed07";
+}
+.cw-icon.weops-zuo-dui-qi:before {
+	content: "\ed08";
+}
+.cw-icon.weops-pi-liang-ren-wu:before {
+	content: "\ed09";
+}
+.cw-icon.weops-notice:before {
+	content: "\ed0a";
+}
+.cw-icon.weops-more-horizontal:before {
+	content: "\ed0b";
+}
+.cw-icon.weops-ge-ren-jue-se:before {
+	content: "\ed22";
+}
+.cw-icon.weops-zu-zhi-jue-se:before {
+	content: "\ed23";
 }
