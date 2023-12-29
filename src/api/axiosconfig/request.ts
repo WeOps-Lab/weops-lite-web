@@ -34,34 +34,13 @@ const axiosInstance = axios.create({
  */
 axiosInstance.interceptors.request.use(config => {
     const token = getToken()
-    const loginToken = localStorage.getItem('loginToken')
     config.headers['X-csrfToken'] = token
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
     config.headers['AUTH-APP'] = 'WEOPS'
-    config.headers['Authorization'] = `Bearer ${loginToken}`
     return config
 })
 
 // 响应拦截
-axiosInstance.interceptors.response.use(
-    response => {
-        // 此处的逻辑是判断mock模拟的数据返回的status是什么，模拟401报错后跳转的情况，使用真实后端接口报401错误时不会走下面逻辑
-        if (response.data.status === 401) {
-            if (router.history.current.fullPath !== '/login') {
-                router.push({
-                    path: '/login',
-                    query: {
-                        from: router.history.current.name
-                    }
-                })
-            }
-        }
-        return response
-    },
-    error => {
-        return Promise.reject(error)
-    }
-)
 
 const http = {
     queue: new RequestQueue(),
@@ -209,24 +188,11 @@ function handleReject(error, config) {
         const { status, data } = error.response
         let message = (error && error.message) || (data && data.message)
         if (status === 401) {
-            if (router.history.current.fullPath !== '/login') {
-                router.push({
-                    path: '/login',
-                    query: {
-                        from: router.history.current.name
-                    }
-                })
-            }
+            message = '未登录'
         } else if (status === 500) {
             message = '系统出现异常'
         } else if (status === 403) {
             message = '无权限操作'
-            router.push({
-                path: '/login',
-                query: {
-                    from: router.history.current.name
-                }
-            })
         } else if ([4005, 4003].includes((data && data.code))) {
             // bus.$emit('show-apply-perm-modal', data?.data)
         }

@@ -48,11 +48,12 @@ Router.prototype.replace = function push(location, onResolve, onReject) {
 }
 
 const router = new Router({
+    mode: 'history',
     routes: frameRouter // 替换到这里
 })
 const handleRouteAuthorization = async(to, from, next) => {
     const permission = store.state.permission
-    if ((!permission.user || JSON.stringify(permission.user) === '{}') && to.name !== 'Login') {
+    if ((!permission.user || JSON.stringify(permission.user) === '{}')) {
         await store.dispatch('GenerateNavLists1')
     }
     // 后端接口报500，要先注释掉这里才能切换路由
@@ -65,11 +66,6 @@ const handleRouteAuthorization = async(to, from, next) => {
 
 function checkRouteAccess(to, from, next) {
     const permission = store.state.permission
-    // 登录页不做路由拦截
-    if (to.name === 'Login') {
-        next()
-        return
-    }
     // 普通用户不能进入服务台管理
     if (!permission.user.is_super && to?.meta?.relatedMenu === 'ServiceDeskManage') {
         next({path: from.path})
