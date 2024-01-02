@@ -43,7 +43,7 @@
                         <li v-for="item in allSelected" :key="item.id + item.type">
                             <span class="cw-icon weops-zu-zhi-jue-se"></span>
                             {{ item.name }}
-                            <span class="type">组织角色</span>
+                            <span>组织角色</span>
                             <bk-icon type="close" @click="handleRemove(item)" />
                         </li>
                     </ul>
@@ -366,9 +366,6 @@
                     float: left;
                     font-size: 16px;
                 }
-                .type {
-                    display: none;
-                }
                 > i {
                     display: none;
                     position: absolute;
@@ -383,9 +380,6 @@
                         &:hover {
                             color: $cw-color-primary;
                         }
-                    }
-                    .type {
-                        display: inline-block;
                     }
                 }
             }

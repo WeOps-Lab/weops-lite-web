@@ -43,9 +43,8 @@
                         <li v-for="item in allSelected" :key="item.id + item.type">
                             <span v-if="item.type === 'role'" class="cw-icon weops-ge-ren-jue-se"></span>
                             <span v-else class="cw-icon weops-zu-zhi-jue-se"></span>
-                            <!-- {{ item.type === 'role' ? item.name : `${item.chname}(${item.bk_username})` }} -->
                             {{ item.name }}
-                            <span class="type">{{ item.type === 'role' ? '个人角色' : '组织角色' }}</span>
+                            <span>{{ item.type === 'role' ? '个人角色' : '组织角色' }}</span>
                             <bk-icon v-if="item.type === 'role'" type="close" @click="handleRemove(item)" />
                         </li>
                     </ul>
@@ -376,9 +375,6 @@
                     float: left;
                     font-size: 16px;
                 }
-                .type {
-                    display: none;
-                }
                 > i {
                     display: none;
                     position: absolute;
@@ -393,9 +389,6 @@
                         &:hover {
                             color: $cw-color-primary;
                         }
-                    }
-                    .type {
-                        display: inline-block;
                     }
                 }
             }
