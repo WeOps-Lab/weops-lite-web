@@ -41,8 +41,9 @@
                     <p>已选择（共<span>{{allSelected.length}}</span>条）<span class="clear" @click="handleClear">清空</span></p>
                     <ul>
                         <li v-for="item in allSelected" :key="item.id + item.type">
-                            {{ item.type === 'role' ? item.name : `${item.chname}(${item.bk_username})` }}
-                            <span>{{ item.type === 'role' ? '角色' : '用户' }}</span>
+                            <span class="cw-icon weops-zu-zhi-jue-se"></span>
+                            {{ item.name }}
+                            <span class="type">组织角色</span>
                             <bk-icon type="close" @click="handleRemove(item)" />
                         </li>
                     </ul>
@@ -361,6 +362,13 @@
                     color: $cw-color-text-3;
                     padding-right: 10px;
                 }
+                .cw-icon {
+                    float: left;
+                    font-size: 16px;
+                }
+                .type {
+                    display: none;
+                }
                 > i {
                     display: none;
                     position: absolute;
@@ -375,6 +383,9 @@
                         &:hover {
                             color: $cw-color-primary;
                         }
+                    }
+                    .type {
+                        display: inline-block;
                     }
                 }
             }
