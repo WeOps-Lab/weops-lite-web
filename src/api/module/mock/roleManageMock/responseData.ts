@@ -1,92 +1,72 @@
 import Mock from 'mockjs'
 export const roles = [
     {
-        built_in: true,
-        created_at: '2023-08-28 23:45:47',
-        describe: '本角色为IT服务台工单管理员，拥有查看所有工单的权限',
-        id: 5,
-        is_super: false,
-        role_name: 'itsm_admin_group',
-        users: [
-            {
-                bk_user_id: 3,
-                bk_username: 'pwm',
-                chname: '狗蛋',
-                id: 7
-            }
-        ]
+        'id': '55ad1832-0cce-45c8-9b45-ee9c2d72abf2',
+        'name': 'newRole',
+        'description': '22222',
+        'composite': false,
+        'clientRole': true,
+        'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f',
+        'attributes': {
+            'created': [
+                '2023-12-27 17:40:34'
+            ]
+        }
     },
     {
-        built_in: true,
-        created_at: '2023-08-28 23:45:47',
-        describe: '本角色为超级管理员，有全部的权限',
-        id: 4,
-        is_super: true,
-        role_name: 'iadmin_group',
-        users: [
-            {
-                bk_user_id: 1,
-                bk_username: 'admin',
-                chname: '超管',
-                id: 2
-            },
-            {
-                bk_user_id: 3,
-                bk_username: 'pwm',
-                chname: '狗蛋',
-                id: 7
-            },
-            {
-                bk_user_id: 4,
-                bk_username: 'eric',
-                chname: 'Eric',
-                id: 8
-            },
-            {
-                bk_user_id: 7,
-                bk_username: 'kayla',
-                chname: 'kayla',
-                id: 12
-            }
-        ]
+        'id': '8d1600a5-a785-4d18-a815-44049210968b',
+        'name': 'normal',
+        'description': '本角色为普通用户，需要超级管理员赋予其他权限',
+        'composite': false,
+        'clientRole': true,
+        'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f',
+        'attributes': {
+            'type': [
+                '0'
+            ],
+            'created': [
+                '2023-12-27'
+            ]
+        }
     },
     {
-        built_in: true,
-        created_at: '2023-08-28 23:45:47',
-        describe: '本角色为普通用户，需要超级管理员赋予其他权限',
-        id: 3,
-        is_super: false,
-        role_name: 'normal_group',
-        users: [
-            {
-                bk_user_id: 4,
-                bk_username: 'eric',
-                chname: 'Eric',
-                id: 8
-            },
-            {
-                bk_user_id: 14,
-                bk_username: 'chadneal',
-                chname: 'chadneal',
-                id: 18
-            }
-        ]
+        'id': '85efb45a-a866-43ab-892a-85a6836ab1a7',
+        'name': 'admin',
+        'description': '本角色为超级管理员，有全部的权限',
+        'composite': false,
+        'clientRole': true,
+        'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f',
+        'attributes': {
+            'created': [
+                '2023-12-27'
+            ]
+        }
     },
     {
-        id: 121,
-        role_name: 'ttt',
-        describe: '1111',
-        built_in: false,
-        is_super: false,
-        created_at: '2023-10-27 10:21:40',
-        users: [
-            {
-                id: 7,
-                bk_user_id: 3,
-                bk_username: 'pwm',
-                chname: '狗蛋'
-            }
-        ]
+        'id': '05354688-1daa-4563-9f5e-cbcae93dff80',
+        'name': 'testRole',
+        'description': '222',
+        'composite': false,
+        'clientRole': true,
+        'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f',
+        'attributes': {
+            'created': [
+                '2023-12-27 16:04:52'
+            ]
+        }
+    },
+    {
+        'id': '37055792-f354-4658-aa45-8a26daf1771b',
+        'name': 'IA_admin',
+        'description': '本角色为分级管理员，有二次授权权限',
+        'composite': false,
+        'clientRole': true,
+        'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f',
+        'attributes': {
+            'created': [
+                '2023-12-27'
+            ]
+        }
     }
 ]
 
@@ -206,13 +186,9 @@ export default {
             result: true,
             code: '20000',
             message: 'success',
-            data: {
-                count: 0,
-                items: []
-            }
+            data: []
         }
-        res.data.items = roles.filter(item => item.role_name.includes(params.search))
-        res.data.count = res.data.items.length
+        res.data = roles
         return res
     },
     createRoleData: (params) => {
@@ -384,6 +360,65 @@ export default {
             code: 20000,
             message: 'success',
             data: null
+        }
+    },
+    getRoleAllUser: () => {
+        return {
+            result: true,
+            code: 20000,
+            message: 'success',
+            data: [
+                {
+                    'id': 'adb3c92c-8b8a-4bcd-ba9e-bd444a092183',
+                    'createdTimestamp': 1702546733331,
+                    'username': 'new',
+                    'enabled': true,
+                    'totp': false,
+                    'emailVerified': false,
+                    'lastName': '是',
+                    'disableableCredentialTypes': [],
+                    'requiredActions': [],
+                    'notBefore': 0
+                },
+                {
+                    'id': '91aefc4d-1525-45cb-9cd6-07d184a39986',
+                    'createdTimestamp': 1702458013615,
+                    'username': 'normal_user',
+                    'enabled': true,
+                    'totp': false,
+                    'emailVerified': false,
+                    'lastName': '普通用户',
+                    'email': 'normal@kc.com',
+                    'disableableCredentialTypes': [],
+                    'requiredActions': [],
+                    'notBefore': 0
+                },
+                {
+                    'id': '99358af8-3d7d-4d6f-8561-11803ccf0966',
+                    'createdTimestamp': 1703134764268,
+                    'username': 'test',
+                    'enabled': true,
+                    'totp': false,
+                    'emailVerified': false,
+                    'lastName': '测试用户',
+                    'email': '111@qq.com',
+                    'disableableCredentialTypes': [],
+                    'requiredActions': [],
+                    'notBefore': 0
+                },
+                {
+                    'id': '68238901-e24e-461f-a524-9d072ef8c7d5',
+                    'createdTimestamp': 1703149626635,
+                    'username': 'user',
+                    'enabled': true,
+                    'totp': false,
+                    'emailVerified': false,
+                    'lastName': '呃',
+                    'disableableCredentialTypes': [],
+                    'requiredActions': [],
+                    'notBefore': 0
+                }
+            ]
         }
     }
 }
