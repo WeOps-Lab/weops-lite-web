@@ -109,7 +109,7 @@
         closeDialog() {
             // Object.assign(this.$data, this.$options.data())
             const roleValidateForm: any = this.$refs.roleValidateForm
-            roleValidateForm.clearError()
+            roleValidateForm.clearValidate()
         }
     }
 </script>

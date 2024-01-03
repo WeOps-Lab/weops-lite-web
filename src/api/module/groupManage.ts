@@ -58,7 +58,7 @@ export default {
         return get(`${reUrl}/system/mgmt/groups/${params.id}/roles/`, {})
     },
     /**
-     * 将一系列用户添加到组
+     * 将一系列角色添加到组
      * @param {Object} params 请求参数
      */
     addGroupRoles(params = {}) {

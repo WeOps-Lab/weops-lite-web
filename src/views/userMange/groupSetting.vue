@@ -269,7 +269,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    .bk-checkbox {
+                    /deep/.bk-checkbox {
                         border-radius: 50%;
                     }
                 }
