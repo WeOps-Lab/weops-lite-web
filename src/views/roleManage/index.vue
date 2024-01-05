@@ -41,7 +41,7 @@
                     @page-limit-change="limitChange"
                 >
                     <template slot="built_in" slot-scope="{ row }">
-                        {{row.built_in ? '是' : '否'}}
+                        {{['admin', 'normal', 'IA_admin'].includes(row.name) ? '是' : '否'}}
                     </template>
                     <template slot="operation" slot-scope="{ row }">
                         <bk-button
@@ -53,7 +53,7 @@
                             theme="primary"
                             text
                             @click="personnelManage(row)">
-                            人员管理
+                            人员和组织
                         </bk-button>
                         <bk-button
                             v-permission="{
@@ -63,7 +63,7 @@
                             class="mr10"
                             theme="primary"
                             text
-                            :disabled="row.name === 'admin'"
+                            :disabled=" ['admin', 'IA_admin'].includes(row.name)"
                             @click="setPermission(row)">
                             设置权限
                         </bk-button>
@@ -75,7 +75,7 @@
                             class="mr10"
                             theme="primary"
                             text
-                            :disabled="row.name === 'normal' || row.name === 'admin'"
+                            :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="operateRole('edit', row)">
                             编辑
                         </bk-button>
@@ -87,7 +87,7 @@
                             class="mr10"
                             theme="primary"
                             text
-                            :disabled="row.name === 'normal' || row.name === 'admin'"
+                            :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="deleteRole(row)">
                             删除
                         </bk-button>
@@ -101,6 +101,10 @@
                 :only-choose-user="true"
                 title="人员管理"
                 @confirm="getRoleList()" />
+            <user-and-group
+                ref="userAndGroup"
+                title="人员和组织"
+                @confirm="getRoleList()" />
         </div>
     </div>
 </template>
@@ -112,6 +116,7 @@
     import { Vue, Component } from 'vue-property-decorator'
     import AuthWhiteList from '../userMange/components/authWhiteList.vue'
     import PageExplanation from '@/components/pageExplanation.vue'
+    import UserAndGroup from './userAndGroup.vue'
     @Component({
         name: 'role-manage',
         components: {
@@ -119,7 +124,8 @@
             OperateRole,
             PermissionSettings,
             AuthWhiteList,
-            PageExplanation
+            PageExplanation,
+            UserAndGroup
         }
     })
     export default class RoleManage extends Vue {
@@ -140,6 +146,13 @@
                 minWidth: '300px'
             },
             {
+                label: '是否内置',
+                key: 'built_in',
+                align: 'left',
+                minWidth: '100px',
+                scopedSlots: 'built_in'
+            },
+            {
                 label: '创建时间',
                 key: 'created',
                 align: 'left',
@@ -149,7 +162,7 @@
                 label: '操作',
                 key: 'operation',
                 align: 'left',
-                width: '230px',
+                width: '250px',
                 scopedSlots: 'operation'
             }
         ]
@@ -186,8 +199,10 @@
                 bk_username: item.username,
                 chname: item.lastName
             }))
-            this.$refs.authWhiteList.showSlider({
-                user: res.data
+            const detailRes = await this.$api.RoleManageMain.getRoleDetail({id: row.id})
+            this.$refs.userAndGroup.showSlider({
+                user: res.data,
+                group: detailRes.data.groups
             }, row)
         }
         setPermission(row) {
@@ -200,7 +215,7 @@
             const permissionSettings: any = this.$refs.permissionSettings
             permissionSettings.show(row)
         }
-        operateRole(type, data) {
+        operateRole(type, data?) {
             if (!this.$BtnPermission({
                 id: this.$route.name,
                 type: type === 'edit' ? 'SysRole_edit' : 'SysRole_create'
@@ -259,6 +274,24 @@
                         created: item.attributes.created?.[0]
                     }
                 })
+                // 三个角色置顶，其他角色按照创建时间排序
+                const topDataName = ['admin', 'IA_admin', 'normal']
+                const orderMap = {
+                    admin: 0,
+                    IA_admin: 1,
+                    normal: 2
+                }
+                const topData = []
+                const otherData = []
+                this.allDataList.forEach(item => {
+                    if (topDataName.includes(item.name)) {
+                        topData.push(item)
+                    } else {
+                        otherData.push(item)
+                    }
+                })
+                topData.sort((a, b) => orderMap[a.name] - orderMap[b.name])
+                this.allDataList = [...topData, ...otherData.sort((a, b) => Date.parse(b.created) - Date.parse(a.created))]
                 const {current, limit} = this.pagination
                 this.dataList = this.allDataList.slice((current - 1) * limit, current * limit)
                 this.pagination.count = res.data.length

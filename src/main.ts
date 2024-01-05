@@ -7,6 +7,9 @@ import axios from 'axios'
 // 按需全量引入 bk-magic-vue 样式
 import 'bk-magic-vue/dist/bk-magic-vue.min.css'
 import '@/assets/componentLibrary/demand-import'
+// 完整引入element-ui
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 // import '@/assets/componentLibrary/fully-import';
 // 几何图
 import * as Echarts from 'echarts'
@@ -31,6 +34,8 @@ import uploader from 'vue-simple-uploader'
 import btnPermission from './directive/modal/btn-permissions'
 import './assets/icon/bk_icon_font/cw-icon'
 import './assets/icon/bk_icon_font/style.css'
+
+Vue.use(ElementUI)
 Vue.use(uploader)
 // @ts-ignore
 Vue.use(Echarts)

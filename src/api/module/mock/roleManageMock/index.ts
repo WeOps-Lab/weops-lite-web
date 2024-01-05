@@ -50,6 +50,15 @@ export default {
         return put('/system/mgmt/role_manage/edit_role/', params)
     },
     /**
+     * 获取该角色下的所有用户
+     *
+     * @param {Object} params 请求参数
+     */
+    getRoleAllUser(params = {}) {
+        Mock.mock(/api\/system\/mgmt\/users\/roles\/\w+/, 'get', responseData.getRoleAllUser)
+        return get(`/system/mgmt/users/roles/${params.id}/`, {})
+    },
+    /**
      * 设置角色菜单权限
      *
      * @param {Object} params 请求参数

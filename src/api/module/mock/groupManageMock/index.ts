@@ -1,12 +1,15 @@
 // 组织管理模块
 import {get, deleteb, post, put, patch, reUrl} from '@/api/axiosconfig/axiosconfig'
+import Mock from 'mockjs'
+import responseData from './responseData'
 export default {
     /**
      * 获取组织信息
      * @param {Object} params 请求参数
      */
     getGroups(params = {}) {
-        return get(`${reUrl}/system/mgmt/groups/`, params)
+        Mock.mock(/api\/system\/mgmt\/groups/, 'get', responseData.getGroups(params))
+        return get('/system/mgmt/groups/', params)
     },
     /**
      * 新建组织
@@ -58,7 +61,7 @@ export default {
         return get(`${reUrl}/system/mgmt/groups/${params.id}/roles/`, {})
     },
     /**
-     * 将一系列角色添加到组
+     * 将一系列用户添加到组
      * @param {Object} params 请求参数
      */
     addGroupRoles(params = {}) {

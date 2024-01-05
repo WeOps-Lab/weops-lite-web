@@ -10,6 +10,10 @@
                         class="mr10"
                         theme="primary"
                         title="新增组织"
+                        v-permission="{
+                            id: $route.name,
+                            type: 'SysGroup_create'
+                        }"
                         @click="operateGroup('add')">
                         新增组织
                     </bk-button>
@@ -17,6 +21,10 @@
                         class="mr10"
                         theme="default"
                         title="批量删除"
+                        v-permission="{
+                            id: $route.name,
+                            type: 'SysGroup_delete'
+                        }"
                         @click="deleteNodes">
                         批量删除
                     </bk-button>
@@ -47,19 +55,55 @@
                         <div class="node-box">
                             <span>{{ data.name }}</span>
                             <div class="operate-node">
-                                <bk-button size="small" text title="primary" @click.stop="operateGroup('addSub', data)">
+                                <bk-button
+                                    size="small"
+                                    text title="primary"
+                                    v-permission="{
+                                        id: $route.name,
+                                        type: 'SysGroup_create'
+                                    }"
+                                    @click.stop="operateGroup('addSub', data)">
                                     添加子组
                                 </bk-button>
-                                <bk-button size="small" text title="primary" @click.stop="personnelManage(node)">
+                                <bk-button
+                                    size="small"
+                                    text title="primary"
+                                    v-permission="{
+                                        id: $route.name,
+                                        type: 'SysGroup_user'
+                                    }"
+                                    @click.stop="personnelManage(node)">
                                     人员管理
                                 </bk-button>
-                                <bk-button size="small" text title="primary" @click.stop="roleManage(node)">
+                                <bk-button
+                                    size="small"
+                                    text title="primary"
+                                    v-permission="{
+                                        id: $route.name,
+                                        type: 'SysGroup_role'
+                                    }"
+                                    @click.stop="roleManage(node)">
                                     角色管理
                                 </bk-button>
-                                <bk-button size="small" text title="primary" @click.stop="operateGroup('edit', node)">
+                                <bk-button
+                                    size="small"
+                                    text title="primary"
+                                    v-permission="{
+                                        id: $route.name,
+                                        type: 'SysGroup_edit'
+                                    }"
+                                    @click.stop="operateGroup('edit', node)">
                                     编辑
                                 </bk-button>
-                                <bk-button size="small" text title="primary" @click.stop="deleteNode(node)">
+                                <bk-button
+                                    size="small"
+                                    text
+                                    title="primary"
+                                    v-permission="{
+                                        id: $route.name,
+                                        type: 'SysGroup_delete'
+                                    }"
+                                    @click.stop="deleteNode(node)">
                                     删除
                                 </bk-button>
                             </div>
@@ -110,6 +154,12 @@
         }
         // 新建/编辑组织
         operateGroup(type: string, data?: any) {
+            if (!this.$BtnPermission({
+                id: this.$route.name,
+                type: type === 'edit' ? 'SysGroup_edit' : 'SysGroup_create'
+            })) {
+                return false
+            }
             const operateGroup: any = this.$refs.operateGroup
             operateGroup.show(type, data)
         }
@@ -131,6 +181,12 @@
         }
         // 删除节点
         deleteNode(node) {
+            if (!this.$BtnPermission({
+                id: this.$route.name,
+                type: 'SysGroup_delete'
+            })) {
+                return false
+            }
             this.$bkInfo({
                 title: '确认要删除该组织？',
                 confirmLoading: true,
@@ -141,6 +197,12 @@
         }
         // 批量删除
         deleteNodes() {
+            if (!this.$BtnPermission({
+                id: this.$route.name,
+                type: 'SysGroup_delete'
+            })) {
+                return false
+            }
             this.$bkInfo({
                 title: '确认要删除选中组织？',
                 confirmLoading: true,
@@ -170,6 +232,12 @@
             this.getGroups()
         }
         async personnelManage(node) {
+            if (!this.$BtnPermission({
+                id: this.$route.name,
+                type: 'SysGroup_user'
+            })) {
+                return false
+            }
             const res = await this.$api.GroupManage.getGroupUsers({id: node.id, page: 1, per_page: 20})
             res.data = res.data.map(item => ({
                 id: item.id,
@@ -182,6 +250,12 @@
         }
 
         async roleManage(node) {
+            if (!this.$BtnPermission({
+                id: this.$route.name,
+                type: 'SysGroup_role'
+            })) {
+                return false
+            }
             const res = await this.$api.GroupManage.getGroupRoles({id: node.id})
             this.$refs.roleManage.showSlider({
                 role: res.data

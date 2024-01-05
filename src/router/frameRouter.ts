@@ -9,18 +9,9 @@ const SysUser = () => import('@/views/userMange/index.vue')
 const SysSetting = () => import('@/views/sysSetting/index.vue')
 const SysLog = () => import('@/views/logManage/index.vue')
 const MenuSetting = () => import('@/views/sysSetting/menuSetting.vue')
-const Login = () => import('@/views/login.vue')
 const SysGroup = () => import('@/views/groupManage/index.vue')
 
 let mainRouter = [
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-        meta: {
-            title: '登录'
-        }
-    },
     {
         path: '/authPermissionFail',
         name: 'AuthPermissionFail',
@@ -245,6 +236,18 @@ const routeConfig = [
                                 value: false,
                                 label: '删除组织',
                                 type: 'operate'
+                            },
+                            {
+                                key: 'SysGroup_role',
+                                value: false,
+                                label: '角色管理',
+                                type: 'operate'
+                            },
+                            {
+                                key: 'SysGroup_user',
+                                value: false,
+                                label: '人员管理',
+                                type: 'operate'
                             }
                         ]
                     },
@@ -310,40 +313,40 @@ const manageMenu = []
 
 // 自动导入子应用
 // @ts-ignore
-const files = require.context('@/projects', true, /frameRouter.ts/)
-files.keys().forEach(key => {
-    const router = files(key).frameRouter
-    const menuList = files(key).adminRouteConfig
-    const subsMenu = files(key).subsMenuList
-    mainRouter = mainRouter.concat(router)
-    // 处理合并项目菜单
-    menuList.forEach(item => {
-        const targetIndex = routeConfig.findIndex(tex => tex.id === item.id)
-        if (targetIndex !== -1) {
-            routeConfig[targetIndex].children = routeConfig[targetIndex].children.concat(item.children).sort((a, b) => a.sortIndex - b.sortIndex)
-        } else {
-            routeConfig.push(item)
-        }
-    })
-    routeConfig.sort((a, b) => a.sortIndex - b.sortIndex)
-    subsMenuPromission = { ...subsMenuPromission, ...subsMenu }
-    const manageMenuItem = files(key).manageMenu
-    if (manageMenuItem) {
-        manageMenuItem.forEach(item => {
-            const findIndex = manageMenu.findIndex(tex => tex.id === item.id)
-            if (findIndex !== -1) {
-                manageMenu[findIndex].children = manageMenu[findIndex].children.concat(item.children).sort((a, b) => a.sortIndex - b.sortIndex)
-            } else {
-                manageMenu.push(item)
-            }
-        })
-    }
-})
-routeConfig.forEach(item => {
-    if (item.id === 'Setting') {
-        item.children = item.children.concat(manageMenu).sort((a, b) => a.sortIndex - b.sortIndex)
-    }
-})
+// const files = require.context('@/projects', true, /frameRouter.ts/)
+// files.keys().forEach(key => {
+//     const router = files(key).frameRouter
+//     const menuList = files(key).adminRouteConfig
+//     const subsMenu = files(key).subsMenuList
+//     mainRouter = mainRouter.concat(router)
+//     // 处理合并项目菜单
+//     menuList.forEach(item => {
+//         const targetIndex = routeConfig.findIndex(tex => tex.id === item.id)
+//         if (targetIndex !== -1) {
+//             routeConfig[targetIndex].children = routeConfig[targetIndex].children.concat(item.children).sort((a, b) => a.sortIndex - b.sortIndex)
+//         } else {
+//             routeConfig.push(item)
+//         }
+//     })
+//     routeConfig.sort((a, b) => a.sortIndex - b.sortIndex)
+//     subsMenuPromission = { ...subsMenuPromission, ...subsMenu }
+//     const manageMenuItem = files(key).manageMenu
+//     if (manageMenuItem) {
+//         manageMenuItem.forEach(item => {
+//             const findIndex = manageMenu.findIndex(tex => tex.id === item.id)
+//             if (findIndex !== -1) {
+//                 manageMenu[findIndex].children = manageMenu[findIndex].children.concat(item.children).sort((a, b) => a.sortIndex - b.sortIndex)
+//             } else {
+//                 manageMenu.push(item)
+//             }
+//         })
+//     }
+// })
+// routeConfig.forEach(item => {
+//     if (item.id === 'Setting') {
+//         item.children = item.children.concat(manageMenu).sort((a, b) => a.sortIndex - b.sortIndex)
+//     }
+// })
 
 export const frameRouter = mainRouter
 
