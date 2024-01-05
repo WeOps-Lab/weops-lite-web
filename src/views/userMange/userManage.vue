@@ -42,29 +42,23 @@
                 @filter-change="sourceFilterMethod"
             >
                 <template slot="roles" slot-scope="{ row }">
-                    <bk-select
-                        searchable
-                        multiple
-                        display-tag
-                        :clearable="false"
-                        :disabled="row.bk_username === 'admin'"
-                        v-model="row.allRoles"
-                        :search-with-pinyin="true"
-                        @toggle="setUserRole(row)"
-                        @tab-remove="changeRole(row)"
-                        @clear="changeRole(row)"
-                    >
-                        <bk-option v-for="option in roleList"
-                            :key="option.id"
-                            :id="option.id"
-                            :name="option.name">
-                        </bk-option>
-                    </bk-select>
+                    <span>{{getRoles(row)}}</span>
                 </template>
                 <template slot="groups" slot-scope="{ row }">
                     <span>{{getOrganizationOrSuperior(row, { listKey: 'groups', fieldKey: 'path' })}}</span>
                 </template>
                 <template slot="operation" slot-scope="{ row }">
+                    <bk-button
+                        class="mr10"
+                        theme="primary"
+                        text
+                        v-permission="{
+                            id: $route.name,
+                            type: 'SysUser_edit'
+                        }"
+                        @click="operateRole(row)">
+                        设置角色
+                    </bk-button>
                     <bk-button
                         class="mr10"
                         theme="primary"
@@ -115,6 +109,10 @@
         <reset-password ref="resetPassword"></reset-password>
         <operate-user ref="operateUser" @refreshList="refreshList"></operate-user>
         <group-setting ref="operateGroup" @confirm="confirm"></group-setting>
+        <role-manage
+            ref="roleManage"
+            title="设置角色"
+            @confirm="confirm" />
     </div>
 </template>
 
@@ -124,13 +122,15 @@
     import operateUser from './operateUser.vue'
     import { Vue, Component } from 'vue-property-decorator'
     import GroupSetting from './groupSetting.vue'
+    import RoleManage from './roleManage.vue'
     @Component({
     name: 'user-manage',
     components: {
         comTable,
         resetPassword,
         operateUser,
-        GroupSetting
+        GroupSetting,
+        RoleManage
     }
 })
     export default class UserManage extends Vue {
@@ -198,6 +198,10 @@
         window.onresize = () => {
             this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
         }
+    }
+    // 获取用户拥有的全部角色
+    getRoles(row) {
+        return row.allRoles.map(item => item.name + '角色').join('; ')
     }
     getOrganizationOrSuperior(row, { listKey, fieldKey }) {
         return row[listKey].map(item => item[fieldKey].slice(1)).join(';') || '--'
@@ -334,12 +338,8 @@
             }
             this.dataList = res.data.users
             this.dataList.forEach(item => {
-                // 设置roles
-                const roles = item.roles.map(item => item.id)
-                // 组织的roles
-                const groupRoles = item.group_roles.map(item => item.id)
-                // 去重
-                const allRoles = Array.from(new Set([...roles, ...groupRoles].map(JSON.stringify))).map(JSON.parse)
+                // 合并去重，用于显示角色列表
+                const allRoles = [...item.roles, ...item.group_roles.filter(itemA => !item.roles.some(itemB => itemA.id === itemB.id))]
                 // 设置allRoles，allRoles与v-model绑定
                 this.$set(item, 'allRoles', allRoles)
                 // roleV1存放原始角色数据
@@ -385,6 +385,13 @@
     compareArrays(arrayA, arrayB) {
         const valuesOnlyInA = arrayA.filter(item => !arrayB.includes(item))
         return valuesOnlyInA
+    }
+    // 设置角色
+    operateRole(row) {
+        this.$refs.roleManage.showSlider({
+            role: row.roles,
+            group_role: row.group_roles
+        }, row)
     }
     // 设置组织
     operateGroup(row) {

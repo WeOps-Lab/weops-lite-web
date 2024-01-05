@@ -91,7 +91,7 @@
                                 </div>
                                 <div v-if="nev.auth" class="menu-operate">
                                     <template v-for="(authNev, authNevIndex) in nev.auth">
-                                        <div :key="authNevIndex" v-if="nev.id !== 'SysRole' || (role.name === 'admin' || authNev.key === 'SysRole_users_manage' || authNev.key === 'SysRole_view')">
+                                        <div :key="authNevIndex">
                                             <bk-checkbox
                                                 class="check-box"
                                                 :true-value="true"
@@ -134,7 +134,7 @@
         mounted() {
             this.menuList = JSON.parse(JSON.stringify(this.$store.state.permission.menuList))
             // 服务台管理，用户管理，通知渠道，角色权限这四个菜单只有admin能展示，操作权限不予展示
-            const ONLY_ADMIN_HAS_MENUS = ['ServiceDeskManage', 'AutoProcessManage', 'NoticeWays']
+            const ONLY_ADMIN_HAS_MENUS = ['ServiceDeskManage', 'AutoProcessManage', 'NoticeWays', 'SysRole']
             removeItemsWithId(this.menuList, ONLY_ADMIN_HAS_MENUS)
             this.handleMenus(this.menuList)
             this.getRoleMenus()

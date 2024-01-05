@@ -41,10 +41,11 @@
                     <p>已选择（共<span>{{allSelected.length}}</span>条）<span class="clear" @click="handleClear">清空</span></p>
                     <ul>
                         <li v-for="item in allSelected" :key="item.id + item.type">
-                            <span class="cw-icon weops-zu-zhi-jue-se"></span>
+                            <span v-if="item.type === 'role'" class="cw-icon weops-ge-ren-jue-se"></span>
+                            <span v-else class="cw-icon weops-zu-zhi-jue-se"></span>
                             {{ item.name }}
-                            <span>组织角色</span>
-                            <bk-icon type="close" @click="handleRemove(item)" />
+                            <span>{{ item.type === 'role' ? '个人角色' : '组织角色' }}</span>
+                            <bk-icon v-if="item.type === 'role'" type="close" @click="handleRemove(item)" />
                         </li>
                     </ul>
                 </div>
@@ -131,7 +132,7 @@
             this.roleDetail = row
             const originList = {
                 role: [],
-                user: []
+                group_role: []
             }
             this.selectedData = this.$deepClone((list || originList))
             // 保存原始role数据
@@ -188,10 +189,10 @@
 
         handleConfirm() {
             this.visible = false
-            this.setRolesByGroup(this.rawSelected, this.allSelected)
+            this.setRoles(this.rawSelected, this.allSelected)
             // this.$emit('confirm', this.selectedData)
         }
-        async setRolesByGroup(rawData, updateData) {
+        async setRoles(rawData, updateData) {
             // 找出要删除的id和要增加的id
             const deleteId = []
             const rawTemp = rawData.map(item => item.id)
@@ -207,16 +208,24 @@
                     addId.push(updateTemp[i])
                 }
             }
-            const deletePromises = []
-            const addPromises = []
-            addId.length > 0 && addPromises.push(this.$api.GroupManage.addGroupRoles({id: this.roleDetail.id, addIds: addId}))
-            deleteId.length > 0 && deletePromises.push(this.$api.GroupManage.delGroupRoles({id: this.roleDetail.id, deleteIds: deleteId}))
+            let deletePromises = []
+            let addPromises = []
+            if (addId.length) {
+                addPromises = addId.map(id => {
+                    return this.$api.UserManageMain.setUserRoles({id: id, userId: this.roleDetail.id})
+                })
+            }
+            if (deleteId.length) {
+                deletePromises = deleteId.map(id => {
+                    return this.$api.RoleManageMain.deleteUserRole({id: id, userId: this.roleDetail.id})
+                })
+            }
 
             this.isConfirm = true
             try {
                 const res = await Promise.all([...addPromises, ...deletePromises])
                 if (res.every(item => item.result)) {
-                    this.$success('设置人员成功')
+                    this.$success('设置成功')
                     this.handleClose()
                     this.$emit('confirm')
                 }
@@ -290,7 +299,7 @@
         handleClear() {
             this.selectedData = {
                 role: [],
-                user: []
+                group_role: this.selectedData.group_role
             }
             this.handleAllSelected()
             this.$nextTick(() => {

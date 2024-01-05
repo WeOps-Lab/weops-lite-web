@@ -158,16 +158,237 @@ const userItems = [
 // 用户列表数据
 const userListItems = [
     {
-        id: '1',
-        username: 'admin',
-        lastName: '管理员',
-        email: '11.@qq.com'
+        'id': 'ed7c355d-a2d5-4921-8203-50c2b7e273d7',
+        'createdTimestamp': 1703149919945,
+        'username': '111',
+        'enabled': true,
+        'totp': false,
+        'emailVerified': false,
+        'lastName': '额',
+        'disableableCredentialTypes': [],
+        'requiredActions': [],
+        'notBefore': 0,
+        'access': {
+            'manageGroupMembership': true,
+            'view': true,
+            'mapRoles': true,
+            'impersonate': true,
+            'manage': true
+        },
+        'groups': [],
+        'group_roles': [],
+        'roles': []
     },
     {
-        id: '2',
-        username: '2',
-        lastName: '2',
-        email: '22.@qq.com'
+        'id': '4e7be797-270d-4d92-8f23-8923efa81a31',
+        'createdTimestamp': 1702458013473,
+        'username': 'admin',
+        'enabled': true,
+        'totp': false,
+        'emailVerified': false,
+        'lastName': '管理员',
+        'email': 'admin@kc.com',
+        'disableableCredentialTypes': [],
+        'requiredActions': [],
+        'notBefore': 0,
+        'access': {
+            'manageGroupMembership': true,
+            'view': true,
+            'mapRoles': true,
+            'impersonate': true,
+            'manage': true
+        },
+        'groups': [
+            {
+                'id': 'a7847105-df3d-4ba8-a057-dedc9bb91c4c',
+                'name': 'Test Group',
+                'path': '/Test Group'
+            }
+        ],
+        'group_roles': [
+            {
+                'id': '85efb45a-a866-43ab-892a-85a6836ab1a7',
+                'name': 'admin',
+                'description': '本角色为超级管理员，有全部的权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            }
+        ],
+        'roles': []
+    },
+    {
+        'id': 'adb3c92c-8b8a-4bcd-ba9e-bd444a092183',
+        'createdTimestamp': 1702546733331,
+        'username': 'new',
+        'enabled': true,
+        'totp': false,
+        'emailVerified': false,
+        'lastName': '是',
+        'disableableCredentialTypes': [],
+        'requiredActions': [],
+        'notBefore': 0,
+        'access': {
+            'manageGroupMembership': true,
+            'view': true,
+            'mapRoles': true,
+            'impersonate': true,
+            'manage': true
+        },
+        'groups': [
+            {
+                'id': 'd9cca9e9-967b-4c9c-9330-882b8e36160d',
+                'name': '新组织',
+                'path': '/新组织'
+            }
+        ],
+        'group_roles': [
+            {
+                'id': '55ad1832-0cce-45c8-9b45-ee9c2d72abf2',
+                'name': 'newRole',
+                'description': '22222',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            }
+        ],
+        'roles': [
+            {
+                'id': '8d1600a5-a785-4d18-a815-44049210968b',
+                'name': 'normal',
+                'description': '本角色为普通用户，需要超级管理员赋予其他权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            },
+            {
+                'id': '85efb45a-a866-43ab-892a-85a6836ab1a7',
+                'name': 'admin',
+                'description': '本角色为超级管理员，有全部的权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            },
+            {
+                'id': '05354688-1daa-4563-9f5e-cbcae93dff80',
+                'name': 'testRole',
+                'description': '222',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            },
+            {
+                'id': '37055792-f354-4658-aa45-8a26daf1771b',
+                'name': 'IA_admin',
+                'description': '本角色为分级管理员，有二次授权权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            }
+        ]
+    },
+    {
+        'id': '91aefc4d-1525-45cb-9cd6-07d184a39986',
+        'createdTimestamp': 1702458013615,
+        'username': 'normal_user',
+        'enabled': true,
+        'totp': false,
+        'emailVerified': false,
+        'lastName': '普通用户',
+        'email': 'normal@kc.com',
+        'disableableCredentialTypes': [],
+        'requiredActions': [],
+        'notBefore': 0,
+        'access': {
+            'manageGroupMembership': true,
+            'view': true,
+            'mapRoles': true,
+            'impersonate': true,
+            'manage': true
+        },
+        'groups': [],
+        'group_roles': [],
+        'roles': [
+            {
+                'id': '8d1600a5-a785-4d18-a815-44049210968b',
+                'name': 'normal',
+                'description': '本角色为普通用户，需要超级管理员赋予其他权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            }
+        ]
+    },
+    {
+        'id': '99358af8-3d7d-4d6f-8561-11803ccf0966',
+        'createdTimestamp': 1703134764268,
+        'username': 'test',
+        'enabled': true,
+        'totp': false,
+        'emailVerified': false,
+        'lastName': '测试用户',
+        'email': '111@qq.com',
+        'disableableCredentialTypes': [],
+        'requiredActions': [],
+        'notBefore': 0,
+        'access': {
+            'manageGroupMembership': true,
+            'view': true,
+            'mapRoles': true,
+            'impersonate': true,
+            'manage': true
+        },
+        'groups': [],
+        'group_roles': [],
+        'roles': [
+            {
+                'id': '8d1600a5-a785-4d18-a815-44049210968b',
+                'name': 'normal',
+                'description': '本角色为普通用户，需要超级管理员赋予其他权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            }
+        ]
+    },
+    {
+        'id': '68238901-e24e-461f-a524-9d072ef8c7d5',
+        'createdTimestamp': 1703149626635,
+        'username': 'user',
+        'enabled': true,
+        'totp': false,
+        'emailVerified': false,
+        'lastName': '呃',
+        'disableableCredentialTypes': [],
+        'requiredActions': [],
+        'notBefore': 0,
+        'access': {
+            'manageGroupMembership': true,
+            'view': true,
+            'mapRoles': true,
+            'impersonate': true,
+            'manage': true
+        },
+        'groups': [],
+        'group_roles': [],
+        'roles': [
+            {
+                'id': '8d1600a5-a785-4d18-a815-44049210968b',
+                'name': 'normal',
+                'description': '本角色为普通用户，需要超级管理员赋予其他权限',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            },
+            {
+                'id': '05354688-1daa-4563-9f5e-cbcae93dff80',
+                'name': 'testRole',
+                'description': '222',
+                'composite': false,
+                'clientRole': true,
+                'containerId': 'a72a5bed-8673-48e1-ac0a-97ba3c06c88f'
+            }
+        ]
     }
 ]
 

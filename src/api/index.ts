@@ -10,6 +10,7 @@ import RoleManageMainMock from './module/mock/roleManageMock'
 import UserManageMainMock from './module/mock/userManageMock/index'
 import ServerMock from './module/mock/serverMock/index'
 import UserMock from './module/mock/userMock/index'
+import GroupManageMock from './module/mock/groupManageMock'
 
 let api: any = {
     Server,
@@ -27,7 +28,8 @@ if (window['USE_MOCK']) {
         Server: ServerMock,
         User: UserMock,
         RoleManageMain: RoleManageMainMock,
-        UserManageMain: UserManageMainMock
+        UserManageMain: UserManageMainMock,
+        GroupManage: GroupManageMock
     }
 }
 
