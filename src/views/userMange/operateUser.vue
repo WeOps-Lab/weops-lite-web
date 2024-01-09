@@ -1,42 +1,38 @@
 <template>
-    <bk-dialog
-        v-model="visible"
-        :position="{ top: 100 }"
-        theme="primary"
-        width="600"
-        :mask-close="false"
-        header-position="left"
+    <el-dialog
+        :visible.sync="visible"
+        width="600px"
+        :close-on-click-modal="false"
         :title="type === 'add' ? '新增用户' : '编辑用户'"
-        @after-leave="closeDialog"
-    >
-        <div class="content-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
-            <bk-form :label-width="80" :model="formData" :rules="rules" ref="validateForm">
-                <bk-form-item label="用户名" :required="true" :property="'username'" error-display-type="normal">
-                    <bk-input :disabled="type === 'edit'" v-model="formData.username" placeholder="请输入用户名"></bk-input>
-                </bk-form-item>
-                <bk-form-item label="中文名" :required="true" :property="'lastName'" error-display-type="normal">
-                    <bk-input v-model="formData.lastName" placeholder="请输入中文名"></bk-input>
-                </bk-form-item>
-                <bk-form-item label="邮箱" :property="'email'" error-display-type="normal">
-                    <bk-input v-model="formData.email" placeholder="请输入邮箱"></bk-input>
-                </bk-form-item>
-                <bk-form-item v-if="type === 'add'" label="密码" :required="true" :property="'password'" error-display-type="normal">
-                    <bk-input v-model="formData.password" placeholder="请输入密码" type="password" :clearable="true"></bk-input>
-                </bk-form-item>
-                <bk-form-item v-if="type === 'add'" label="确认密码" :required="true" :property="'confirmPassword'" error-display-type="normal">
-                    <bk-input v-model="formData.confirmPassword" placeholder="请输入密码" type="password" :clearable="true"></bk-input>
-                </bk-form-item>
-            </bk-form>
+        @closed="closeDialog">
+        <div class="content-box" v-loading="loading">
+            <el-form label-width="80px" :model="formData" :rules="rules" ref="validateForm">
+                <el-form-item label="用户名" prop="username">
+                    <el-input :disabled="type === 'edit'" v-model="formData.username" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="中文名" prop="lastName">
+                    <el-input v-model="formData.lastName" placeholder="请输入中文名"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱" :prop="'email'">
+                    <el-input v-model="formData.email" placeholder="请输入邮箱"></el-input>
+                </el-form-item>
+                <el-form-item v-if="type === 'add'" label="密码" :prop="'password'">
+                    <el-input v-model="formData.password" placeholder="请输入密码" show-password :clearable="true"></el-input>
+                </el-form-item>
+                <el-form-item v-if="type === 'add'" label="确认密码" :prop="'confirmPassword'">
+                    <el-input v-model="formData.confirmPassword" placeholder="请输入密码" show-password :clearable="true"></el-input>
+                </el-form-item>
+            </el-form>
         </div>
         <template slot="footer">
-            <bk-button :disabled="loading" :theme="'primary'" :title="'确认'" class="mr10" @click="confirm">
+            <el-button :disabled="loading" :type="'primary'" class="mr10" @click="confirm">
                 确认
-            </bk-button>
-            <bk-button :theme="'default'" type="submit" :title="'取消'" @click="close">
+            </el-button>
+            <el-button @click="close">
                 取消
-            </bk-button>
+            </el-button>
         </template>
-    </bk-dialog>
+    </el-dialog>
 </template>
 
 <script lang="ts">
@@ -108,45 +104,50 @@
         }
         close() {
             this.visible = false
+            const validateForm: any = this.$refs.validateForm
+            validateForm.resetFields()
         }
         confirm() {
             const validateForm: any = this.$refs.validateForm
-            validateForm.validate().then(validator => {
-                let url = 'createUser'
-                let params: any = {
-                    username: this.formData.username,
-                    lastName: this.formData.lastName,
-                    email: this.formData.email,
-                    password: this.formData.password
-                }
-                if (this.formData.email) params.email = this.formData.email
-                if (this.type !== 'add') {
-                    url = 'editUser'
-                    params = {
-                        id: this.userInfo.id,
+            validateForm.validate((valid) => {
+                if (valid) {
+                    let url = 'createUser'
+                    let params: any = {
+                        username: this.formData.username,
                         lastName: this.formData.lastName,
-                        email: this.formData.email
+                        email: this.formData.email,
+                        password: this.formData.password
                     }
+                    if (this.formData.email) params.email = this.formData.email
+                    if (this.type !== 'add') {
+                        url = 'editUser'
+                        params = {
+                            id: this.userInfo.id,
+                            lastName: this.formData.lastName,
+                            email: this.formData.email
+                        }
+                    }
+                    this.loading = true
+                    this.$api.UserManageMain[url](params).then(res => {
+                        if (!res.result) {
+                            this.$error(res.message)
+                            return false
+                        }
+                        this.$success(`${this.type === 'add' ? '新增' : '编辑'}用户成功!`)
+                        this.$emit('refreshList')
+                        // this.$store.dispatch('getAllUserList')
+                        this.close()
+                    }).finally(() => {
+                        this.loading = false
+                    })
                 }
-                this.loading = true
-                this.$api.UserManageMain[url](params).then(res => {
-                    if (!res.result) {
-                        this.$error(res.message)
-                        return false
-                    }
-                    this.$success(`${this.type === 'add' ? '新增' : '编辑'}用户成功!`)
-                    this.$emit('refreshList')
-                    // this.$store.dispatch('getAllUserList')
-                    this.close()
-                }).finally(() => {
-                    this.loading = false
-                })
             })
         }
         closeDialog() {
-            Object.assign(this.$data, this.$options.data.call(this))
+            // Object.assign(this.$data, this.$options.data.call(this))
             const validateForm: any = this.$refs.validateForm
-            validateForm.clearError()
+            validateForm.clearValidate()
+            validateForm.resetFields()
         }
     }
 </script>

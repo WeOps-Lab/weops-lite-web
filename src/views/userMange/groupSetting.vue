@@ -1,51 +1,41 @@
 <template>
-    <bk-sideslider
-        :is-show.sync="visible"
-        :quick-close="true"
+    <drawer-component
+        title="设置所在组织"
+        :visible="visible"
+        :size="800"
+        custom-class="common-dialog-wrapper"
         :before-close="handleClose"
-        :width="700"
-        ext-cls="common-dialog-wrapper">
-        <div slot="header">{{ title }}</div>
+        @changeVisible="changeVisible">
         <div slot="content" class="transfer-box common-dialog-wrapper-main">
             <div class="source-list">
                 <div class="header">待选择列表</div>
                 <div class="content-box">
                     <div class="search">
-                        <bk-input
+                        <el-input
                             clearable
+                            size="small"
                             style="width: 300px;"
                             placeholder="请输入搜索关键字"
-                            :right-icon="'bk-icon icon-search'"
+                            :suffix-icon="'el-icon-search'"
                             v-model="search"
-                            @right-icon-click="handlerIconClick"
-                            @enter="handlerIconClick"
+                            @change="handlerIconClick"
                             @clear="handlerIconClick"
                         >
-                        </bk-input>
+                        </el-input>
                     </div>
                     <div class="organization-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
-                        <bk-big-tree
+                        <el-tree
                             v-if="nodeData.length"
-                            enable-title-tip
                             ref="tree"
-                            :default-expand-all="true"
-                            :options="{ childrenKey: 'subGroups' }"
-                            :data="nodeData">
-                            <div slot-scope="{ data }">
-                                <div class="node-box">
-                                    <div class="name">{{data.name}}</div>
-                                    <bk-checkbox
-                                        v-model="data.checked"
-                                        @click.stop.native="() => {}" />
-                                </div>
-                            </div>
-                        </bk-big-tree>
-                        <bk-exception
-                            v-else
-                            :class="{ 'exception-gray': false }"
-                            type="empty"
-                            scene="part">
-                        </bk-exception>
+                            :data="nodeData"
+                            default-expand-all
+                            :props="{ children: 'subGroups' }">
+                            <span class="custom-tree-node" slot-scope="{ data }">
+                                <span class="name">{{data.name}}</span>
+                                <el-checkbox
+                                    v-model="data.checked" />
+                            </span>
+                        </el-tree>
                     </div>
                 </div>
             </div>
@@ -61,28 +51,29 @@
             </div>
         </div>
         <template slot="footer">
-            <bk-button
+            <el-button
                 class="mr10"
-                :title="'确认'"
-                :theme="'primary'"
-                @click="handleConfirm">
+                :type="'primary'"
+                :loading="isConfirm"
+                @click="handleConfirm()">
                 确认
-            </bk-button>
-            <bk-button
-                type="submit"
-                :theme="'default'"
-                :title="'取消'"
-                @click="handleClose">
+            </el-button>
+            <el-button
+                :disabled="isConfirm"
+                @click="handleClose()">
                 取消
-            </bk-button>
+            </el-button>
         </template>
-    </bk-sideslider>
+    </drawer-component>
 </template>
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator'
+    import DrawerComponent from '@/components/comDrawer.vue'
     @Component({
     name: 'group-setting',
-    components: {}
+    components: {
+        DrawerComponent
+    }
 })
     export default class GroupSetting extends Vue {
         @Prop({
@@ -95,6 +86,7 @@
         search: string = ''
         nodeData: any[] = []
         visible: boolean = false
+        isConfirm: boolean = false
         // 用户的id
         userId: string = ''
         // 原始选择的数据
@@ -226,6 +218,7 @@
             const addPromises = []
             this.deleteIds.length > 0 && deletePromises.push(this.$api.UserManageMain.delUserGroups({id: this.userId, deleteIds: this.deleteIds}))
             this.addIds.length > 0 && addPromises.push(this.$api.UserManageMain.addUserGroups({id: this.userId, addIds: this.addIds}))
+            this.isConfirm = true
             try {
                 const res = await Promise.all([...deletePromises, ...addPromises])
                 if (res.every(item => item.result)) {
@@ -235,15 +228,21 @@
                 }
             } catch (err) {
                 this.$warn('设置失败')
+            } finally {
+                this.isConfirm = false
             }
         }
         handleClose() {
             this.visible = false
         }
+        changeVisible(val) {
+            this.visible = val
+        }
     }
 </script>
 
 <style lang="scss" scoped>
+    /* stylelint-disable selector-class-pattern */
     .transfer-box {
         display: flex;
         max-height: calc(100vh - 114px) !important;
@@ -264,12 +263,13 @@
             }
             .organization-box {
                 padding: 0 0 20px 20px;
-                .node-box {
-                    padding-right: 20px;
+                .custom-tree-node {
+                    flex: 1;
                     display: flex;
-                    justify-content: space-between;
                     align-items: center;
-                    /deep/.bk-checkbox {
+                    justify-content: space-between;
+                    padding-right: 20px;
+                    /deep/.el-checkbox__inner {
                         border-radius: 50%;
                     }
                 }
@@ -332,12 +332,6 @@
                     }
                 }
             }
-        }
-    }
-    .bk-sideslider {
-        .bk-sideslider-footer {
-            display: flex;
-            flex-direction: row-reverse;
         }
     }
 </style>
