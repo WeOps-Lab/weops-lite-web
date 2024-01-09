@@ -1,30 +1,27 @@
 <template>
-    <bk-dialog
-        v-model="visible"
-        :position="{ top: 150 }"
-        theme="primary"
-        width="600"
-        :mask-close="false"
-        header-position="left"
+    <el-dialog
+        :visible.sync="visible"
+        width="600px"
+        :close-on-click-modal="false"
         :title="title"
-        @after-leave="closeDialog"
+        @closed="closeDialog"
     >
-        <div class="content-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
-            <bk-form :label-width="90" :model="formData" :rules="rules" ref="organizationValidateForm">
-                <bk-form-item label="名称" required :property="'group_name'">
-                    <bk-input v-model="formData.group_name" placeholder="请输入组织名称"></bk-input>
-                </bk-form-item>
-            </bk-form>
+        <div class="content-box" v-loading="loading">
+            <el-form label-width="60px" :model="formData" :rules="rules" ref="organizationValidateForm">
+                <el-form-item label="名称" prop="group_name">
+                    <el-input v-model="formData.group_name" placeholder="请输入组织名称"></el-input>
+                </el-form-item>
+            </el-form>
         </div>
         <template slot="footer">
-            <bk-button class="mr10" :disabled="loading" :theme="'primary'" :title="'确认'" @click="confirm">
+            <el-button class="mr10" :disabled="loading" type="primary" @click="confirm">
                 确认
-            </bk-button>
-            <bk-button :theme="'default'" type="submit" :title="'取消'" @click="close">
+            </el-button>
+            <el-button @click="close">
                 取消
-            </bk-button>
+            </el-button>
         </template>
-    </bk-dialog>
+    </el-dialog>
 </template>
 
 <script lang="ts">
@@ -77,39 +74,41 @@
         }
         confirm() {
             const organizationValidateForm: any = this.$refs.organizationValidateForm
-            organizationValidateForm.validate().then(validator => {
-                let url = ''
-                const params: any = {}
-                if (['add', 'addSub'].includes(this.type)) {
-                    url = 'addGroup'
-                    params.group_name = this.formData.group_name
-                    if (this.type === 'addSub') {
-                        params.parent_group_id = this.formData.id
+            organizationValidateForm.validate((valid) => {
+                if (valid) {
+                    let url = ''
+                    const params: any = {}
+                    if (['add', 'addSub'].includes(this.type)) {
+                        url = 'addGroup'
+                        params.group_name = this.formData.group_name
+                        if (this.type === 'addSub') {
+                            params.parent_group_id = this.formData.id
+                        }
+                    } else {
+                        url = 'editGroup'
+                        params.id = this.formData.id
+                        params.group_name = this.formData.group_name
                     }
-                } else {
-                    url = 'editGroup'
-                    params.id = this.formData.id
-                    params.group_name = this.formData.group_name
-                }
-                this.loading = true
-                this.$api.GroupManage[url](params).then(res => {
-                    if (!res.result) {
-                        this.$error(res.message)
-                        return false
-                    }
-                    this.$success(`${this.title}成功!`)
-                    this.$emit('refreshList')
+                    this.loading = true
+                    this.$api.GroupManage[url](params).then(res => {
+                        if (!res.result) {
+                            this.$error(res.message)
+                            return false
+                        }
+                        this.$success(`${this.title}成功!`)
+                        this.$emit('refreshList')
+                        this.close()
+                    }).finally(() => {
+                        this.loading = false
+                    })
                     this.close()
-                }).finally(() => {
-                    this.loading = false
-                })
-                this.close()
+                }
             })
         }
         closeDialog() {
             // Object.assign(this.$data, this.$options.data.call(this))
             const organizationValidateForm: any = this.$refs.organizationValidateForm
-            organizationValidateForm.clearError()
+            organizationValidateForm.clearValidate()
         }
     }
 </script>
