@@ -420,5 +420,21 @@ export default {
                 }
             ]
         }
+    },
+    getRoleDetail: () => {
+        return {
+            result: true,
+            code: 20000,
+            message: 'success',
+            data: {
+                groups: [
+                    {
+                        id: 'a7847105-df3d-4ba8-a057-dedc9bb91c4c',
+                        name: 'Test Group',
+                        path: '/Test Group'
+                    }
+                ]
+            }
+        }
     }
 }
