@@ -5,33 +5,33 @@
             content="您可以进行角色的新建和授权，权限的授权分为操作权限和实例权限，可从菜单操作和实例管理两个方面进行限制" />
         <div class="role-manage-wrapper">
             <div class="operate-box">
-                <bk-button
+                <el-button
                     v-permission="{
                         id: $route.name,
                         type: 'SysRole_create'
                     }"
                     class="mr10"
-                    theme="primary"
-                    title="新增角色"
-                    icon="plus"
+                    size="small"
+                    type="primary"
+                    icon="el-icon-plus"
                     @click="operateRole('add')">
                     新增角色
-                </bk-button>
-                <bk-input
+                </el-button>
+                <el-input
                     clearable
+                    size="small"
                     style="width: 300px;"
                     placeholder="请输入搜索关键字"
-                    :right-icon="'bk-icon icon-search'"
+                    suffix-icon="el-icon-search"
                     v-model="search"
-                    @right-icon-click="handlerIconClick"
-                    @enter="handlerIconClick"
+                    @change="handlerIconClick"
                     @clear="handlerIconClick"
                 >
-                </bk-input>
+                </el-input>
             </div>
             <div class="table-box">
                 <com-table
-                    v-bkloading="{ isLoading: tableLoading, zIndex: 10 }"
+                    v-loading="tableLoading"
                     ref="comTable"
                     :data="dataList"
                     :columns="columns"
@@ -44,63 +44,58 @@
                         {{['admin', 'normal', 'IA_admin'].includes(row.name) ? '是' : '否'}}
                     </template>
                     <template slot="operation" slot-scope="{ row }">
-                        <bk-button
+                        <el-button
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysRole_users_manage'
                             }"
                             class="mr10"
-                            theme="primary"
-                            text
+                            size="small"
+                            type="text"
                             @click="personnelManage(row)">
                             人员和组织
-                        </bk-button>
-                        <bk-button
+                        </el-button>
+                        <el-button
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysRole_permissions'
                             }"
                             class="mr10"
-                            theme="primary"
-                            text
+                            size="small"
+                            type="text"
                             :disabled=" ['admin', 'IA_admin'].includes(row.name)"
                             @click="setPermission(row)">
                             设置权限
-                        </bk-button>
-                        <bk-button
+                        </el-button>
+                        <el-button
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysRole_edit'
                             }"
                             class="mr10"
-                            theme="primary"
-                            text
+                            size="small"
+                            type="text"
                             :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="operateRole('edit', row)">
                             编辑
-                        </bk-button>
-                        <bk-button
+                        </el-button>
+                        <el-button
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysRole_delete'
                             }"
                             class="mr10"
-                            theme="primary"
-                            text
+                            size="small"
+                            type="text"
                             :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="deleteRole(row)">
                             删除
-                        </bk-button>
+                        </el-button>
                     </template>
                 </com-table>
             </div>
             <operate-role ref="operateRole" @refreshList="refreshList" />
             <permission-settings ref="permissionSettings" />
-            <auth-white-list
-                ref="authWhiteList"
-                :only-choose-user="true"
-                title="人员管理"
-                @confirm="getRoleList()" />
             <user-and-group
                 ref="userAndGroup"
                 title="人员和组织"
@@ -235,12 +230,10 @@
             })) {
                 return false
             }
-            this.$bkInfo({
-                title: '确认要删除该角色？',
-                confirmLoading: true,
-                confirmFn: async() => {
-                    await this.confirmDelete(row)
-                }
+            this.$confirm('确认要删除该角色？', {
+                center: true
+            }).then(async() => {
+                await this.confirmDelete(row)
             })
         }
         async confirmDelete(row) {
@@ -271,7 +264,7 @@
                 this.allDataList = res.data.map(item => {
                     return {
                         ...item,
-                        created: item.attributes.created?.[0]
+                        created: item.attributes?.created?.[0]
                     }
                 })
                 // 三个角色置顶，其他角色按照创建时间排序

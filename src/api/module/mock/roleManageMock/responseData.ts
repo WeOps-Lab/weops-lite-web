@@ -210,10 +210,12 @@ export default {
                 id: Mock.mock('@id'),
                 built_in: false,
                 is_super: false,
-                created_at: Mock.mock('@now'),
+                attributes: {
+                    created: Mock.mock('@now'),
+                },
                 users: [],
-                role_name: params.role_name,
-                describe: params.describe
+                name: params.role_name,
+                description: params.description
             }
         }
         roles.push(res.data)
