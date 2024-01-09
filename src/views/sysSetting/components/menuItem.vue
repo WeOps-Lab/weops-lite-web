@@ -15,18 +15,19 @@
                     </template>
                     <template v-else>
                         <div class="menu-name-input">
-                            <bk-input
+                            <el-input
+                                size="small"
                                 style="width: 200px;"
                                 :class="{ 'error-tip': !childData.name && editConfrim }"
                                 :clearable="true"
+                                placeholder="请输入"
                                 v-model="childData.name"
                                 @enter="handleConfirmEdit(childData)" />
-                            <span
-                                v-if="!childData.name && editConfrim"
-                                v-bk-tooltips="{ content: '请输入名称' }"
-                                class="bottom-middle">
-                                <i class="bk-icon icon-info-circle-shape"></i>
-                            </span>
+                            <el-tooltip v-if="!childData.name && editConfrim" effect="dark" content="请输入名称" placement="top">
+                                <span>
+                                    <i class="el-icon-info"></i>
+                                </span>
+                            </el-tooltip>
                         </div>
                         <span
                             class="cw-icon weops-complete ml10"
@@ -35,23 +36,15 @@
                     <div :class="{ 'page-icon': true, 'sys-page-icon': childData.id === 'SysSetting' }">
                         <span v-if="childData.isUrl">外链</span>
                         <span v-if="childData.isPage && !childData.isUrl">(原始页面: {{ childData.originName }})</span>
-                        <bk-popconfirm
-                            trigger="click"
-                            width="288"
-                            @confirm="handleDelete(childData)">
-                            <div slot="content">
-                                <div class="confirm-pop-custom">
-                                    <i class="bk-icon icon-info-circle-shape pr5 content-icon"></i>
-                                    <div class="content-text">
-                                        确认要删除这个{{ childData.isPage ? '页面' : '目录下所有的页面' }}吗？
-                                    </div>
-                                </div>
-                            </div>
-                            <bk-icon
-                                v-if="childData.id !== 'SysSetting'"
-                                class="delete"
-                                type="close" />
-                        </bk-popconfirm>
+                        <el-popconfirm
+                            width="288px"
+                            :title="'确认要删除这个' + (childData.isPage ? '页面' : '目录下所有的页面') + '吗？'"
+                            icon="el-icon-info"
+                            icon-color="red"
+                            @confirm="handleDelete(childData)"
+                        >
+                            <i v-if="childData.id !== 'SysSetting'" class="el-icon-close delete" slot="reference"></i>
+                        </el-popconfirm>
                     </div>
                 </div>
                 <menu-item
@@ -233,21 +226,6 @@
         /deep/input {
             border: 1px solid #ff5656 !important;
         }
-    }
-}
-.confirm-pop-custom {
-    font-size: 14px;
-    line-height: 24px;
-    color: #63656e;
-    padding-bottom: 10px;
-    .content-icon {
-        color: #ea3636;
-        position: absolute;
-        top: 20px;
-    }
-    .content-text {
-        display: inline-block;
-        margin-left: 20px;
     }
 }
 </style>
