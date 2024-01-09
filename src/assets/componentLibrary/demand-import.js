@@ -10,6 +10,8 @@ import {
     bkDiff, bkTransfer
 } from 'bk-magic-vue'
 
+import { Message } from 'element-ui'
+
 // bkDiff 组件体积较大且不是很常用，因此注释掉。如果需要，打开注释即可
 // import { bkDiff } from '@tencent/bk-magic-vue'
 
@@ -87,43 +89,41 @@ Vue.use(bkLoading)
 Vue.use(bkOverflowTips)
 Vue.use(bkDiff)
 
+Vue.use(Message)
+
 export const $error = (message, delay = 3000) => {
     if (message === 'cancelRequest') {
         return false
     }
-    bkMessage({
+    Message({
         message,
-        delay,
-        theme: 'error',
-        limit: 1
+        duration: delay,
+        type: 'error'
     })
 }
 
 export const $success = (message, delay = 3000) => {
-    bkMessage({
+    Message({
         message,
-        delay,
-        theme: 'success',
-        limit: 1
+        duration: delay,
+        type: 'success'
     })
 }
 
 export const $info = (message, delay = 3000) => {
-    bkMessage({
+    Message({
         message,
-        delay,
-        theme: 'primary',
-        limit: 1
+        duration: delay,
+        type: 'info'
     })
 }
 
 export const $warn = (message, delay = 3000) => {
-    bkMessage({
+    Message({
         message,
-        delay,
-        theme: 'warning',
-        limit: 1,
-        hasCloseIcon: true
+        duration: delay,
+        type: 'warning',
+        showClose: true
     })
 }
 
