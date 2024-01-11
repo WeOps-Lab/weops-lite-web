@@ -2,80 +2,78 @@
     <div class="menu-manage-wrapper">
         <div class="menu-manage-area">
             <div class="menu-search">
-                <bk-input
+                <el-input
                     clearable
-                    v-model="keywords"
-                    style="width: 300px;"
+                    size="small"
                     placeholder="请输入关键词"
-                    :right-icon="'bk-icon icon-search'"
-                    @enter="getMenuList"
+                    v-model="keywords"
+                    @change="getMenuList"
                     @clear="getMenuList">
-                </bk-input>
-                <bk-button
+                </el-input>
+                <el-button
                     v-permission="{
                         id: $route.name,
                         type: 'SysSetting_menus_create'
                     }"
-                    :theme="'primary'"
+                    class="ml10"
+                    size="small"
+                    :type="'primary'"
                     @click="handleAdd">
                     新建菜单
-                </bk-button>
+                </el-button>
             </div>
             <custom-menu-table
                 class="mt20"
                 :data="menuList"
                 :columns="columns"
                 :pagination="pagination"
-                v-bkloading="{ isLoading: loading, zIndex: 10 }"
+                v-loading="loading"
                 :max-height="maxHeight"
                 @page-change="handlePageChange"
                 @page-limit-change="handleLimitChange">
                 <template slot="operation" slot-scope="{ row }">
                     <div>
-                        <bk-button
+                        <el-button
                             v-if="row.use"
-                            text
-                            class="mr10"
+                            size="small"
+                            type="text"
                             disabled>
                             已启用
-                        </bk-button>
-                        <bk-button
+                        </el-button>
+                        <el-button
                             v-else
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysSetting_menus_edit'
                             }"
-                            text
-                            class="mr10"
-                            theme="primary"
+                            size="small"
+                            type="text"
                             @click="handleChangeSatus(row)">
                             启用
-                        </bk-button>
-                        <bk-button
+                        </el-button>
+                        <el-button
                             v-if="!row.default"
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysSetting_menus_edit'
                             }"
-                            text
+                            size="small"
                             :disabled="row.use"
-                            class="mr10"
-                            theme="primary"
+                            type="text"
                             @click="handleEdit(row)">
                             编辑
-                        </bk-button>
-                        <bk-button
+                        </el-button>
+                        <el-button
                             v-permission="{
                                 id: $route.name,
                                 type: 'SysSetting_menus_delete'
                             }"
-                            text
+                            size="small"
                             :disabled="row.default || row.use"
-                            class="mr10"
-                            theme="primary"
+                            type="text"
                             @click="handleDelete(row)">
                             删除
-                        </bk-button>
+                        </el-button>
                     </div>
                 </template>
             </custom-menu-table>
@@ -181,27 +179,27 @@
         }
         async handleChangeSatus(row) {
             if (!this.$BtnPermission({id: this.$route.name, type: 'SysSetting_menus_edit'})) return
-            this.$bkInfo({
-                title: `是否启用菜单: ${row.menu_name}`,
-                confirmLoading: true,
-                confirmFn: async() => {
-                    const res = await this.$api.UserManageMain.useCustomMenu({
+            this.$confirm(`是否启用菜单: ${row.menu_name}`, {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(async() => {
+                const res = await this.$api.UserManageMain.useCustomMenu({
                         id: row.id
                     })
-                    if (res.result) {
-                        this.getMenuList()
-                        this.$success(`启用${row.menu_name}成功`)
-                        // 启动成功后，更新菜单
-                        const userInfo = {
-                            ...this.PermissionState.user,
-                            weops_menu: row.menu
-                        }
-                        this.$store.commit('setUser', userInfo)
-                        this.$store.commit('setCustomMenuStatus')
-                        this.$store.dispatch('updateMenuList', userInfo)
-                    } else {
-                        this.$error(res.message)
+                if (res.result) {
+                    this.getMenuList()
+                    this.$success(`启用${row.menu_name}成功`)
+                    // 启动成功后，更新菜单
+                    const userInfo = {
+                        ...this.PermissionState.user,
+                        weops_menu: row.menu
                     }
+                    this.$store.commit('setUser', userInfo)
+                    this.$store.commit('setCustomMenuStatus')
+                    this.$store.dispatch('updateMenuList', userInfo)
+                } else {
+                    this.$error(res.message)
                 }
             })
         }
@@ -216,12 +214,12 @@
         }
         handleDelete(row) {
             if (!this.$BtnPermission({id: this.$route.name, type: 'SysSetting_menus_delete'})) return
-            this.$bkInfo({
-                title: `是否删除菜单: ${row.menu_name}`,
-                confirmLoading: true,
-                confirmFn: async() => {
-                    await this.confirmDelete(row)
-                }
+            this.$confirm(`是否删除菜单: ${row.menu_name}`, {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(async() => {
+                await this.confirmDelete(row)
             })
         }
         async confirmDelete(row) {
@@ -248,10 +246,6 @@
         padding: 10px;
         .menu-search {
             display: flex;
-            .bk-form-control {
-                flex: 1;
-                margin-right: 15px;
-            }
         }
     }
 }

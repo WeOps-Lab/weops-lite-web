@@ -1,47 +1,42 @@
 <template>
-    <bk-sideslider
-        :width="500"
-        :is-show.sync="isShow"
-        :quick-close="true"
-    >
-        <div slot="header">{{`${isAdd ? '新增' : '编辑'}外链`}}</div>
+    <drawer-component
+        :title="`${isAdd ? '新增' : '编辑'}外链`"
+        :visible="isShow"
+        :size="500"
+        @changeVisible="changeVisible">
         <div slot="content" class="content-box">
             <div class="form-box">
-                <bk-form :label-width="90" :model="formData" :rules="rules" ref="validateForm">
-                    <bk-form-item
-                        label="显示名称"
-                        :required="true"
-                        :property="'name'"
-                        :error-display-type="'normal'">
-                        <bk-input v-model="formData.name"></bk-input>
-                    </bk-form-item>
-                    <bk-form-item
-                        label="链接"
-                        :required="true"
-                        :property="'url'"
-                        :error-display-type="'normal'">
-                        <bk-input v-model="formData.url"></bk-input>
-                    </bk-form-item>
-                </bk-form>
+                <el-form label-width="90px" :model="formData" :rules="rules" ref="validateForm">
+                    <el-form-item label="显示名称" :required="true" prop="name">
+                        <el-input v-model="formData.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="链接" :required="true" prop="url">
+                        <el-input v-model="formData.url"></el-input>
+                    </el-form-item>
+                </el-form>
             </div>
             <div class="foot-box">
-                <bk-button :theme="'default'" type="submit" @click="cancel">
+                <el-button @click="cancel">
                     取消
-                </bk-button>
-                <bk-button :theme="'primary'" class="mr10" @click="confirm">
+                </el-button>
+                <el-button type="primary" class="mr10" @click="confirm">
                     确认
-                </bk-button>
+                </el-button>
             </div>
         </div>
-    </bk-sideslider>
+    </drawer-component>
 </template>
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import pinyin from 'pinyin'
     import camelCase from 'lodash/camelCase'
+    import DrawerComponent from '@/components/comDrawer.vue'
     @Component({
-        name: 'external-chain'
+        name: 'external-chain',
+        components: {
+            DrawerComponent
+        }
     })
     export default class ExternalChain extends Vue {
         isShow: boolean = false
@@ -64,7 +59,7 @@
                     trigger: 'blur'
                 },
                 {
-                    regex: /^(http|https):\/\/((www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(:[0-9]{1,5})?(\/.*)?$/,
+                    type: 'url',
                     message: '请输入正确外链地址',
                     trigger: 'blur'
                 }
@@ -89,8 +84,9 @@
         }
         confirm() {
             const validateForm: any = this.$refs.validateForm
-            validateForm.validate().then(validator => {
-                const params: any = {
+            validateForm.validate((valid) => {
+                if (valid) {
+                    const params: any = {
                     ...this.formData,
                     isUrl: true,
                     isPage: true,
@@ -111,10 +107,17 @@
                 params.id = camelCase(`${transValue}_${Math.ceil(Math.random() * 10000)}`)
                 this.$emit('handle-external-chain', params, this.type)
                 this.cancel()
+                }
             })
         }
         cancel() {
             this.isShow = false
+            const validateForm: any = this.$refs.validateForm
+            validateForm.resetFields()
+        }
+
+        changeVisible(val) {
+            this.isShow = val
         }
     }
 </script>

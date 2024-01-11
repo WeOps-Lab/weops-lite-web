@@ -23,6 +23,15 @@ export default {
         return get('/system/mgmt/role_manage/get_all_roles/', params)
     },
     /**
+     * 获取角色的详细信息
+     *
+     * @param {Object} params 请求参数
+     */
+    getRoleDetail(params = {}) {
+        Mock.mock(/api\/system\/mgmt\/roles\/\w+/, 'get', responseData.getRoleDetail())
+        return get(`/system/mgmt/roles/${params.id}`, params)
+    },
+    /**
      * 删除角色
      *
      * @param {Object} params 请求参数

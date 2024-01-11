@@ -6,20 +6,20 @@
         <div class="organization-manage">
             <div class="operate-box">
                 <div>
-                    <bk-button
+                    <el-button
                         class="mr10"
-                        theme="primary"
-                        title="新增组织"
+                        size="small"
+                        type="primary"
                         v-permission="{
                             id: $route.name,
                             type: 'SysGroup_create'
                         }"
                         @click="operateGroup('add')">
                         新增组织
-                    </bk-button>
-                    <bk-button
+                    </el-button>
+                    <el-button
                         class="mr10"
-                        theme="default"
+                        size="small"
                         title="批量删除"
                         v-permission="{
                             id: $route.name,
@@ -27,89 +27,84 @@
                         }"
                         @click="deleteNodes">
                         批量删除
-                    </bk-button>
+                    </el-button>
                 </div>
-                <bk-input
+                <el-input
                     clearable
+                    size="small"
                     style="width: 300px;"
                     placeholder="请输入搜索关键字"
-                    :right-icon="'bk-icon icon-search'"
+                    suffix-icon="el-icon-search"
                     v-model="search"
-                    @right-icon-click="handlerIconClick"
-                    @enter="handlerIconClick"
+                    @change="handlerIconClick"
                     @clear="handlerIconClick"
                 >
-                </bk-input>
+                </el-input>
             </div>
-            <div class="tree-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
-                <bk-big-tree
+            <div class="tree-box" v-loading="loading">
+                <el-tree
                     ref="tree"
-                    enable-title-tip
-                    default-expand-all
-                    :selectable="true"
-                    :show-checkbox="true"
-                    :options="{ childrenKey: 'subGroups' }"
                     :data="nodeData"
+                    show-checkbox
+                    default-expand-all
+                    :props="{ children: 'subGroups' }"
                     @check-change="handleCheck">
-                    <div slot-scope="{ node,data }">
-                        <div class="node-box">
-                            <span>{{ data.name }}</span>
-                            <div class="operate-node">
-                                <bk-button
-                                    size="small"
-                                    text title="primary"
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: 'SysGroup_create'
-                                    }"
-                                    @click.stop="operateGroup('addSub', data)">
-                                    添加子组
-                                </bk-button>
-                                <bk-button
-                                    size="small"
-                                    text title="primary"
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: 'SysGroup_user'
-                                    }"
-                                    @click.stop="personnelManage(node)">
-                                    人员管理
-                                </bk-button>
-                                <bk-button
-                                    size="small"
-                                    text title="primary"
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: 'SysGroup_role'
-                                    }"
-                                    @click.stop="roleManage(node)">
-                                    角色管理
-                                </bk-button>
-                                <bk-button
-                                    size="small"
-                                    text title="primary"
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: 'SysGroup_edit'
-                                    }"
-                                    @click.stop="operateGroup('edit', node)">
-                                    编辑
-                                </bk-button>
-                                <bk-button
-                                    size="small"
-                                    text
-                                    title="primary"
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: 'SysGroup_delete'
-                                    }"
-                                    @click.stop="deleteNode(node)">
-                                    删除
-                                </bk-button>
-                            </div>
-                        </div>
-                    </div>
-                </bk-big-tree>
+                    <span class="custom-tree-node" slot-scope="{ node,data }">
+                        <span>{{ data.name }}</span>
+                        <span class="operate-node">
+                            <el-button
+                                size="small"
+                                type="text"
+                                v-permission="{
+                                    id: $route.name,
+                                    type: 'SysGroup_create'
+                                }"
+                                @click.stop="operateGroup('addSub', data)">
+                                添加子组
+                            </el-button>
+                            <el-button
+                                size="small"
+                                type="text"
+                                v-permission="{
+                                    id: $route.name,
+                                    type: 'SysGroup_user'
+                                }"
+                                @click.stop="personnelManage(node)">
+                                人员管理
+                            </el-button>
+                            <el-button
+                                size="small"
+                                type="text"
+                                v-permission="{
+                                    id: $route.name,
+                                    type: 'SysGroup_role'
+                                }"
+                                @click.stop="roleManage(node)">
+                                角色管理
+                            </el-button>
+                            <el-button
+                                size="small"
+                                type="text"
+                                v-permission="{
+                                    id: $route.name,
+                                    type: 'SysGroup_edit'
+                                }"
+                                @click.stop="operateGroup('edit', node)">
+                                编辑
+                            </el-button>
+                            <el-button
+                                size="small"
+                                type="text"
+                                v-permission="{
+                                    id: $route.name,
+                                    type: 'SysGroup_delete'
+                                }"
+                                @click.stop="deleteNode(node)">
+                                删除
+                            </el-button>
+                        </span>
+                    </span>
+                </el-tree>
             </div>
         </div>
         <operate-group ref="operateGroup" @refreshList="refreshList" />
@@ -187,12 +182,12 @@
             })) {
                 return false
             }
-            this.$bkInfo({
-                title: '确认要删除该组织？',
-                confirmLoading: true,
-                confirmFn: async() => {
-                    await this.confirmDelete(node)
-                }
+            this.$confirm('确认要删除该组织？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(async() => {
+                await this.confirmDelete(node)
             })
         }
         // 批量删除
@@ -203,12 +198,12 @@
             })) {
                 return false
             }
-            this.$bkInfo({
-                title: '确认要删除选中组织？',
-                confirmLoading: true,
-                confirmFn: async() => {
-                    await this.confirmDelete()
-                }
+            this.$confirm('确认要删除选中组织？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(async() => {
+                await this.confirmDelete()
             })
         }
         async confirmDelete(node?) {
@@ -262,8 +257,13 @@
             }, node)
         }
         // 复选框改变
-        handleCheck(ids) {
-            this.checkedIds = ids
+        handleCheck(node, isChecked) {
+            if (isChecked) {
+                this.checkedIds.push(node.id)
+            } else {
+                const index = this.checkedIds.findIndex(item => item === node.id)
+                index !== -1 && this.checkedIds.splice(index, 1)
+            }
         }
     }
 </script>
@@ -279,13 +279,15 @@
         display: flex;
         justify-content: space-between;
     }
+    .custom-tree-node {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
     .tree-box {
         margin-top: 20px;
         flex: 1;
-        .node-box {
-            display: flex;
-            justify-content: space-between;
-        }
     }
 }
 </style>

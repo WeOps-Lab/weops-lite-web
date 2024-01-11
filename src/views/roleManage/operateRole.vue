@@ -2,6 +2,7 @@
     <el-dialog
         :visible.sync="visible"
         width="600px"
+        :close-on-click-modal="false"
         :title="title"
         @closed="closeDialog"
     >
@@ -11,7 +12,7 @@
                     <el-input v-model="formData.role_name" placeholder="请输入角色名称" :disabled="type === 'edit'"></el-input>
                 </el-form-item>
                 <el-form-item label="角色描述">
-                    <bk-input v-model="formData.describe" placeholder="请输入角色描述" type="textarea"></bk-input>
+                    <el-input v-model="formData.describe" :autosize="{ minRows: 4, maxRows: 10 }" placeholder="请输入角色描述" type="textarea"></el-input>
                 </el-form-item>
             </el-form>
         </div>

@@ -2,8 +2,9 @@
     <div class="menu-setting-wrapper">
         <div class="custom-menu-wrapper">
             <span>菜单名称：</span>
-            <bk-input
+            <el-input
                 style="width: 250px;"
+                size="small"
                 :clearable="true"
                 v-model="menuTitle"
                 placeholder="请输入菜单名称" />
@@ -12,8 +13,7 @@
             <div class="built-in-menu container-col">
                 <div class="title">菜单项</div>
                 <div class="bt-menu-content col-content">
-                    <bk-big-tree
-                        enable-title-tip
+                    <el-tree
                         default-expand-all
                         :data="activationMenu">
                         <div :class="{
@@ -21,13 +21,12 @@
                                  'disabled': data.id === 'SysSetting'
                              }"
                             slot-scope="{ data }"
-                            @click="handleRow(data)">
+                            @click="handleRow(data, $event)">
                             <!-- 层级：{{ node.level + 1 }}，名称：  -->
                             <!-- 只有最后一层级路由即页面可勾选（children不存在）或者动态的页面组，如基础监控和资产记录(存在children，但是为空) -->
-                            <bk-checkbox
+                            <el-checkbox
                                 v-if="!data.children || (data.children && data.children.length === 0)"
-                                :value="data.checked"
-                                :before-change="beforeChange" />
+                                :value="data.checked" />
                             {{ data.name }}
                             <span
                                 v-if="menuGroup.includes(data.id)"
@@ -35,40 +34,32 @@
                                 ({{ tipMap[data.id] }})
                             </span>
                         </div>
-                    </bk-big-tree>
+                    </el-tree>
                 </div>
             </div>
             <div class="configuration-menu container-col">
                 <div class="title">
                     <p>
                         菜单结构
-                        <span
-                            v-bk-tooltips="{
-                                content: '最多支持三层菜单结构，直接拖动可进行排序和层级调整，其中目录下必须包含页面,‘基础监控’和‘资产记录’仅支持在第1/2层级',
-                                placements: ['right']
-                            }"
-                            class="top-start">
-                            <i class="bk-icon icon-question-circle"></i>
-                        </span>
+                        <el-tooltip content="最多支持三层菜单结构，直接拖动可进行排序和层级调整，其中目录下必须包含页面,‘基础监控’和‘资产记录’仅支持在第1/2层级" placement="right">
+                            <i class="el-icon-question"></i>
+                        </el-tooltip>
                     </p>
-                    <bk-button
-                        class="mr20"
+                    <el-button
                         size="small"
-                        theme="primary"
-                        title="创建外链"
-                        :outline="true"
+                        type="primary"
+                        plain
                         @click="createExternalChain('add')">
                         创建外链
-                    </bk-button>
-                    <bk-button
+                    </el-button>
+                    <el-button
                         class="mr20"
                         size="small"
-                        theme="primary"
-                        title="创建目录"
-                        :outline="true"
+                        type="primary"
+                        plain
                         @click="handleAddDirectory">
                         创建目录
-                    </bk-button>
+                    </el-button>
                 </div>
                 <div class="col-content" v-bkloading="{ isLoading: initLoading, zIndex: 10 }">
                     <menu-item
@@ -81,21 +72,21 @@
                         @change="changeMenuItem" />
                 </div>
                 <div class="col-button-wrapper">
-                    <bk-button
-                        theme="primary"
-                        title="保存"
+                    <el-button
+                        type="primary"
+                        size="small"
                         class="mr10"
                         :disabled="loading"
                         :loading="loading"
                         @click="handleSave">
                         保存
-                    </bk-button>
-                    <bk-button
-                        title="取消"
+                    </el-button>
+                    <el-button
+                        size="small"
                         class="mr10"
                         @click="handleCancel">
                         取消
-                    </bk-button>
+                    </el-button>
                 </div>
             </div>
         </div>
@@ -125,16 +116,14 @@
                 next()
                 return false
             }
-            this.$bkInfo({
-                title: '确认离开当前页面',
-                subTitle: '离开将导致未保存信息丢失',
-                confirmLoading: true,
-                confirmFn: () => {
-                    next()
-                },
-                cancelFn: () => {
-                    this.$bus.$emit('refreshNav', from)
-                }
+            this.$confirm('离开将导致未保存信息丢失', '确定离开当前页面', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(() => {
+                next()
+            }).catch(() => {
+                this.$bus.$emit('refreshNav', from)
             })
         },
         computed: {
@@ -276,10 +265,14 @@
                 })
             }
         }
-        beforeChange() {
+        beforeChange(val?) {
             return false
         }
-        handleRow(data) {
+        handleRow(data, e) {
+            // 解决点击checkbox时函数调用两次导致的bug
+            if (e.target.className === 'el-checkbox__inner') {
+                return false
+            }
             if (data.children?.length) {
                 return false
             }
@@ -535,17 +528,19 @@
                     color: $cw-color-text-2;
                 }
                 .tree-row {
+                    flex: 1;
                     display: flex;
                     align-items: center;
-                    /deep/.bk-form-checkbox {
-                        margin-right: 5px;
-                    }
                     &.disabled {
                         color: #b1b2b6;
-                        /deep/.bk-checkbox {
-                            border-color: #dcdee5;
-                            background-color: #dcdee5;
+                        /* stylelint-disable selector-class-pattern */
+                        /deep/.el-checkbox__input .el-checkbox__inner {
+                            border-color: #dcdee5 !important;
+                            background-color: #dcdee5 !important;
                         }
+                    }
+                    /deep/.el-checkbox__input {
+                        margin-right: 5px;
                     }
                 }
             }

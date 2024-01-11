@@ -1,13 +1,12 @@
 <template>
-    <bk-sideslider
-        :is-show.sync="isShow"
-        :quick-close="true"
+    <drawer-component
         title="权限管理"
-        :width="850"
-    >
+        :visible="isShow"
+        :size="850"
+        @changeVisible="changeVisible">
         <div slot="content" class="content-box">
             <menu-tab :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
-            <div class="main-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
+            <div class="main-box" v-loading="loading">
                 <operation-permission
                     v-show="active === 'operationPermission'"
                     :role="role"
@@ -33,12 +32,12 @@
                 </instance-permission> -->
             </div>
             <div class="footer-box">
-                <bk-button v-if="active !== 'instancePermission'" :disabled="disableBtn || loading" :theme="'primary'" :title="'确定'" @click="confirm">
+                <el-button v-if="active !== 'instancePermission'" :disabled="disableBtn || loading" :type="'primary'" @click="confirm">
                     确定
-                </bk-button>
+                </el-button>
             </div>
         </div>
-    </bk-sideslider>
+    </drawer-component>
 </template>
 
 <script lang="ts">
@@ -47,13 +46,15 @@
     // import InstancePermission from './instancePermission.vue'
     import menuTab from '@/components/menuTab.vue'
     import { Vue, Component } from 'vue-property-decorator'
+    import DrawerComponent from '@/components/comDrawer.vue'
     @Component({
         name: 'permission-settings',
         components: {
             // AppPermission,
             OperationPermission,
             // InstancePermission,
-            menuTab
+            menuTab,
+            DrawerComponent
         }
     })
     export default class permissionSettings extends Vue {
@@ -88,12 +89,12 @@
         getMenuLoading(loading) {
             this.menuLoading = loading
         }
-        getAppLoading(loading, visible) {
-            this.appLoading = loading
-            if (visible === 'hide') {
-                this.isShow = false
-            }
-        }
+        // getAppLoading(loading, visible) {
+        //     this.appLoading = loading
+        //     if (visible === 'hide') {
+        //         this.isShow = false
+        //     }
+        // }
         show(data) {
             this.isShow = true
             this.role = data
@@ -169,6 +170,10 @@
             const valuesOnlyInA = arrayA.filter(item => !arrayB.includes(item))
             const valuesOnlyInB = arrayB.filter(item => !arrayA.includes(item))
             return [...valuesOnlyInA, ...valuesOnlyInB]
+        }
+
+        changeVisible(val) {
+            this.isShow = val
         }
     }
 </script>

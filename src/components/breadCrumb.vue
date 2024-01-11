@@ -2,17 +2,14 @@
     <div
         class="breadcrumb-container"
         v-if="menuList.length > 1">
-        <i
-            class="bk-icon icon-arrows-left icon-default"
-            @click="toPrev">
-        </i>
+        <i class="el-icon-back icon-arrows-left" @click="toPrev"></i>
         <ul>
             <li
                 v-for="item in parentMenus"
                 :key="item.id"
                 v-if="parentMenus.length && menuList.length">
                 {{ item.name }}
-                <bk-icon type="angle-right" />
+                <i class="el-icon-arrow-right" style="font-size: 12px;"></i>
             </li>
             <li
                 :key="index"
@@ -22,9 +19,8 @@
                     @click="toLink(item)">
                     {{ getTitle(item) }}
                 </span>
-                <bk-icon
-                    type="angle-right"
-                    v-if="menuList.length - 1 > index" />
+                <i class="el-icon-arrow-right"
+                    v-if="menuList.length - 1 > index"></i>
             </li>
         </ul>
         <span
@@ -124,6 +120,8 @@
 
 <style scoped lang="scss">
 .breadcrumb-container {
+    display: flex;
+    align-items: center;
     font-size: 14px;
     font-weight: 400;
     color: $cw-color-text-3;
@@ -135,8 +133,10 @@
     top: -20px;
     z-index: 99;
     .icon-arrows-left {
-        font-size: 28px !important;
+        font-size: 20px !important;
         margin-right: 5px !important;
+        color: #3A84FF;
+        cursor: pointer;
     }
     ul {
         margin: 0;
@@ -149,7 +149,7 @@
             height: 28px;
             line-height: 28px;
             i {
-                font-size: 18px !important;
+                font-size: 14px !important;
             }
             &:last-child {
                 color: $cw-color-text-0;

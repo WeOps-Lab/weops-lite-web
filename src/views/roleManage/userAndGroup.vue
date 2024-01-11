@@ -1,13 +1,11 @@
 <template>
-    <bk-sideslider
-        :width="850"
-        :quick-close="true"
+    <drawer-component
+        :title="title"
+        :visible="visible"
+        :size="850"
+        custom-class="common-dialog-wrapper"
         :before-close="handleClose"
-        :is-show.sync="visible"
-        ext-cls="common-dialog-wrapper">
-        <div slot="header">
-            {{ title }}
-        </div>
+        @changeVisible="changeVisible">
         <div slot="content"
             class="common-dialog-wrapper-main">
             <div class="auth-white-list">
@@ -19,17 +17,17 @@
                             type="capsule"
                             @change="changeMenu">
                         </menu-tab>
-                        <bk-input
+                        <el-input
                             v-if="active === 'user'"
                             clearable
+                            size="small"
                             style="width: 300px;"
                             :placeholder="'请输入关键字搜索'"
-                            :right-icon="'bk-icon icon-search'"
+                            :suffix-icon="'el-icon-search'"
                             v-model="searchValue"
                             @clear="handleSearch"
-                            @right-icon-click="handleSearch"
-                            @enter="handleSearch">
-                        </bk-input>
+                            @change="handleSearch">
+                        </el-input>
                     </div>
                     <com-table
                         v-if="active === 'user'"
@@ -37,7 +35,7 @@
                         ref="userTable"
                         :data="dataList"
                         :pagination="pagination"
-                        v-bkloading="{ isLoading: loading, zIndex: 10 }"
+                        v-loading="loading"
                         :columns="userColumns"
                         @select="handleSelect"
                         @select-all="handleAllSelect"
@@ -46,79 +44,62 @@
                     </com-table>
                     <div v-else class="content-box">
                         <div class="search">
-                            <bk-input
+                            <el-input
                                 clearable
+                                size="small"
                                 style="width: 300px;"
                                 placeholder="请输入搜索关键字"
-                                :right-icon="'bk-icon icon-search'"
+                                :suffix-icon="'el-icon-search'"
                                 v-model="searchValue"
-                                @right-icon-click="handlerIconClick"
-                                @enter="handlerIconClick"
+                                @change="handlerIconClick"
                                 @clear="handlerIconClick"
                             >
-                            </bk-input>
+                            </el-input>
                         </div>
-                        <div class="organization-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
-                            <bk-big-tree
+                        <div class="organization-box" v-loading="loading">
+                            <el-tree
                                 v-if="nodeData.length"
-                                enable-title-tip
                                 ref="tree"
-                                :default-expand-all="true"
-                                :options="{ childrenKey: 'subGroups' }"
-                                :data="nodeData">
-                                <div slot-scope="{ data }">
-                                    <div class="node-box">
-                                        <div class="name">{{data.name}}</div>
-                                        <bk-checkbox
-                                            v-model="data.checked"
-                                            @click.stop.native="handleCheck(data)" />
-                                    </div>
-                                </div>
-                            </bk-big-tree>
-                            <bk-exception
-                                v-else
-                                :class="{ 'exception-gray': false }"
-                                type="empty"
-                                scene="part">
-                            </bk-exception>
+                                :data="nodeData"
+                                default-expand-all
+                                :props="{ children: 'subGroups' }">
+                                <span class="custom-tree-node" slot-scope="{ data }">
+                                    <span class="name">{{data.name}}</span>
+                                    <el-checkbox
+                                        v-model="data.checked"
+                                        @change="handleCheck(data)" />
+                                </span>
+                            </el-tree>
                         </div>
                     </div>
                 </div>
                 <div class="selection-container">
                     <p>已选择（共<span>{{allSelected.length}}</span>条）<span class="clear" @click="handleClear">清空</span></p>
                     <ul>
-                        <!-- <li v-if="initChooseAdmin">
-                            超管(admin)
-                            <span>用户</span>
-                        </li> -->
                         <li v-for="item in allSelected" :key="item.id + item.type">
                             {{ item.type === 'user' ? `${item.chname}(${item.bk_username})` : item.name }}
                             <span>{{ item.type === 'user' ? '用户' : '组织' }}</span>
-                            <bk-icon type="close" @click="handleRemove(item)" />
+                            <i class="el-icon-close" style="font-size: 12px;" @click="handleRemove(item)"></i>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <template slot="footer">
-            <bk-button
+            <el-button
                 class="mr10"
-                :title="'确认'"
-                :theme="'primary'"
+                :type="'primary'"
                 :loading="isConfirm"
                 @click="handleConfirm()">
                 确认
-            </bk-button>
-            <bk-button
-                type="submit"
-                :theme="'default'"
-                :title="'取消'"
+            </el-button>
+            <el-button
                 :disabled="isConfirm"
                 @click="handleClose()">
                 取消
-            </bk-button>
+            </el-button>
         </template>
-    </bk-sideslider>
+    </drawer-component>
 </template>
 
 <script lang="ts">
@@ -126,11 +107,13 @@
     import { Component, Vue, Prop } from 'vue-property-decorator'
     import { Pagination, TableData } from '@/types'
     import ComTable from '@/components/comTable.vue'
+    import DrawerComponent from '@/components/comDrawer.vue'
 
     @Component({
         components: {
             MenuTab,
-            ComTable
+            ComTable,
+            DrawerComponent
         }
     })
     export default class userAndGroup extends Vue {
@@ -475,10 +458,15 @@
                 }
             }
         }
+
+        changeVisible(val) {
+            this.visible = val
+        }
     }
 </script>
 
 <style scoped lang="scss">
+/* stylelint-disable selector-class-pattern */
 .auth-white-list {
     height: 100%;
     display: flex;
@@ -492,23 +480,18 @@
                 //margin-top: 5px;
             }
         }
-        .table-container {
-            /deep/.bk-table-body-wrapper {
-                max-height: calc(100vh - 315px) !important;
-                overflow-y: scroll;
-            }
-        }
         .search {
-            padding: 20px;
+            padding: 20px 20px 20px 0;
         }
         .organization-box {
-            padding: 0 0 20px 20px;
-            .node-box {
-                padding-right: 20px;
+            padding-bottom: 20px;
+            .custom-tree-node {
+                flex: 1;
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
-                /deep/.bk-checkbox {
+                justify-content: space-between;
+                padding-right: 20px;
+                /deep/.el-checkbox__inner {
                     border-radius: 50%;
                 }
             }

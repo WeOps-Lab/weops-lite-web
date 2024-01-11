@@ -2,11 +2,11 @@
     <div class="user-manage">
         <div class="operate-box">
             <div>
-                <bk-button
+                <el-button
+                    size="small"
                     :disabled="tableLoading"
-                    theme="primary"
-                    title="新增用户"
-                    icon="plus"
+                    type="primary"
+                    icon="el-icon-plus"
                     class="mr10"
                     v-permission="{
                         id: $route.name,
@@ -14,24 +14,24 @@
                     }"
                     @click="operateUser('add')">
                     新增用户
-                </bk-button>
+                </el-button>
             </div>
-            <bk-input
+            <el-input
+                size="small"
                 :disabled="tableLoading"
                 clearable
                 style="width: 300px;"
                 placeholder="请输入搜索关键字"
-                :right-icon="'bk-icon icon-search'"
+                :suffix-icon="'el-icon-search'"
                 v-model="search"
-                @right-icon-click="handlerIconClick"
-                @enter="handlerIconClick"
+                @change="handlerIconClick"
                 @clear="handlerIconClick"
             >
-            </bk-input>
+            </el-input>
         </div>
         <div class="table-box">
             <com-table
-                v-bkloading="{ isLoading: tableLoading, zIndex: 10 }"
+                v-loading="tableLoading"
                 ref="comTable"
                 :data="dataList"
                 :columns="columns"
@@ -48,61 +48,61 @@
                     <span>{{getOrganizationOrSuperior(row, { listKey: 'groups', fieldKey: 'path' })}}</span>
                 </template>
                 <template slot="operation" slot-scope="{ row }">
-                    <bk-button
+                    <el-button
                         class="mr10"
-                        theme="primary"
-                        text
+                        size="small"
+                        type="text"
                         v-permission="{
                             id: $route.name,
                             type: 'SysUser_edit'
                         }"
                         @click="operateRole(row)">
                         设置角色
-                    </bk-button>
-                    <bk-button
+                    </el-button>
+                    <el-button
                         class="mr10"
-                        theme="primary"
-                        text
+                        size="small"
+                        type="text"
                         v-permission="{
                             id: $route.name,
                             type: 'SysUser_edit'
                         }"
                         @click="operateGroup(row)">
                         设置组织
-                    </bk-button>
-                    <bk-button
+                    </el-button>
+                    <el-button
                         class="mr10"
-                        theme="primary"
-                        text
+                        size="small"
+                        type="text"
                         v-permission="{
                             id: $route.name,
                             type: 'SysUser_edit'
                         }"
                         @click="operateUser('edit', row)">
                         编辑
-                    </bk-button>
-                    <bk-button
+                    </el-button>
+                    <el-button
                         class="mr10"
-                        theme="primary"
-                        text
+                        size="small"
+                        type="text"
                         v-permission="{
                             id: $route.name,
                             type: 'SysUser_delete'
                         }"
                         @click="deleteUser(row)">
                         删除
-                    </bk-button>
-                    <bk-button
+                    </el-button>
+                    <el-button
                         class="mr10"
-                        theme="primary"
-                        text
+                        size="small"
+                        type="text"
                         v-permission="{
                             id: $route.name,
                             type: 'SysUser_edit'
                         }"
                         @click="resetPassword(row)">
                         重置密码
-                    </bk-button>
+                    </el-button>
                 </template>
             </com-table>
         </div>
@@ -176,7 +176,7 @@
             label: '操作',
             key: 'operation',
             align: 'left',
-            width: '240px',
+            width: '340px',
             fixed: 'right',
             scopedSlots: 'operation'
         }
@@ -243,7 +243,7 @@
         this.pagination.current = 1
         this.getUserList()
     }
-    operateUser(type, data) {
+    operateUser(type, data?) {
         if (!this.$BtnPermission({
             id: this.$route.name,
             type: type === 'edit' ? 'SysUser_edit' : 'SysUser_create'
@@ -270,12 +270,10 @@
         })) {
             return false
         }
-        this.$bkInfo({
-            title: '确认要删除该用户？',
-            confirmLoading: true,
-            confirmFn: async() => {
-                await this.confirmDelete(row)
-            }
+        this.$confirm('确认要删除改用户？', {
+            center: true
+        }).then(async() => {
+            await this.confirmDelete(row)
         })
     }
     async confirmDelete(row) {
