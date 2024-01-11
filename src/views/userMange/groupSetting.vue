@@ -23,7 +23,7 @@
                         >
                         </el-input>
                     </div>
-                    <div class="organization-box" v-bkloading="{ isLoading: loading, zIndex: 10 }">
+                    <div class="organization-box" v-loading="loading">
                         <el-tree
                             v-if="nodeData.length"
                             ref="tree"

@@ -61,7 +61,7 @@
                         创建目录
                     </el-button>
                 </div>
-                <div class="col-content" v-bkloading="{ isLoading: initLoading, zIndex: 10 }">
+                <div class="col-content" v-loading="initLoading">
                     <menu-item
                         v-if="configMenuList && configMenuList.length"
                         :all-menu="configMenuList"

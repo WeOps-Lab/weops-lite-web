@@ -1,6 +1,6 @@
 <template>
     <div class="report-page">
-        <div style="height: 100%;" v-bkloading="{ isLoading: loading, opacity: 1, zIndex: 10 }">
+        <div style="height: 100%;" v-loading="loading">
             <iframe id="frame-box" @load="loadFrame" :src="url"></iframe>
         </div>
     </div>
