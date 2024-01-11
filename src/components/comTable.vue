@@ -1,10 +1,10 @@
 <template>
     <div class="table-container" :class="{ 'border-none': noneBorder }">
-        <bk-table
+        <el-table
             ref="table"
             v-bind="$attrs"
-            :outer-border="false"
-            :header-border="false"
+            size="small"
+            max-height="800"
             :default-expand-all="defaultExpandAll"
             :row-key="rowKey"
             :expand-row-keys="expandRowKeys"
@@ -13,27 +13,25 @@
             @row-click="rowClick"
             @select-all="selectAll"
             @selection-change="selectChange"
-            @page-change="handlePageChange"
-            @page-limit-change="limitChange"
-            @expand-change="expandChange"
-            @filter-change="filterChange"
             @sort-change="sortChange"
-            @row-mouse-enter="rowMouseEnter"
-            @row-mouse-leave="rowMouseLeave">
+            @filter-change="filterChange"
+            @expand-change="expandChange"
+            @cell-mouse-enter="cellMouseEnter"
+            @cell-mouse-leave="cellMouseLeave">
             <template v-for="column in setting.selectFields">
-                <bk-table-column
+                <el-table-column
                     v-bind="column"
                     :key="column.type + '_opertion'"
                     v-if="['selection', 'index'].includes(column.type)">
-                </bk-table-column>
-                <bk-table-column
+                </el-table-column>
+                <el-table-column
                     v-else
                     v-bind="column"
                     :key="column.key"
-                    :show-overflow-tooltip="column.noNeedTip ? false : { interactive: false }"
+                    :show-overflow-tooltip="column.noNeedTip ? false : true"
                     :prop="column.key"
                     :column-key="column.key"
-                    :filter-method="(value, row, col) => columnFilterMethod(value, row, col, column.filterRemote)"
+                    :filter-method="column.filters ? (value, row, col) => columnFilterMethod(value, row, col, column.filterRemote) : undefined"
                     :render-header="column.renderHeader">
                     <template slot-scope="props">
                         <template v-if="column.scopedSlots">
@@ -41,72 +39,70 @@
                         </template>
                         <span v-else>{{ props.row[column.key] || (props.row[column.key] === 0 ? props.row[column.key] : '--')}}</span>
                     </template>
-                </bk-table-column>
+                </el-table-column>
             </template>
-            <!-- <bk-table-column type="setting" v-if="settingsFields && settingsFields.length > 0">
-                <bk-table-setting-content
-                    value-key="key"
-                    :max="setting.max"
-                    :size="setting.size"
-                    :fields="setting.fields"
-                    :selected="setting.selectFields"
-                    @setting-change="handleSettingChange">
-                </bk-table-setting-content>
-            </bk-table-column> -->
-            <bk-table-column type="setting" v-if="settingsFields && settingsFields.length > 0" />
             <template slot="empty">
                 <slot name="empty"></slot>
             </template>
-        </bk-table>
+        </el-table>
+        <div class="pagination_box">
+            <el-pagination
+                background
+                :current-page.sync="pagination.current"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="20"
+                layout="total, sizes, next, pager, prev"
+                :total="pagination.count"
+                @size-change="limitChange"
+                @current-change="handlePageChange">
+            </el-pagination>
+        </div>
         <div v-if="settingsFields && settingsFields.length > 0" class="table-content-setting">
-            <bk-popover
+            <el-popover
                 ref="popverCom"
                 trigger="click"
-                theme="light"
                 width="400"
                 placement="bottom-end">
                 <bk-icon type="cog-shape" />
-                <template slot="content">
+                <template>
                     <div class="content-setting-wrapper">
                         <h2>表格设置</h2>
                         <div class="setting-fields-checkout-group">
                             <div class="mb10">
-                                <bk-checkbox
+                                <el-checkbox
                                     :indeterminate="indeterminate"
                                     v-model="isCheckAll"
                                     @change="changeAllCheck">
                                     全选
-                                </bk-checkbox>
+                                </el-checkbox>
                             </div>
-                            <bk-checkbox-group
+                            <el-checkbox-group
                                 v-model="settingKeys"
                                 @change="changeCheckbox">
-                                <bk-checkbox
+                                <el-checkbox
                                     :key="item.key"
                                     :value="item.key"
                                     :disabled="item.disabled"
                                     v-for="item in setting.fields">
                                     <span :title="item.label">{{ item.label }}</span>
-                                </bk-checkbox>
-                            </bk-checkbox-group>
+                                </el-checkbox>
+                            </el-checkbox-group>
                         </div>
                         <div class="content-setting-footer">
-                            <bk-button
-                                theme="primary"
-                                title="确定"
+                            <el-button
+                                type="primary"
                                 @click="confirmPopover">
                                 确定
-                            </bk-button>
-                            <bk-button
+                            </el-button>
+                            <el-button
                                 class="ml20"
-                                title="取消"
                                 @click="hidePopover">
                                 取消
-                            </bk-button>
+                            </el-button>
                         </div>
                     </div>
                 </template>
-            </bk-popover>
+            </el-popover>
         </div>
     </div>
 </template>
@@ -125,7 +121,7 @@
         @Prop({
             type: Array,
             default: () => [],
-            require: true
+            required: true
         })
         columns: any
         @Prop({
@@ -158,6 +154,15 @@
             default: () => []
         })
         expandRowKeys: any
+        @Prop({
+            type: Object,
+            default: () => ({
+                current: 1,
+                count: 1,
+                limit: 20
+            })
+        })
+        pagination: any
 
         setting = {
             fields: [],
@@ -237,11 +242,11 @@
         sortChange({ column, prop, order }) {
             this.$emit('sort-change', { column, prop, order })
         }
-        rowMouseEnter(index, event, row) {
-            this.$emit('row-mouse-enter', index, event, row)
+        cellMouseEnter(row, column, cell, event) {
+            this.$emit('cell-mouse-enter', row, column, cell, event)
         }
-        rowMouseLeave(index, event, row) {
-            this.$emit('row-mouse-leave', index, event, row)
+        cellMouseLeave(row, column, cell, event) {
+            this.$emit('cell-mouse-leave', row, column, cell, event)
         }
         expandChange(row, expandedRows) {
             this.$emit('expand-change', row, expandedRows)
@@ -268,10 +273,10 @@
             this.$refs.table.clearSelection()
         }
         hidePopover() {
-            this.$refs.popverCom?.hideHandler()
+            this.$refs.popverCom?.hide()
         }
         confirmPopover() {
-            this.$refs.popverCom?.hideHandler()
+            this.$refs.popverCom?.hide()
             const fields = this.setting.fields.filter(item => this.settingKeys.includes(item.key))
             this.$store.commit('setCustomFields', fields)
             this.$emit('handle-setting-change', fields)
@@ -293,6 +298,7 @@
 </script>
 
 <style scoped lang="scss">
+/* stylelint-disable selector-class-pattern */
 .table-container {
     position: relative;
     background: #fff;
@@ -300,81 +306,26 @@
     &.border-none {
         border: none !important;
     }
+    .pagination_box {
+        padding: 15px;
+        background-color: rgb(255, 255, 255);
+        .el-pagination {
+            /deep/.btn-prev, /deep/.el-pager, /deep/.btn-next {
+                float: right !important;
+            }
+        }
+    }
 }
 
 /deep/ .content-line-height {
     display: none;
 }
 
-/deep/ .bk-table::before {
-    height: 0;
-}
-
-/deep/ .bk-table-fixed-right {
-    border-bottom: none !important;
-}
-
-/deep/ .bk-table-fixed {
-    border-bottom: none !important;
-    th {
-        //border: none !important;
-    }
-}
-/deep/ .bk-table-column-setting {
-    border-left: 0;
-}
-/deep/.bk-table .bk-table-body td.bk-table-expanded-cell {
-    padding: 0 !important;
-    background: #f7f7f7;
-    tr {
-        background: #f7f7f7;
-        th {
-            background: #f7f7f7 !important;
-        }
-    }
-}
-/deep/ .bk-table-fixed-right {
-    right: 0;
-}
-/deep/.bk-table-scrollable-x {
-    .bk-table-body-wrapper {
-        &::-webkit-scrollbar-thumb:window-inactive {
-            background: #C4C6CC;
-        }
-        &::-webkit-scrollbar {
-            width: 6px;// 高宽分别对应横竖滚动条的尺寸
-            height: 6px;
-            background-color: rgba(255, 255, 255, .07);
-            border: none;
-        }
-        &::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            box-shadow: inset 0 0 6px rgba(196, 198, 204, .5);
-            background: rgba(196, 198, 204, 1);
-        }
-        &::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-border-radius: 10px;
-            background: rgba(196, 198, 204, 1);
-            -webkit-box-shadow: inset 0 0 6px rgba(196, 198, 204, .5);
-        }
-    }
-}
 .table-content-setting {
     position: absolute;
     right: 15px;
     top: 10px;
     z-index: 10;
-    .bk-icon {
-        display: inline-block;
-        vertical-align: middle;
-        width: 24px;
-        height: 24px;
-        line-height: 24px;
-        font-size: 14px;
-        color: #979ba5;
-        cursor: pointer;
-    }
 }
 .content-setting-wrapper {
     h2 {
@@ -385,22 +336,6 @@
     }
     .setting-fields-checkout-group {
         color: #fff000;
-        .bk-form-control {
-            max-height: 317px;
-            overflow-y: auto;
-            .bk-form-checkbox {
-                display: inline-block;
-                width: calc(33.33333% - 15px);
-                margin: 10px 15px 0 0;
-                /deep/.bk-checkbox-text {
-                    display: inline-block;
-                    max-width: calc(100% - 22px);
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-            }
-        }
     }
     .content-setting-footer {
         padding: 0 10px;
@@ -412,11 +347,6 @@
         background: #fafbfd;
         border-top: 1px solid #dcdee5;
         width: calc(100% + 28px);
-    }
-}
-/deep/.bk-table-header-label {
-    .bk-table-setting-icon {
-        display: none;
     }
 }
 </style>

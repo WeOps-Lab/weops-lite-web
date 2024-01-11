@@ -43,7 +43,7 @@
                             <span v-else class="cw-icon weops-zu-zhi-jue-se"></span>
                             {{ item.name }}
                             <span>{{ item.type === 'role' ? '个人角色' : '组织角色' }}</span>
-                            <i class="el-icon-close" style="font-size: 12px;" @click="handleRemove(item)"></i>
+                            <i class="el-icon-close" style="font-size: 12px;" v-if="item.type === 'role'" @click="handleRemove(item)"></i>
                         </li>
                     </ul>
                 </div>
