@@ -354,7 +354,7 @@ import './filters'; // 引入过滤器注册模块
 
 ##### 创建单独的页面
 - 对于单独存在的页面，如登录页，无需显示在页面外层框架里面，在路由中只需要写在一个配置项`mainRouter`中
-- 如登录页，在`src/router/frameRouter.ts`文件中
+- 如登录页（此处为举例，本框架采用keycloak的登录页，无需写登录页面），在`src/router/frameRouter.ts`文件中
   
 ```js
 // src/router/frameRouter.ts
@@ -421,6 +421,9 @@ get needLeftNav() {
 // .stylelintignore
 /src/assets/icon/bk_icon_font/
 ```
+
+##### 修改element-ui类名样式时报代码规范错误
+- 解决方案：在前面增加`/* stylelint-disable selector-class-pattern */`忽略此规则即可
 
 ##### 是否使用mock模式
 - 在 `index-dev.html` 文件夹中，设置 `USE_MOCK` 为 `true`，即可启用 mock
