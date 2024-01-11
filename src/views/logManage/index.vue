@@ -41,7 +41,7 @@
             </el-date-picker>
             <el-button size="small" :disabled="isLoading" @click="resetSearch">重置</el-button>
         </div>
-        <div class="test-dom" v-bkloading="{ isLoading: isLoading, zIndex: 10 }">
+        <div class="test-dom" v-loading="isLoading">
             <el-table
                 :data="logList"
                 :size="size"
@@ -80,11 +80,6 @@
 </template>
 
 <script lang="ts">
-    import {
-        bkTable, bkTableColumn,
-        bkButton, bkSelect, bkOption,
-        bkDatePicker
-    } from 'bk-magic-vue'
     import _ from 'lodash'
     import { Vue, Component } from 'vue-property-decorator'
     import PageExplanation from '@/components/pageExplanation.vue'
@@ -104,12 +99,6 @@
     @Component({
         name: 'log-manage',
         components: {
-            bkTable,
-            bkTableColumn,
-            bkButton,
-            bkSelect,
-            bkOption,
-            bkDatePicker,
             PageExplanation
         }
     })

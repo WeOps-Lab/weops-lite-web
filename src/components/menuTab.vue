@@ -1,6 +1,6 @@
 <template>
     <div ref="container" :class="['menu-type-container', `${type}-container`]">
-        <bk-icon v-if="showOperation" type="angle-left" @click="previous" />
+        <i v-if="showOperation" class="el-icon-arrow-left" @click="previous"></i>
         <div :class="[`${type}-content`]">
             <ul>
                 <li :key="index"
@@ -21,6 +21,7 @@
             </ul>
         </div>
         <bk-icon v-if="showOperation" type="angle-right" @click="next" />
+        <i v-if="showOperation" class="el-icon-arrow-right" @click="next"></i>
     </div>
 </template>
 

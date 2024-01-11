@@ -63,7 +63,7 @@
                 trigger="click"
                 width="400"
                 placement="bottom-end">
-                <bk-icon type="cog-shape" />
+                <i class="el-icon-s-tools"></i>
                 <template>
                     <div class="content-setting-wrapper">
                         <h2>表格设置</h2>

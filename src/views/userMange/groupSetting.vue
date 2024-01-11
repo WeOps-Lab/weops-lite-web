@@ -45,7 +45,7 @@
                     <li v-for="item in selectedNode" :key="item.id">
                         {{ item.name }}
                         <span>组织</span>
-                        <bk-icon type="close" @click="handleDelete(item.id)" />
+                        <i class="el-icon-close" style="font-size: 12px;" @click="handleDelete(item.id)"></i>
                     </li>
                 </ul>
             </div>

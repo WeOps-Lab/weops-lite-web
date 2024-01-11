@@ -246,10 +246,6 @@
         padding: 10px;
         .menu-search {
             display: flex;
-            .bk-form-control {
-                flex: 1;
-                margin-right: 15px;
-            }
         }
     }
 }

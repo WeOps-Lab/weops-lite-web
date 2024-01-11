@@ -6,7 +6,7 @@
         <template v-for="childData in menuList">
             <div :key="childData.id" class="menu-item">
                 <div class="menu-item-row">
-                    <bk-icon class="icon" :type="childData.isUrl ? 'chain' : childData.isPage ? 'apps' : 'folder-open'" />
+                    <i class="icon" :class="childData.isUrl ? 'el-icon-link' : childData.isPage ? 'el-icon-tickets' : 'el-icon-folder-opened'"></i>
                     <template v-if="!childData.isEdit">
                         <span>{{ childData.name }}</span>
                         <span

@@ -480,12 +480,6 @@
                 //margin-top: 5px;
             }
         }
-        .table-container {
-            /deep/.bk-table-body-wrapper {
-                max-height: calc(100vh - 315px) !important;
-                overflow-y: scroll;
-            }
-        }
         .search {
             padding: 20px 20px 20px 0;
         }
