@@ -43,12 +43,11 @@
         </div>
         <div class="test-dom" v-bkloading="{ isLoading: isLoading, zIndex: 10 }">
             <el-table
-                border
                 :data="logList"
                 :size="size"
                 :max-height="maxHeight"
                 ref="table"
-                style="margin-top: 10px;background-color: #ffffff;"
+                style="background-color: #ffffff;"
             >
                 <el-table-column label="操作者" prop="operator" width="200"></el-table-column>
                 <el-table-column label="操作对象" prop="operate_obj" width="200"></el-table-column>
@@ -72,7 +71,7 @@
                     :current-page="1"
                     :page-sizes="[10, 20, 50, 100]"
                     :page-size="100"
-                    layout="total, sizes, prev, pager, next"
+                    layout="total, sizes, next, pager, prev"
                     :total="pagination.count">
                 </el-pagination>
             </div>
@@ -268,13 +267,16 @@
             margin-left: 0;
         }
     }
+    .test-dom {
+        margin-top: 10px;
+        border: 1px solid #dfe0e5;
+    }
     .pager {
         padding: 15px;
-        border: 1px solid #dfe0e5;
         background-color: rgb(255, 255, 255);
-        // .btn-prev, .el-pager, .btn-next {
-        //     float: right;
-        // }
+        .btn-prev, .el-pager, .btn-next {
+            float: right;
+        }
     }
 }
 </style>

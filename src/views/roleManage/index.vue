@@ -157,7 +157,7 @@
                 label: '操作',
                 key: 'operation',
                 align: 'left',
-                width: '250px',
+                width: '280px',
                 scopedSlots: 'operation'
             }
         ]

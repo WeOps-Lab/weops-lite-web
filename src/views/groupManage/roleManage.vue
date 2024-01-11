@@ -51,14 +51,12 @@
         <template slot="footer">
             <el-button
                 class="mr10"
-                size="small"
                 :type="'primary'"
                 :loading="isConfirm"
                 @click="handleConfirm()">
                 确认
             </el-button>
             <el-button
-                size="small"
                 :disabled="isConfirm"
                 @click="handleClose()">
                 取消
