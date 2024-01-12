@@ -387,6 +387,7 @@
     /* stylelint-disable selector-class-pattern */
     .el-header {
         padding: 0 !important;
+        height: 52px !important;
     }
 
     .el-container {
@@ -422,7 +423,8 @@
         display: flex;
         align-items: center;
         background-color: rgb(24, 33, 50);
-        flex-basis: 52px;
+        // flex-basis: 52px;
+        height: 52px;
         padding-right: 24px;
 
         .navigation-title {

@@ -20,7 +20,6 @@
                 </li>
             </ul>
         </div>
-        <bk-icon v-if="showOperation" type="angle-right" @click="next" />
         <i v-if="showOperation" class="el-icon-arrow-right" @click="next"></i>
     </div>
 </template>
@@ -188,6 +187,7 @@
         }
     }
     .line {
+        box-sizing: border-box;
         font-weight: 400;
         display: inline-block;
         padding: 0 0 13px 0;
