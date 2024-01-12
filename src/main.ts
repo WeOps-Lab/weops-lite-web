@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 // 按需全量引入 bk-magic-vue 样式
-import 'bk-magic-vue/dist/bk-magic-vue.min.css'
+// import 'bk-magic-vue/dist/bk-magic-vue.min.css'
 import '@/assets/componentLibrary/demand-import'
 // 完整引入element-ui
 import ElementUI from 'element-ui'
