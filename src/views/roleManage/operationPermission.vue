@@ -33,7 +33,7 @@
                                 @change="handleOperateChecked(item, authItem.type)"
                             >
                             </el-checkbox>
-                            <span v-bk-overflow-tips>{{authItem.label}}</span>
+                            <span v-overflow-tooltip>{{authItem.label}} </span>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                                         @change="handleOperateChecked(tex, authTex.type)"
                                     >
                                     </el-checkbox>
-                                    <span v-bk-overflow-tips>{{authTex.label}}</span>
+                                    <span v-overflow-tooltip>{{authTex.label}}</span>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                                 @change="handleOperateChecked(nev, authNev.type)"
                                             >
                                             </el-checkbox>
-                                            <span v-bk-overflow-tips>{{authNev.label}}</span>
+                                            <span v-overflow-tooltip>{{authNev.label}}</span>
                                         </div>
                                     </template>
                                 </div>
