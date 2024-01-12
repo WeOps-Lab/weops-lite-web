@@ -32,6 +32,7 @@ import copy from './directive/modal/copy'
 import cwMessage from './prototype/message'
 import uploader from 'vue-simple-uploader'
 import btnPermission from './directive/modal/btn-permissions'
+import overflowTooltip from './directive/modal/overflow-tooltip'
 import './assets/icon/bk_icon_font/cw-icon'
 import './assets/icon/bk_icon_font/style.css'
 
@@ -42,6 +43,7 @@ Vue.use(Echarts)
 Vue.use(Dire)
 Vue.use(copy)
 Vue.use(btnPermission)
+Vue.use(overflowTooltip)
 Vue.use(Component)
 Vue.prototype.$message = cwMessage
 Vue.prototype.$echarts = Echarts
