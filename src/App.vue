@@ -50,6 +50,9 @@
     }
 </script>
 <style lang="scss">
+* {
+    box-sizing: border-box;
+}
 .bk-card .bk-card-head-left {
     padding-left: 30px !important;
 }
