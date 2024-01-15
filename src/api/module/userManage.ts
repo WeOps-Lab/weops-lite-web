@@ -50,68 +50,12 @@ export default {
         return put(`${reUrl}/system/mgmt/roles/${params.id}/assign/${params.userId}/`, {})
     },
     /**
-     * 双因子认证配置
-     *
-     * @param {Object} params 请求参数
-     */
-    updateLoginSet(params = {}) {
-        return post(`${reUrl}/system/mgmt/sys_setting/update_login_set/`, params)
-    },
-    /**
-     * 双因子认证配置
-     *
-     * @param {Object} params 请求参数
-     */
-    getLoginSet(params = {}) {
-        return get(`${reUrl}/system/mgmt/sys_setting/get_login_set/`, params)
-    },
-    /**
-     * 发送验证码
-     *
-     * @param {Object} params 请求参数
-     */
-    sendValidateCode(params = {}) {
-        return post(`${reUrl}/system/mgmt/sys_setting/send_validate_code/`, params)
-    },
-    /**
-     * 查询用户列表
-     *
-     * @param {Object} params 请求参数
-     */
-    searchUserList(params = {}) {
-        return get(`${reUrl}/system/mgmt/user_manage/search_user_list/`, params)
-    },
-    /**
      * 查询角色列表
      *
      * @param {Object} params 请求参数
      */
     searchRoleList(params = {}) {
         return get(`${reUrl}/system/mgmt/role_manage/search_role_list/`, params)
-    },
-    /**
-     * 查询角色列表
-     *
-     * @param {Object} params 请求参数
-     */
-    getDomainList(params = {}) {
-        return get(`${reUrl}/system/mgmt/sys_setting/get_domain/`, params)
-    },
-    /**
-     * 默认域配置
-     *
-     * @param {Object} params 请求参数
-     */
-    setDomain(params = {}) {
-        return post(`${reUrl}/system/mgmt/sys_setting/set_domain/`, params)
-    },
-    /**
-     * 通过角色设置用户的角色
-     *
-     * @param {Object} params 请求参数
-     */
-    setUsersByRole(params: any = {}) {
-        return post(`${reUrl}/system/mgmt/role_manage/${params.id}/role_set_users/`, params)
     },
     /**
      * 创建自定义菜单
@@ -155,18 +99,6 @@ export default {
      */
     updateMenuManage: function(params: any = {}) {
         return put(`${reUrl}/system/mgmt/menu_manage/${params.id}/`, params)
-    },
-    // 获取启用的菜单
-    getUseMenu(params = {}) {
-        return get(`${reUrl}/system/mgmt/menu_manage/get_use_menu/`, params)
-    },
-    /**
-     * 设置用户角色状态
-     *
-     * @param {Object} params 请求参数
-     */
-    updateUserStatus(params: any = {}) {
-        return patch(`${reUrl}/system/mgmt/user_manage/${params.id}/update_user_status/`, params.body)
     },
     /**
      * 将一系列组添加到用户

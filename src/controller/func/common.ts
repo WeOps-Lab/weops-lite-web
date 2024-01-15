@@ -286,17 +286,6 @@ function handleGroupData(item, data) {
     )
 }
 
-function getSvgIcon() {
-    // @ts-ignore
-    const data = require.context('@/assets/img/asset-model-icon', false, /\.svg$/).keys()
-    for (const i in data) {
-        data[i] = data[i].replace(/\.\//g, '').replace(/\.svg/g, '')
-    }
-    return data
-}
-
-Vue.prototype.$getSvgIcon = getSvgIcon
-
 Vue.prototype.$buildRules = buildRules
 
 function buildRules(item, rules) {

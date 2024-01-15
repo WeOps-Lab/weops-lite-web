@@ -16,7 +16,6 @@
 
 <script lang="ts">
     import UserManage from './userManage.vue'
-    import MultipleFactor from './multipleFactor.vue'
     import MenuTab from '@/components/menuTab.vue'
     import HeaderSub from '@/components/headerSub.vue'
     import PageExplanation from '@/components/pageExplanation.vue'
@@ -27,7 +26,6 @@
             MenuTab,
             UserManage,
             HeaderSub,
-            MultipleFactor,
             PageExplanation
         }
     })

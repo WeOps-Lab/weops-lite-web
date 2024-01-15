@@ -10,14 +10,6 @@ export default {
         return get(`${reUrl}/system/mgmt/roles/`, params)
     },
     /**
-     * 获取全部角色列表数据
-     *
-     * @param {Object} params 请求参数
-     */
-    getAllRoleList(params = {}) {
-        return get(`${reUrl}/system/mgmt/role_manage/get_all_roles/`, params)
-    },
-    /**
      * 删除角色
      *
      * @param {Object} params 请求参数
@@ -66,100 +58,12 @@ export default {
         return patch(`${reUrl}/system/mgmt/roles/${params.id}/permissions/`, params.array)
     },
     /**
-     * 设置角色应用权限
-     *
-     * @param {Object} params 请求参数
-     */
-    setAppPermissions(params = {}) {
-        return post(`${reUrl}/system/mgmt/role_manage/set_app_permissions/`, params)
-    },
-    /**
      * 获取角色菜单
      *
      * @param {Object} params 请求参数
      */
     getRoleMenus(params = {}) {
         return get(`${reUrl}/system/mgmt/roles/${params.roleId}/`, {})
-    },
-    /**
-     * 获取角色应用
-     *
-     * @param {Object} params 请求参数
-     */
-    getRoleApplications(params = {}) {
-        return get(`${reUrl}/system/mgmt/role_manage/get_role_applications/`, params)
-    },
-    /**
-     * 查询菜单权限中的监控和资产数据的其他分类
-     *
-     * @param {Object} params 请求参数
-     */
-    getRoleOtherMenus(params = {}) {
-        return get(`${reUrl}/system/mgmt/role_manage/menus/`, params)
-    },
-    /**
-     * 查询实例权限列表
-     *
-     * @param {Object} params 请求参数
-     */
-    getInstPermissions(params = {}) {
-        return get(`${reUrl}/system/mgmt/inst_permissions/`, params)
-    },
-    /**
-     * 查询实例类型静态字段
-     *
-     * @param {Object} params 请求参数
-     */
-    getInstanceTypes(params = {}) {
-        return get(`${reUrl}/system/mgmt/inst_permissions/get_instance_types/`, params)
-    },
-    /**
-     * 查询具体实例类型的数据
-     *
-     * @param {Object} params 请求参数
-     */
-    getInstances(params = {}) {
-        return get(`${reUrl}/system/mgmt/inst_permissions/get_instances/`, params)
-    },
-    /**
-     * 创建实例权限
-     *
-     * @param {Object} params 请求参数
-     */
-    createInstPermissions(params = {}) {
-        return post(`${reUrl}/system/mgmt/inst_permissions/`, params)
-    },
-    /**
-     * 修改实例权限
-     *
-     * @param {Object} params 请求参数
-     */
-    editInstPermissions(params: any = {}) {
-        return put(`${reUrl}/system/mgmt/inst_permissions/${params.id}/`, params.body)
-    },
-    /**
-     * 删除实例权限
-     *
-     * @param {Object} params 请求参数
-     */
-    deleteInstPermissions(params: any = {}) {
-        return deletes(`${reUrl}/system/mgmt/inst_permissions/${params.id}/`, params)
-    },
-    /**
-     * 查询实例权限详情
-     *
-     * @param {Object} params 请求参数
-     */
-    getInstPermissionsDetail(params: any = {}) {
-        return get(`${reUrl}/system/mgmt/inst_permissions/${params.id}/`, params)
-    },
-    /**
-     * 查询监控采集和监控策略的静态表格字段
-     *
-     * @param {Object} params 请求参数
-     */
-    getMonitorAttrs(params: any = {}) {
-        return get(`${reUrl}/system/mgmt/inst_permissions/get_monitor_attrs/`, params)
     },
     /**
      * 将该角色添加到一系列组中
