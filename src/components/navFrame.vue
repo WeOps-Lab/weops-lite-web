@@ -1,97 +1,108 @@
 <template>
-    <bk-navigation
-        :header-title="nav.id"
-        :side-title="nav.title"
-        :hover-width="190"
-        :default-open="defaultOpen"
-        navigation-type="top-bottom"
-        :need-menu="needLeftNav"
-        :head-height="headerHight"
-        :class="{ 'navigation-other-wrapper': user.expired_day <= user.notify_day }"
-        @toggle="handleToggle">
-        <template slot="side-icon">
-            <div class="monitor-logo" @click="goHome">
-                <img :src="'data:image/png;base64,' + nav.logo" height="40" width="40" :alt="'logo图片'">
-                <div class="credit-tip" v-if="user.expired_day <= user.notify_day">
-                    <bk-popconfirm
-                        :content="`WeOps许可将于${user.expired_day > 0 ? user.expired_day + '天后' : '今天'}到期，为保障正常运行，请联系您的专属客户经理及时续期。`"
-                        width="280"
-                        ext-cls="pop-custom">
-                        <bk-button size="small" theme="danger" @click.stop="linkToCredit">
-                            即将到期
-                        </bk-button>
-                    </bk-popconfirm>
-                </div>
-            </div>
-        </template>
-        <template slot="header">
-            <div class="monitor-navigation-header">
-                <ul class="top-nav">
-                    <li
-                        v-for="item in menuList"
-                        :key="item.id"
-                        :class="['top-nav-item', activeTopNav === item.id && 'active-top-nav']"
-                        @click="changeTopNav(item)">
-                        {{item.name}}
-                    </li>
-                </ul>
-                <div class="other-info">
-                    <bk-popover theme="light navigation-message" :arrow="false" offset="-20, 10" placement="bottom-start"
-                        :tippy-options="{ 'hideOnClick': false }" ref="userPopover">
-                        <div class="header-user is-left">
-                            <span class="show-name hide-text" v-bk-overflow-tips>{{ user.chname }}</span>
-                            <i class="bk-icon icon-down-shape"></i>
+    <div>
+        <el-container>
+            <!-- 头部 -->
+            <el-header>
+                <div class="navigation-header">
+                    <div class="navigation-title">
+                        <div class="monitor-logo" @click="goHome">
+                            <img :src="'data:image/png;base64,' + nav.logo" height="40" width="40" :alt="'logo图片'">
                         </div>
-                        <template slot="content">
-                            <ul class="monitor-navigation-admin" ref="userList" @mouseleave="hidePopover">
-                                <li class="nav-item" @click="checkPersonalInfo">
-                                    个人信息
-                                </li>
-                                <li class="nav-item" @click="outLogin">
-                                    退出登录
+                        <span class="title-desc">WeOps</span>
+                    </div>
+                    <div class="header-right">
+                        <div class="monitor-navigation-header">
+                            <ul class="top-nav">
+                                <li
+                                    v-for="item in menuList"
+                                    :key="item.id"
+                                    :class="['top-nav-item', activeTopNav === item.id && 'active-top-nav']"
+                                    @click="changeTopNav(item)">
+                                    {{item.name}}
                                 </li>
                             </ul>
-                        </template>
-                    </bk-popover>
-                </div>
-            </div>
-        </template>
-        <template slot="menu">
-            <bk-navigation-menu
-                ref="menu"
-                :before-nav-change="beforeNavChange"
-                :default-active="defaultActive"
-                :toggle-active="nav.toggle"
-                style="cursor: default;"
-                :key="refreshNavKey"
-                item-hover-color="#3A84FF"
-                @select="handleSelect">
-                <bk-navigation-menu-item
-                    v-for="item in leftNavList"
-                    :key="item.name"
-                    :has-child="item.children && !!item.children.length"
-                    :url="item.url"
-                    :id="item.id"
-                    @click="handleNavItemClick(item)">
-                    <span><i :class="[item.icon || 'cw-icon weops-folder', 'icon-class']"></i>{{ item.name }}</span>
-                    <div slot="child">
-                        <bk-navigation-menu-item
-                            class="child-menu-item"
-                            v-for="child in item.children"
-                            :key="child.name"
-                            :id="child.id"
-                            :url="child.url"
-                            style="cursor: pointer;"
-                            @click="handleNavItemClick(child)">
-                            <span>{{ child.name }}</span>
-                        </bk-navigation-menu-item>
+                            <div class="other-info">
+                                <el-popover
+                                    placement="top-start"
+                                    trigger="hover"
+                                    popper-class="header-popper">
+                                    <div class="header-user is-left" slot="reference">
+                                        <el-tooltip :content="user.chname" :disabled="isShowTooltip" placement="bottom" effect="dark">
+                                            <div
+                                                @mouseover="onMouseOver"
+                                                style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                            >
+                                                <span ref="strRef">{{user.chname}}</span>
+                                            </div></el-tooltip>
+                                        <i class="el-icon-caret-bottom"></i>
+                                    </div>
+                                    <ul class="monitor-navigation-admin" ref="userList">
+                                        <li class="nav-item" @click="checkPersonalInfo">
+                                            个人信息
+                                        </li>
+                                        <li class="nav-item" @click="outLogin">
+                                            退出登录
+                                        </li>
+                                    </ul>
+                                </el-popover>
+                            </div>
+                        </div>
                     </div>
-                </bk-navigation-menu-item>
-            </bk-navigation-menu>
-        </template>
-        <Container :key="renderKey" :nav-toggle="nav.toggle" :user="user"></Container>
-        <personal-info ref="personalInfo"></personal-info>
-    </bk-navigation>
+                </div>
+            </el-header>
+            <el-container>
+                <!-- 侧边导航栏 -->
+                <el-aside width="auto">
+                    <el-menu v-if="needLeftNav"
+                        class="el-menu-vertical"
+                        :default-active="defaultActive"
+                        :collapse="!open && !defaultOpen"
+                        :unique-opened="true"
+                        @select="handleSelect"
+                        @mouseenter.native="handleMouseEnter"
+                        @mouseleave.native="handleMouseLeave">
+                        <template v-for="item in leftNavList">
+                            <!-- 有子菜单 -->
+                            <el-submenu
+                                v-if="item.children && !!item.children.length"
+                                :index="item.id"
+                                :key="item.name"
+                                @click="handleNavItemClick(item)">
+                                <template slot="title">
+                                    <i :class="[item.icon || 'cw-icon weops-folder', 'icon-class']"></i>
+                                    <span>{{ item.name }}</span>
+                                </template>
+                                <el-menu-item v-for="child in item.children" :key="child.name" :index="child.id" @click="handleNavItemClick(child)">
+                                    <template slot="title">
+                                        <i class="cw-icon icon-class"></i>
+                                        <span>{{ child.name }}</span>
+                                    </template>
+                                </el-menu-item>
+                            </el-submenu>
+                            <!-- 没有子菜单 -->
+                            <el-menu-item
+                                v-else
+                                :index="item.id"
+                                :key="item.name"
+                                @click="handleNavItemClick(item)">
+                                <i :class="[item.icon || 'cw-icon weops-folder', 'icon-class']"></i>
+                                <span slot="title">{{ item.name }}</span>
+                            </el-menu-item>
+                        </template>
+                        <div class="nav-slider-footer">
+                            <i :class="open ? 'el-icon-back' : 'el-icon-right'" @click="handleIconCLick"></i>
+                        </div>
+                    </el-menu>
+                </el-aside>
+                <!-- 主体部分 -->
+                <el-main>
+                    <Container :key="renderKey" :nav-toggle="nav.toggle" :user="user"></Container>
+                    <personal-info ref="personalInfo"></personal-info>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
 </template>
 
 <script lang="ts">
@@ -112,7 +123,6 @@
         }
     })
     export default class NavFrame extends Vue {
-        defaultOpen: boolean = false
         renderKey: number = 0
         clickFlag: boolean = false
         activeTopNav: string = ''
@@ -131,6 +141,9 @@
         defaultActive: string = ''
         refreshNavKey: string = 'leftNavkey'
         ticketIconVisible = false
+        defaultOpen: boolean = false // 是否展开左侧栏
+        open: boolean = false // 图标控制，一直展开
+        isShowTooltip: boolean = false
         get user() {
             const user = this.permission.user
             if (user.is_super) {
@@ -139,16 +152,6 @@
                 this.ticketIconVisible = user.menus?.includes('Ticket') && user.applications.includes('itsm')
             }
             return user
-        }
-        get version() {
-            const _version = this.user.version
-            if (_version && _version.includes('00')) {
-                return _version.replace(/00/, '-rc')
-            }
-            if (_version && _version.includes('99')) {
-                return _version.replace(/.99/, '-ga')
-            }
-            return _version
         }
         get menuList() {
             return this.permission.menuList
@@ -240,18 +243,9 @@
         beforeDestroy() {
             this.$bus.$off('updateLogo')
         }
-        checkVersionLog() {
-            const versionLog: any = this.$refs.versionLog
-            versionLog.show()
-        }
         checkPersonalInfo() {
             const personalInfo: any = this.$refs.personalInfo
             personalInfo.show()
-        }
-        goTicket() {
-            this.$router.push({
-                name: 'Ticket'
-            })
         }
         setDefaultActive() {
             if (this.$route.meta.hasOwnProperty('parentIds')) {
@@ -266,23 +260,17 @@
             }
             return this.$route.name
         }
-        hidePopover() {
-            const userPopover:any = this.$refs['userPopover']
-            userPopover.hideHandler()
-        }
         outLogin() {
-            this.$bkInfo({
-                title: '是否退出登录',
-                confirmLoading: true,
-                confirmFn: () => {
-                    sessionStorage.clear()
-                    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;'
-                    localStorage.removeItem('loginToken')
-                    this.$store.commit('setLoginStatus')
-                    this.$router.replace({
-                        path: '/login'
-                    })
-                }
+            this.$confirm('是否退出登录', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(() => {
+                sessionStorage.clear()
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;'
+                localStorage.removeItem('loginToken')
+                this.$store.commit('setLoginStatus')
+                this.$router.go(0)
             })
         }
         handleSelect(id, item) {
@@ -341,24 +329,25 @@
         handleToggle(v) {
             this.nav.toggle = v
         }
-        beforeNavChange(item) {
-            const result = this.findItemById(this.leftNavList, item)
-            return !result.isUrl
-        }
-        findItemById(arr, id) {
-            for (const item of arr) {
-                if (item.id === id) {
-                    return item
-                }
-                if (item.children) {
-                    const found = this.findItemById(item.children, id)
-                    if (found) {
-                        return found
-                    }
-                }
-            }
-            return null
-        }
+        // beforeNavChange(item) {
+        //     const result = this.findItemById(this.leftNavList, item)
+        //     return !result.isUrl
+        // }
+        // findItemById(arr, id) {
+        //     for (const item of arr) {
+        //         if (item.id === id) {
+        //             return item
+        //         }
+        //         if (item.children) {
+        //             const found = this.findItemById(item.children, id)
+        //             if (found) {
+        //                 return found
+        //             }
+        //         }
+        //     }
+        //     return null
+        // }
+        // 点击菜单
         handleNavItemClick(item) {
             if (item.isUrl) {
                 window.open(item.url, '_blank')
@@ -374,24 +363,142 @@
                 }
             }
         }
-        linkToCredit() {
-            if (!this.user.is_super) {
-                return
-            }
-            this.$router.push({
-                name: 'CreditManage'
-            })
+
+        handleMouseEnter() {
+            this.defaultOpen = true
+        }
+        handleMouseLeave() {
+            this.defaultOpen = false
+        }
+        handleIconCLick() {
+            this.open = !this.open
+        }
+        // 内容超出，显示文字提示内容
+        onMouseOver() {
+            const tag = this.$refs['strRef']
+            const parentWidth = tag.parentNode.offsetWidth // 获取元素父级可视宽度
+            const contentWidth = tag.offsetWidth // 获取元素可视宽度
+            this.isShowTooltip = contentWidth <= parentWidth
         }
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+    /* stylelint-disable selector-class-pattern */
+    .el-header {
+        padding: 0 !important;
+        height: 52px !important;
+    }
+
+    .el-container {
+        .el-aside {
+            .el-menu {
+                height: 100%;
+                position: relative;
+                .el-menu-item {
+                    text-align: left;
+                    padding: 0 20px !important;
+                }
+                /deep/.nav-slider-footer {
+                    width: 100%;
+                    position: absolute;
+                    bottom: 50px;
+                    transform: translateY(-50%);
+                    padding: 0 20px;
+                    i {
+                        font-size: 16px;
+                        cursor: pointer;
+                        color: #909399;
+                        transition: all;
+                    }
+                }
+            }
+        }
+        .el-main {
+            background-color: #f5f7fa;
+        }
+    }
+
+    .navigation-header {
+        display: flex;
+        align-items: center;
+        background-color: rgb(24, 33, 50);
+        // flex-basis: 52px;
+        height: 52px;
+        padding-right: 24px;
+
+        .navigation-title {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            width: 200px;
+            .title-desc {
+                font-size: 16px;
+                font-weight: 700;
+                color: #96a2b9;
+                display: inline-block;
+                margin-left: 16px;
+                line-height: 24px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+
+        .header-right {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+            .top-nav {
+                display: flex;
+                height: 100%;
+                max-width: calc(100vw - 470px);
+                overflow-x: auto;
+                .top-nav-item {
+                    list-style: none;
+                    margin-right: 65px;
+                    display: flex;
+                    align-items: center;
+                    color: #96a2b9;
+                    font-size: 14px;
+                    white-space: nowrap;
+                    &:hover {
+                        cursor: pointer;
+                        color: #d3d9e4;
+                    }
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+                .active-top-nav {
+                    color: #fff;
+                }
+            }
+            .other-info {
+                display: flex;
+                height: 100%;
+                align-items: center;
+                flex: 1;
+                flex-direction: row-reverse;
+                .header-user {
+                    text-align: center;
+                    vertical-align: center;
+                }
+                .show-name {
+                    display: inline-block;
+                    max-width: 100px;
+                }
+            }
+        }
+    }
+
+    .el-menu-vertical:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
+    }
+    // 原始样式
     .child-menu-item .navigation-menu-item-name {
         overflow: auto !important;
         white-space: normal !important;
-    }
-    .bk-navigation {
-        width: 100% !important;
     }
     .monitor-logo {
         display: flex;
@@ -402,10 +509,6 @@
             left: 140px;
         }
     }
-    .bk-navigation-wrapper .navigation-container {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
     .icon-class {
         font-size: 16px;
         min-width: 38px;
@@ -414,77 +517,6 @@
     }
     .bk-navigation-title {
         flex: 0 0 200px !important;
-    }
-    .monitor-navigation-header {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .top-nav {
-            display: flex;
-            height: 100%;
-            max-width: calc(100vw - 470px);
-            overflow-x: auto;
-            .top-nav-item {
-                list-style: none;
-                margin-right: 65px;
-                display: flex;
-                align-items: center;
-                color: #96a2b9;
-                font-size: 14px;
-                white-space: nowrap;
-                &:hover {
-                    cursor: pointer;
-                    color: #d3d9e4;
-                }
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
-            .active-top-nav {
-                color: #fff;
-            }
-        }
-        .other-info {
-            display: flex;
-            height: 100%;
-            align-items: center;
-            flex: 1;
-            flex-direction: row-reverse;
-            .show-name {
-                display: inline-block;
-                max-width: 100px;
-            }
-            .ticket {
-                width: 25px;
-                height: 25px;
-                cursor: pointer;
-            }
-            .cw-icon-gongdan-xian {
-                font-size: 30px;
-                color: #fff;
-                cursor: pointer;
-            }
-            .bk-badge-wrapper .bk-badge.bk-success {
-                border: none;
-            }
-            .version {
-                font-size: 12px;
-                margin-right: 20px;
-                position: relative;
-                cursor: pointer;
-                &:hover {
-                    color: #fff;
-                }
-                .version-tips {
-                    position: absolute;
-                    font-size: 13px;
-                    right: -13px;
-                    top: -4px;
-                }
-            }
-        }
     }
     .monitor-navigation-header {
         -webkit-box-flex: 1;
@@ -612,9 +644,9 @@
         margin-left: 8px;
     }
 
-    .monitor-navigation-header .header-user .bk-icon {
+    .monitor-navigation-header .header-user .el-icon-caret-bottom {
         margin-left: 5px;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .monitor-navigation-header .header-user.is-left {
@@ -672,14 +704,6 @@
         box-shadow: none;
     }
 
-    .bk-icon {
-        &.icon-arrows-left {
-            font-size: 30px;
-            margin-right: 10px;
-            color: #3A84FF;
-            cursor: pointer;
-        }
-    }
     .navigation-sbmenu,
     .navigation-menu-item {
         .cw-icon {
@@ -710,6 +734,19 @@
                     max-width: 750px !important;
                 }
             }
+        }
+    }
+</style>
+<!-- 改Popover弹出框样式 -->
+<style lang="scss">
+    .header-popper {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        min-width: 100px !important;
+        margin-top: 7px !important;
+        .popper__arrow {
+            display: none !important;
         }
     }
 </style>

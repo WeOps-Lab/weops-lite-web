@@ -1,5 +1,5 @@
 <template>
-    <div id="app" style="min-width: 1280px;overflow-y: hidden;" v-bkloading="{ isLoading: userInfoLoading, zIndex: 9999, extCls: 'full-load' }">
+    <div id="app" style="min-width: 1280px;overflow-y: hidden;" v-loading.fullscreen="userInfoLoading">
         <nav-frame />
         <app-auth ref="appAuth"></app-auth>
     </div>
@@ -40,11 +40,7 @@
             if (this.$route.path === '/') {
                 if (role === null) {
                     this.$router.push('/workManage')
-                    this.$bkMessage({
-                        message: '该用户无权限,请联系管理员',
-                        theme: 'error',
-                        offsetY: 80
-                    })
+                    this.$error('该用户无权限,请联系管理员')
                 }
                 if (role === 'user') {
                     this.$router.push('/ticketList')
@@ -54,6 +50,9 @@
     }
 </script>
 <style lang="scss">
+* {
+    box-sizing: border-box;
+}
 .bk-card .bk-card-head-left {
     padding-left: 30px !important;
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="operation-permission" v-bkloading="{ isLoading: menuLoading, zIndex: 10 }">
+    <div class="operation-permission" v-loading="menuLoading">
         <div class="table-header">
             <div class="menu-box">菜单</div>
             <div class="operate-box">操作权限</div>
@@ -8,36 +8,32 @@
             <div class="menu-list" v-for="item in menuList" :key="item.id">
                 <div class="first-level-box" @click="setExpandStatus(item)">
                     <div class="menu-name">
-                        <bk-icon
+                        <i
                             v-if="item.children"
                             class="expand-icon"
-                            :type="item.isExpand ? 'down-shape' : 'right-shape'"
-                        />
-                        <bk-checkbox
+                            :class="item.isExpand ? 'el-icon-caret-bottom' : 'el-icon-caret-right'">
+                        </i>
+                        <el-checkbox
                             :class="['check-box', !item.children && 'check-box-left']"
                             :indeterminate="item.isIndeterminate"
-                            :true-value="true"
-                            :false-value="false"
                             v-model="item.isChecked"
                             @click.stop.native="() => {}"
                             @change="handleMenuChecked(item)"
                         >
-                        </bk-checkbox>
+                        </el-checkbox>
                         <span>{{item.name}}</span>
                     </div>
                     <div v-if="item.auth" class="menu-operate">
                         <div v-for="(authItem, authIndex) in item.auth" :key="authIndex">
-                            <bk-checkbox
+                            <el-checkbox
                                 class="check-box"
-                                :true-value="true"
-                                :false-value="false"
                                 v-model="authItem.value"
                                 :indeterminate="authItem.isIndeterminate"
                                 @click.stop.native="() => {}"
                                 @change="handleOperateChecked(item, authItem.type)"
                             >
-                            </bk-checkbox>
-                            <span v-bk-overflow-tips>{{authItem.label}}</span>
+                            </el-checkbox>
+                            <span v-overflow-tooltip>{{authItem.label}} </span>
                         </div>
                     </div>
                 </div>
@@ -46,61 +42,53 @@
                         <div class="second-level-box" @click="setExpandStatus(tex)">
                             <div class="menu-name" style="padding-left: 40px;">
                                 <!--                        down-shape-->
-                                <bk-icon v-if="tex.children" class="expand-icon" :type="tex.isExpand ? 'down-shape' : 'right-shape'" />
-                                <bk-checkbox
+                                <i v-if="tex.children" class="expand-icon" :class="tex.isExpand ? 'el-icon-caret-bottom' : 'el-icon-caret-right'" />
+                                <el-checkbox
                                     :class="['check-box', !tex.children && 'check-box-left']"
                                     :indeterminate="tex.isIndeterminate"
-                                    :true-value="true"
-                                    :false-value="false"
                                     v-model="tex.isChecked"
                                     @change="handleMenuChecked(tex)"
                                     @click.stop.native="() => {}"
                                 >
-                                </bk-checkbox>
+                                </el-checkbox>
                                 <span>{{tex.name}}</span>
                             </div>
                             <div v-if="tex.auth" class="menu-operate">
                                 <div v-for="(authTex, authTexIndex) in tex.auth" :key="authTexIndex">
-                                    <bk-checkbox
+                                    <el-checkbox
                                         class="check-box"
-                                        :true-value="true"
-                                        :false-value="false"
                                         :indeterminate="authTex.isIndeterminate"
                                         v-model="authTex.value"
                                         @click.stop.native="() => {}"
                                         @change="handleOperateChecked(tex, authTex.type)"
                                     >
-                                    </bk-checkbox>
-                                    <span v-bk-overflow-tips>{{authTex.label}}</span>
+                                    </el-checkbox>
+                                    <span v-overflow-tooltip>{{authTex.label}}</span>
                                 </div>
                             </div>
                         </div>
                         <div v-if="tex.isExpand">
                             <div class="third-level-box" v-for="nev in tex.children" :key="nev.id">
                                 <div class="menu-name" style="padding-left: 90px;">
-                                    <bk-checkbox
+                                    <el-checkbox
                                         :class="['check-box']"
-                                        :true-value="true"
-                                        :false-value="false"
                                         :indeterminate="nev.isIndeterminate"
                                         v-model="nev.isChecked"
                                         @change="handleMenuChecked(nev)"
                                     >
-                                    </bk-checkbox>
+                                    </el-checkbox>
                                     <span>{{nev.name}}</span>
                                 </div>
                                 <div v-if="nev.auth" class="menu-operate">
                                     <template v-for="(authNev, authNevIndex) in nev.auth">
                                         <div :key="authNevIndex">
-                                            <bk-checkbox
+                                            <el-checkbox
                                                 class="check-box"
-                                                :true-value="true"
-                                                :false-value="false"
                                                 v-model="authNev.value"
                                                 @change="handleOperateChecked(nev, authNev.type)"
                                             >
-                                            </bk-checkbox>
-                                            <span v-bk-overflow-tips>{{authNev.label}}</span>
+                                            </el-checkbox>
+                                            <span v-overflow-tooltip>{{authNev.label}}</span>
                                         </div>
                                     </template>
                                 </div>

@@ -31,7 +31,6 @@ declare module "vue/types/vue" {
         $DateDisplay: any,
         $groupData: any,
         $Copy: any,
-        $getSvgIcon: any,
         $optionalChaining: any,
         $stampToTime: any
     }

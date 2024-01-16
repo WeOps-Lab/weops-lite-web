@@ -210,10 +210,12 @@ export default {
                 id: Mock.mock('@id'),
                 built_in: false,
                 is_super: false,
-                created_at: Mock.mock('@now'),
+                attributes: {
+                    created: Mock.mock('@now'),
+                },
                 users: [],
-                role_name: params.role_name,
-                describe: params.describe
+                name: params.role_name,
+                description: params.description
             }
         }
         roles.push(res.data)
@@ -419,6 +421,22 @@ export default {
                     'notBefore': 0
                 }
             ]
+        }
+    },
+    getRoleDetail: () => {
+        return {
+            result: true,
+            code: 20000,
+            message: 'success',
+            data: {
+                groups: [
+                    {
+                        id: 'a7847105-df3d-4ba8-a057-dedc9bb91c4c',
+                        name: 'Test Group',
+                        path: '/Test Group'
+                    }
+                ]
+            }
         }
     }
 }

@@ -65,6 +65,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             jquery: 'jquery',
             'window.jQuery': 'jquery'
         }),
+        new webpack.DefinePlugin({
+            'process.env.USE_MOCK': JSON.stringify(process.env.USE_MOCK)
+        })
         // copy custom static assets
         // new CopyWebpackPlugin([
         //     {

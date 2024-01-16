@@ -4,13 +4,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-// 按需全量引入 bk-magic-vue 样式
-import 'bk-magic-vue/dist/bk-magic-vue.min.css'
 import '@/assets/componentLibrary/demand-import'
 // 完整引入element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// import '@/assets/componentLibrary/fully-import';
 // 几何图
 import * as Echarts from 'echarts'
 // 引用API文件
@@ -32,6 +29,7 @@ import copy from './directive/modal/copy'
 import cwMessage from './prototype/message'
 import uploader from 'vue-simple-uploader'
 import btnPermission from './directive/modal/btn-permissions'
+import overflowTooltip from './directive/modal/overflow-tooltip'
 import './assets/icon/bk_icon_font/cw-icon'
 import './assets/icon/bk_icon_font/style.css'
 
@@ -42,6 +40,7 @@ Vue.use(Echarts)
 Vue.use(Dire)
 Vue.use(copy)
 Vue.use(btnPermission)
+Vue.use(overflowTooltip)
 Vue.use(Component)
 Vue.prototype.$message = cwMessage
 Vue.prototype.$echarts = Echarts

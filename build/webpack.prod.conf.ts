@@ -58,19 +58,6 @@ const webpackConfig = merge(baseWebpackConfig, {
             // chunk 的名字，如果设成 true，会根据被提取的 chunk 自动生成
             name: true,
             cacheGroups: {
-                // 提取 chunk-bk-magic-vue 代码块
-                bkMagicVue: {
-                    chunks: 'all',
-                    // 单独将 bkMagicVue 拆包
-                    name: 'chunk-bk-magic-vue',
-                    // 权重
-                    priority: 5,
-                    // 表示是否使用已有的 chunk，如果为 true 则表示如果当前的 chunk 包含的模块已经被提取出去了，那么将不会重新生成新的。
-                    reuseExistingChunk: true,
-                    test: module => {
-                        return /bk-magic-vue/.test(module.context)
-                    }
-                },
                 // 所有 node_modules 的模块被不同的 chunk 引入超过 1 次的提取为 twice
                 // 如果去掉 test 那么提取的就是所有模块被不同的 chunk 引入超过 1 次的
                 twice: {

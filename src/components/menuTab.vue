@@ -1,6 +1,6 @@
 <template>
     <div ref="container" :class="['menu-type-container', `${type}-container`]">
-        <bk-icon v-if="showOperation" type="angle-left" @click="previous" />
+        <i v-if="showOperation" class="el-icon-arrow-left" @click="previous"></i>
         <div :class="[`${type}-content`]">
             <ul>
                 <li :key="index"
@@ -20,7 +20,7 @@
                 </li>
             </ul>
         </div>
-        <bk-icon v-if="showOperation" type="angle-right" @click="next" />
+        <i v-if="showOperation" class="el-icon-arrow-right" @click="next"></i>
     </div>
 </template>
 
@@ -187,6 +187,7 @@
         }
     }
     .line {
+        box-sizing: border-box;
         font-weight: 400;
         display: inline-block;
         padding: 0 0 13px 0;

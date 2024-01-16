@@ -1,64 +1,67 @@
 <template>
     <div>
-        <bk-sideslider
-            :width="600"
-            :is-show.sync="isShow"
-            :quick-close="true"
-            :before-close="beforeClose">
-            <div slot="header">个人信息</div>
+        <drawer-component
+            title="个人信息"
+            :visible="isShow"
+            :size="600"
+            :before-close="beforeClose"
+            @changeVisible="changeVisible">
             <div slot="content" class="content-box">
-                <bk-form :label-width="80" :model="formData" ref="validateForm"
-                    v-bkloading="{ isLoading: isInfoLoading, zIndex: 10 }" :rules="formRules">
-                    <bk-form-item label="用户名" :required="true" :property="'username'" error-display-type="normal">
-                        <bk-input :disabled="true" v-model="formData.username" placeholder="请输入用户名"></bk-input>
-                    </bk-form-item>
-                    <bk-form-item label="中文名" :property="'display_name'" error-display-type="normal">
-                        <bk-input :disabled="!isEdit" v-model="formData.display_name" placeholder="请输入中文名"></bk-input>
-                    </bk-form-item>
-                    <bk-form-item label="邮箱" :property="'email'" error-display-type="normal">
-                        <bk-input :disabled="!isEdit" v-model="formData.email" placeholder="请输入邮箱"></bk-input>
-                    </bk-form-item>
-                    <bk-form-item v-show="isEdit" class="form-btn">
-                        <bk-button theme="primary" @click="onFormSubmit">提交</bk-button>
-                        <bk-button theme="default" @click="onFormCancel">取消</bk-button>
-                    </bk-form-item>
-                </bk-form>
+                <el-form label-width="80px" :model="formData" ref="validateForm"
+                    v-loading="isInfoLoading" :rules="formRules">
+                    <el-form-item label="用户名" :required="true" prop="username">
+                        <el-input size="small" :disabled="true" v-model="formData.username" placeholder="请输入用户名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="中文名" prop="display_name">
+                        <el-input size="small" :disabled="!isEdit" v-model="formData.display_name" placeholder="请输入中文名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input size="small" :disabled="!isEdit" v-model="formData.email" placeholder="请输入邮箱"></el-input>
+                    </el-form-item>
+                    <el-form-item v-show="isEdit" class="form-btn">
+                        <el-button type="primary" @click="onFormSubmit">提交</el-button>
+                        <el-button type="default" @click="onFormCancel">取消</el-button>
+                    </el-form-item>
+                </el-form>
                 <div class="btn-box">
-                    <bk-button :text="true" title="primary" style="margin-right: 20px;" @click="updateFormData">
+                    <el-button type="text" style="margin-right: 20px;" @click="updateFormData">
                         修改信息
-                    </bk-button>
-                    <bk-button :text="true" title="primary" @click="showPasswordForm">
+                    </el-button>
+                    <el-button type="text" @click="showPasswordForm">
                         重置密码
-                    </bk-button>
+                    </el-button>
                 </div>
-                <bk-form
+                <el-form
                     :model="passwordFormData"
                     ref="validatePsdForm"
                     :rules="passwordRules"
-                    :label-width="80"
+                    label-width="80px"
                     v-show="showPassword"
-                    v-bkloading="{ isLoading: isPsdLoading, zIndex: 10 }">
-                    <bk-form-item label="密码" :required="true" :property="'password'" error-display-type="normal">
-                        <bk-input type="password" v-model="passwordFormData.password" placeholder="请输入密码"></bk-input>
-                    </bk-form-item>
-                    <bk-form-item label="确认密码" :required="true" :property="'confirmPassword'" error-display-type="normal">
-                        <bk-input type="password" v-model="passwordFormData.confirmPassword" placeholder="请输入密码"></bk-input>
-                    </bk-form-item>
-                    <bk-form-item class="form-btn">
-                        <bk-button theme="primary" @click="onPasswordSubmit">提交</bk-button>
-                        <bk-button theme="default" @click="onPasswordCancel">取消</bk-button>
-                    </bk-form-item>
-                </bk-form>
+                    v-loading="isPsdLoading">
+                    <el-form-item label="密码" :required="true" prop="password">
+                        <el-input size="small" show-password v-model="passwordFormData.password" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <el-form-item label="确认密码" :required="true" prop="confirmPassword" error-display-type="normal">
+                        <el-input size="small" show-password v-model="passwordFormData.confirmPassword" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <el-form-item class="form-btn">
+                        <el-button type="primary" @click="onPasswordSubmit">提交</el-button>
+                        <el-button type="default" @click="onPasswordCancel">取消</el-button>
+                    </el-form-item>
+                </el-form>
             </div>
-        </bk-sideslider>
+        </drawer-component>
     </div>
 </template>
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import DrawerComponent from './comDrawer.vue'
 
     @Component({
-        components: {}
+        components: {
+            DrawerComponent
+        }
     })
     export default class PersonalInfo extends Vue {
         isShow:boolean = false
@@ -101,15 +104,15 @@
             ],
             confirmPassword: [
                 {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                },
-                {
-                    validator: (val) => {
-                        return val === this.passwordFormData.password
+                    validator: (rule, value, callback) => {
+                        if (value === '') {
+                            callback(new Error('必填项'))
+                        } else if (value !== this.passwordFormData.password) {
+                            callback(new Error('两次输入密码不一致!'))
+                        } else {
+                            callback()
+                        }
                     },
-                    message: '两次输入密码不一致',
                     trigger: 'blur'
                 }
             ]
@@ -124,6 +127,7 @@
             this.formData.username = this.user.username
             this.formData.display_name = this.user.chname
             this.formData.email = this.user.email
+            this.rawFormData = {...this.formData}
             this.isShow = true
         }
 
@@ -132,8 +136,10 @@
         }
 
         async onFormSubmit() {
-            this.$refs.validateForm.validate().then(validator => {
-                this.editUser()
+            this.$refs.validateForm.validate((valid) => {
+                if (valid) {
+                    this.editUser()
+                }
             })
         }
 
@@ -157,7 +163,7 @@
         onFormCancel() {
             this.formData = {...this.rawFormData}
             const validateForm: any = this.$refs.validateForm
-            validateForm.clearError()
+            validateForm.clearValidate()
             this.isEdit = false
         }
 
@@ -167,21 +173,23 @@
 
         onPasswordSubmit() {
             const validatePsdForm: any = this.$refs.validatePsdForm
-            validatePsdForm.validate().then(validator => {
-                this.isPsdLoading = true
-                const params = {
-                    id: this.formData.id,
-                    password: this.passwordFormData.password
-                }
-                this.$api.UserManageMain.resetPassword(params).then(res => {
-                    if (!res.result) {
-                        this.$error(res.message)
-                        return false
+            validatePsdForm.validate((valid) => {
+                if (valid) {
+                    this.isPsdLoading = true
+                    const params = {
+                        id: this.formData.id,
+                        password: this.passwordFormData.password
                     }
-                    this.$success('重置密码成功!')
-                }).finally(() => {
-                    this.isPsdLoading = false
-                })
+                    this.$api.UserManageMain.resetPassword(params).then(res => {
+                        if (!res.result) {
+                            this.$error(res.message)
+                            return false
+                        }
+                        this.$success('重置密码成功!')
+                    }).finally(() => {
+                        this.isPsdLoading = false
+                    })
+                }
             })
         }
 
@@ -189,7 +197,7 @@
             this.passwordFormData.password = ''
             this.passwordFormData.confirmPassword = ''
             const validatePsdForm: any = this.$refs.validatePsdForm
-            validatePsdForm.clearError()
+            validatePsdForm.resetFields()
             this.showPassword = false
         }
 
@@ -197,6 +205,10 @@
             this.isEdit = false
             this.showPassword = false
             return true
+        }
+
+        changeVisible(val) {
+            this.isShow = val
         }
     }
 </script>

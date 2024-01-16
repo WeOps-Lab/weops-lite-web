@@ -1,13 +1,11 @@
 <template>
-    <bk-sideslider
-        :width="850"
-        :quick-close="true"
+    <drawer-component
+        :title="title"
+        :visible="visible"
+        :size="850"
+        custom-class="common-dialog-wrapper"
         :before-close="handleClose"
-        :is-show.sync="visible"
-        ext-cls="common-dialog-wrapper">
-        <div slot="header">
-            {{ title }}
-        </div>
+        @changeVisible="changeVisible">
         <div slot="content"
             class="common-dialog-wrapper-main">
             <div class="auth-white-list">
@@ -20,23 +18,22 @@
                             type="capsule"
                             @change="changeMenu">
                         </menu-tab>
-                        <bk-input
+                        <el-input
                             clearable
                             style="width: 300px;"
                             :placeholder="'请输入关键字搜索'"
-                            :right-icon="'bk-icon icon-search'"
+                            :suffix-icon="'el-icon-search'"
                             v-model="searchValue"
                             @clear="handleSearch"
-                            @right-icon-click="handleSearch"
-                            @enter="handleSearch">
-                        </bk-input>
+                            @change="handleSearch">
+                        </el-input>
                     </div>
                     <com-table
                         class="mt20 table-container"
                         ref="userTable"
                         :data="dataList"
                         :pagination="pagination"
-                        v-bkloading="{ isLoading: loading, zIndex: 10 }"
+                        v-loading="loading"
                         :columns="onlyChooseUser ? userColumns : groupColumns"
                         @select="handleSelect"
                         @select-all="handleAllSelect"
@@ -54,31 +51,27 @@
                         <li v-for="item in allSelected" :key="item.id + item.type">
                             {{ item.type === 'role' ? item.role_name : `${item.chname}(${item.bk_username})` }}
                             <span>{{ item.type === 'role' ? '角色' : '用户' }}</span>
-                            <bk-icon type="close" @click="handleRemove(item)" />
+                            <i class="el-icon-close" style="font-size: 12px;" @click="handleRemove(item)"></i>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <template slot="footer">
-            <bk-button
+            <el-button
                 class="mr10"
-                :title="'确认'"
-                :theme="'primary'"
+                :type="'primary'"
                 :loading="isConfirm"
                 @click="handleConfirm()">
                 确认
-            </bk-button>
-            <bk-button
-                type="submit"
-                :theme="'default'"
-                :title="'取消'"
+            </el-button>
+            <el-button
                 :disabled="isConfirm"
                 @click="handleClose()">
                 取消
-            </bk-button>
+            </el-button>
         </template>
-    </bk-sideslider>
+    </drawer-component>
 </template>
 
 <script lang="ts">
@@ -86,11 +79,13 @@
     import { Component, Vue, Prop } from 'vue-property-decorator'
     import { Pagination, TableData } from '@/types'
     import ComTable from '@/components/comTable.vue'
+    import DrawerComponent from '@/components/comDrawer.vue'
 
     @Component({
         components: {
             MenuTab,
-            ComTable
+            ComTable,
+            DrawerComponent
         }
     })
     export default class AuthWhiteList extends Vue {
@@ -428,6 +423,10 @@
                 })
             })
         }
+
+        changeVisible(val) {
+            this.visible = val
+        }
     }
 </script>
 
@@ -443,12 +442,6 @@
             .menu-type-ul {
                 flex: 1;
                 //margin-top: 5px;
-            }
-        }
-        .table-container {
-            /deep/.bk-table-body-wrapper {
-                max-height: calc(100vh - 315px) !important;
-                overflow-y: scroll;
             }
         }
     }

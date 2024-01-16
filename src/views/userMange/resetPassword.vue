@@ -1,42 +1,41 @@
 <template>
-    <bk-dialog
-        v-model="resetVisible"
-        theme="primary"
-        :mask-close="false"
-        header-position="left"
+    <el-dialog
+        width="600px"
+        :visible.sync="resetVisible"
+        :close-on-click-modal="false"
         title="重置密码"
-        @after-leave="closeResetDialog">
-        <div v-bkloading="{ isLoading: resetLoading, zIndex: 10 }">
-            <bk-form :label-width="80" :model="formData" :rules="rules" ref="validatePsdForm">
-                <bk-form-item :required="true" label="重置密码" :property="'password'" error-display-type="normal">
-                    <bk-input
+        @closed="closeResetDialog">
+        <div v-loading="resetLoading">
+            <el-form label-width="80px" :model="formData" :rules="rules" ref="validatePsdForm">
+                <el-form-item label="重置密码" :prop="'password'">
+                    <el-input
                         :clearable="true"
                         v-model="formData.password"
-                        type="password"
+                        show-password
                         placeholder="请输入重置密码"
                     >
-                    </bk-input>
-                </bk-form-item>
-                <bk-form-item :required="true" label="确认密码" :property="'confirmPassword'" error-display-type="normal">
-                    <bk-input
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" :prop="'confirmPassword'">
+                    <el-input
                         :clearable="true"
                         v-model="formData.confirmPassword"
-                        type="password"
+                        show-password
                         placeholder="请输入重置密码"
                     >
-                    </bk-input>
-                </bk-form-item>
-            </bk-form>
+                    </el-input>
+                </el-form-item>
+            </el-form>
         </div>
         <template slot="footer">
-            <bk-button :disabled="resetLoading" :theme="'primary'" :title="'确认'" class="mr10" @click="confirmReset">
+            <el-button :disabled="resetLoading" :type="'primary'" class="mr10" @click="confirmReset">
                 确认
-            </bk-button>
-            <bk-button :theme="'default'" type="submit" :title="'取消'" @click="close">
+            </el-button>
+            <el-button @click="close">
                 取消
-            </bk-button>
+            </el-button>
         </template>
-    </bk-dialog>
+    </el-dialog>
 </template>
 
 <script lang="ts">
@@ -68,15 +67,15 @@
             ],
             confirmPassword: [
                 {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                },
-                {
-                    validator: (val) => {
-                        return val === this.formData.password
+                    validator: (rule, value, callback) => {
+                        if (value === '') {
+                            callback(new Error('必填项'))
+                        } else if (value !== this.formData.password) {
+                            callback(new Error('两次输入密码不一致!'))
+                        } else {
+                            callback()
+                        }
                     },
-                    message: '两次输入密码不一致',
                     trigger: 'blur'
                 }
             ]
@@ -92,25 +91,27 @@
             this.formData.password = ''
             this.formData.confirmPassword = ''
             const validatePsdForm: any = this.$refs.validatePsdForm
-            validatePsdForm.clearError()
+            validatePsdForm.clearValidate()
         }
         confirmReset() {
             const validatePsdForm: any = this.$refs.validatePsdForm
-            validatePsdForm.validate().then(validator => {
-                this.resetLoading = true
-                this.$api.UserManageMain.resetPassword({
-                    password: this.formData.password,
-                    id: this.resetUser.id
-                }).then(res => {
-                    if (!res.result) {
-                        this.$error(res.message)
-                        return false
-                    }
-                    this.$success('重置密码成功!')
-                }).finally(() => {
-                    this.resetLoading = false
-                    this.close()
-                })
+            validatePsdForm.validate((valid) => {
+                if (valid) {
+                    this.resetLoading = true
+                    this.$api.UserManageMain.resetPassword({
+                        password: this.formData.password,
+                        id: this.resetUser.id
+                    }).then(res => {
+                        if (!res.result) {
+                            this.$error(res.message)
+                            return false
+                        }
+                        this.$success('重置密码成功!')
+                    }).finally(() => {
+                        this.resetLoading = false
+                        this.close()
+                    })
+                }
             })
         }
     }
