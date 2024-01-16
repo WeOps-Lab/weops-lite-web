@@ -124,7 +124,6 @@ exports.getDllManifest = () => {
     let plugins = []
     Object.keys({
         vendors: ['vue/dist/vue.esm.js', 'vuex', 'vue-router', 'axios'],
-        bkMagicVue: ["bk-magic-vue/dist/bk-magic-vue.min.js"],
         jquery: ['jquery'],
         echarts: ['echarts'],
         antv: ['@antv/g2']

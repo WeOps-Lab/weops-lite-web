@@ -10,9 +10,6 @@
   ],
   "plugins": [
       "transform-vue-jsx",
-      ["import-bk-magic-vue",{
-          "baseLibName": "bk-magic-vue"
-      }],
       [
           "@babel/plugin-transform-runtime",
           {

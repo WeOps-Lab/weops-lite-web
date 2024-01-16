@@ -60,12 +60,7 @@
     z-index: 4000 !important;
 }
 
-// bk-magicbox-vue css fix
-.search-select-wrap .bk-search-select {
-    background: #FFF;
-}
-
-.hide-container-span .bk-navigation-wrapper .navigation-container .container-content {
+.hide-container-span .navigation-container .container-content {
     padding: 0;
 }
 
@@ -85,26 +80,6 @@
 }
 
 .cw-dialog {
-    .bk-dialog {
-        top: 150px;
-    }
-
-    .bk-dialog-tool,
-    .bk-dialog-header,
-    .bk-dialog-footer,
-    .bk-dialog-close {
-        display: none;
-    }
-
-    .bk-dialog-body {
-        padding: 0;
-    }
-
-    .bk-dialog-content {
-        box-shadow: none;
-        border-radius: 4px;
-    }
-
     .dialog-container {
         .dialog-container-header {
             padding: 0 24px;
@@ -146,36 +121,12 @@
             button {
                 min-width: 80px;
                 border-radius: 4px;
-
-                &.bk-primary {
-                    background-color: $cw-color-primary;
-                }
             }
         }
     }
 }
 
 .cw-card {
-    .bk-card {
-        border: none;
-
-        .collapse {
-            border: none;
-        }
-
-        .bk-card-body {
-            padding: 0;
-        }
-    }
-
-    .bk-card:hover {
-        box-shadow: 0 0 0 0 !important;
-    }
-
-    .bk-card-border-none {
-        box-shadow: 0 0 0 0 !important;
-    }
-
     .content-box-title {
         font-size: 14px;
         font-weight: bold;
@@ -183,21 +134,6 @@
 }
 
 .panel-container {
-    .bk-card {
-        border: none !important;
-        border-radius: 4px;
-
-        &:hover {
-            box-shadow: none;
-            cursor: default;
-        }
-    }
-
-    .bk-card-body {
-        height: 100%;
-        padding: 20px;
-    }
-
     .card-header-container {
         .title {
             font-size: 18px;
@@ -221,62 +157,6 @@
     padding-top: 8px;
     box-sizing: border-box;
     cursor: inherit !important;
-
-    .bk-tab {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-
-        .bk-tab-header {
-            background-image: linear-gradient(transparent 49px, $cw-color-border-0 1px) !important;
-        }
-
-        .bk-tab-label-list-has-bar:after {
-            width: 0 !important;
-        }
-
-        .active {
-            position: relative;
-
-            .bk-tab-label:after {
-                content: '';
-                display: block;
-                width: 100%;
-                height: 2px;
-                background-color: #3a84ff;
-                position: absolute;
-                bottom: 0;
-            }
-        }
-
-        .bk-tab-label {
-            position: relative;
-
-            .new-tag {
-                position: absolute;
-                right: -12px;
-                top: 10px;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background-color: #FF4F36;
-            }
-        }
-
-        .bk-tab-section {
-            flex: 1;
-            height: 0;
-
-            .bk-tab-content {
-                height: 100%;
-            }
-        }
-
-        .bk-tab-label-item {
-            padding: 0 20px !important;
-        }
-    }
-
     .panel-name {
         color: $cw-color-text-1;
         font-weight: 400;
@@ -293,94 +173,10 @@
             font-size: 18px;
         }
     }
-
-    .bk-card-body {
-        height: 100%;
-        padding: 0;
-    }
-}
-
-.tab-no-padding {
-    .bk-tab {
-        .bk-tab-section {
-            padding: 0;
-        }
-    }
 }
 
 .cw-table {
     border: none !important;
-
-    .bk-table {
-        th {
-            background-color: $cw-color-bg-1;
-            font-size: 14px;
-            color: $cw-color-text-1;
-            border-bottom: 1px solid $cw-color-border-0 !important;
-
-            >.cell {
-                height: 44px;
-                line-height: 44px;
-            }
-
-            .bk-table-header-label {
-                color: $cw-color-text-1;
-                font-weight: 550;
-            }
-        }
-
-        td {
-            font-size: 14px;
-            color: $cw-color-text-0;
-            padding: 11px 0;
-            border-bottom: 1px solid $cw-color-border-0 !important;
-        }
-
-        tbody {
-            tr {
-                cursor: pointer;
-            }
-        }
-
-        .hover-row {
-            >td {
-                background-color: $cw-color-bg-1 !important;
-
-                &:first-child {
-                    .cell {
-                        color: #1272FF;
-                    }
-                }
-            }
-        }
-    }
-
-    .bk-table-pagination-wrapper {
-        padding: 15px 0;
-    }
-
-    .bk-page {
-        .bk-page-total-count {
-            line-height: 20px !important;
-        }
-
-        .page-button {
-            border: none !important;
-            height: 24px !important;
-            min-width: 24px !important;
-            line-height: 20px !important;
-
-            .bk-icon {
-                line-height: 22px !important;
-            }
-        }
-
-        .cur-page {
-            .page-button {
-                border: 1px solid #3A84FF !important;
-            }
-        }
-    }
 }
 
 .alarm-count-row {
@@ -440,15 +236,6 @@
     color: $cw-color-tips;
 }
 
-.bk-sideslider-title {
-    >div {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: calc(100% - 20px);
-        white-space: nowrap;
-    }
-}
-
 .sub-title {
     font-size: 12px;
     color: $cw-color-text-2;
@@ -468,37 +255,11 @@
         padding: 20px;
         height: calc(100vh - 114px);
     }
-
-    .bk-sideslider-footer {
-        justify-content: flex-end;
-        padding-right: 20px;
-    }
-}
-
-// 表格最大高度
-.common-table-max-height {
-    .bk-table-body-wrapper {
-        overflow-y: auto;
-        max-height: calc(100vh - 290px);
-    }
-}
-
-// 表格最大高度（顶部有tab切换）
-.common-table-max-height-tab {
-    .bk-table-body-wrapper {
-        overflow-y: auto;
-        max-height: calc(100vh - 350px);
-    }
 }
 
 .pop-custom {
     .popconfirm-operate {
         display: none;
-    }
-
-    .bk-icon {
-        font-size: 12px;
-        top: -1px;
     }
 }
 
@@ -518,14 +279,6 @@
             margin-left: 10px;
             color: $cw-color-text-1;
         }
-    }
-}
-
-// 监控管理 - 监控策略样式
-#monitorStrategy {
-    .bk-tab-section {
-        border: none !important;
-        padding: 0 !important;
     }
 }
 
@@ -586,9 +339,6 @@
     box-shadow: 0 0 6px 0 #dcdee5;
     position: absolute;
     z-index: -2;
-    //left: 50%;
-    //bottom: 0;
-    //transform: translate(-50%, 50%) rotate(45deg);
 }
 
 .custom-tail-top {
@@ -672,10 +422,6 @@
 .text-icon-dark {
     background-color: #100C2A !important;
     color: #c4c6cc !important;
-
-    .bk-icon {
-        color: #c4c6cc !important;
-    }
 }
 
 .grid-item-dark {
@@ -699,78 +445,10 @@
     border: 1px solid #1D1744 !important;
 }
 
-.select-dark .bk-select-tag-container {
-
-    .bk-select-tag,
-    .bk-select-overflow-tag {
-        background-color: #222f4f !important;
-    }
-
-    &.is-available .bk-select-tag:hover {
-        background-color: #2e3f69 !important;
-    }
-}
-
-.tippy-popper .select-popover-dark {
-    background-color: #171334 !important;
-
-    .bk-options .bk-option.is-selected {
-        background-color: #262727 !important;
-    }
-
-    .bk-options.bk-options-single .bk-option.is-highlight,
-    .bk-options.bk-options-single .bk-option:hover {
-        background-color: #262727 !important;
-    }
-
-    .bk-select-search-input,
-    .bk-options .bk-option.is-disabled,
-    .bk-options .bk-option.is-selected.is-disabled {
-        background-color: #171334 !important;
-        color: #c4c6cc !important;
-    }
-}
-
-.input-dark {
-    .bk-form-input {
-        border: 1px solid #1D1744;
-        background-color: #171334;
-        color: #c4c6cc;
-    }
-
-    .bk-form-input:focus,
-    .bk-form-password:focus,
-    .bk-form-select:focus,
-    .bk-form-textarea:focus {
-        border-color: #1D1744 !important;
-        background-color: #171334 !important;
-        color: #c4c6cc !important;
-    }
-}
-
-.time-selector-dark {
-    border: 1px solid #1D1744 !important;
-    background-color: #171334 !important;
-
-    .bk-dropdown-content {
-        background-color: #171334 !important;
-        border-color: #1D1744 !important;
-    }
-
-    .bk-dropdown-menu .bk-dropdown-list>li>a:hover {
-        background-color: #262727 !important;
-        color: #3a84ff !important;
-    }
-}
-
 .button-dark {
     background-color: #171334 !important;
     color: #c4c6cc !important;
     border: 1px solid #1D1744 !important;
-
-    .bk-icon {
-        color: #c4c6cc !important;
-    }
 }
 
 .box-shadow-dark {
@@ -838,19 +516,6 @@
 
 .switcher-button-dark {
     color: #c4c6cc;
-}
-
-
-#health-overView {
-    #home {
-        .home-container {
-            .bk-grid-row {
-                &:first-child {
-                    display: none !important;
-                }
-            }
-        }
-    }
 }
 
 #health-setting {
@@ -994,10 +659,6 @@
         }
     }
 }
-
-// .bk-select {
-//     z-index: 1;
-// }
 
 .tip-text {
     color: #838383;

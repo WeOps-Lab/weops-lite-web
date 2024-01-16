@@ -8,7 +8,6 @@ import '@/assets/componentLibrary/demand-import'
 // 完整引入element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// import '@/assets/componentLibrary/fully-import';
 // 几何图
 import * as Echarts from 'echarts'
 // 引用API文件
