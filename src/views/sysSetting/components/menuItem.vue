@@ -62,8 +62,7 @@
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator'
     import draggable from 'vuedraggable'
-    import camelCase from 'lodash/camelCase'
-    import pinyin from 'pinyin'
+    import uuid from 'uuid'
     @Component({
         name: 'menu-item',
         components: {
@@ -96,19 +95,8 @@
                 this.editConfrim = true
                 return false
             }
-            const hasSameMenuName = this.allMenu.some(item => item.name === data.name)
-            let transValue = pinyin(data.name, {
-                style: pinyin.STYLE_NORMAL
-            }).join('_')
-            // 判断是否存在重复的菜单名，若重复则生成的id加上数字
-            if (hasSameMenuName) {
-                const len = this.allMenu.filter(r => r.name === data.name).length
-                if (len > 1) {
-                    transValue = `${transValue}_${len - 1}`
-                }
-            }
             if (!data.isPage) {
-                data.id = camelCase(transValue)
+                data.id = uuid()
             }
             data.isEdit = false
             this.editConfrim = false

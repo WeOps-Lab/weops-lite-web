@@ -29,9 +29,8 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import pinyin from 'pinyin'
-    import camelCase from 'lodash/camelCase'
     import DrawerComponent from '@/components/comDrawer.vue'
+    import uuid from 'uuid'
     @Component({
         name: 'external-chain',
         components: {
@@ -101,10 +100,7 @@
                         }
                     ]
                 }
-                const transValue = pinyin(params.name, {
-                    style: pinyin.STYLE_NORMAL
-                }).join('_')
-                params.id = camelCase(`${transValue}_${Math.ceil(Math.random() * 10000)}`)
+                params.id = uuid()
                 this.$emit('handle-external-chain', params, this.type)
                 this.cancel()
                 }
