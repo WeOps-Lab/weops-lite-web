@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.ts",
+    "dev:mock": "cross-env USE_MOCK=true webpack-dev-server --inline --progress --config build/webpack.dev.conf.ts",
     "start": "npm run dev",
+    "start:mock": "npm run dev:mock",
     "lint": "eslint --ext .js,.vue src",
     "clean-dll": "rimraf ./static/dist/dll",
     "build:dll": "webpack --config build/webpack.dll.config.ts",

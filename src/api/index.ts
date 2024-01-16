@@ -19,7 +19,7 @@ let api: any = {
     GroupManage
 }
 // USE_MOCK为true，则使用mock数据
-if (window['USE_MOCK']) {
+if (process.env.USE_MOCK) {
     api = {
         Server: ServerMock,
         User: UserMock,
