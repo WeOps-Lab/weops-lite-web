@@ -470,6 +470,7 @@ npm run build
 
 | 组件                    | 地址                                                       | 描述                    |
 | ----------------------- | ---------------------------------------------------------- | ----------------------- |
+| webpack                 | https://github.com/webpack/webpack                         | 打包工具                |
 | webpack-bundle-analyzer | https://github.com/webpack-contrib/webpack-bundle-analyzer | 打包后包大小分析工具    |
 | webpack-dev-server      | https://github.com/webpack/webpack-dev-server              | 本地开发服务器          |
 | webpack-merge           | https://github.com/survivejs/webpack-merge                 | WebPack配置文件合并工具 |
