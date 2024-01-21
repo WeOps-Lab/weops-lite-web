@@ -1,9 +1,11 @@
 # WeOps Framework Web
+
 ![](https://wedoc.canway.net/imgs/img/嘉为蓝鲸.jpg)
 
 > 嘉为WeOps轻量级版本基础框架前端源码
 
 #### 更多问题欢迎添加“小嘉”微信，加入官方沟通群
+
 ![](https://wedoc.canway.net/imgs/img/小嘉.jpg)
 
 # 嘉为WeOps轻量级版本基础前端框架使用说明
@@ -11,9 +13,11 @@
 ## 开发使用
 
 ### 注意事项
--   node版本建议采用`v14.16.0`，对应的npm版本：`6.14.11`
+
+- node版本建议采用 `v14.16.0`，对应的npm版本：`6.14.11`
 
 ### 框架目录
+
 ```markdown
 ├── build # 构建相关
 ├── config # 配置相关
@@ -49,6 +53,7 @@
 #### src目录详情
 
 ##### src目录
+
 ```markdown
 ├── api # 所有请求（请求封装 + 请求定义）
 │    ├── axiosconfig # 请求封装
@@ -308,6 +313,7 @@ export default store
 ```
 
 - 自定义指令，在 `directive/modal/xxx.ts` 中定义，在 `main.ts` 中引入。
+
 ```js
 // directive/modal/highlight.ts
 const highlight = {
@@ -320,6 +326,7 @@ export default (Vue) => {
     Vue.directive('highlight', highlight)
 }
 ```
+
 ```js
 // main.ts
 import highlight from './directive/modal/highlight'
@@ -328,6 +335,7 @@ Vue.use(highlight)
 ```
 
 - 过滤器，在 `fiter/xxx.ts` 中定义函数，在 `fiter/index.ts` 中统一引入，并在 `main.ts` 中引入。
+
 ```js
 // filters/date.ts
 export default function formatDate(value) {
@@ -336,6 +344,7 @@ export default function formatDate(value) {
   return date.toLocaleDateString()
 }
 ```
+
 ```js
 // filters/index.ts
 import Vue from 'vue';
@@ -343,6 +352,7 @@ import formatDate from './date';
 
 Vue.filter('formatDate', formatDate);
 ```
+
 ```js
 // main.ts
 import './filters'; // 引入过滤器注册模块
@@ -353,8 +363,9 @@ import './filters'; // 引入过滤器注册模块
 #### 注意
 
 ##### 创建单独的页面
-- 对于单独存在的页面，如登录页，无需显示在页面外层框架里面，在路由中只需要写在一个配置项`mainRouter`中
-- 如登录页（此处为举例，本框架采用keycloak的登录页，无需写登录页面），在`src/router/frameRouter.ts`文件中
+
+- 对于单独存在的页面，如登录页，无需显示在页面外层框架里面，在路由中只需要写在一个配置项 `mainRouter`中
+- 如登录页（此处为举例，本框架采用keycloak的登录页，无需写登录页面），在 `src/router/frameRouter.ts`文件中
 
 ```js
 // src/router/frameRouter.ts
@@ -375,7 +386,8 @@ let mainRouter = [
 // ...
 ```
 
-- 在`src/router/index.ts`中
+- 在 `src/router/index.ts`中
+
 ```js
 // ...
 function checkRouteAccess(to, from, next) {
@@ -390,7 +402,8 @@ function checkRouteAccess(to, from, next) {
 // ...
 ```
 
-- 在`src/components/navFrame.vue`中
+- 在 `src/components/navFrame.vue`中
+
 ```js
 // ...
 // 修改 headerHight函数，如果是登录页，不显示顶部菜单
@@ -417,13 +430,15 @@ get needLeftNav() {
 // .eslintignore
 /src/assets/icon/bk_icon_font/
 ```
+
 ```js
 // .stylelintignore
 /src/assets/icon/bk_icon_font/
 ```
 
 ##### 修改element-ui类名样式时报代码规范错误
-- 解决方案：在前面增加`/* stylelint-disable selector-class-pattern */`忽略此规则即可
+
+- 解决方案：在前面增加 `/* stylelint-disable selector-class-pattern */`忽略此规则即可
 
 #### 快速上手
 
@@ -450,4 +465,12 @@ npm run dev:mock
 # 生产环境build
 npm run build
 ```
-如果想知道相关的[底层工作原理](http://vuejs-templates.github.io/webpack/) 、 [vue-loader 相关文档](http://vuejs.github.io/vue-loader) 和 [开发示例指引](docs/use.md)
+
+# 技术选型
+
+| 组件                    | 地址                                                       | 描述                    |
+| ----------------------- | ---------------------------------------------------------- | ----------------------- |
+| webpack-bundle-analyzer | https://github.com/webpack-contrib/webpack-bundle-analyzer | 打包后包大小分析工具    |
+| webpack-dev-server      | https://github.com/webpack/webpack-dev-server              | 本地开发服务器          |
+| webpack-merge           | https://github.com/survivejs/webpack-merge                 | WebPack配置文件合并工具 |
+|                         |                                                            |                         |

@@ -13,6 +13,7 @@
     "clean-dll": "rimraf ./static/dist/dll",
     "build:dll": "webpack --config build/webpack.dll.config.ts",
     "build": "npm run clean-dll && npm run build:dll && cross-env NODE_ENV=production node build/build.ts",
+    "analyzer": "cross-env ANALYZER_REPORT=true npm run build",
     "build:file": "node build/buildFile.ts",
     "build:micro": "npm run build:file && node build/buildMicro.ts"
   },
