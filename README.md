@@ -479,6 +479,14 @@ npm run build
 
 | 组件                               | 地址                                                       | 描述                         |
 | ---------------------------------- | ---------------------------------------------------------- | ---------------------------- |
+|                                    |                                                            |                              |
+| @babel/plugin-transform-runtime    | https://github.com/babel/babel-eslint                      | ES6+的新特性转换为ES5代码    |
+| @babel/preset-env                  | https://babel.dev/docs/babel-preset-env                    | JS转换组件                   |
+| autoprefixer                       | https://github.com/postcss/autoprefixer                    | css浏览器兼容后处理组件      |
+| babel-eslint                       | https://github.com/babel/babel-eslint                      | Babel ESLint插件             |
+| babel-plugin-syntax-jsx            | https://babel.dev/docs/babel-plugin-syntax-jsx             | babel jsx语法插件            |
+| babel-loader                       | https://github.com/babel/babel-loader                      | babel加载器                  |
+| babel-plugin-transform-vue-jsx     | https://github.com/vuejs/babel-plugin-transform-vue-jsx    | vue jsx bable                |
 | chalk                              | https://github.com/chalk/chalk                             | 终端字体着色器               |
 | copy-webpack-plugin                | https://github.com/webpack-contrib/copy-webpack-plugin     | 文件拷贝库                   |
 | core-js                            | https://github.com/zloirock/core-js                        | 浏览器polyfill               |
