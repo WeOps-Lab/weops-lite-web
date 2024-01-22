@@ -470,6 +470,22 @@ npm run build
 
 | 组件                    | 地址                                                       | 描述                    |
 | ----------------------- | ---------------------------------------------------------- | ----------------------- |
+| portfinder              | https://github.com/http-party/node-portfinder              | 检查本地开放端口库      |
+| postcss-import          | https://github.com/postcss/postcss-import                  | postcss 导入器          |
+| postcss-loader          | https://github.com/webpack-contrib/postcss-loader          | postcss 加载器          |
+| postcss-url             | https://github.com/postcss/postcss-url                     | postcss url插件         |
+| rimraf                  | https://github.com/isaacs/rimraf                           | node版本的rm -Rf       |
+| sass-loader             | https://github.com/webpack-contrib/sass-loader             | sass加载器              |
+| sass-resources-loader   | https://github.com/shakacode/sass-resources-loader         | sass资源加载器          |
+| semver                  | https://github.com/semver/semver                           | 语义化版本解析库        |
+| shelljs                 | https://github.com/shelljs/shelljs                         | NodeJS下的一些Shell指令 |
+| ts-loader               | https://github.com/TypeStrong/ts-loader                    | ts-loader加载器         |
+| tslint                  | https://github.com/palantir/tslint                         | TypeScript Lint         |
+| tslint-config-standard  | https://github.com/blakeembrey/tslint-config-standard      | TSLint标准化配置        |
+| typescript              | https://github.com/Microsoft/TypeScript                    | 类型安全的JavaScript    |
+| url-loader              | https://github.com/webpack-contrib/url-loader              | 文件转Base64加载器      |
+| vue-loader              | https://github.com/vuejs/vue-loader                        | Vue单文件加载器         |
+| vue-style-loader        | https://github.com/vuejs/vue-style-loader                  | CSS预加载器             |
 | webpack                 | https://github.com/webpack/webpack                         | 打包工具                |
 | webpack-bundle-analyzer | https://github.com/webpack-contrib/webpack-bundle-analyzer | 打包后包大小分析工具    |
 | webpack-dev-server      | https://github.com/webpack/webpack-dev-server              | 本地开发服务器          |
