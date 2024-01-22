@@ -468,26 +468,54 @@ npm run build
 
 # 技术选型
 
-| 组件                    | 地址                                                       | 描述                    |
-| ----------------------- | ---------------------------------------------------------- | ----------------------- |
-| portfinder              | https://github.com/http-party/node-portfinder              | 检查本地开放端口库      |
-| postcss-import          | https://github.com/postcss/postcss-import                  | postcss 导入器          |
-| postcss-loader          | https://github.com/webpack-contrib/postcss-loader          | postcss 加载器          |
-| postcss-url             | https://github.com/postcss/postcss-url                     | postcss url插件         |
-| rimraf                  | https://github.com/isaacs/rimraf                           | node版本的rm -Rf       |
-| sass-loader             | https://github.com/webpack-contrib/sass-loader             | sass加载器              |
-| sass-resources-loader   | https://github.com/shakacode/sass-resources-loader         | sass资源加载器          |
-| semver                  | https://github.com/semver/semver                           | 语义化版本解析库        |
-| shelljs                 | https://github.com/shelljs/shelljs                         | NodeJS下的一些Shell指令 |
-| ts-loader               | https://github.com/TypeStrong/ts-loader                    | ts-loader加载器         |
-| tslint                  | https://github.com/palantir/tslint                         | TypeScript Lint         |
-| tslint-config-standard  | https://github.com/blakeembrey/tslint-config-standard      | TSLint标准化配置        |
-| typescript              | https://github.com/Microsoft/TypeScript                    | 类型安全的JavaScript    |
-| url-loader              | https://github.com/webpack-contrib/url-loader              | 文件转Base64加载器      |
-| vue-loader              | https://github.com/vuejs/vue-loader                        | Vue单文件加载器         |
-| vue-style-loader        | https://github.com/vuejs/vue-style-loader                  | CSS预加载器             |
-| webpack                 | https://github.com/webpack/webpack                         | 打包工具                |
-| webpack-bundle-analyzer | https://github.com/webpack-contrib/webpack-bundle-analyzer | 打包后包大小分析工具    |
-| webpack-dev-server      | https://github.com/webpack/webpack-dev-server              | 本地开发服务器          |
-| webpack-merge           | https://github.com/survivejs/webpack-merge                 | WebPack配置文件合并工具 |
-|                         |                                                            |                         |
+## 前端依赖库
+
+| 组件 | 地址 | 描述 |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+
+## 开发依赖库
+
+| 组件                               | 地址                                                       | 描述                         |
+| ---------------------------------- | ---------------------------------------------------------- | ---------------------------- |
+| chalk                              | https://github.com/chalk/chalk                             | 终端字体着色器               |
+| copy-webpack-plugin                | https://github.com/webpack-contrib/copy-webpack-plugin     | 文件拷贝库                   |
+| core-js                            | https://github.com/zloirock/core-js                        | 浏览器polyfill               |
+| cross-env                          | https://github.com/kentcdodds/cross-env                    | 跨平台环境变量设置工具       |
+| css-loader                         | https://github.com/webpack-contrib/css-loader              | css加载器                    |
+| eslint                             | https://eslint.org/                                        | 代码规范校验器               |
+| eslint-plugin-import               | https://github.com/import-js/eslint-plugin-import          | import eslint插件            |
+| eslint-plugin-node                 | https://github.com/mysticatea/eslint-plugin-node           | node lint扩展插件            |
+| eslint-plugin-promise              | https://github.com/eslint-community/eslint-plugin-promise  | promise lint插件             |
+| eslint-plugin-standard             | https://github.com/standard/eslint-plugin-standard         | eslint 标准插件              |
+| eslint-plugin-vue                  | https://github.com/vuejs/eslint-plugin-vue                 | vue eslint插件               |
+| file-loader                        | https://github.com/webpack-contrib/file-loader             | 文件加载器                   |
+| friendly-errors-webpack-plugin     | https://github.com/geowarin/friendly-errors-webpack-plugin | 异常提示插件                 |
+| html-webpack-plugin                | https://github.com/jantimon/html-webpack-plugin            | Webpack html文件自动生成插件 |
+| mockjs                             | https://github.com/nuysoft/Mock                            | Mock数据生成器               |
+| node-notifier                      | https://github.com/mikaelbr/node-notifier                  | Native的消息通知             |
+| node-sass                          | https://github.com/sass/node-sass                          | sass解析器                   |
+| optimize-css-assets-webpack-plugin | https://github.com/NMFR/optimize-css-assets-webpack-plugin | CSS压缩插件                  |
+| ora                                | https://github.com/sindresorhus/ora                        | 终端Spinner库                |
+| portfinder                         | https://github.com/http-party/node-portfinder              | 检查本地开放端口库           |
+| postcss-import                     | https://github.com/postcss/postcss-import                  | postcss 导入器               |
+| postcss-loader                     | https://github.com/webpack-contrib/postcss-loader          | postcss 加载器               |
+| postcss-url                        | https://github.com/postcss/postcss-url                     | postcss url插件              |
+| rimraf                             | https://github.com/isaacs/rimraf                           | node版本的rm -Rf            |
+| sass-loader                        | https://github.com/webpack-contrib/sass-loader             | sass加载器                   |
+| sass-resources-loader              | https://github.com/shakacode/sass-resources-loader         | sass资源加载器               |
+| semver                             | https://github.com/semver/semver                           | 语义化版本解析库             |
+| shelljs                            | https://github.com/shelljs/shelljs                         | NodeJS下的一些Shell指令      |
+| ts-loader                          | https://github.com/TypeStrong/ts-loader                    | ts-loader加载器              |
+| tslint                             | https://github.com/palantir/tslint                         | TypeScript Lint              |
+| tslint-config-standard             | https://github.com/blakeembrey/tslint-config-standard      | TSLint标准化配置             |
+| typescript                         | https://github.com/Microsoft/TypeScript                    | 类型安全的JavaScript         |
+| url-loader                         | https://github.com/webpack-contrib/url-loader              | 文件转Base64加载器           |
+| vue-loader                         | https://github.com/vuejs/vue-loader                        | Vue单文件加载器              |
+| vue-style-loader                   | https://github.com/vuejs/vue-style-loader                  | CSS预加载器                  |
+| webpack                            | https://github.com/webpack/webpack                         | 打包工具                     |
+| webpack-bundle-analyzer            | https://github.com/webpack-contrib/webpack-bundle-analyzer | 打包后包大小分析工具         |
+| webpack-dev-server                 | https://github.com/webpack/webpack-dev-server              | 本地开发服务器               |
+| webpack-merge                      | https://github.com/survivejs/webpack-merge                 | WebPack配置文件合并工具      |
+|                                    |                                                            |                              |
