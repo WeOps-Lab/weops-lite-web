@@ -528,7 +528,6 @@ npm run build
 | babel-loader                                 | https://github.com/babel/babel-loader                                   | babel加载器                                                  |
 | babel-plugin-transform-vue-jsx               | https://github.com/vuejs/babel-plugin-transform-vue-jsx                 | vue jsx bable                                                |
 | chalk                                        | https://github.com/chalk/chalk                                          | 终端字体着色器                                               |
-| copy-webpack-plugin                          | https://github.com/webpack-contrib/copy-webpack-plugin                  | 文件拷贝库                                                   |
 | core-js                                      | https://github.com/zloirock/core-js                                     | 浏览器polyfill                                               |
 | cross-env                                    | https://github.com/kentcdodds/cross-env                                 | 跨平台环境变量设置工具                                       |
 | css-loader                                   | https://github.com/webpack-contrib/css-loader                           | css加载器                                                    |
@@ -539,7 +538,6 @@ npm run build
 | eslint-plugin-standard                       | https://github.com/standard/eslint-plugin-standard                      | eslint 标准插件                                              |
 | eslint-plugin-vue                            | https://github.com/vuejs/eslint-plugin-vue                              | vue eslint插件                                               |
 | file-loader                                  | https://github.com/webpack-contrib/file-loader                          | 文件加载器                                                   |
-| friendly-errors-webpack-plugin               | https://github.com/geowarin/friendly-errors-webpack-plugin              | 异常提示插件                                                 |
 | html-webpack-plugin                          | https://github.com/jantimon/html-webpack-plugin                         | Webpack html文件自动生成插件                                 |
 | mockjs                                       | https://github.com/nuysoft/Mock                                         | Mock数据生成器                                               |
 | node-notifier                                | https://github.com/mikaelbr/node-notifier                               | Native的消息通知                                             |
