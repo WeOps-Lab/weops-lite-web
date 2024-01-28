@@ -1,6 +1,6 @@
 module.exports = {
     "plugins": [
-        "stylelint-scss"
+        
     ],
     "rules": {
         // 类命名要求小写，中横线连接

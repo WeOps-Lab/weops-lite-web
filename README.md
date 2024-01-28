@@ -502,8 +502,6 @@ npm run build
 | handlebars                                   | https://github.com/handlebars-lang/handlebars.js                        | 用于生成可重用且动态的 HTML 模板                             |
 | mini-css-extract-plugin                      | https://github.com/webpack-contrib/mini-css-extract-plugin              | 提取和单独打包 CSS 文件                                      |
 | stylelint                                    | https://github.com/stylelint/stylelint                                  | CSS 风格和规范检查工具                                       |
-| stylelint-scss                               | https://github.com/stylelint-scss/stylelint-scss                        | 检查 SCSS (Sass) 文件的 stylelint 插件                       |
-| stylelint-webpack-plugin                     | https://github.com/webpack-contrib/stylelint-webpack-plugin             | 构建过程中对 CSS 或 SCSS 文件进行代码风格和规范的检查        |
 | terser-webpack-plugin                        | https://github.com/webpack-contrib/terser-webpack-plugin                | 代码压缩语混淆                                               |
 | thread-loader                                | https://github.com/webpack-contrib/thread-loader                        | 将 JavaScript 代码在单独的线程中进行处理的 Webpack 加载器    |
 | webpack-cli                                  | https://github.com/webpack/webpack-cli/tree/master/packages/webpack-cli | webpack 相关的命令行接口工具                                 |
@@ -522,6 +520,8 @@ npm run build
 | @babel/plugin-syntax-jsx                     | https://babel.dev/docs/babel-plugin-syntax-jsx                          | JSX                                                          |
 | @babel/plugin-transform-runtime              | https://github.com/babel/babel-eslint                                   | ES6+的新特性转换为ES5代码                                    |
 | @babel/preset-env                            | https://babel.dev/docs/babel-preset-env                                 | JS转换组件                                                   |
+| @babel/register                              | https://babeljs.io/docs/babel-register                                  | 实现Babel的自动编译功能                                      |
+| @babel/preset-typescript                     | https://babeljs.io/docs/babel-preset-typescript                         | Babel针对TypeScript语法的预设                                |
 | autoprefixer                                 | https://github.com/postcss/autoprefixer                                 | css浏览器兼容后处理组件                                      |
 | babel-eslint                                 | https://github.com/babel/babel-eslint                                   | Babel ESLint插件                                             |
 | babel-plugin-syntax-jsx                      | https://babel.dev/docs/babel-plugin-syntax-jsx                          | babel jsx语法插件                                            |
@@ -539,12 +539,10 @@ npm run build
 | eslint-plugin-standard                       | https://github.com/standard/eslint-plugin-standard                      | eslint 标准插件                                              |
 | eslint-plugin-vue                            | https://github.com/vuejs/eslint-plugin-vue                              | vue eslint插件                                               |
 | file-loader                                  | https://github.com/webpack-contrib/file-loader                          | 文件加载器                                                   |
-| friendly-errors-webpack-plugin               | https://github.com/geowarin/friendly-errors-webpack-plugin              | 异常提示插件                                                 |
 | html-webpack-plugin                          | https://github.com/jantimon/html-webpack-plugin                         | Webpack html文件自动生成插件                                 |
 | mockjs                                       | https://github.com/nuysoft/Mock                                         | Mock数据生成器                                               |
 | node-notifier                                | https://github.com/mikaelbr/node-notifier                               | Native的消息通知                                             |
 | node-sass                                    | https://github.com/sass/node-sass                                       | sass解析器                                                   |
-| optimize-css-assets-webpack-plugin           | https://github.com/NMFR/optimize-css-assets-webpack-plugin              | CSS压缩插件                                                  |
 | ora                                          | https://github.com/sindresorhus/ora                                     | 终端Spinner库                                                |
 | portfinder                                   | https://github.com/http-party/node-portfinder                           | 检查本地开放端口库                                           |
 | postcss-import                               | https://github.com/postcss/postcss-import                               | postcss 导入器                                               |
@@ -559,11 +557,10 @@ npm run build
 | tslint                                       | https://github.com/palantir/tslint                                      | TypeScript Lint                                              |
 | tslint-config-standard                       | https://github.com/blakeembrey/tslint-config-standard                   | TSLint标准化配置                                             |
 | typescript                                   | https://github.com/Microsoft/TypeScript                                 | 类型安全的JavaScript                                         |
-| url-loader                                   | https://github.com/webpack-contrib/url-loader                           | 文件转Base64加载器                                           |
 | vue-loader                                   | https://github.com/vuejs/vue-loader                                     | Vue单文件加载器                                              |
 | vue-style-loader                             | https://github.com/vuejs/vue-style-loader                               | CSS预加载器                                                  |
 | webpack                                      | https://github.com/webpack/webpack                                      | 打包工具                                                     |
 | webpack-bundle-analyzer                      | https://github.com/webpack-contrib/webpack-bundle-analyzer              | 打包后包大小分析工具                                         |
 | webpack-dev-server                           | https://github.com/webpack/webpack-dev-server                           | 本地开发服务器                                               |
 | webpack-merge                                | https://github.com/survivejs/webpack-merge                              | WebPack配置文件合并工具                                      |
-|                                              |                                                                         |                                                              |
+| postcss                                      |                                                                         |                                                              |

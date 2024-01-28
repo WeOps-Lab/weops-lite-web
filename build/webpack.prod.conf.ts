@@ -1,108 +1,88 @@
 // @ts-ignore
-'use strict'
-const path = require('path')
-const utils = require('./utils.ts')
-const webpack = require('webpack')
-const config = require('../config/index.ts')
-const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.base.conf.ts')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
-const ReplaceTemplateStaticUrlPlugin = require('./replace-template-static-url-plugin.ts')
-const date = new Date()
-const time = `${date.getFullYear()}${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+"use strict";
+const path = require("path");
+const utils = require("./utils.ts");
+const webpack = require("webpack");
+const config = require("../config/index.ts");
+const { merge } = require("webpack-merge");
+const baseWebpackConfig = require("./webpack.base.conf.ts");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const ReplaceTemplateStaticUrlPlugin = require("./replace-template-static-url-plugin.ts");
+const date = new Date();
+const time = `${date.getFullYear()}${
+    date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+}${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
 const webpackConfig = merge(baseWebpackConfig, {
-    mode: 'production',
+    mode: "production",
     output: {
-        publicPath: './',
+        publicPath: "./",
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].[chunkhash].js'),
-        chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
+        filename: utils.assetsPath("js/[name].[chunkhash].js"),
+        chunkFilename: utils.assetsPath("js/[name].[chunkhash].js"),
     },
-    devtool: config.build.productionSourceMap ? config.build.devtool : false,
+    // devtool: config.build.productionSourceMap ? config.build.devtool : false,
     optimization: {
         // 压缩
         minimize: true,
 
-        minimizer: [
-            new TerserPlugin({
-                parallel: true, // 多进程并发运行
-                extractComments: false, // 不将注释剥离到单独的文件
-                cache: true // 缓存
-            })
-        ],
+        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
 
         runtimeChunk: {
-            name: 'manifest'
+            name: "manifest",
         },
-
         splitChunks: {
-            // 表示从哪些 chunks 里面提取代码，除了三个可选字符串值 initial、async、all 之外，还可以通过函数来过滤所需的 chunks
-            // async: 针对异步加载的 chunk 做分割，默认值
-            // initial: 针对同步 chunk
-            // all: 针对所有 chunk
-            chunks: 'all',
-            // 表示提取出来的文件在压缩前的最小大小，默认为 30kb
-            minSize: 30000,
-            // 表示提取出来的文件在压缩前的最大大小，默认为 0，表示不限制最大大小
-            maxSize: 0,
-            // 表示被引用次数，默认为 1
-            minChunks: 1,
-            // 最多有 5 个异步加载请求该 module
-            maxAsyncRequests: 5,
-            // 初始化的时候最多有 3 个请求该 module
-            maxInitialRequests: 3,
-            // chunk 的名字，如果设成 true，会根据被提取的 chunk 自动生成
-            name: true,
+            // all modules imported more than once
+            chunks: "all",
+            minSize: 30000, // Minimum size, in bytes, for a chunk to be generated.
+            maxSize: 0, // Maximum size, in bytes, for a chunk to be generated.
+            minChunks: 1, // Minimum number of chunks that should use a module before splitting.
+            maxAsyncRequests: 6, // Maximum number of parallel requests when on-demand loading.
+            maxInitialRequests: 4, // Maximum number of parallel requests at the initial page load.
+            automaticNameDelimiter: "~", // Delimiter used in the generated names.
+
+            // Cache groups inherits the configuration from above, but with some additional options and defaults override
             cacheGroups: {
-                // 所有 node_modules 的模块被不同的 chunk 引入超过 1 次的提取为 twice
-                // 如果去掉 test 那么提取的就是所有模块被不同的 chunk 引入超过 1 次的
-                twice: {
-                    // test: /[\\/]node_modules[\\/]/,
-                    chunks: 'all',
-                    name: 'twice',
-                    priority: 6,
-                    minChunks: 2
+                defaultVendors: {
+                    // A cache group for node_modules.
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
                 },
-                // default 和 vendors 是默认缓存组，可通过 optimization.splitChunks.cacheGroups.default: false 来禁用
+
                 default: {
+                    // A cache group for reused code across multiple chunks.
                     minChunks: 2,
                     priority: -20,
-                    reuseExistingChunk: true
+                    reuseExistingChunk: true,
                 },
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    priority: -20
-                }
-            }
-        }
+
+                twice: {
+                    // A cache group for code used in multiple chunks.
+                    minChunks: 2,
+                    name: "twice",
+                    chunks: "all",
+                    priority: 6,
+                },
+            },
+        },
     },
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
             extract: true,
-            usePostCSS: true
-        })
+            usePostCSS: true,
+        }),
     },
     plugins: [
         ...utils.getDllManifest(),
 
         new MiniCssExtractPlugin({
-            filename: utils.assetsPath('css/[name].[chunkhash].css'),
-            chunkFilename: utils.assetsPath('css/[name].[chunkhash].css'),
-            ignoreOrder: true
-        }),
-
-        // Compress extracted CSS. We are using this plugin so that possible
-        // duplicated CSS from different components can be deduped.
-        new OptimizeCSSPlugin({
-            cssProcessorOptions: config.build.productionSourceMap
-                ? {safe: true, map: {inline: false}}
-                : {safe: true}
+            filename: utils.assetsPath("css/[name].[chunkhash].css"),
+            chunkFilename: utils.assetsPath("css/[name].[chunkhash].css"),
+            ignoreOrder: true,
         }),
 
         // generate dist index.html with correct asset hash for caching.
@@ -110,70 +90,45 @@ const webpackConfig = merge(baseWebpackConfig, {
         // see https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
             filename: config.build.index,
-            template: 'index.html',
+            template: "index.html",
             inject: true,
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
-                removeAttributeQuotes: true
+                removeAttributeQuotes: true,
                 // more options:
                 // https://github.com/kangax/html-minifier#options-quick-reference
             },
             sourceMap: true,
-            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-            chunksSortMode: 'dependency',
-            staticUrl: '{{ STATIC_URL }}',
-            timeStamp: time
+
+            staticUrl: "{{ STATIC_URL }}",
+            timeStamp: time,
         }),
-        // keep module.id stable when vendor modules does not change
-        new webpack.HashedModuleIdsPlugin(),
 
-        // copy custom static assets
-        // new CopyWebpackPlugin([
-        //     {
-        //         from: path.resolve(__dirname, '../dist'),
-        //         to: config.build.assetsSubDirectory,
-        //         ignore: ['.*']
-        //     },
-        //     // 本地按需加载markdown样式
-        //     // {
-        //     //     from: 'node_modules/mavon-editor/dist/highlightjs',
-        //     //     to: path.resolve(__dirname, config.build.assetsRoot, './static/highlightjs')
-        //     // },
-        //     // {
-        //     //     from: 'node_modules/mavon-editor/dist/markdown',
-        //     //     to: path.resolve(__dirname, config.build.assetsRoot, './static/markdown')
-        //     // }, {
-        //     //     from: 'node_modules/mavon-editor/dist/katex',
-        //     //     to: path.resolve(__dirname, config.build.assetsRoot, './static/katex')
-        //     // }
-        // ]),
-
-        new ReplaceTemplateStaticUrlPlugin()
-    ]
-})
+        new ReplaceTemplateStaticUrlPlugin(),
+    ],
+});
 
 if (config.build.productionGzip) {
-    const CompressionWebpackPlugin = require('compression-webpack-plugin')
+    const CompressionWebpackPlugin = require("compression-webpack-plugin");
 
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
-            asset: '[path].gz[query]',
-            algorithm: 'gzip',
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
             test: new RegExp(
-                '\\.(' +
-                config.build.productionGzipExtensions.join('|') +
-                ')$'
+                "\\.(" + config.build.productionGzipExtensions.join("|") + ")$"
             ),
             threshold: 10240,
-            minRatio: 0.8
+            minRatio: 0.8,
         })
-    )
+    );
 }
 
 if (config.build.bundleAnalyzerReport) {
-    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-    webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+    const BundleAnalyzerPlugin =
+        require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+    webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
-module.exports = webpackConfig
+module.exports = webpackConfig;

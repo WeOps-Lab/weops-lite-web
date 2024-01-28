@@ -1,109 +1,99 @@
 // @ts-ignore
-'use strict'
-const utils = require('./utils.ts')
-const webpack = require('webpack')
-const config = require('../config/index.ts')
-const merge = require('webpack-merge')
-const path = require('path')
-const baseWebpackConfig = require('./webpack.base.conf.ts')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const portfinder = require('portfinder')
+"use strict";
+const utils = require("./utils.ts");
+const webpack = require("webpack");
+const config = require("../config/index.ts");
+const { merge } = require("webpack-merge");
+const path = require("path");
+const baseWebpackConfig = require("./webpack.base.conf.ts");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const portfinder = require("portfinder");
 
-const HOST = process.env.HOST
-const PORT = process.env.PORT && Number(process.env.PORT)
+const HOST = process.env.HOST;
+const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
-    mode: 'development',
+    mode: "development",
     module: {
-        rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
+        rules: utils.styleLoaders({
+            sourceMap: config.dev.cssSourceMap,
+            usePostCSS: true,
+        }),
     },
     // cheap-module-eval-source-map is faster for development
-    devtool: config.dev.devtool,
+    // devtool: config.dev.devtool,
 
     // these devServer options should be customized in /config/index.ts
     devServer: {
-        clientLogLevel: 'warning',
+        static: {
+            publicPath: config.dev.assetsPublicPath,
+        },
+        // clientLogLevel: 'warning',
         historyApiFallback: {
             rewrites: [
-                {from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index-dev.html')}
-            ]
+                {
+                    from: /.*/,
+                    to: path.posix.join(
+                        config.dev.assetsPublicPath,
+                        "index-dev.html"
+                    ),
+                },
+            ],
         },
-        hot: true,
-        contentBase: false, // since we use CopyWebpackPlugin.
+        // contentBase: false, // since we use CopyWebpackPlugin.
         compress: true,
         host: HOST || config.dev.host,
         port: PORT || config.dev.port,
         open: config.dev.autoOpenBrowser,
-        overlay: config.dev.errorOverlay
-            ? {warnings: false, errors: true}
-            : false,
-        publicPath: config.dev.assetsPublicPath,
+        // overlay: config.dev.errorOverlay
+        //     ? {warnings: false, errors: true}
+        //     : false,
+        //
         proxy: config.dev.proxyTable,
-        quiet: true, // necessary for FriendlyErrorsPlugin
-        watchOptions: {
-            poll: config.dev.poll
-        },
-        disableHostCheck: true
+        // quiet: true, // necessary for FriendlyErrorsPlugin
+        // watchOptions: {
+        //     poll: config.dev.poll
+        // },
+        // disableHostCheck: true
     },
     plugins: [
-
         new webpack.HotModuleReplacementPlugin(),
 
         // https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
-            filename: 'index-dev.html',
-            template: 'index-dev.html',
+            filename: "index-dev.html",
+            template: "index-dev.html",
             inject: true,
-            chunks: ['app'],
-            chunksSortMode: 'dependency'
+            chunks: ["app"],
         }),
         new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            jquery: 'jquery',
-            'window.jQuery': 'jquery'
+            $: "jquery",
+            jQuery: "jquery",
+            jquery: "jquery",
+            "window.jQuery": "jquery",
         }),
         new webpack.DefinePlugin({
-            'process.env.USE_MOCK': JSON.stringify(process.env.USE_MOCK)
-        })
-        // copy custom static assets
-        // new CopyWebpackPlugin([
-        //     {
-        //         from: path.resolve(__dirname, '../dist'),
-        //         to: config.dev.assetsSubDirectory,
-        //         ignore: ['.*']
-        //     }
-        // ])
+            "process.env.USE_MOCK": JSON.stringify(process.env.USE_MOCK),
+        }),
     ],
     optimization: {
-        noEmitOnErrors: true
-    }
-})
+        noEmitOnErrors: true,
+    },
+});
 
 module.exports = new Promise((resolve, reject) => {
-    portfinder.basePort = process.env.PORT || config.dev.port
+    portfinder.basePort = process.env.PORT || config.dev.port;
     portfinder.getPort((err, port) => {
         if (err) {
-            reject(err)
+            reject(err);
         } else {
             // publish the new Port, necessary for e2e tests
-            process.env.PORT = port
+            process.env.PORT = port;
             // add port to devServer config
-            devWebpackConfig.devServer.port = port
+            devWebpackConfig.devServer.port = port;
 
-            // Add FriendlyErrorsPlugin
-            devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-                compilationSuccessInfo: {
-                    messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`]
-                },
-                onErrors: config.dev.notifyOnErrors
-                    ? utils.createNotifierCallback()
-                    : undefined
-            }))
-
-            resolve(devWebpackConfig)
+            resolve(devWebpackConfig);
         }
-    })
-})
+    });
+});
