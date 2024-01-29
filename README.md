@@ -501,6 +501,7 @@ npm run build
 | vue-simple-uploader | https://github.com/simple-uploader/vue-uploader                        | 文件上传组件                     |
 | vuex                | https://github.com/vuejs/vuex                                          | 状态管理库                      |
 | vuedraggable        | https://github.com/SortableJS/Vue.Draggable                            | 实现可拖拽和排序的列表功能              |
+| @dsb-norge/vue-keycloak-js  | https://github.com/dsb-norge/vue-keycloak-js                   | 实现前端登录验证             |
 
 ## 开发依赖库
 
