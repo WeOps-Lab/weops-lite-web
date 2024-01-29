@@ -80,17 +80,14 @@
             roleValidateForm.validate((valid) => {
                 if (valid) {
                     let url = ''
-                    let params: any = {}
+                    const params: any = {
+                        name: this.formData.role_name,
+                        description: this.formData.describe
+                    }
                     if (['add', 'copy'].includes(this.type)) {
                         url = 'createRole'
-                        params.role_name = this.formData.role_name
-                        params.description = this.formData.describe
                     } else {
                         url = 'editRole'
-                        params = {
-                            id: this.formData.id,
-                            description: this.formData.describe
-                        }
                     }
                     this.loading = true
                     this.$api.RoleManageMain[url](params).then(res => {

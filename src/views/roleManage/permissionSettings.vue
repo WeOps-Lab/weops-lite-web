@@ -6,7 +6,7 @@
         @changeVisible="changeVisible">
         <div slot="content" class="content-box">
             <menu-tab :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
-            <div class="main-box" v-loading="loading">
+            <div class="main-box" v-loading="loading" v-if="isShow">
                 <operation-permission
                     v-show="active === 'operationPermission'"
                     :role="role"
@@ -125,19 +125,18 @@
                     for (let i = 0; i < menuPermission.length; i++) {
                     // 如果是查看权限
                     if (menuPermission[i].name.endsWith('view')) {
-                        nowIds.push(menuPermission[i].id)
+                        nowIds.push(menuPermission[i].name)
                     }
                 }
                 }
             })
-            this.latestOperate.forEach(item => {
-                item.operate_ids.forEach(key => {
-                    // 在permissions里找到对应的id
-                    const id = this.getIdByName(this.permissions, item.menuId, key)
-                    nowIds.push(id)
-                })
-            })
-            this.changePermissionIds = this.compareArrays(this.rawIds, nowIds)
+            const operateIds = this.latestOperate.reduce((pre, cur) => {
+                return pre.concat(cur.operate_ids)
+            }, [])
+            this.changePermissionIds = this.compareArrays(this.rawIds, operateIds)
+            if (this.rawIds) {
+                return
+            }
 
             this.loading = true
             this.$api.RoleManageMain.setRoleMenu({
@@ -160,7 +159,7 @@
                 const items = data[category]
                 for (let i = 0; i < items.length; i++) {
                     if (items[i].name === name) {
-                        return items[i].id
+                        return items[i].name
                     }
                 }
             }

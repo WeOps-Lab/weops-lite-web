@@ -7,7 +7,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getRoleList(params = {}) {
-        return get(`${reUrl}/system/mgmt/roles/`, params)
+        return get(`${reUrl}/role/`, params)
     },
     /**
      * 删除角色
@@ -15,7 +15,7 @@ export default {
      * @param {Object} params 请求参数
      */
     deleteRole(params = {}) {
-        return deletes(`${reUrl}/system/mgmt/roles/${params.id}/`, {})
+        return deletes(`${reUrl}/role/${params.name}/`, {})
     },
     /**
      * 新增角色
@@ -23,7 +23,7 @@ export default {
      * @param {Object} params 请求参数
      */
     createRole(params = {}) {
-        return post(`${reUrl}/system/mgmt/roles/`, params)
+        return post(`${reUrl}/role/`, params)
     },
     /**
      * 编辑角色
@@ -31,7 +31,7 @@ export default {
      * @param {Object} params 请求参数
      */
     editRole(params = {}) {
-        return put(`${reUrl}/system/mgmt/roles/${params.id}/`, params)
+        return put(`${reUrl}/role/${params.name}/`, params)
     },
     /**
      * 将一个用户从角色移除
@@ -39,7 +39,7 @@ export default {
      * @param {Object} params 请求参数
      */
     deleteUserRole(params = {}) {
-        return deletes(`${reUrl}/system/mgmt/roles/${params.id}/withdraw/${params.userId}/`, {})
+        return deletes(`${reUrl}/role/${params.id}/withdraw/${params.userId}/`, {})
     },
     /**
      * 获取该角色下的所有用户
@@ -47,7 +47,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getRoleAllUser(params = {}) {
-        return get(`${reUrl}/system/mgmt/users/roles/${params.id}/`, {})
+        return get(`${reUrl}/user/roles/${params.name}/`, {})
     },
     /**
      * 设置角色菜单权限
@@ -55,7 +55,7 @@ export default {
      * @param {Object} params 请求参数
      */
     setRoleMenu(params = {}) {
-        return patch(`${reUrl}/system/mgmt/roles/${params.id}/permissions/`, params.array)
+        return patch(`${reUrl}/role/${params.id}/permissions/`, params.array)
     },
     /**
      * 获取角色菜单
@@ -63,7 +63,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getRoleMenus(params = {}) {
-        return get(`${reUrl}/system/mgmt/roles/${params.roleId}/`, {})
+        return get(`${reUrl}/role/${params.roleId}/permissions/`, {})
     },
     /**
      * 将该角色添加到一系列组中
@@ -71,7 +71,7 @@ export default {
      * @param {Object} params 请求参数
      */
     addRoleGroups(params = {}) {
-        return patch(`${reUrl}/system/mgmt/roles/${params.id}/assign_groups/`, params.addGroupId)
+        return patch(`${reUrl}/role/${params.id}/assign_groups/`, params.addGroupId)
     },
     /**
      * 将该角色一系列组中移除
@@ -79,14 +79,14 @@ export default {
      * @param {Object} params 请求参数
      */
     delRoleGroups(params = {}) {
-        return deleteb(`${reUrl}/system/mgmt/roles/${params.id}/unassign_groups/`, params.deleteGroupId)
+        return deleteb(`${reUrl}/role/${params.id}/unassign_groups/`, params.deleteGroupId)
     },
     /**
-     * 获取角色详细信息
+     * 获取角色拥有的权限
      *
      * @param {Object} params 请求参数
      */
     getRoleDetail(params = {}) {
-        return get(`${reUrl}/system/mgmt/roles/${params.id}/`, {})
+        return get(`${reUrl}/role/groups/${params.name}/`, {})
     }
 }

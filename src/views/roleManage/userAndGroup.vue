@@ -13,7 +13,7 @@
                     <div class="header">
                         <menu-tab
                             :panels="panels"
-                            v-model="active"
+                            :active-panel="active"
                             type="capsule"
                             @change="changeMenu">
                         </menu-tab>
@@ -77,7 +77,7 @@
                     <p>已选择（共<span>{{allSelected.length}}</span>条）<span class="clear" @click="handleClear">清空</span></p>
                     <ul>
                         <li v-for="item in allSelected" :key="item.id + item.type">
-                            {{ item.type === 'user' ? `${item.chname}(${item.bk_username})` : item.name }}
+                            {{ item.type === 'user' ? `${item.chname || '--'}(${item.bk_username})` : item.name }}
                             <span>{{ item.type === 'user' ? '用户' : '组织' }}</span>
                             <i class="el-icon-close" style="font-size: 12px;" @click="handleRemove(item)"></i>
                         </li>
@@ -173,6 +173,7 @@
 
         async showSlider(list, row?) {
             this.visible = true
+            this.active = 'user'
             this.searchValue = ''
             this.roleDetail = row
             const originList = {

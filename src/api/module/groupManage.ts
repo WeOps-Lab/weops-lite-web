@@ -6,7 +6,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getGroups(params = {}) {
-        return get(`${reUrl}/system/mgmt/groups/`, params)
+        return get(`${reUrl}/group/`, params)
     },
     /**
      * 新建组织

@@ -201,10 +201,10 @@
     }
     // 获取用户拥有的全部角色
     getRoles(row) {
-        return row.allRoles.map(item => item.name + '角色').join('; ')
+        return (row.allRoles || []).map(item => item.name + '角色').join('; ') || '--'
     }
     getOrganizationOrSuperior(row, { listKey, fieldKey }) {
-        return row[listKey].map(item => item[fieldKey].slice(1)).join(';') || '--'
+        return (row[listKey] || []).map(item => item[fieldKey].slice(1)).join(';') || '--'
     }
     sourceFilterMethod(val) {
        this.roles = Object.values(val).flat()
@@ -337,7 +337,7 @@
             this.dataList = res.data.users
             this.dataList.forEach(item => {
                 // 合并去重，用于显示角色列表
-                const allRoles = [...item.roles, ...item.group_roles.filter(itemA => !item.roles.some(itemB => itemA.id === itemB.id))]
+                const allRoles = [...item.roles, ...(item.group_roles || []).filter(itemA => !item.roles.some(itemB => itemA.id === itemB.id))]
                 // 设置allRoles，allRoles与v-model绑定
                 this.$set(item, 'allRoles', allRoles)
                 // roleV1存放原始角色数据
@@ -387,8 +387,8 @@
     // 设置角色
     operateRole(row) {
         this.$refs.roleManage.showSlider({
-            role: row.roles,
-            group_role: row.group_roles
+            role: row.roles || [],
+            group_role: row.group_roles || []
         }, row)
     }
     // 设置组织

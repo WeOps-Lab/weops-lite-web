@@ -32,6 +32,8 @@ import btnPermission from './directive/modal/btn-permissions'
 import overflowTooltip from './directive/modal/overflow-tooltip'
 import './assets/icon/bk_icon_font/cw-icon'
 import './assets/icon/bk_icon_font/style.css'
+import Keycloak from '@dsb-norge/vue-keycloak-js'
+
 
 Vue.use(ElementUI)
 Vue.use(uploader)
@@ -47,8 +49,6 @@ Vue.prototype.$echarts = Echarts
 // 将API方法绑定到全局
 Vue.prototype.$http = axios
 Vue.prototype.$api = api
-// window['tinymce'].baseURL = window.location.origin + window.location.pathname + '/static/tinymce'
-// window['tinymce'].suffix = '.min'
 const headTheme = 'light' // 选择 light 或 blue
 Vue.prototype.headTheme = headTheme
 
@@ -89,8 +89,6 @@ Vue.prototype.$stampToTime = (timeStamp) => {
     const clockTime = date.toString().split(' ')[4]
     return year + '/' + (month < 10 ? '0' + month : month) + '/' + (day < 10 ? '0' + day : day) + ' ' + clockTime
 }
-// ts-ignore
-// Vue.directive('copy', copy)
 
 // 混入
 // Vue.mixin(globalMixin);
@@ -104,7 +102,7 @@ appFiles.keys().forEach(key => {
 
 /* eslint-disable no-new */
 
-new Vue({
+const initApp = () => new Vue({
     el: '#app',
     router,
     store,
@@ -116,3 +114,26 @@ new Vue({
     },
     template: '<App/>'
 })
+
+if (process.env.USE_MOCK) {
+    // mock模式不需要登录
+    initApp()
+} else {
+    Vue.use(Keycloak, {
+        init: {
+          onLoad: 'login-required',
+          checkLoginIframe: false
+        },
+        config: {
+          url: 'http://20.27.64.15:8080/',
+          realm: 'weops',
+          clientId: 'weops-lite-web'
+        },
+        onReady: (keycloak) => {
+            initApp()
+        },
+        onInitError:(err)=>{
+            console.log('初始化失败===',err);
+        }
+    })
+}
