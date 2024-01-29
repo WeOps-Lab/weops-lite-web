@@ -164,10 +164,9 @@
                     ...item,
                     isChecked: isAdminGroup ? selectMap[item.id] : true
                 }))
-
                 const {current, limit} = this.pagination
                 // 搜索的关键字
-                this.dataList = this.rawDataList.filter(item => item.name.includes(this.searchValue))
+                this.dataList = this.rawDataList.filter(item => item.name?.includes(this.searchValue))
                 this.pagination.count = this.dataList.length
                     // 分页
                 this.dataList = this.dataList.slice((current - 1) * limit, current * limit)

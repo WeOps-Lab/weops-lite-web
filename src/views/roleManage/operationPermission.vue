@@ -337,12 +337,12 @@
         getRoleMenus() {
             this.menuLoading = true
             this.$emit('getMenuLoading', this.menuLoading)
-            this.$api.RoleManageMain.getRoleMenus({roleId: this.role.id}).then(res => {
+            this.$api.RoleManageMain.getRoleMenus({roleId: this.role.name}).then(res => {
                 if (res.result) {
-                    this.permissions = res.data.permissions
-                    const result = this.changeDataFormat(res.data.permissions)
+                    this.permissions = res.data
+                    const result = this.changeDataFormat(res.data)
                     // 计算一开始有权限的id
-                    const rawIds = this.getAllowedIds(res.data.permissions)
+                    const rawIds = res.data.map(item => item.name)
                     // 传给父组件保存
                     this.$emit('getRawIds', rawIds)
                     for (const k in result) {
@@ -359,7 +359,7 @@
                                     if (target.children && target.children.length) {
                                         return false
                                     }
-                                    const flag = target.auth.find(nev => nev.key === this.checkMap[item])
+                                    const flag = target.auth.find(nev => nev.key.includes(item))
                                     flag.value = true
                                     this.handleOperateChecked(target, flag.type)
                                 }
@@ -374,49 +374,25 @@
         }
         // 将数据转格式
         changeDataFormat(data) {
-            const menusIds = []
             const operateIds = []
-            const resKey = Object.keys(data)
-            // 遍历数据返回的key
-            resKey.forEach(key => {
-                data[key].forEach(item => {
-                    const {name, allow} = item
-                    // 查看权限
-                    if (name.endsWith('view') && allow) {
-                        !menusIds.includes(key) && menusIds.push(key)
-                        this.checkMap[key] = name
-                    }
-                    // 操作权限
-                    if (!name.endsWith('view') && allow) {
-                        const findMenuId = operateIds.find(operateIdItem => operateIdItem.menuId === key)
-                        // 如果找不到，新增一个
-                        if (!findMenuId) {
-                            operateIds.push({
-                                menuId: key,
-                                operate_ids: [item.name]
-                            })
-                        } else {
-                            findMenuId.operate_ids.push(item.name)
-                        }
-                    }
-                })
+            const menusIds = data.filter(item => item.name.endsWith('view')).map(item => item.name.split('_')[0])
+            const operateArr = data.filter(item => !item.name.endsWith('view')).map(item => item.name)
+            operateArr.forEach(item => {
+                const menuId = item.split('_')[0]
+                const target = operateIds.find(operate => operate.menuId === menuId)
+                if (!target) {
+                    operateIds.push({
+                        menuId,
+                        operate_ids: [item]
+                    })
+                    return
+                }
+                target.operate_ids.push(item)
             })
             return {
                 menus_ids: menusIds,
                 operate_ids: operateIds
             }
-        }
-        // 拿到allow为true的id
-        getAllowedIds(data) {
-            const allowedIds = []
-            for (const category in data) {
-                for (const item of data[category]) {
-                    if (item.allow) {
-                        allowedIds.push(item.id)
-                    }
-                }
-            }
-            return allowedIds
         }
     }
 </script>

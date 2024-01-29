@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { Message } from 'element-ui'
-Vue.use(Message)
 
 export const $error = (message, delay = 3000) => {
     if (message === 'cancelRequest') {

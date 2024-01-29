@@ -147,12 +147,12 @@
                 minWidth: '100px',
                 scopedSlots: 'built_in'
             },
-            {
-                label: '创建时间',
-                key: 'created',
-                align: 'left',
-                minWidth: '120'
-            },
+            // {
+            //     label: '创建时间',
+            //     key: 'created',
+            //     align: 'left',
+            //     minWidth: '120'
+            // },
             {
                 label: '操作',
                 key: 'operation',
@@ -188,16 +188,16 @@
             })) {
                 return false
             }
-            const res = await this.$api.RoleManageMain.getRoleAllUser({id: row.id})
+            const res = await this.$api.RoleManageMain.getRoleAllUser({name: row.name})
             res.data = res.data.map(item => ({
                 id: item.id,
                 bk_username: item.username,
                 chname: item.lastName
             }))
-            const detailRes = await this.$api.RoleManageMain.getRoleDetail({id: row.id})
+            const detailRes = await this.$api.RoleManageMain.getRoleDetail({name: row.name})
             this.$refs.userAndGroup.showSlider({
                 user: res.data,
-                group: detailRes.data.groups
+                group: detailRes.data
             }, row)
         }
         setPermission(row) {
@@ -239,7 +239,7 @@
         async confirmDelete(row) {
             try {
                 const res = await this.$api.RoleManageMain.deleteRole({
-                    id: row.id
+                    name: row.name
                 })
                 if (!res.result) {
                     this.$error(res.message)

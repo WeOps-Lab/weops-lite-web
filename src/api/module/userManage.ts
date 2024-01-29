@@ -7,7 +7,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getUserList(params = {}) {
-        return get(`${reUrl}/system/mgmt/users/`, params)
+        return get(`${reUrl}/user/`, params)
     },
     /**
      * 删除用户
@@ -47,7 +47,7 @@ export default {
      * @param {Object} params 请求参数
      */
     setUserRoles(params = {}) {
-        return put(`${reUrl}/system/mgmt/roles/${params.id}/assign/${params.userId}/`, {})
+        return put(`${reUrl}/role/${params.id}/assign/${params.userId}/`, {})
     },
     /**
      * 查询角色列表

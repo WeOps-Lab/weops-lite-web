@@ -33,10 +33,9 @@ const axiosInstance = axios.create({
  * request interceptor
  */
 axiosInstance.interceptors.request.use(config => {
-    const token = getToken()
-    config.headers['X-csrfToken'] = token
+    const token = vm.$keycloak?.token || getToken()
+    config.headers['AUTHORIZATION'] = token
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
-    config.headers['AUTH-APP'] = 'WEOPS'
     return config
 })
 
@@ -197,7 +196,7 @@ function handleReject(error, config) {
             // bus.$emit('show-apply-perm-modal', data?.data)
         }
         if ([401, 403, 500].includes(status)) {
-            vm.$warn(message)
+            vm.$error(message)
         }
 
         if ((data && data.code) === 500 && (data && data.request_id)) { // code为500的请求需要带上request_id
