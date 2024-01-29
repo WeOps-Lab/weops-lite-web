@@ -14,9 +14,9 @@ const projectsDir = path.resolve(__dirname, '../src/projects')
 const projects = fs.readdirSync(projectsDir)
 const extAlias = {}
 projects.forEach(project => {
-  const aliasName = `@${project}`
-  const projectPath = path.resolve(projectsDir, project)
-  extAlias[aliasName] = projectPath
+    const aliasName = `@${project}`
+    const projectPath = path.resolve(projectsDir, project)
+    extAlias[aliasName] = projectPath
 })
 
 function resolve(dir) {
@@ -51,6 +51,9 @@ const createTsLintingRule = () => ({
 })
 
 module.exports = {
+    cache: {
+        type: "filesystem",
+    },
     externals: {
         // 新增
         'microRouter': 'microRouter'
@@ -76,6 +79,14 @@ module.exports = {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src'),
             ...extAlias
+        },
+        fallback: {
+            "setImmediate": false,
+            "dgram": false,
+            "fs": false,
+            "net": false,
+            "tls": false,
+            "child_process": false
         }
     },
     plugins: [
@@ -83,30 +94,21 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
             jquery: 'jquery',
-            'window.jQuery': 'jquery'
+            'window.jQuery': 'jquery',
+            process: 'process/browser.js',
         }),
         new VueLoaderPlugin(),
         new StyleLintPlugin({
             files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
             exclude: [path.resolve(__dirname, '../node_modules/**')]
         }),
-        // new HardSourceWebpackPlugin()
     ],
     module: {
         rules: [
             {
                 test: /\.js$/,
                 include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
-                // use: [
-                //     "thread-loader",
-                //     "babel-loader"
-                // ]
                 use: [
-                    /*
-                      开启多进程打包。
-                      进程启动大概为600ms，进程通信也有开销。
-                      只有工作消耗时间比较长，才需要多进程打包
-                    */
                     {
                         loader: 'thread-loader',
                         options: {
@@ -141,52 +143,19 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: vueLoaderConfig,
-                // include: [resolve('src')],
-                // exclude: /node_modules\/(?!(autotrack|dom-utils))|vendor\.dll\.js/
             },
-            // {
-            //     test: /\.js$/,
-            //     loader: 'babel-loader',
-            //     include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
-            //     exclude: /node_modules/,
-            //     query: {
-            //         cacheDirectory: true
-            //     }
-            // },
             {
                 test: /\.(png|jpe?g|gif|svg|webp)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: utils.assetsPath('img/[name].[hash:7].[ext]')
-                }
+                type: "asset/inline",
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: utils.assetsPath('media/[name].[hash:7].[ext]')
-                }
+                type: "asset/inline",
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    // publicPath: './',
-                    limit: 10000,
-                    name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-                }
+                type: "asset/inline",
             },
-            // {
-            //     test: /\.ts$/,
-            //     exclude: /node_modules/,
-            //     enforce: 'pre',
-            //     loader: 'tslint-loader',
-            //     options: {
-            //         transpileOnly: true
-            //     }
-            // },
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
@@ -199,17 +168,4 @@ module.exports = {
             }
         ]
     },
-    node: {
-        // prevent webpack from injecting useless setImmediate polyfill because Vue
-        // source contains it (although only uses it if it's native).
-        setImmediate: false,
-        // prevent webpack from injecting mocks to Node native modules
-        // that does not make sense for the client
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-        child_process: 'empty'
-
-    }
 }

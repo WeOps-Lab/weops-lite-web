@@ -21,7 +21,7 @@ module.exports = {
     // 输出文件
     output: {
         // 文件名称
-        filename: utils.assetsPath( `dll/[name].dll.${time}.js`),
+        filename: utils.assetsPath(`dll/[name].dll.${time}.js`),
         // 将输出的文件放到dist目录下
         path: path.resolve(__dirname, config.build.assetsRoot, 'static'),
 
@@ -59,7 +59,6 @@ module.exports = {
 
         new webpack.LoaderOptionsPlugin({
             minimize: true
-        }),
-        new webpack.optimize.OccurrenceOrderPlugin()
+        })
     ]
 };
