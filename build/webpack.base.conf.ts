@@ -51,6 +51,9 @@ const createTsLintingRule = () => ({
 })
 
 module.exports = {
+    cache: {
+        type: "filesystem",
+    },
     externals: {
         // 新增
         'microRouter': 'microRouter'
@@ -99,23 +102,13 @@ module.exports = {
             files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
             exclude: [path.resolve(__dirname, '../node_modules/**')]
         }),
-        // new HardSourceWebpackPlugin()
     ],
     module: {
         rules: [
             {
                 test: /\.js$/,
                 include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
-                // use: [
-                //     "thread-loader",
-                //     "babel-loader"
-                // ]
                 use: [
-                    /*
-                      开启多进程打包。
-                      进程启动大概为600ms，进程通信也有开销。
-                      只有工作消耗时间比较长，才需要多进程打包
-                    */
                     {
                         loader: 'thread-loader',
                         options: {
