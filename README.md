@@ -502,6 +502,7 @@ npm run build
 | vuex                       | https://github.com/vuejs/vuex                                          | 状态管理库                      |
 | vuedraggable               | https://github.com/SortableJS/Vue.Draggable                            | 实现可拖拽和排序的列表功能              |
 | @dsb-norge/vue-keycloak-js | https://github.com/dsb-norge/vue-keycloak-js                           | 实现前端登录验证                   |
+| lodash                     | https://github.com/lodash/lodash                                       | JS工具包                      |
 
 ## 开发依赖库
 
@@ -576,4 +577,4 @@ npm run build
 | webpack-dev-server                           | https://github.com/webpack/webpack-dev-server                               | 本地开发服务器                                         |
 | webpack-merge                                | https://github.com/survivejs/webpack-merge                                  | WebPack配置文件合并工具                                 |
 | vue-template-compiler                        | https://github.com/vuejs/vue/tree/dev/packages/vue-template-compiler#readme | vue 模版加载器                                       |
-| lodash                                       | https://github.com/lodash/lodash                                            | JS工具包                                           |
+
