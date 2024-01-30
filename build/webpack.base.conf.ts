@@ -90,8 +90,6 @@ module.exports = {
         }
     },
     plugins: [
-        new webpack.AutomaticPrefetchPlugin(),
-        new webpack.BannerPlugin('weops-lite'),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
