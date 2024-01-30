@@ -576,3 +576,4 @@ npm run build
 | webpack-dev-server                           | https://github.com/webpack/webpack-dev-server                               | 本地开发服务器                                         |
 | webpack-merge                                | https://github.com/survivejs/webpack-merge                                  | WebPack配置文件合并工具                                 |
 | vue-template-compiler                        | https://github.com/vuejs/vue/tree/dev/packages/vue-template-compiler#readme | vue 模版加载器                                       |
+| lodash                                       | https://github.com/lodash/lodash                                            | JS工具包                                           |
