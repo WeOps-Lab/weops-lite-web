@@ -6,7 +6,7 @@
         :title="type === 'add' ? '新增用户' : '编辑用户'"
         @closed="closeDialog">
         <div class="content-box" v-loading="loading">
-            <el-form label-width="80px" :model="formData" :rules="rules" ref="validateForm">
+            <el-form label-width="80px" :model="formData" :rules="rules" ref="validateUserForm">
                 <el-form-item label="用户名" prop="username">
                     <el-input :disabled="type === 'edit'" v-model="formData.username" placeholder="请输入用户名"></el-input>
                 </el-form-item>
@@ -64,8 +64,17 @@
             lastName: [
                 {
                     required: true,
-                    regex: /^$|^[\u4e00-\u9fa5]+$/,
-                    message: '必须是中文',
+                    message: '必填项',
+                    trigger: 'blur'
+                },
+                {
+                    validator: (rule, value, callback) => {
+                        if (!/^$|^[\u4e00-\u9fa5]+$/.test(value)) {
+                            callback(new Error('必须是中文'))
+                        } else {
+                            callback()
+                        }
+                    },
                     trigger: 'blur'
                 }
             ],
@@ -83,10 +92,13 @@
                     trigger: 'blur'
                 },
                 {
-                    validator: (val) => {
-                        return val === this.formData.password
+                    validator: (rule, value, callback) => {
+                        if (value !== this.formData.password) {
+                            callback(new Error('两次输入密码不一致'))
+                        } else {
+                            callback()
+                        }
                     },
-                    message: '两次输入密码不一致',
                     trigger: 'blur'
                 }
             ]
@@ -104,12 +116,12 @@
         }
         close() {
             this.visible = false
-            const validateForm: any = this.$refs.validateForm
-            validateForm.resetFields()
+            const validateUserForm: any = this.$refs.validateUserForm
+            validateUserForm.resetFields()
         }
         confirm() {
-            const validateForm: any = this.$refs.validateForm
-            validateForm.validate((valid) => {
+            const validateUserForm: any = this.$refs.validateUserForm
+            validateUserForm.validate((valid) => {
                 if (valid) {
                     let url = 'createUser'
                     let params: any = {
@@ -144,10 +156,9 @@
             })
         }
         closeDialog() {
-            // Object.assign(this.$data, this.$options.data.call(this))
-            const validateForm: any = this.$refs.validateForm
-            validateForm.clearValidate()
-            validateForm.resetFields()
+            const validateUserForm: any = this.$refs.validateUserForm
+            validateUserForm.clearValidate()
+            validateUserForm.resetFields()
         }
     }
 </script>

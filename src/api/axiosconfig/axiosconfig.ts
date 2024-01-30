@@ -110,4 +110,4 @@ export const deleteb = (url, params, opts = {}) =>
 export const patch = (url, params, opts = {}) =>
     getPromise('patch', url, params, opts)
 
-export const reUrl = ''
+export const reUrl = '/api'

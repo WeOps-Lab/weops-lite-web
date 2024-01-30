@@ -186,7 +186,7 @@
                     this.logList = []
                     return false
                 }
-                this.logList = res.data.items
+                this.logList = res.data.data
                 this.pagination.count = res.data.count
             }).finally(() => {
                 this.isLoading = false
@@ -206,7 +206,7 @@
             this.$api.Server.getLogs(this.params).then(res => {
                 this.isLoading = false
                 if (res.result) {
-                    this.logList = res.data.items
+                    this.logList = res.data.data
                 }
             })
         }

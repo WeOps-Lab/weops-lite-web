@@ -47,6 +47,8 @@
     import menuTab from '@/components/menuTab.vue'
     import { Vue, Component } from 'vue-property-decorator'
     import DrawerComponent from '@/components/comDrawer.vue'
+    import { routeConfig } from '@/router/menuList'
+
     @Component({
         name: 'permission-settings',
         components: {
@@ -120,24 +122,15 @@
             const nowIds = []
             // 设置查看权限的id
             this.latestMenu.forEach(item => {
-                const menuPermission = this.permissions[item]
-                if (menuPermission) {
-                    for (let i = 0; i < menuPermission.length; i++) {
-                    // 如果是查看权限
-                    if (menuPermission[i].name.endsWith('view')) {
-                        nowIds.push(menuPermission[i].name)
-                    }
-                }
+                const result = this.findAuthById(item, routeConfig)
+                if (result) {
+                    nowIds.push(result.find(target => target.key.endsWith('_view'))?.key)
                 }
             })
             const operateIds = this.latestOperate.reduce((pre, cur) => {
                 return pre.concat(cur.operate_ids)
             }, [])
-            this.changePermissionIds = this.compareArrays(this.rawIds, operateIds)
-            if (this.rawIds) {
-                return
-            }
-
+            this.changePermissionIds = [...nowIds, ...operateIds]
             this.loading = true
             this.$api.RoleManageMain.setRoleMenu({
                 id: this.role.id,
@@ -154,23 +147,33 @@
                 this.loading = false
             })
         }
-        getIdByName(data, category, name) {
-            if (data.hasOwnProperty(category)) {
-                const items = data[category]
-                for (let i = 0; i < items.length; i++) {
-                    if (items[i].name === name) {
-                        return items[i].name
-                    }
+        findAuthById(id, routeConfig) {
+            // 递归遍历routeConfig数组
+            for (let i = 0; i < routeConfig.length; i++) {
+              const route = routeConfig[i]
+              // 如果找到匹配的id
+              if (route.id === id) {
+                const auth = route.auth
+                // 遍历auth数组
+                for (let j = 0; j < auth.length; j++) {
+                  const authItem = auth[j]
+                  const key = authItem.key
+                  // 如果key以'_view'结尾
+                  if (key.endsWith('_view')) {
+                    return auth
+                  }
                 }
+              }
+              // 递归遍历子节点
+              if (route.children) {
+                const childAuth = this.findAuthById(id, route.children)
+                if (childAuth) {
+                  return childAuth
+                }
+              }
             }
-            return null // 如果没有找到对应的名称，则返回 null
+            return null // 如果未找到匹配的id，返回null
         }
-        compareArrays(arrayA, arrayB) {
-            const valuesOnlyInA = arrayA.filter(item => !arrayB.includes(item))
-            const valuesOnlyInB = arrayB.filter(item => !arrayA.includes(item))
-            return [...valuesOnlyInA, ...valuesOnlyInB]
-        }
-
         changeVisible(val) {
             this.isShow = val
         }

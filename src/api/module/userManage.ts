@@ -15,7 +15,7 @@ export default {
      * @param {Object} params 请求参数
      */
     deleteUser(params = {}) {
-        return deletes(`${reUrl}/system/mgmt/users/${params.id}/`, {})
+        return deletes(`${reUrl}/user/${params.id}/`, {})
     },
     /**
      * 重置用户密码
@@ -23,7 +23,7 @@ export default {
      * @param {Object} params 请求参数
      */
     resetPassword(params = {}) {
-        return patch(`${reUrl}/system/mgmt/users/${params.id}/`, params)
+        return patch(`${reUrl}/user/${params.id}/`, params)
     },
     /**
      * 新建用户
@@ -31,7 +31,7 @@ export default {
      * @param {Object} params 请求参数
      */
     createUser(params = {}) {
-        return post(`${reUrl}/system/mgmt/users/`, params)
+        return post(`${reUrl}/user/`, params)
     },
     /**
      * 编辑用户
@@ -39,7 +39,7 @@ export default {
      * @param {Object} params 请求参数
      */
     editUser(params = {}) {
-        return put(`${reUrl}/system/mgmt/users/${params.id}/`, params)
+        return put(`${reUrl}/user/${params.id}/`, params)
     },
     /**
      * 设置用户角色
@@ -106,7 +106,7 @@ export default {
      * @param {Object} params 请求参数
      */
     addUserGroups(params: any = {}) {
-        return patch(`${reUrl}/system/mgmt/users/${params.id}/assign_groups/`, params.addIds)
+        return patch(`${reUrl}/user/${params.id}/assign_groups/`, params.addIds)
     },
     /**
      * 将一系列组从该用户移除
@@ -114,6 +114,6 @@ export default {
      * @param {Object} params 请求参数
      */
     delUserGroups(params: any = {}) {
-        return deleteb(`${reUrl}/system/mgmt/users/${params.id}/unassign_groups/`, params.deleteIds)
+        return deleteb(`${reUrl}//user/${params.id}/unassign_groups/`, params.deleteIds)
     }
 }

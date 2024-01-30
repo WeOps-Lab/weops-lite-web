@@ -55,17 +55,19 @@
             return '添加子组'
         }
         show(type, data) {
+            const orgin = data?.data
+            console.log(orgin)
             this.visible = true
             this.type = type
             this.formData.group_name = ''
             if (type === 'addSub') {
-                this.formData.id = data.id
+                this.formData.id = orgin?.id
             }
             if (['edit'].includes(this.type)) {
-                this.roleInfo = data
-                this.formData.group_name = data.name
+                this.roleInfo = orgin
+                this.formData.group_name = orgin.name
                 if (this.type === 'edit') {
-                    this.formData.id = data.id
+                    this.formData.id = orgin.id
                 }
             }
         }

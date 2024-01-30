@@ -49,7 +49,7 @@
                             <span>用户</span>
                         </li>
                         <li v-for="item in allSelected" :key="item.id + item.type">
-                            {{ item.type === 'role' ? item.role_name : `${item.chname}(${item.bk_username})` }}
+                            {{ item.type === 'role' ? item.role_name : `${item.chname || '--'}(${item.bk_username})` }}
                             <span>{{ item.type === 'role' ? '角色' : '用户' }}</span>
                             <i class="el-icon-close" style="font-size: 12px;" @click="handleRemove(item)"></i>
                         </li>

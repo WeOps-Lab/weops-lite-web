@@ -375,8 +375,8 @@
         // 将数据转格式
         changeDataFormat(data) {
             const operateIds = []
-            const menusIds = data.filter(item => item.name.endsWith('view')).map(item => item.name.split('_')[0])
-            const operateArr = data.filter(item => !item.name.endsWith('view')).map(item => item.name)
+            const menusIds = data.filter(item => item.endsWith('view')).map(item => item.split('_')[0])
+            const operateArr = data.filter(item => !item.endsWith('view')).map(item => item)
             operateArr.forEach(item => {
                 const menuId = item.split('_')[0]
                 const target = operateIds.find(operate => operate.menuId === menuId)
