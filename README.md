@@ -508,7 +508,6 @@ npm run build
 
 | 组件                                           | 地址                                                                          | 描述                                              |
 |----------------------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------|
-|                                              |                                                                             | UI组件                                            |
 | fs-extra                                     | https://github.com/jprichardson/node-fs-extra                               | 文件系统（fs）模块的增强版本                                 |
 | handlebars                                   | https://github.com/handlebars-lang/handlebars.js                            | 用于生成可重用且动态的 HTML 模板                             |
 | mini-css-extract-plugin                      | https://github.com/webpack-contrib/mini-css-extract-plugin                  | 提取和单独打包 CSS 文件                                  |
