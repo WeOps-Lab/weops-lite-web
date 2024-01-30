@@ -508,8 +508,6 @@ npm run build
 
 | 组件                                           | 地址                                                                          | 描述                                              |
 |----------------------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------|
-| fs-extra                                     | https://github.com/jprichardson/node-fs-extra                               | 文件系统（fs）模块的增强版本                                 |
-| handlebars                                   | https://github.com/handlebars-lang/handlebars.js                            | 用于生成可重用且动态的 HTML 模板                             |
 | mini-css-extract-plugin                      | https://github.com/webpack-contrib/mini-css-extract-plugin                  | 提取和单独打包 CSS 文件                                  |
 | stylelint                                    | https://github.com/stylelint/stylelint                                      | CSS 风格和规范检查工具                                   |
 | stylelint-scss                               | https://github.com/stylelint-scss/stylelint-scss                            | 检查 SCSS (Sass) 文件的 stylelint 插件                 |
@@ -547,7 +545,6 @@ npm run build
 | eslint-plugin-promise                        | https://github.com/eslint-community/eslint-plugin-promise                   | promise lint插件                                  |
 | eslint-plugin-standard                       | https://github.com/standard/eslint-plugin-standard                          | eslint 标准插件                                     |
 | eslint-plugin-vue                            | https://github.com/vuejs/eslint-plugin-vue                                  | vue eslint插件                                    |
-| file-loader                                  | https://github.com/webpack-contrib/file-loader                              | 文件加载器                                           |
 | html-webpack-plugin                          | https://github.com/jantimon/html-webpack-plugin                             | Webpack html文件自动生成插件                            |
 | mockjs                                       | https://github.com/nuysoft/Mock                                             | Mock数据生成器                                       |
 | node-notifier                                | https://github.com/mikaelbr/node-notifier                                   | Native的消息通知                                     |
