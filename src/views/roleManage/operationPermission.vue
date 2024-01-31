@@ -121,8 +121,9 @@
         checkMap = {}
         mounted() {
             this.menuList = JSON.parse(JSON.stringify(this.$store.state.permission.menuList))
-            // 服务台管理，用户管理，通知渠道，角色权限这四个菜单只有admin能展示，操作权限不予展示
-            const ONLY_ADMIN_HAS_MENUS = ['ServiceDeskManage', 'AutoProcessManage', 'NoticeWays', 'SysRole']
+            // 角色权限这四个菜单只有admin能展示，操作权限不予展示
+            // const ONLY_ADMIN_HAS_MENUS = ['SysRole']
+            const ONLY_ADMIN_HAS_MENUS = []
             removeItemsWithId(this.menuList, ONLY_ADMIN_HAS_MENUS)
             this.handleMenus(this.menuList)
             this.getRoleMenus()

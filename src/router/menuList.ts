@@ -22,7 +22,6 @@ export const routeConfig = [
                 name: '系统管理',
                 icon: 'cw-icon weops-system',
                 id: 'sysManage',
-                // id: 'sysRole',
                 sortIndex: 9,
                 auth: [
                     {
@@ -49,37 +48,43 @@ export const routeConfig = [
                                 key: 'SysRole_view',
                                 value: false,
                                 label: '查看',
-                                type: 'check'
+                                type: 'check',
+                                apiKey: ['role_list']
                             },
                             {
                                 key: 'SysRole_create',
                                 value: false,
                                 label: '创建角色',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['role_create']
                             },
                             {
                                 key: 'SysRole_edit',
                                 value: false,
                                 label: '编辑角色',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['role_update']
                             },
                             {
                                 key: 'SysRole_delete',
                                 value: false,
                                 label: '删除角色',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['role_delete']
                             },
                             {
                                 key: 'SysRole_users_manage',
                                 value: false,
                                 label: '人员管理',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['user_list_by_role', 'role_groups', 'user_list', 'group_list', 'role_remove_user', 'role_add_user', 'role_add_groups', 'role_remove_groups']
                             },
                             {
                                 key: 'SysRole_permissions',
                                 value: false,
                                 label: '设置权限',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['role_permissions', 'role_set_permissions']
                             }
                         ]
                     },
@@ -93,25 +98,29 @@ export const routeConfig = [
                                 key: 'SysUser_view',
                                 value: false,
                                 label: '查看',
-                                type: 'check'
+                                type: 'check',
+                                apiKey: ['user_list', 'role_list']
                             },
                             {
                                 key: 'SysUser_create',
                                 value: false,
                                 label: '创建用户',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['user_create']
                             },
                             {
                                 key: 'SysUser_edit',
                                 value: false,
                                 label: '编辑用户',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['user_update', 'user_reset_password', 'role_add_user', 'role_remove_user', 'role_list', 'group_list', 'user_remove_groups', 'user_add_groups']
                             },
                             {
                                 key: 'SysUser_delete',
                                 value: false,
                                 label: '删除用户',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['user_delete']
                             }
                         ]
                     },
@@ -125,37 +134,43 @@ export const routeConfig = [
                                 key: 'SysGroup_view',
                                 value: false,
                                 label: '查看',
-                                type: 'check'
+                                type: 'check',
+                                apiKey: ['group_list']
                             },
                             {
                                 key: 'SysGroup_create',
                                 value: false,
                                 label: '创建组织',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['group_create']
                             },
                             {
                                 key: 'SysGroup_edit',
                                 value: false,
                                 label: '编辑组织',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['group_update']
                             },
                             {
                                 key: 'SysGroup_delete',
                                 value: false,
                                 label: '删除组织',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['group_delete']
                             },
                             {
                                 key: 'SysGroup_role',
                                 value: false,
                                 label: '角色管理',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['group_users', 'user_list', 'group_add_users', 'group_remove_users']
                             },
                             {
                                 key: 'SysGroup_user',
                                 value: false,
                                 label: '人员管理',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['group_roles', 'role_list', 'group_add_roles', 'group_remove_roles']
                             }
                         ]
                     },
@@ -169,7 +184,8 @@ export const routeConfig = [
                                 key: 'SysLog_view',
                                 value: false,
                                 label: '查看',
-                                type: 'check'
+                                type: 'check',
+                                apiKey: ['operation_log_list']
                             }
                         ]
                     },
@@ -183,31 +199,36 @@ export const routeConfig = [
                                 key: 'SysSetting_menus_view',
                                 value: false,
                                 label: '查看',
-                                type: 'check'
+                                type: 'check',
+                                apiKey: ['menu_list']
                             },
                             {
                                 key: 'SysSetting_menus_create',
                                 value: false,
                                 label: '新增菜单',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['menu_create']
                             },
                             {
                                 key: 'SysSetting_menus_edit',
                                 value: false,
                                 label: '编辑菜单',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['menu_update', 'menu_retrieve', 'menu_use']
                             },
                             {
                                 key: 'SysSetting_menus_delete',
                                 value: false,
                                 label: '删除菜单',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['menu_delete']
                             },
                             {
                                 key: 'SysSetting_logo_change',
                                 value: false,
                                 label: '更换logo',
-                                type: 'operate'
+                                type: 'operate',
+                                apiKey: ['logo_update', 'logo_reset']
                             }
                         ]
                     }

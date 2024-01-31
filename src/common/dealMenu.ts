@@ -11,20 +11,6 @@ export function removeItemsWithId(items, idsToRemove) {
     }
 }
 // 按照层级顺序检查每层级的第一个是否具有url属性
-// export function findFirstUrl(menus) {
-//     const firstLevelItem = menus[0]
-//     let id = null
-//     if (firstLevelItem) {
-//         if (firstLevelItem.url) {
-//             id = firstLevelItem.id
-//         } else if (firstLevelItem.children?.[0]?.url) {
-//             id = firstLevelItem.children[0].id
-//         } else if (firstLevelItem.children?.[0]?.children?.[0]?.url) {
-//             id = firstLevelItem.children[0].children[0].id
-//         }
-//     }
-//     return id
-// }
 export function findFirstUrl(menus) {
     const traverseMenu = (menu) => {
         if (menu.children?.length) {
@@ -94,4 +80,33 @@ export function filterDataWithId(arr, id) {
         }
     }
     return [] // 没有找到符合条件的项
+}
+
+// 根据菜单id找到auth信息
+export function findAuthById(id, routeConfig) {
+    // 递归遍历routeConfig数组
+    for (let i = 0; i < routeConfig.length; i++) {
+        const route = routeConfig[i]
+        // 如果找到匹配的id
+        if (route.id === id) {
+            const auth = route.auth
+            // 遍历auth数组
+            for (let j = 0; j < auth.length; j++) {
+                const authItem = auth[j]
+                const key = authItem.key
+                // 如果key以'_view'结尾
+                if (key.endsWith('_view')) {
+                    return auth
+                }
+            }
+        }
+        // 递归遍历子节点
+        if (route.children) {
+            const childAuth = findAuthById(id, route.children)
+            if (childAuth) {
+                return childAuth
+            }
+        }
+    }
+    return null // 如果未找到匹配的id，返回null
 }

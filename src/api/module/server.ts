@@ -7,12 +7,12 @@ export default {
         return get(reUrl + '/logo/', params, config)
     },
     updateLogo: function(params) {
-        return put(reUrl + '/system/mgmt/logo/', params)
+        return put(reUrl + '/logo/', params)
     },
     getLogs: function(params) {
         return get(reUrl + '/operation_log/', params)
     },
     resetlogo: function(params) {
-        return post(reUrl + '/system/mgmt/logo/reset/', params, {showLoad: true})
+        return post(reUrl + '/logo/reset/', params, {showLoad: true})
     }
 }

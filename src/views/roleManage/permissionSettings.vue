@@ -48,6 +48,7 @@
     import { Vue, Component } from 'vue-property-decorator'
     import DrawerComponent from '@/components/comDrawer.vue'
     import { routeConfig } from '@/router/menuList'
+    import { findAuthById } from '@/common/dealMenu'
 
     @Component({
         name: 'permission-settings',
@@ -122,15 +123,18 @@
             const nowIds = []
             // 设置查看权限的id
             this.latestMenu.forEach(item => {
-                const result = this.findAuthById(item, routeConfig)
+                const result = findAuthById(item, routeConfig)
                 if (result) {
-                    nowIds.push(result.find(target => target.key.endsWith('_view'))?.key)
+                    nowIds.push(result.find(target => target.key.endsWith('_view'))?.key) // 菜单查看的权限id
+                    nowIds.push(...result.reduce((pre, cur) => {
+                        return pre.concat(cur.apiKey)
+                    }, [])) // 所有的apiKey
                 }
             })
             const operateIds = this.latestOperate.reduce((pre, cur) => {
                 return pre.concat(cur.operate_ids)
-            }, [])
-            this.changePermissionIds = [...nowIds, ...operateIds]
+            }, []) // 菜单操作的权限id
+            this.changePermissionIds = Array.from(new Set([...nowIds, ...operateIds])) // 过滤掉重复的id
             this.loading = true
             this.$api.RoleManageMain.setRoleMenu({
                 id: this.role.id,
@@ -147,33 +151,7 @@
                 this.loading = false
             })
         }
-        findAuthById(id, routeConfig) {
-            // 递归遍历routeConfig数组
-            for (let i = 0; i < routeConfig.length; i++) {
-              const route = routeConfig[i]
-              // 如果找到匹配的id
-              if (route.id === id) {
-                const auth = route.auth
-                // 遍历auth数组
-                for (let j = 0; j < auth.length; j++) {
-                  const authItem = auth[j]
-                  const key = authItem.key
-                  // 如果key以'_view'结尾
-                  if (key.endsWith('_view')) {
-                    return auth
-                  }
-                }
-              }
-              // 递归遍历子节点
-              if (route.children) {
-                const childAuth = this.findAuthById(id, route.children)
-                if (childAuth) {
-                  return childAuth
-                }
-              }
-            }
-            return null // 如果未找到匹配的id，返回null
-        }
+
         changeVisible(val) {
             this.isShow = val
         }
