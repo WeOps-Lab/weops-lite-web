@@ -160,10 +160,10 @@
             key: 'roles',
             align: 'left',
             minWidth: '220px',
-            scopedSlots: 'roles',
-            filters: [],
-            filterRemote: true,
-            filterMultiple: true
+            scopedSlots: 'roles'
+            // filters: [],
+            // filterRemote: true,
+            // filterMultiple: true
         },
         {
             label: '组织',

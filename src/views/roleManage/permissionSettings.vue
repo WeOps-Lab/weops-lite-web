@@ -137,7 +137,7 @@
             this.changePermissionIds = Array.from(new Set([...nowIds, ...operateIds])) // 过滤掉重复的id
             this.loading = true
             this.$api.RoleManageMain.setRoleMenu({
-                id: this.role.id,
+                name: this.role.name,
                 array: this.changePermissionIds
             }).then(res => {
                 const { result, message } = res
