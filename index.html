@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>WeOps</title>
-    <link href="<%= htmlWebpackPlugin.options.staticUrl %>img/logo.png" rel="shortcut icon" type="image/x-icon">
+    <link href="{{ STATIC_URL }}img/logo.png" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
 <script>
@@ -17,12 +17,18 @@
     }
     window.CSRF_COOKIE_NAME = '{{ CSRF_COOKIE_NAME }}';
     window.STATIC_URL = '{{ STATIC_URL }}'
-    window.is_activate = '{{ is_activate }}' === '1'
+    window.KEYCLOAK_URL = '{{ KEYCLOAK_URL }}'
+    window.KEYCLOAK_REALM = '{{ KEYCLOAK_REALM }}'
+    window.KEYCLOAK_UI_CLIENT_ID = '{{ KEYCLOAK_UI_CLIENT_ID }}'
 </script>
 <div id="app"></div>
-<script type=text/javascript src="<%= htmlWebpackPlugin.options.staticUrl %>dist/dll/vendors.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
-<script type=text/javascript src="<%= htmlWebpackPlugin.options.staticUrl %>dist/dll/jquery.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
-<script type=text/javascript src="<%= htmlWebpackPlugin.options.staticUrl %>dist/dll/antv.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
-<script type=text/javascript src="<%= htmlWebpackPlugin.options.staticUrl %>dist/dll/echarts.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
+<script type=text/javascript
+        src="{{ STATIC_URL }}dist/dll/vendors.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
+<script type=text/javascript
+        src="{{ STATIC_URL }}dist/dll/jquery.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
+<script type=text/javascript
+        src="{{ STATIC_URL }}dist/dll/antv.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
+<script type=text/javascript
+        src="{{ STATIC_URL }}dist/dll/echarts.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
 </body>
 </html>

@@ -56,11 +56,9 @@
                     <el-menu v-if="needLeftNav"
                         class="el-menu-vertical"
                         :default-active="defaultActive"
-                        :collapse="!open && !defaultOpen"
+                        :collapse="!open && defaultOpen"
                         :unique-opened="true"
-                        @select="handleSelect"
-                        @mouseenter.native="handleMouseEnter"
-                        @mouseleave.native="handleMouseLeave">
+                        @select="handleSelect">
                         <template v-for="item in leftNavList">
                             <!-- 有子菜单 -->
                             <el-submenu
@@ -141,8 +139,8 @@
         defaultActive: string = ''
         refreshNavKey: string = 'leftNavkey'
         ticketIconVisible = false
-        defaultOpen: boolean = false // 是否展开左侧栏
-        open: boolean = false // 图标控制，一直展开
+        defaultOpen: boolean = true // 是否展开左侧栏
+        open: boolean = true // 图标控制，一直展开
         isShowTooltip: boolean = false
         get user() {
             const user = this.permission.user
@@ -362,13 +360,6 @@
                     })
                 }
             }
-        }
-
-        handleMouseEnter() {
-            this.defaultOpen = true
-        }
-        handleMouseLeave() {
-            this.defaultOpen = false
         }
         handleIconCLick() {
             this.open = !this.open

@@ -125,9 +125,9 @@ if (process.env.USE_MOCK) {
           checkLoginIframe: false
         },
         config: {
-          url: 'http://20.27.64.15:8080/',
-          realm: 'weops',
-          clientId: 'weops-lite-web'
+          url: window.KEYCLOAK_URL,
+          realm: window.KEYCLOAK_REALM,
+          clientId: window.KEYCLOAK_UI_CLIENT_ID
         },
         onReady: (keycloak) => {
             initApp()

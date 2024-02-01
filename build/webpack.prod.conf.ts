@@ -27,9 +27,16 @@ const webpackConfig = merge(baseWebpackConfig, {
         minimizer: [
             new CssMinimizerPlugin(),
             new TerserPlugin({
+                terserOptions: {
+                    mangle: true,
+                    compress: {
+                        drop_debugger: false
+                    }
+                },
                 parallel: true, // 多进程并发运行
                 extractComments: false, // 不将注释剥离到单独的文件
                 cache: true // 缓存
+
             })
         ],
 
