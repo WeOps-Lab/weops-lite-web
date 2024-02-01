@@ -62,14 +62,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         new webpack.DefinePlugin({
             'process.env.USE_MOCK': JSON.stringify(process.env.USE_MOCK)
         })
-        // copy custom static assets
-        // new CopyWebpackPlugin([
-        //     {
-        //         from: path.resolve(__dirname, '../dist'),
-        //         to: config.dev.assetsSubDirectory,
-        //         ignore: ['.*']
-        //     }
-        // ])
     ],
     optimization: {
         noEmitOnErrors: true

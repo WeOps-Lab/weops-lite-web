@@ -13,9 +13,7 @@
     "clean-dll": "rimraf ./static/dist/dll",
     "build:dll": "webpack --config build/webpack.dll.config.ts",
     "build": "npm run clean-dll && npm run build:dll && cross-env NODE_ENV=production node build/build.ts",
-    "analyzer": "cross-env ANALYZER_REPORT=true npm run build",
-    "build:file": "node build/buildFile.ts",
-    "build:micro": "npm run build:file && node build/buildMicro.ts"
+    "analyzer": "cross-env ANALYZER_REPORT=true npm run build"
   },
   "dependencies": {
     "@antv/data-set": "^0.11.8",
@@ -28,6 +26,7 @@
     "jquery": "^2.2.4",
     "js-md5": "^0.7.3",
     "jsplumb": "^2.15.6",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "uuid": "^3.4.0",
     "vee-validate": "^2.2.5",
@@ -38,6 +37,7 @@
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.0.1",
     "vue-simple-uploader": "^0.7.6",
+    "vue-template-compiler": "^2.7.16",
     "vuedraggable": "^2.24.3",
     "vuex": "^2.3.1"
   },
@@ -78,15 +78,11 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "eslint-plugin-vue": "^7.12.1",
-    "file-loader": "^3.0.1",
-    "fs-extra": "^11.1.1",
-    "handlebars": "^4.7.7",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^1.6.2",
     "mockjs": "^1.1.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.7.2",
-    "optimize-css-assets-webpack-plugin": "^5.0.8",
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
