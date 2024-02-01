@@ -4,11 +4,11 @@ import User from './module/user'
 import UserManageMain from './module/userManage'
 import RoleManageMain from './module/roleManage'
 import GroupManage from './module/groupManage'
-import RoleManageMainMock from './module/mock/roleManageMock'
-import UserManageMainMock from './module/mock/userManageMock/index'
-import ServerMock from './module/mock/serverMock/index'
-import UserMock from './module/mock/userMock/index'
-import GroupManageMock from './module/mock/groupManageMock'
+import RoleManageMainMock from '@/mock/roleManageMock'
+import UserManageMainMock from '@/mock/userManageMock/index'
+import ServerMock from '@/mock/serverMock/index'
+import UserMock from '@/mock/userMock/index'
+import GroupManageMock from '@/mock/groupManageMock'
 
 let api: any = {
     Server,
