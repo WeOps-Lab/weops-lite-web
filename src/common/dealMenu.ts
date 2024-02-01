@@ -110,3 +110,27 @@ export function findAuthById(id, routeConfig) {
     }
     return null // 如果未找到匹配的id，返回null
 }
+
+// 获取菜单ids和操作权限ids
+export function getMenuIdsAndOperateIds(data) {
+    const operateIds = []
+    const authData = data.filter(item => /^[A-Z]/.test(item)) // 获取以大写字母开头的菜单查看和操作权限id
+    const menusIds = authData.filter(item => item.endsWith('view')).map(item => item.split('_')[0])
+    const operateArr = authData.filter(item => !item.endsWith('view')).map(item => item)
+    operateArr.forEach(item => {
+        const menuId = item.split('_')[0]
+        const target = operateIds.find(operate => operate.menuId === menuId)
+        if (!target) {
+            operateIds.push({
+                menuId,
+                operate_ids: [item]
+            })
+            return
+        }
+        target.operate_ids.push(item)
+    })
+    return {
+        menus_ids: menusIds,
+        operate_ids: operateIds
+    }
+}

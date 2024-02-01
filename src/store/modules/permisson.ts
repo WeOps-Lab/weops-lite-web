@@ -1,6 +1,6 @@
 // initial state
 import { menuList, subsMenuList } from '@/router/frameRouter'
-import { filterDataWithId } from '@/common/dealMenu'
+import { getMenuIdsAndOperateIds } from '@/common/dealMenu'
 import vue from 'vue'
 
 import api from '@/api/index'
@@ -42,10 +42,8 @@ function handleActivationMenu(userInfo, type) {
             }
         }
     }
-    const inactiveMenuList = filterDataWithId(JSON.parse(JSON.stringify(customMenu)), 'CreditManage')
-    const allMenus = JSON.parse(JSON.stringify(window['is_activate'] ? customMenu : inactiveMenuList))
-    handleAllMenus(allMenus)
-    const handleNeedMenuList = handleBelongModule(userInfo.applications, JSON.parse(JSON.stringify(allMenus)))
+    handleAllMenus(customMenu)
+    const handleNeedMenuList = handleBelongModule(userInfo.applications, JSON.parse(JSON.stringify(customMenu)))
     return handleNeedMenuList
 }
 
@@ -172,8 +170,9 @@ const actions = {
             api.User.homeInfo().then(async res => {
                 if (res.result) {
                     const { data: userData } = res
-                    userData.operate_ids = userData.menus_permissions || []
-                    userData.menus = userData.operate_ids.map(item => item.menuId)
+                    const homeInfo = getMenuIdsAndOperateIds(userData?.menus_permissions || [])
+                    userData.operate_ids = homeInfo.operate_ids
+                    userData.menus = homeInfo.operate_ids.map(item => item.menuId)
                     userData.applications = []
                     userData.chname = userData.user_info?.name || '--'
                     sessionStorage.setItem('loginInfo', JSON.stringify(userData))

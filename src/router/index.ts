@@ -66,11 +66,6 @@ const handleRouteAuthorization = async(to, from, next) => {
 
 function checkRouteAccess(to, from, next) {
     const permission = store.state.permission
-    // 普通用户不能进入服务台管理
-    if (!permission.user.is_super && to?.meta?.relatedMenu === 'ServiceDeskManage') {
-        next({path: from.path})
-        return
-    }
     const isDefinedRoute = frameRouter.some(item => item.name === to?.name)
     const ids = findIdsWithNoChildren(permission.menuList).concat(['404', '403', 'AuthPermissionFail'])
     const isHasPermission = ids.includes(to.name) || (to?.meta?.parentIds || []).filter(r => ids.includes(r)).length || ids.includes(to?.meta?.relatedMenu)
@@ -98,14 +93,6 @@ function dealRouterByPermission(to, from, next) {
     const permission = store.state.permission
     const userInfo = permission.user
     const menuList = permission.menuList
-    // 判断是否为已激活,未激活的话,进行跳转判断
-    if (!window['is_activate'] && to.name !== 'CreditManage') {
-        if (to.name === 'ActivationPage') {
-            next()
-        } else {
-            next({name: 'CreditManage'})
-        }
-    }
     if (to.name === 'AuthPermissionFail' && menuList.length === 0) {
         next()
     } else {

@@ -103,7 +103,7 @@
 
 <script lang="ts">
     import {Vue, Component, Prop} from 'vue-property-decorator'
-    import { removeItemsWithId } from '@/common/dealMenu'
+    import { removeItemsWithId, getMenuIdsAndOperateIds } from '@/common/dealMenu'
     @Component
     export default class OperationPermission extends Vue {
         @Prop({
@@ -324,7 +324,7 @@
             this.$api.RoleManageMain.getRoleMenus({roleId: this.role.name}).then(res => {
                 if (res.result) {
                     this.permissions = res.data
-                    const result = this.changeDataFormat(res.data)
+                    const result = getMenuIdsAndOperateIds(res.data)
                     // 计算一开始有权限的id
                     const rawIds = res.data.map(item => item.name)
                     // 传给父组件保存
@@ -355,29 +355,6 @@
                 this.menuLoading = false
                 this.$emit('getMenuLoading', this.menuLoading)
             })
-        }
-        // 将数据转格式
-        changeDataFormat(data) {
-            const operateIds = []
-            const authData = data.filter(item => /^[A-Z]/.test(item)) // 获取以大写字母开头的菜单查看和操作权限id
-            const menusIds = authData.filter(item => item.endsWith('view')).map(item => item.split('_')[0])
-            const operateArr = authData.filter(item => !item.endsWith('view')).map(item => item)
-            operateArr.forEach(item => {
-                const menuId = item.split('_')[0]
-                const target = operateIds.find(operate => operate.menuId === menuId)
-                if (!target) {
-                    operateIds.push({
-                        menuId,
-                        operate_ids: [item]
-                    })
-                    return
-                }
-                target.operate_ids.push(item)
-            })
-            return {
-                menus_ids: menusIds,
-                operate_ids: operateIds
-            }
         }
     }
 </script>
