@@ -47,6 +47,9 @@
     import menuTab from '@/components/menuTab.vue'
     import { Vue, Component } from 'vue-property-decorator'
     import DrawerComponent from '@/components/comDrawer.vue'
+    import { routeConfig } from '@/router/menuList'
+    import { findAuthById } from '@/common/dealMenu'
+
     @Component({
         name: 'permission-settings',
         components: {
@@ -120,27 +123,21 @@
             const nowIds = []
             // 设置查看权限的id
             this.latestMenu.forEach(item => {
-                const menuPermission = this.permissions[item]
-                if (menuPermission) {
-                    for (let i = 0; i < menuPermission.length; i++) {
-                    // 如果是查看权限
-                    if (menuPermission[i].name.endsWith('view')) {
-                        nowIds.push(menuPermission[i].name)
-                    }
-                }
+                const result = findAuthById(item, routeConfig)
+                if (result) {
+                    nowIds.push(result.find(target => target.key.endsWith('_view'))?.key) // 菜单查看的权限id
+                    nowIds.push(...result.reduce((pre, cur) => {
+                        return pre.concat(cur.apiKey)
+                    }, [])) // 所有的apiKey
                 }
             })
             const operateIds = this.latestOperate.reduce((pre, cur) => {
                 return pre.concat(cur.operate_ids)
-            }, [])
-            this.changePermissionIds = this.compareArrays(this.rawIds, operateIds)
-            if (this.rawIds) {
-                return
-            }
-
+            }, []) // 菜单操作的权限id
+            this.changePermissionIds = Array.from(new Set([...nowIds, ...operateIds])) // 过滤掉重复的id
             this.loading = true
             this.$api.RoleManageMain.setRoleMenu({
-                id: this.role.id,
+                name: this.role.name,
                 array: this.changePermissionIds
             }).then(res => {
                 const { result, message } = res
@@ -153,22 +150,6 @@
             }).finally(() => {
                 this.loading = false
             })
-        }
-        getIdByName(data, category, name) {
-            if (data.hasOwnProperty(category)) {
-                const items = data[category]
-                for (let i = 0; i < items.length; i++) {
-                    if (items[i].name === name) {
-                        return items[i].name
-                    }
-                }
-            }
-            return null // 如果没有找到对应的名称，则返回 null
-        }
-        compareArrays(arrayA, arrayB) {
-            const valuesOnlyInA = arrayA.filter(item => !arrayB.includes(item))
-            const valuesOnlyInB = arrayB.filter(item => !arrayA.includes(item))
-            return [...valuesOnlyInA, ...valuesOnlyInB]
         }
 
         changeVisible(val) {

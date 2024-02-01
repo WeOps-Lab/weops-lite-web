@@ -153,7 +153,7 @@
                 if (res.result) {
                     const { data } = res
                     this.pagination.count = data.count
-                    this.menuList = data.items
+                    this.menuList = data.data
                 } else {
                     this.$error(res.message)
                     this.menuList = []

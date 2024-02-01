@@ -121,28 +121,12 @@
         checkMap = {}
         mounted() {
             this.menuList = JSON.parse(JSON.stringify(this.$store.state.permission.menuList))
-            // 服务台管理，用户管理，通知渠道，角色权限这四个菜单只有admin能展示，操作权限不予展示
-            const ONLY_ADMIN_HAS_MENUS = ['ServiceDeskManage', 'AutoProcessManage', 'NoticeWays', 'SysRole']
+            // 角色权限这四个菜单只有admin能展示，操作权限不予展示
+            // const ONLY_ADMIN_HAS_MENUS = ['SysRole']
+            const ONLY_ADMIN_HAS_MENUS = []
             removeItemsWithId(this.menuList, ONLY_ADMIN_HAS_MENUS)
             this.handleMenus(this.menuList)
             this.getRoleMenus()
-        }
-        confirm() {
-            this.menuLoading = true
-            this.$emit('getMenuLoading', this.menuLoading)
-            this.$api.RoleManageMain.setRoleMenu({
-                id: this.role.id,
-                menu_ids: this.checkAuthMenusIds
-            }).then(res => {
-                if (!res.result) {
-                    this.$error(res.message)
-                    return false
-                }
-                this.$success('菜单权限设置成功！')
-            }).finally(() => {
-                this.menuLoading = false
-                this.$emit('getMenuLoading', this.menuLoading)
-            })
         }
         getLatestMenu() {
             this.checkAuthMenusIds = []
@@ -375,8 +359,9 @@
         // 将数据转格式
         changeDataFormat(data) {
             const operateIds = []
-            const menusIds = data.filter(item => item.name.endsWith('view')).map(item => item.name.split('_')[0])
-            const operateArr = data.filter(item => !item.name.endsWith('view')).map(item => item.name)
+            const authData = data.filter(item => /^[A-Z]/.test(item)) // 获取以大写字母开头的菜单查看和操作权限id
+            const menusIds = authData.filter(item => item.endsWith('view')).map(item => item.split('_')[0])
+            const operateArr = authData.filter(item => !item.endsWith('view')).map(item => item)
             operateArr.forEach(item => {
                 const menuId = item.split('_')[0]
                 const target = operateIds.find(operate => operate.menuId === menuId)

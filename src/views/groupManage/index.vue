@@ -59,7 +59,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_create'
                                 }"
-                                @click.stop="operateGroup('addSub', data)">
+                                @click.stop="operateGroup('addSub', node)">
                                 添加子组
                             </el-button>
                             <el-button
@@ -210,7 +210,7 @@
             let deleteIds
             // 有传参则删除一个，没有则删除勾选组织
             if (node) {
-                deleteIds = [node.id]
+                deleteIds = [node.data.id]
             } else {
                 deleteIds = this.checkedIds
             }
@@ -233,7 +233,7 @@
             })) {
                 return false
             }
-            const res = await this.$api.GroupManage.getGroupUsers({id: node.id, page: 1, per_page: 20})
+            const res = await this.$api.GroupManage.getGroupUsers({id: node.data.id, page: 1, per_page: 20})
             res.data = res.data.map(item => ({
                 id: item.id,
                 bk_username: item.username,
@@ -241,7 +241,7 @@
             }))
             this.$refs.authWhiteList.showSlider({
                 user: res.data
-            }, node)
+            }, node.data)
         }
 
         async roleManage(node) {
@@ -251,10 +251,10 @@
             })) {
                 return false
             }
-            const res = await this.$api.GroupManage.getGroupRoles({id: node.id})
+            const res = await this.$api.GroupManage.getGroupRoles({id: node.data.id})
             this.$refs.roleManage.showSlider({
                 role: res.data
-            }, node)
+            }, node.data)
         }
         // 复选框改变
         handleCheck(node, isChecked) {

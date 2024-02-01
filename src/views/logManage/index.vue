@@ -83,6 +83,7 @@
     import _ from 'lodash'
     import { Vue, Component } from 'vue-property-decorator'
     import PageExplanation from '@/components/pageExplanation.vue'
+    import moment from 'moment'
     interface Log {
         operator: string;
         operate_obj: string;
@@ -186,7 +187,7 @@
                     this.logList = []
                     return false
                 }
-                this.logList = res.data.items
+                this.logList = res.data.data
                 this.pagination.count = res.data.count
             }).finally(() => {
                 this.isLoading = false
@@ -206,7 +207,7 @@
             this.$api.Server.getLogs(this.params).then(res => {
                 this.isLoading = false
                 if (res.result) {
-                    this.logList = res.data.items
+                    this.logList = res.data.data
                 }
             })
         }
@@ -220,8 +221,13 @@
         }
         getDate(date) {
             this.pagination.current = 1
-            this.params.create_time_after = date[0]
-            this.params.create_time_before = date[1]
+            if (!date?.length) {
+                this.params.create_time_after = ''
+                this.params.create_time_before = ''
+            } else {
+                this.params.create_time_after = moment(date[0]).format('YYYY-MM-DD HH:mm:ss')
+                this.params.create_time_before = moment(date[1]).format('YYYY-MM-DD HH:mm:ss')
+            }
             this.getLogs()
         }
     }

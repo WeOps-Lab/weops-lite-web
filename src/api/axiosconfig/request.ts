@@ -1,9 +1,8 @@
 import axios from 'axios'
-import bus from '../../common/bus'
+// import bus from '../../common/bus'
 import CachedPromise from './cached-promise'
 import RequestQueue from './request-queue'
 import Vue from 'vue'
-import router from '@/router'
 
 const vm = new Vue()
 
@@ -195,7 +194,7 @@ function handleReject(error, config) {
         } else if ([4005, 4003].includes((data && data.code))) {
             // bus.$emit('show-apply-perm-modal', data?.data)
         }
-        if ([401, 403, 500].includes(status)) {
+        if ([401, 403].includes(status)) {
             vm.$error(message)
         }
 

@@ -55,7 +55,7 @@ export default {
      * @param {Object} params 请求参数
      */
     setRoleMenu(params = {}) {
-        return patch(`${reUrl}/role/${params.id}/permissions/`, params.array)
+        return patch(`${reUrl}/role/${params.name}/permissions/`, params.array)
     },
     /**
      * 获取角色菜单
