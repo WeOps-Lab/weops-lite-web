@@ -171,8 +171,19 @@ const actions = {
                 if (res.result) {
                     const { data: userData } = res
                     const homeInfo = getMenuIdsAndOperateIds(userData?.menus_permissions || [])
-                    userData.operate_ids = homeInfo.operate_ids
-                    userData.menus = homeInfo.operate_ids.map(item => item.menuId)
+                    userData.menus = homeInfo.menus_ids // 查看权限的菜单id
+                    // 处理只有查看权限，没操作权限的菜单
+                    const operateSet = new Set(homeInfo.operate_ids.map(item => item.menuId))
+                    const operateIds = []
+                    userData.menus.forEach(item => {
+                        if (!operateSet.has(item)) {
+                            operateIds.push({
+                                menuId: item,
+                                operate_ids: []
+                            })
+                        }
+                    })
+                    userData.operate_ids = [...homeInfo.operate_ids, ...operateIds] // 操作权限的id
                     userData.applications = []
                     userData.chname = userData.user_info?.name || '--'
                     sessionStorage.setItem('loginInfo', JSON.stringify(userData))
