@@ -5,12 +5,12 @@ const Forbidden = () => import('@/views/403.vue')
 const NoFound = () => import('@/views/404.vue')
 
 // 系统管理
-const SysRole = () => import('@/views/roleManage/index.vue')
-const SysUser = () => import('@/views/userMange/index.vue')
-const SysSetting = () => import('@/views/sysSetting/index.vue')
-const SysLog = () => import('@/views/logManage/index.vue')
-const MenuSetting = () => import('@/views/sysSetting/menuSetting.vue')
-const SysGroup = () => import('@/views/groupManage/index.vue')
+const SysRole = () => import('@/views/systemManage/roleManage/index.vue')
+const SysUser = () => import('@/views/systemManage/userMange/index.vue')
+const SysSetting = () => import('@/views/systemManage/sysSetting/index.vue')
+const SysLog = () => import('@/views/systemManage/logManage/index.vue')
+const MenuSetting = () => import('@/views/systemManage/sysSetting/menuSetting.vue')
+const SysGroup = () => import('@/views/systemManage/groupManage/index.vue')
 
 const mainRouter = [
     {
