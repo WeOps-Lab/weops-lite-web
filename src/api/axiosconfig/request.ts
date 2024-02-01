@@ -196,6 +196,7 @@ function handleReject(error, config) {
         }
         if ([401, 403].includes(status)) {
             vm.$error(message)
+            vm.$keycloak.logoutFn()
         }
 
         if ((data && data.code) === 500 && (data && data.request_id)) { // code为500的请求需要带上request_id
