@@ -17,7 +17,9 @@
     }
     window.CSRF_COOKIE_NAME = '{{ CSRF_COOKIE_NAME }}';
     window.STATIC_URL = '{{ STATIC_URL }}'
-    window.is_activate = '{{ is_activate }}' === '1'
+    window.KEYCLOAK_URL = '{{ KEYCLOAK_URL }}'
+    window.KEYCLOAK_REALM = '{{ KEYCLOAK_REALM }}'
+    window.KEYCLOAK_UI_CLIENT_ID = '{{ KEYCLOAK_UI_CLIENT_ID }}'
 </script>
 <div id="app"></div>
 <script type=text/javascript src="<%= htmlWebpackPlugin.options.staticUrl %>dist/dll/vendors.dll.<%= htmlWebpackPlugin.options.timeStamp %>.js"></script>
