@@ -268,7 +268,7 @@
                 document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;'
                 localStorage.removeItem('loginToken')
                 this.$store.commit('setLoginStatus')
-                this.$router.go(0)
+                this.$keycloak.logoutFn()
             })
         }
         handleSelect(id, item) {
