@@ -3,7 +3,7 @@
         <page-explanation
             title="组织管理"
             content="您可以创建组织，用于管理一组用户，或者进行角色授权，您可以创建、修改和删除组织，并管理其下级单位。" />
-        <div class="organization-manage">
+        <div class="organization-manage manage-wrapper">
             <div class="operate-box">
                 <div>
                     <el-button
@@ -270,24 +270,11 @@
 
 <style lang="scss" scoped>
 .organization-manage {
-    height: 100%;
-    background-color: #fff;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    .operate-box {
-        display: flex;
-        justify-content: space-between;
-    }
     .custom-tree-node {
-        flex: 1;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-    .tree-box {
-        margin-top: 20px;
-        flex: 1;
     }
 }
 </style>

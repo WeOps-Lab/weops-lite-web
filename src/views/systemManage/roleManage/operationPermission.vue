@@ -2,7 +2,7 @@
     <div class="operation-permission" v-loading="menuLoading">
         <div class="table-header">
             <div class="menu-box">菜单</div>
-            <div class="operate-box">操作权限</div>
+            <div class="operate-auth">操作权限</div>
         </div>
         <div class="table-body">
             <div class="menu-list" v-for="item in menuList" :key="item.id">
@@ -372,7 +372,7 @@
             background-color: #FAFAFA;
             border: 1px solid #dcdee5;
             .menu-box,
-            .operate-box {
+            .operate-auth {
                 flex: 1;
                 padding-left: 15px;
             }

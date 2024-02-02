@@ -1,5 +1,5 @@
 <template>
-    <div class="user-manage">
+    <div class="user-manage manage-wrapper">
         <div class="operate-box">
             <div>
                 <el-button
@@ -403,23 +403,3 @@
     }
 }
 </script>
-
-<style lang="scss" scoped>
-.user-manage {
-    height: 100%;
-    background-color: #fff;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-
-    .operate-box {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .table-box {
-        margin-top: 20px;
-        flex: 1;
-    }
-}
-</style>
