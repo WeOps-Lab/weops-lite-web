@@ -6,7 +6,7 @@
             :size="600"
             :before-close="beforeClose"
             @changeVisible="changeVisible">
-            <div slot="content" class="content-box">
+            <div slot="content" class="content-box" v-loading="pageLoading">
                 <el-form label-width="80px" :model="formData" ref="validateForm"
                     v-loading="isInfoLoading" :rules="formRules">
                     <el-form-item label="用户名" :required="true" prop="username">
@@ -85,6 +85,7 @@
         isInfoLoading: boolean = false
         isPsdLoading: boolean = false
         showPassword:boolean = false
+        pageLoading:boolean = false
         passwordFormData = {
             password: '',
             confirmPassword: ''
@@ -123,12 +124,9 @@
         }
 
         show() {
-            this.formData.id = this.user.id
-            this.formData.username = this.user.username
-            this.formData.display_name = this.user.chname
-            this.formData.email = this.user.email
-            this.rawFormData = {...this.formData}
+            this.formData.id = this.user.user_info?.sub
             this.isShow = true
+            this.getUserInfo(this.formData.id)
         }
 
         updateFormData() {
@@ -141,6 +139,23 @@
                     this.editUser()
                 }
             })
+        }
+
+        async getUserInfo(id) {
+            this.pageLoading = true
+            try {
+                const res = await this.$api.UserManageMain.getUserInfo({id})
+                const {data, message, result} = res
+                if (!result) {
+                    return this.$error(message)
+                }
+                this.formData.username = data.username
+                this.formData.display_name = data.lastName
+                this.formData.email = data.email
+                this.rawFormData = {...this.formData}
+            } finally {
+                this.pageLoading = false
+            }
         }
 
         async editUser() {

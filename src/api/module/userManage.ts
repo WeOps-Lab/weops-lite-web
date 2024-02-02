@@ -107,5 +107,13 @@ export default {
      */
     delUserGroups(params: any = {}) {
         return deleteb(`${reUrl}/user/${params.id}/unassign_groups/`, params.deleteIds)
+    },
+    /**
+     * 获取用户列表数据
+     *
+     * @param {Object} params 请求参数
+     */
+    getUserInfo(params = {}) {
+        return get(`${reUrl}/user/${params.id}/`, params)
     }
 }
