@@ -3,7 +3,7 @@
         <page-explanation
             title="角色管理"
             content="您可以进行角色的新建和授权，权限的授权分为操作权限和实例权限，可从菜单操作和实例管理两个方面进行限制" />
-        <div class="role-manage-wrapper">
+        <div class="role-manage-wrapper manage-wrapper">
             <div class="operate-box">
                 <el-button
                     v-permission="{
@@ -304,21 +304,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .role-manage-wrapper {
-        height: 100%;
-        background-color: #fff;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        .operate-box {
-            display: flex;
-            justify-content: space-between;
-        }
-        .table-box {
-            margin-top: 20px;
-            flex: 1;
-        }
-    }
-</style>

@@ -679,3 +679,15 @@
         padding: 15px;
     }
 }
+
+.operate-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.manage-wrapper {
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+}
