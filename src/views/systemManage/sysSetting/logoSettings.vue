@@ -161,7 +161,6 @@
         }
         handleUpload(el) {
             this.reShow = false
-            console.log('el', el)
             // element-ui数据格式不一样，更改
             if (!el.hasOwnProperty('fileObj')) {
                 el.fileObj = {}

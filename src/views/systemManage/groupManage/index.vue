@@ -39,7 +39,12 @@
                 </el-input>
             </div>
             <div class="tree-box" v-loading="loading">
+                <div class="tree-box-header">
+                    <span>组织名称</span>
+                    <span>操作</span>
+                </div>
                 <el-tree
+                    class="tree-box-body"
                     ref="tree"
                     :data="nodeData"
                     show-checkbox
@@ -86,6 +91,7 @@
                                 编辑
                             </el-button>
                             <el-button
+                                class="mr20"
                                 type="text"
                                 v-permission="{
                                     id: $route.name,
@@ -267,6 +273,28 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+    /* stylelint-disable selector-class-pattern */
+    /deep/.el-tree-node__content {
+        height: 65px;
+        border: 1px solid #EBEEF5;
+        border-top: none;
+    }
+    .tree-box-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 48px;
+        border: 1px solid #EBEEF5;
+        padding-left: 46px;
+        color: #909399;
+        font-weight: bold;
+        span {
+            &:nth-last-child(1) {
+                width: 310px;
+            }
+        }
     }
 }
 </style>

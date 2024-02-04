@@ -56,7 +56,6 @@
         }
         show(type, data) {
             const orgin = data?.data
-            console.log(orgin)
             this.visible = true
             this.type = type
             this.formData.group_name = ''

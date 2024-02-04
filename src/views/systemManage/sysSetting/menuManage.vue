@@ -125,6 +125,7 @@
                 scopedSlots: 'operation'
             }
         ]
+        pageOccupiedHeight: number = 380
         mounted() {
             this.getMenuList()
         }
