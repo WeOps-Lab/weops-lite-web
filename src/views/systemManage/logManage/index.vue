@@ -41,7 +41,6 @@
             </div>
             <div class="test-dom" v-loading="isLoading">
                 <com-table
-                    v-loading="tableLoading"
                     ref="table"
                     :data="logList"
                     :columns="columns"
@@ -158,8 +157,6 @@
             }
         ]
 
-        tableLoading: boolean = false
-
         mounted() {
             this.getLogs()
         }
@@ -181,6 +178,9 @@
         getLogs() {
             this.params.page = this.pagination.current
             this.params.page_size = this.pagination.limit
+            this.getLogsRequest()
+        }
+        getLogsRequest() {
             this.isLoading = true
             this.$api.Server.getLogs(this.params).then(res => {
                 if (!res.result) {
@@ -204,13 +204,7 @@
                 page_size: 10,
                 dateTime: []
             }
-            this.isLoading = true
-            this.$api.Server.getLogs(this.params).then(res => {
-                this.isLoading = false
-                if (res.result) {
-                    this.logList = res.data.data
-                }
-            })
+            this.getLogsRequest()
         }
         handlePageChange(page) {
             this.pagination.current = page
