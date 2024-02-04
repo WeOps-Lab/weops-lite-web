@@ -1,14 +1,14 @@
 // 统一引入api模块
-import Server from './module/server'
-import User from './module/user'
-import UserManageMain from './module/userManage'
-import RoleManageMain from './module/roleManage'
-import GroupManage from './module/groupManage'
-import RoleManageMainMock from '@/mock/roleManageMock'
-import UserManageMainMock from '@/mock/userManageMock/index'
-import ServerMock from '@/mock/serverMock/index'
-import UserMock from '@/mock/userMock/index'
-import GroupManageMock from '@/mock/groupManageMock'
+import Server from './module/systemManage/server'
+import User from './module/systemManage/user'
+import UserManageMain from './module/systemManage/userManage'
+import RoleManageMain from './module/systemManage/roleManage'
+import GroupManage from './module/systemManage/groupManage'
+import RoleManageMainMock from '@/mock/systemManage/roleManageMock'
+import UserManageMainMock from '@/mock/systemManage/userManageMock'
+import ServerMock from '@/mock/systemManage/serverMock'
+import UserMock from '@/mock/systemManage/userMock'
+import GroupManageMock from '@/mock/systemManage/groupManageMock'
 
 let api: any = {
     Server,
