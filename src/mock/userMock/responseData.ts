@@ -5,10 +5,10 @@ const infoData = {
     'is_super': true,
     'menus': ['SysRole'],
     'chname': '超管',
-    'operate_ids': [{
-        menuId: 'SysRole',
-        operate_ids: ['SysRole_view', 'SysRole_create', 'SysRole_edit', 'SysRole_users_manage', 'SysRole_permissions']
-    }]
+    'menus_permissions': ['SysRole_view', 'SysRole_create', 'SysRole_edit', 'SysRole_users_manage', 'SysRole_permissions'],
+    'user_info': {
+        name: '超管'
+    }
 }
 
 export default {

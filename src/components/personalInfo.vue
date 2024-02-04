@@ -10,13 +10,13 @@
                 <el-form label-width="80px" :model="formData" ref="validateForm"
                     v-loading="isInfoLoading" :rules="formRules">
                     <el-form-item label="用户名" :required="true" prop="username">
-                        <el-input size="small" :disabled="true" v-model="formData.username" placeholder="请输入用户名"></el-input>
+                        <el-input :disabled="true" v-model="formData.username" placeholder="请输入用户名"></el-input>
                     </el-form-item>
                     <el-form-item label="中文名" prop="display_name">
-                        <el-input size="small" :disabled="!isEdit" v-model="formData.display_name" placeholder="请输入中文名"></el-input>
+                        <el-input :disabled="!isEdit" v-model="formData.display_name" placeholder="请输入中文名"></el-input>
                     </el-form-item>
                     <el-form-item label="邮箱" prop="email">
-                        <el-input size="small" :disabled="!isEdit" v-model="formData.email" placeholder="请输入邮箱"></el-input>
+                        <el-input :disabled="!isEdit" v-model="formData.email" placeholder="请输入邮箱"></el-input>
                     </el-form-item>
                     <el-form-item v-show="isEdit" class="form-btn">
                         <el-button type="primary" @click="onFormSubmit">提交</el-button>
@@ -39,10 +39,10 @@
                     v-show="showPassword"
                     v-loading="isPsdLoading">
                     <el-form-item label="密码" :required="true" prop="password">
-                        <el-input size="small" show-password v-model="passwordFormData.password" placeholder="请输入密码"></el-input>
+                        <el-input show-password v-model="passwordFormData.password" placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <el-form-item label="确认密码" :required="true" prop="confirmPassword" error-display-type="normal">
-                        <el-input size="small" show-password v-model="passwordFormData.confirmPassword" placeholder="请输入密码"></el-input>
+                        <el-input show-password v-model="passwordFormData.confirmPassword" placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <el-form-item class="form-btn">
                         <el-button type="primary" @click="onPasswordSubmit">提交</el-button>

@@ -433,10 +433,10 @@ export default {
                 count: menuItems.length,
                 next: null,
                 previous: null,
-                items: menuItems
+                data: menuItems
             }
         }
-        res.data.items = menuItems.filter(item => item.menu_name.includes(params.search))
+        res.data.data = menuItems.filter(item => item.menu_name.includes(params.search))
         return res
     },
     getMenuById: (params) => {

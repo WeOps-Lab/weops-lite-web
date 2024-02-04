@@ -82,22 +82,9 @@ const roleList = [
 ]
 
 // 用户菜单
-const roleMenus = {
-    'menus_ids': [
-        'SysLog',
-        'SysSetting',
-        'sysRole',
-        'Setting'
-    ],
-    'operate_ids': [
-        {
-            'menuId': 'SysSetting',
-            'operate_ids': [
-                'operateAuth'
-            ]
-        }
-    ]
-}
+const roleMenus = [
+    // 'SysLog_view'
+]
 
 // 实例权限详情
 const instPermissionsDetail = {
@@ -211,7 +198,7 @@ export default {
                 built_in: false,
                 is_super: false,
                 attributes: {
-                    created: Mock.mock('@now'),
+                    created: Mock.mock('@now')
                 },
                 users: [],
                 name: params.role_name,
@@ -428,15 +415,13 @@ export default {
             result: true,
             code: 20000,
             message: 'success',
-            data: {
-                groups: [
-                    {
-                        id: 'a7847105-df3d-4ba8-a057-dedc9bb91c4c',
-                        name: 'Test Group',
-                        path: '/Test Group'
-                    }
-                ]
-            }
+            data: [
+                {
+                    id: 'a7847105-df3d-4ba8-a057-dedc9bb91c4c',
+                    name: 'Test Group',
+                    path: '/Test Group'
+                }
+            ]
         }
     }
 }

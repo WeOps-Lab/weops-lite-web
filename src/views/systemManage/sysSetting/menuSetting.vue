@@ -4,7 +4,6 @@
             <span>菜单名称：</span>
             <el-input
                 style="width: 250px;"
-                size="small"
                 :clearable="true"
                 v-model="menuTitle"
                 placeholder="请输入菜单名称" />
