@@ -73,13 +73,13 @@ export default {
                 'count': 0,
                 'next': 'http://paas.weops.com/o/weops_saas/system/mgmt/operation_log/?create_time_after=&create_time_before=&dateTime=%5B%22%22%2C%22%22%5D&operate_type=&operator=&page=2&page_size=10',
                 'previous': null,
-                items: logItems
+                data: logItems
             }
         }
         if (params.create_time_after === '' && params.create_time_before === '') {
-            res.data.items = logItems.filter(item => item.operator.includes(params.operator) && item.operate_type.includes(params.operate_type))
+            res.data.data = logItems.filter(item => item.operator.includes(params.operator) && item.operate_type.includes(params.operate_type))
         } else {
-            res.data.items = logItems.filter(item => {
+            res.data.data = logItems.filter(item => {
                 const itemDateTime = new Date(item.created_at).getTime()
                 const startTime = new Date(params.create_time_after).getTime()
                 const endTime = new Date(params.create_time_before).getTime()
@@ -87,7 +87,7 @@ export default {
             })
         }
         res.data.page = params.page
-        res.data.count = res.data.items.length
+        res.data.count = res.data.data.length
         res.data.total_page = Math.ceil(res.data.count / params.page_size)
         return res
     },

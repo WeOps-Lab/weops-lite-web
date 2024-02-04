@@ -22,7 +22,7 @@ const Dire:any = require('./directive')
 import Component from './components/index'
 // vuex
 import store from './store/index'
-// import globalMixin from './mixins/global'
+import globalMixin from './common/mixins/global'
 import 'jquery'
 // const copy:any = require('./directive/modal/copy')
 import copy from './directive/modal/copy'
@@ -91,7 +91,7 @@ Vue.prototype.$stampToTime = (timeStamp) => {
 }
 
 // 混入
-// Vue.mixin(globalMixin);
+Vue.mixin(globalMixin);
 
 // 自动导入子应用中的main.js文件
 // @ts-ignore

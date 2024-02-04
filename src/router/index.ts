@@ -122,14 +122,6 @@ function dealRouterByPermission(to, from, next) {
                         next({ name: defaultName })
                     }
                 }
-            } else {
-                const parentIds = to.meta.parentIds || []
-                if (to.name === 'InstanceDetails') {
-                    const dynamicMenus = store.state.menu.dynamicMenus
-                    for (const k in dynamicMenus.classification) {
-                        parentIds.push(k)
-                    }
-                }
             }
             next()
         }

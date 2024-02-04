@@ -13,7 +13,6 @@
                     <div class="search">
                         <el-input
                             clearable
-                            size="small"
                             style="width: 300px;"
                             placeholder="请输入搜索关键字"
                             :suffix-icon="'el-icon-search'"

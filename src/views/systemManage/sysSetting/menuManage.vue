@@ -4,7 +4,6 @@
             <div class="menu-search">
                 <el-input
                     clearable
-                    size="small"
                     placeholder="请输入关键词"
                     v-model="keywords"
                     @change="getMenuList"
@@ -16,7 +15,6 @@
                         type: 'SysSetting_menus_create'
                     }"
                     class="ml10"
-                    size="small"
                     :type="'primary'"
                     @click="handleAdd">
                     新建菜单
@@ -28,14 +26,13 @@
                 :columns="columns"
                 :pagination="pagination"
                 v-loading="loading"
-                :max-height="maxHeight"
+                :max-height="tableMaxHeight"
                 @page-change="handlePageChange"
                 @page-limit-change="handleLimitChange">
                 <template slot="operation" slot-scope="{ row }">
                     <div>
                         <el-button
                             v-if="row.use"
-                            size="small"
                             type="text"
                             disabled>
                             已启用
@@ -46,7 +43,6 @@
                                 id: $route.name,
                                 type: 'SysSetting_menus_edit'
                             }"
-                            size="small"
                             type="text"
                             @click="handleChangeSatus(row)">
                             启用
@@ -57,7 +53,6 @@
                                 id: $route.name,
                                 type: 'SysSetting_menus_edit'
                             }"
-                            size="small"
                             :disabled="row.use"
                             type="text"
                             @click="handleEdit(row)">
@@ -68,7 +63,6 @@
                                 id: $route.name,
                                 type: 'SysSetting_menus_delete'
                             }"
-                            size="small"
                             :disabled="row.default || row.use"
                             type="text"
                             @click="handleDelete(row)">
@@ -131,14 +125,6 @@
                 scopedSlots: 'operation'
             }
         ]
-        maxHeight: string|number = ''
-        created() {
-            const PAGE_OCCUPIED_HEIGHT = 310
-            this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
-            window.onresize = () => {
-                this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
-            }
-        }
         mounted() {
             this.getMenuList()
         }

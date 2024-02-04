@@ -3,8 +3,6 @@
         <el-table
             ref="table"
             v-bind="$attrs"
-            size="small"
-            max-height="800"
             :default-expand-all="defaultExpandAll"
             :row-key="rowKey"
             :expand-row-keys="expandRowKeys"

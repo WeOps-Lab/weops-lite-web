@@ -8,7 +8,6 @@
                 <div>
                     <el-button
                         class="mr10"
-                        size="small"
                         type="primary"
                         v-permission="{
                             id: $route.name,
@@ -19,7 +18,6 @@
                     </el-button>
                     <el-button
                         class="mr10"
-                        size="small"
                         title="批量删除"
                         v-permission="{
                             id: $route.name,
@@ -31,7 +29,6 @@
                 </div>
                 <el-input
                     clearable
-                    size="small"
                     style="width: 300px;"
                     placeholder="请输入搜索关键字"
                     suffix-icon="el-icon-search"
@@ -53,7 +50,6 @@
                         <span>{{ data.name }}</span>
                         <span class="operate-node">
                             <el-button
-                                size="small"
                                 type="text"
                                 v-permission="{
                                     id: $route.name,
@@ -63,7 +59,6 @@
                                 添加子组
                             </el-button>
                             <el-button
-                                size="small"
                                 type="text"
                                 v-permission="{
                                     id: $route.name,
@@ -73,7 +68,6 @@
                                 人员管理
                             </el-button>
                             <el-button
-                                size="small"
                                 type="text"
                                 v-permission="{
                                     id: $route.name,
@@ -83,7 +77,6 @@
                                 角色管理
                             </el-button>
                             <el-button
-                                size="small"
                                 type="text"
                                 v-permission="{
                                     id: $route.name,
@@ -93,7 +86,6 @@
                                 编辑
                             </el-button>
                             <el-button
-                                size="small"
                                 type="text"
                                 v-permission="{
                                     id: $route.name,

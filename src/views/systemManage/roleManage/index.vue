@@ -11,7 +11,6 @@
                         type: 'SysRole_create'
                     }"
                     class="mr10"
-                    size="small"
                     type="primary"
                     icon="el-icon-plus"
                     @click="operateRole('add')">
@@ -19,7 +18,6 @@
                 </el-button>
                 <el-input
                     clearable
-                    size="small"
                     style="width: 300px;"
                     placeholder="请输入搜索关键字"
                     suffix-icon="el-icon-search"
@@ -36,7 +34,7 @@
                     :data="dataList"
                     :columns="columns"
                     :pagination="pagination"
-                    :max-height="maxHeight"
+                    :max-height="tableMaxHeight"
                     @page-change="handlePageChange"
                     @page-limit-change="limitChange"
                 >
@@ -50,7 +48,6 @@
                                 type: 'SysRole_users_manage'
                             }"
                             class="mr10"
-                            size="small"
                             type="text"
                             @click="personnelManage(row)">
                             人员和组织
@@ -61,7 +58,6 @@
                                 type: 'SysRole_permissions'
                             }"
                             class="mr10"
-                            size="small"
                             type="text"
                             :disabled=" ['admin', 'IA_admin'].includes(row.name)"
                             @click="setPermission(row)">
@@ -73,7 +69,6 @@
                                 type: 'SysRole_edit'
                             }"
                             class="mr10"
-                            size="small"
                             type="text"
                             :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="operateRole('edit', row)">
@@ -85,7 +80,6 @@
                                 type: 'SysRole_delete'
                             }"
                             class="mr10"
-                            size="small"
                             type="text"
                             :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="deleteRole(row)">
@@ -157,7 +151,7 @@
                 label: '操作',
                 key: 'operation',
                 align: 'left',
-                width: '280px',
+                width: '300px',
                 scopedSlots: 'operation'
             }
         ]
@@ -166,15 +160,9 @@
             count: 1,
             limit: 20
         }
-        maxHeight: string|number = ''
         search: string = ''
         created() {
             this.getRoleList()
-            const PAGE_OCCUPIED_HEIGHT = 276
-            this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
-            window.onresize = () => {
-                this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
-            }
         }
         handlerIconClick() {
             this.pagination.current = 1

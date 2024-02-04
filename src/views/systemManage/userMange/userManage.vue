@@ -3,7 +3,6 @@
         <div class="operate-box">
             <div>
                 <el-button
-                    size="small"
                     :disabled="tableLoading"
                     type="primary"
                     icon="el-icon-plus"
@@ -17,7 +16,6 @@
                 </el-button>
             </div>
             <el-input
-                size="small"
                 :disabled="tableLoading"
                 clearable
                 style="width: 300px;"
@@ -35,7 +33,7 @@
                 ref="comTable"
                 :data="dataList"
                 :columns="columns"
-                :max-height="maxHeight"
+                :max-height="tableMaxHeight"
                 :pagination="pagination"
                 @page-change="handlePageChange"
                 @page-limit-change="limitChange"
@@ -50,7 +48,6 @@
                 <template slot="operation" slot-scope="{ row }">
                     <el-button
                         class="mr10"
-                        size="small"
                         type="text"
                         v-permission="{
                             id: $route.name,
@@ -61,7 +58,6 @@
                     </el-button>
                     <el-button
                         class="mr10"
-                        size="small"
                         type="text"
                         v-permission="{
                             id: $route.name,
@@ -72,7 +68,6 @@
                     </el-button>
                     <el-button
                         class="mr10"
-                        size="small"
                         type="text"
                         v-permission="{
                             id: $route.name,
@@ -83,7 +78,6 @@
                     </el-button>
                     <el-button
                         class="mr10"
-                        size="small"
                         type="text"
                         v-permission="{
                             id: $route.name,
@@ -94,7 +88,6 @@
                     </el-button>
                     <el-button
                         class="mr10"
-                        size="small"
                         type="text"
                         v-permission="{
                             id: $route.name,
@@ -176,7 +169,7 @@
             label: '操作',
             key: 'operation',
             align: 'left',
-            width: '340px',
+            width: '362px',
             fixed: 'right',
             scopedSlots: 'operation'
         }
@@ -187,17 +180,11 @@
         limit: 20
     }
     roleList: Array<any> = []
-    maxHeight: string | number = ''
     search: string = ''
     roles: Array<any> = []
     created() {
         this.getUserList()
         this.getRoleList()
-        const PAGE_OCCUPIED_HEIGHT = 328
-        this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
-        window.onresize = () => {
-            this.maxHeight = window.innerHeight - PAGE_OCCUPIED_HEIGHT
-        }
     }
     // 获取用户拥有的全部角色
     getRoles(row) {
@@ -270,7 +257,7 @@
         })) {
             return false
         }
-        this.$confirm('确认要删除改用户？', {
+        this.$confirm('确认要删除该用户？', {
             center: true
         }).then(async() => {
             await this.confirmDelete(row)
