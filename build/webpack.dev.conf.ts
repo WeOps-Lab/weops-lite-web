@@ -22,6 +22,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
     // these devServer options should be customized in /config/index.ts
     devServer: {
+        client: {
+            logging: 'warn',
+            overlay: config.dev.errorOverlay
+            ? {warnings: false, errors: true}
+            : false,
+        },
         static: {
             publicPath: config.dev.assetsPublicPath,
         },
