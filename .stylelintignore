@@ -3,15 +3,7 @@
 /dist/
 /*.js
 /node_modules/
-/src/projects/common/components/cmdb/
-/src/projects/common/components/ui/
-/src/projects/common/components/asst-path-settings/
 /src/assets/icon/
 /src/assets/base/
 /src/assets/custom/
 /src/assets/jsFlow/
-/src/projects/common/assets/
-/src/projects/common/font/
-/src/views/review/
-/src/projects/property/views/vision/
-/src/projects/log/views/log/components/aceEditor/index.vue
