@@ -3,26 +3,6 @@
 /dist/
 /*.js
 /node_modules/
-
-# cc相关
-/src/projects/property/api/modules/cc
-/src/projects/property/api/modules/application_topology.ts
-/src/projects/property/api/modules/model_migrate.ts
-/src/projects/property/api/modules/vision.ts
-/src/projects/common/api/module/home.ts
-/src/projects/common/api/module/user.ts
-/src/projects/common/api/module/login.js
-/src/projects/common/api/module/privilege.ts
-/src/projects/common/api/module/privilege_cache.ts
-/src/projects/common/api/module/switches.ts
-/src/projects/common/api/module/report
-/src/projects/property/views/vision/
-/src/projects/common/store
-/src/projects/common/assets/icon
-/src/projects/common/components/
 /src/prototype
-/src/projects/common/common
-/src/views/sysManage/components/topology/node/classic-canvas.js
-/src/views/sysManage/components/topology/node/search-node.js
-/src-mobile/assets/
 /src/assets/jsFlow/
+/src/assets/icon/
