@@ -1,0 +1,102 @@
+.operation-permission {
+    height: 100%;
+    padding: 10px 10px 0 10px;
+    display: flex;
+    flex-direction: column;
+
+    .table-header {
+        display: flex;
+        height: 50px;
+        align-items: center;
+        background-color: #FAFAFA;
+        border: 1px solid #dcdee5;
+
+        .menu-box,
+        .operate-auth {
+            flex: 1;
+            padding-left: 15px;
+        }
+
+        .operate-box {
+            min-width: 65%;
+        }
+    }
+
+    .table-body {
+        flex: 1;
+        height: 0;
+        overflow: auto;
+
+        .menu-list {
+
+            .first-level-box,
+            .second-level-box,
+            .third-level-box {
+                display: flex;
+                height: 50px;
+                align-items: center;
+                border-bottom: 1px solid #c4c6cc;
+            }
+
+            .menu-name,
+            .menu-operate {
+                flex: 1;
+                padding-left: 15px;
+            }
+
+            .menu-name {
+                font-size: 0;
+                display: flex;
+                align-items: center;
+
+                .expand-icon {
+                    font-size: 18px !important;
+                    cursor: pointer;
+                    margin-right: 5px;
+                }
+
+                span {
+                    font-size: 13px;
+                    display: inline-block;
+                    height: 18px;
+                    line-height: 18px;
+                }
+            }
+
+            .menu-operate {
+                display: flex;
+                min-width: 65%;
+
+                div {
+                    //flex: 1;
+                    font-size: 0;
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px;
+                    width: 112px;
+
+                    span {
+                        flex: 1;
+                        width: 0;
+                        font-size: 13px;
+                        display: inline-block;
+                        height: 18px;
+                        line-height: 18px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+
+        .check-box {
+            //vertical-align: text-top;
+            margin-right: 5px;
+        }
+
+        .check-box-left {
+            margin-left: 23px;
+        }
+    }
+}

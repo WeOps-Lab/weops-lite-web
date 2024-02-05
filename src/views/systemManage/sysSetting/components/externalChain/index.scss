@@ -1,0 +1,16 @@
+.content-box {
+    height: calc(100vh - 60px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .form-box {
+        flex: 1;
+        height: 0;
+    }
+
+    .foot-box {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+}

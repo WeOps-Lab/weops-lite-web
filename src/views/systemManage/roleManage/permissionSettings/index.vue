@@ -1,0 +1,47 @@
+<template>
+    <drawer-component
+        title="权限管理"
+        :visible="isShow"
+        :size="850"
+        @changeVisible="changeVisible">
+        <div slot="content" class="content-box">
+            <menu-tab :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
+            <div class="main-box" v-loading="loading" v-if="isShow">
+                <operation-permission
+                    v-show="active === 'operationPermission'"
+                    :role="role"
+                    ref="menuPermission"
+                    @getMenuLoading="getMenuLoading"
+                    @getLatestMenu="getLatestMenu"
+                    @getPermissions="getPermissions"
+                    @getRawIds="getRawIds"
+                >
+                </operation-permission>
+                <!-- <app-permission
+                    v-show="active === 'appPermission'"
+                    :role="role"
+                    ref="appPermission"
+                    @getAppLoading="getAppLoading"
+                    @getLatestApp="getLatestApp"
+                >
+                </app-permission> -->
+                <!-- <instance-permission
+                    v-show="active === 'instancePermission'"
+                    :role="role"
+                    ref="instancePermission">
+                </instance-permission> -->
+            </div>
+            <div class="footer-box">
+                <el-button v-if="active !== 'instancePermission'" :disabled="disableBtn || loading" :type="'primary'" @click="confirm">
+                    确定
+                </el-button>
+            </div>
+        </div>
+    </drawer-component>
+</template>
+
+<script lang="ts" src="./index.ts"></script>
+
+<style scoped lang="scss">
+@import "./index.scss"
+</style>
