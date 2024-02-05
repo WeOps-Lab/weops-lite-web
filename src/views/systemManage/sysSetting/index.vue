@@ -22,6 +22,8 @@
     import LogoSetting from './logoSettings.vue'
     import MenuManage from './menuManage.vue'
     import PageExplanation from '@/components/pageExplanation.vue'
+    import { Panels } from '@/common/types'
+    import { SYSSETTING_PANELS } from '@/common/constants/systemManage/sysSetting.ts'
 
     @Component({
         name: 'sys-setting',
@@ -38,18 +40,7 @@
         }
     })
     export default class SysSetting extends Vue {
-        panels = [
-            {
-                name: 'MenuManage',
-                label: '菜单设置',
-                content: '菜单管理允许您灵活配置菜单，包括菜单项、菜单层级等，可以根据需要自定义菜单并启用，以便更好使用系统功能'
-            },
-            {
-                name: 'LogoSetting',
-                label: 'Logo设置',
-                content: '您可以进行主题logo的替换，或者恢复默认'
-            }
-        ]
+        panels: Array<Panels> = SYSSETTING_PANELS
         active: string = 'MenuManage'
 
         getTitleOrContent(key) {

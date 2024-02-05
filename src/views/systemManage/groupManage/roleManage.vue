@@ -67,9 +67,10 @@
 <script lang="ts">
     import MenuTab from '@/components/menuTab.vue'
     import { Component, Vue, Prop } from 'vue-property-decorator'
-    import { Pagination, TableData } from '@/types'
+    import { Pagination, TableData } from '@/common/types'
     import ComTable from '@/components/comTable.vue'
     import DrawerComponent from '@/components/comDrawer.vue'
+    import { ROLES_COLUMNS } from '@/common/constants/systemManage/groupManage.ts'
 
     @Component({
         components: {
@@ -91,23 +92,10 @@
         pagination: Pagination = {
             current: 1,
             count: 0,
-            limit: 20,
-            small: true
+            limit: 20
         }
         // 角色管理
-        roleColumns: Array<TableData> = [
-            {
-                type: 'selection'
-            },
-            {
-                label: '角色名称',
-                key: 'name'
-            },
-            {
-                label: '角色描述',
-                key: 'description'
-            }
-        ]
+        roleColumns: Array<TableData> = ROLES_COLUMNS
         searchValue: string = ''
         rawDataList: any = []
         dataList: any = []

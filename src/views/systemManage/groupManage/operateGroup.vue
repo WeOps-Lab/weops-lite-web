@@ -26,6 +26,8 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import { RulesForm } from '@/common/types/systemManage/groupManage.ts'
+    import { COMMON_RULE } from '@/common/constants'
     @Component
     export default class OperateGroup extends Vue {
         visible: boolean = false
@@ -36,13 +38,9 @@
             group_name: '',
             id: ''
         }
-        rules = {
+        rules: RulesForm = {
             group_name: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
             ]
         }
         get title() {

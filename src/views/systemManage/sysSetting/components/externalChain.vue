@@ -30,6 +30,8 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import DrawerComponent from '@/components/comDrawer.vue'
+    import { ExtenalChainRules } from '@/common/types/systemManage/sysSetting.ts'
+    import { COMMON_RULE } from '@/common/constants'
     import uuid from 'uuid'
     @Component({
         name: 'external-chain',
@@ -43,20 +45,12 @@
             name: '',
             url: ''
         }
-        rules = {
+        rules: ExtenalChainRules = {
             name: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
             ],
             url: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                },
+                COMMON_RULE,
                 {
                     type: 'url',
                     message: '请输入正确外链地址',

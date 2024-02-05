@@ -103,7 +103,8 @@
 <script lang="ts">
     import MenuTab from '@/components/menuTab.vue'
     import { Component, Vue, Prop } from 'vue-property-decorator'
-    import { Pagination, TableData } from '@/types'
+    import { Pagination, TableData, Panels } from '@/common/types'
+    import { USER_COLUMNS, ROLE_PANELS } from '@/common/constants/systemManage/roleManage.ts'
     import ComTable from '@/components/comTable.vue'
     import DrawerComponent from '@/components/comDrawer.vue'
 
@@ -123,39 +124,14 @@
         visible: boolean = false
         loading: boolean = false
         isConfirm: boolean = false
-        panels: Array<{
-            label: string,
-            name: string
-        }> = [
-            {
-                label: '人员',
-                name: 'user'
-            },
-            {
-                label: '组织',
-                name: 'group'
-            }
-        ]
+        panels: Array<Panels> = ROLE_PANELS
         active: string = 'user'
         pagination: Pagination = {
             current: 1,
             count: 0,
-            limit: 20,
-            small: true
+            limit: 20
         }
-        userColumns: Array<TableData> = [
-            {
-                type: 'selection'
-            },
-            {
-                label: '中文名',
-                key: 'chname'
-            },
-            {
-                label: '用户名',
-                key: 'bk_username'
-            }
-        ]
+        userColumns: Array<TableData> = USER_COLUMNS
         searchValue: string = ''
         dataList: any = [] // 表格展示数据
         selectedData:any = {} // 选中的数据，有{user:[], group:[]}

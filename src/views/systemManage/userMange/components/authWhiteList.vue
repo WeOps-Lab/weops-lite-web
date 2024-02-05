@@ -77,9 +77,10 @@
 <script lang="ts">
     import MenuTab from '@/components/menuTab.vue'
     import { Component, Vue, Prop } from 'vue-property-decorator'
-    import { Pagination, TableData } from '@/types'
+    import { Pagination, TableData, Panels } from '@/common/types'
     import ComTable from '@/components/comTable.vue'
     import DrawerComponent from '@/components/comDrawer.vue'
+    import { GROUP_COLUMNS, AUTH_PANELS } from '@/common/constants/systemManage/userMange.ts'
 
     @Component({
         components: {
@@ -114,39 +115,14 @@
         visible: boolean = false
         loading: boolean = false
         isConfirm: boolean = false
-        panels: Array<{
-            label: string,
-            name: string
-        }> = [
-            {
-                label: '角色',
-                name: 'role'
-            },
-            {
-                label: '用户',
-                name: 'user'
-            }
-        ]
+        panels: Array<Panels> = AUTH_PANELS
         active: string = 'role'
         pagination: Pagination = {
             current: 1,
             count: 0,
-            limit: 20,
-            small: true
+            limit: 20
         }
-        groupColumns: Array<TableData> = [
-            {
-                type: 'selection'
-            },
-            {
-                label: '角色名称',
-                key: 'role_name'
-            },
-            {
-                label: '用户数',
-                key: 'user_count'
-            }
-        ]
+        groupColumns: Array<TableData> = GROUP_COLUMNS
         userColumns: Array<TableData> = [
             {
                 type: 'selection',

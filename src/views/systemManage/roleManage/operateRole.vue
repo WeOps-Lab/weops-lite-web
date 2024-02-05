@@ -29,6 +29,8 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import { RulesForm } from '@/common/types/systemManage/roleManage.ts'
+    import { COMMON_RULE } from '@/common/constants'
     @Component
     export default class OperateRole extends Vue {
         visible: boolean = false
@@ -40,13 +42,9 @@
             describe: '',
             id: ''
         }
-        rules = {
+        rules: RulesForm = {
             role_name: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
             ]
         }
         get title() {
