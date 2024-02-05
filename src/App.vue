@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-    import appAuth from '@/components/appAuth.vue'
+    import appAuth from '@/components/appAuth/index.vue'
     import bus from './common/bus/index'
-    import navFrame from '@/components/navFrame.vue'
+    import navFrame from '@/components/navFrame/index.vue'
     import { Component, Vue } from 'vue-property-decorator'
 
     @Component({

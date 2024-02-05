@@ -1,4 +1,4 @@
-import container from './container'
+import container from './container/index.vue'
 
 const components = [
     container

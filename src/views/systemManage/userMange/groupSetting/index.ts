@@ -1,5 +1,5 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import DrawerComponent from '@/components/comDrawer.vue'
+import DrawerComponent from '@/components/comDrawer/index.vue'
 @Component({
     name: 'group-setting',
     components: {

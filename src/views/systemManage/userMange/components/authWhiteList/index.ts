@@ -1,8 +1,8 @@
-import MenuTab from '@/components/menuTab.vue'
+import MenuTab from '@/components/menuTab/index.vue'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Pagination, TableData, Panels } from '@/common/types'
-import ComTable from '@/components/comTable.vue'
-import DrawerComponent from '@/components/comDrawer.vue'
+import ComTable from '@/components/comTable/index.vue'
+import DrawerComponent from '@/components/comDrawer/index.vue'
 import { GROUP_COLUMNS, AUTH_PANELS } from '@/common/constants/systemManage/userMange.ts'
 
 @Component({

@@ -1,9 +1,9 @@
 // import AppPermission from './appPermission.vue'
 import OperationPermission from '../operationPermission/index.vue'
 // import InstancePermission from './instancePermission.vue'
-import menuTab from '@/components/menuTab.vue'
+import menuTab from '@/components/menuTab/index.vue'
 import { Vue, Component } from 'vue-property-decorator'
-import DrawerComponent from '@/components/comDrawer.vue'
+import DrawerComponent from '@/components/comDrawer/index.vue'
 import { routeConfig } from '@/router/menuList'
 import { findAuthById } from '@/common/dealMenu'
 

@@ -1,0 +1,21 @@
+.content-box {
+    height: calc(100vh - 60px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .info-box {
+        flex: 1;
+        height: 0;
+        overflow: auto;
+    }
+
+    .btn-box {
+        margin: 20px;
+    }
+
+    .form-btn {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+}
