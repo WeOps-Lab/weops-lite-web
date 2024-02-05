@@ -13,12 +13,12 @@
             margin-right: 8px;
         }
 
-        &>span {
+        & > span {
             display: inline-block;
             margin: 0 8px 0 16px;
         }
 
-        &>span:nth-of-type(1) {
+        & > span:nth-of-type(1) {
             margin-left: 0;
         }
     }

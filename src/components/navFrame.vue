@@ -88,7 +88,7 @@
                             </el-menu-item>
                         </template>
                         <div class="nav-slider-footer">
-                            <i :class="open ? 'el-icon-back' : 'el-icon-right'" @click="handleIconCLick"></i>
+                            <i :class="['cw-icon',open ? 'weops-navigation-indent' : 'weops-navigation-expand']" @click="handleIconCLick"></i>
                         </div>
                     </el-menu>
                 </el-aside>
@@ -385,17 +385,15 @@
         .el-aside {
             .el-menu {
                 height: 100%;
-                position: relative;
                 .el-menu-item {
                     text-align: left;
                     padding: 0 20px !important;
                 }
                 /deep/.nav-slider-footer {
-                    width: 100%;
-                    position: absolute;
-                    bottom: 50px;
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
                     transform: translateY(-50%);
-                    padding: 0 20px;
                     i {
                         font-size: 16px;
                         cursor: pointer;
