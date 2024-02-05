@@ -40,6 +40,8 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import { OperateUserRules, OperateUserFormData } from '@/common/types/systemManage/userMange.ts'
+    import { COMMON_RULE } from '@/common/constants'
     @Component({
         name: 'reset-password'
     })
@@ -48,17 +50,13 @@
         password: string = ''
         resetUser: any = ''
         resetLoading: boolean = false
-        formData = {
+        formData: OperateUserFormData = {
             password: '',
             confirmPassword: ''
         }
-        rules = {
+        rules: OperateUserRules = {
             password: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
                 // {
                 //     regex: /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,32}$/,
                 //     message: '密码长度为8-32个字符，必须包含大小写字母，数字',

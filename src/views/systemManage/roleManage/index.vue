@@ -106,6 +106,8 @@
     import AuthWhiteList from '../userMange/components/authWhiteList.vue'
     import PageExplanation from '@/components/pageExplanation.vue'
     import UserAndGroup from './userAndGroup.vue'
+    import { Pagination, TableData } from '@/common/types'
+    import { ROLE_MANAGE_COLUMNS } from '@/common/constants/systemManage/roleManage.ts'
     @Component({
         name: 'role-manage',
         components: {
@@ -121,43 +123,10 @@
         tableLoading: boolean = false
         dataList: Array<any> = []
         allDataList: Array<any> = []
-        columns = [
-            {
-                label: '角色名称',
-                key: 'name',
-                align: 'left',
-                minWidth: '100px'
-            },
-            {
-                label: '角色描述',
-                key: 'description',
-                align: 'left',
-                minWidth: '300px'
-            },
-            {
-                label: '是否内置',
-                key: 'built_in',
-                align: 'left',
-                minWidth: '100px',
-                scopedSlots: 'built_in'
-            },
-            // {
-            //     label: '创建时间',
-            //     key: 'created',
-            //     align: 'left',
-            //     minWidth: '120'
-            // },
-            {
-                label: '操作',
-                key: 'operation',
-                align: 'left',
-                width: '300px',
-                scopedSlots: 'operation'
-            }
-        ]
-        pagination = {
+        columns: Array<TableData> = ROLE_MANAGE_COLUMNS
+        pagination: Pagination = {
             current: 1,
-            count: 1,
+            count: 0,
             limit: 20
         }
         search: string = ''

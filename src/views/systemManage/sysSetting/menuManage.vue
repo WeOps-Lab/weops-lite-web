@@ -1,7 +1,7 @@
 <template>
     <div class="menu-manage-wrapper">
-        <div class="menu-manage-area">
-            <div class="menu-search">
+        <div class="manage-wrapper">
+            <div class="operate-box">
                 <el-input
                     clearable
                     placeholder="请输入关键词"
@@ -79,6 +79,8 @@
     import { Vue, Component } from 'vue-property-decorator'
     import CustomMenuTable from '@/components/comTable.vue'
     import { mapState } from 'vuex'
+    import { Pagination, TableData } from '@/common/types'
+    import { MENU_MANAGE_COLUMNS } from '@/common/constants/systemManage/sysSetting.ts'
 
     @Component({
         name: 'menu-manage',
@@ -95,37 +97,13 @@
         keywords: string = ''
         loading: boolean = false
         menuList: any = []
-        pagination: any = {
+        pagination: Pagination = {
             current: 1,
             count: 0,
             limit: 20
         }
-        columns: Array<any> = [
-            {
-                label: '菜单名称',
-                key: 'menu_name'
-            },
-            {
-                label: '创建人',
-                key: 'created_by'
-            },
-            {
-                label: '创建时间',
-                key: 'created_at'
-            },
-            {
-                label: '更新时间',
-                key: 'updated_at'
-            },
-            {
-                label: '操作',
-                key: 'operation',
-                width: '250px',
-                prop: 'operation',
-                scopedSlots: 'operation'
-            }
-        ]
-        pageOccupiedHeight: number = 380
+        columns: Array<TableData> = MENU_MANAGE_COLUMNS
+        pageOccupiedHeight: number = 400
         mounted() {
             this.getMenuList()
         }
@@ -225,15 +203,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-.menu-manage-wrapper {
-    .menu-manage-area {
-        background: #ffffff;
-        padding: 10px;
-        .menu-search {
-            display: flex;
-        }
-    }
-}
-</style>

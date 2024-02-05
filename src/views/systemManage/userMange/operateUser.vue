@@ -37,6 +37,8 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import { OperateUserRules, OperateUserFormData } from '@/common/types/systemManage/userMange.ts'
+    import { COMMON_RULE } from '@/common/constants'
 
     @Component({
         name: 'operate-user'
@@ -46,27 +48,19 @@
         loading: boolean = false
         userInfo: any = {}
         type: string = ''
-        formData = {
+        formData: OperateUserFormData = {
             username: '',
             lastName: '',
             email: '',
             password: '',
             confirmPassword: ''
         }
-        rules = {
+        rules:OperateUserRules = {
             username: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
             ],
             lastName: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                },
+                COMMON_RULE,
                 {
                     validator: (rule, value, callback) => {
                         if (!/^$|^[\u4e00-\u9fa5]+$/.test(value)) {
@@ -79,18 +73,10 @@
                 }
             ],
             password: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
             ],
             confirmPassword: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                },
+                COMMON_RULE,
                 {
                     validator: (rule, value, callback) => {
                         if (value !== this.formData.password) {

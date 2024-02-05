@@ -57,6 +57,7 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import DrawerComponent from './comDrawer.vue'
+    import { COMMON_RULE } from '@/common/constants'
 
     @Component({
         components: {
@@ -92,11 +93,7 @@
         }
         passwordRules = {
             password: [
-                {
-                    required: true,
-                    message: '必填项',
-                    trigger: 'blur'
-                }
+                COMMON_RULE
                 // {
                 //     regex: /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,32}$/,
                 //     message: '密码长度为8-32个字符，必须包含大小写字母，数字',

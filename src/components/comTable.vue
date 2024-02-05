@@ -48,9 +48,10 @@
                 background
                 :current-page.sync="pagination.current"
                 :page-sizes="[10, 20, 50, 100]"
-                :page-size="20"
+                :page-size="pagination.limit"
                 layout="total, sizes, next, pager, prev"
                 :total="pagination.count"
+                :small="pagination.small"
                 @size-change="limitChange"
                 @current-change="handlePageChange">
             </el-pagination>

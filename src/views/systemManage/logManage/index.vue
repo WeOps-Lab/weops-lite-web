@@ -64,19 +64,10 @@
     import PageExplanation from '@/components/pageExplanation.vue'
     import ComTable from '@/components/comTable.vue'
     import moment from 'moment'
-    interface Log {
-        operator: string;
-        operate_obj: string;
-        operate_type: string;
-        created_at: string;
-        operate_summary: string;
-    }
+    import { Pagination, TableData } from '@/common/types'
+    import { LogList } from '@/common/types/systemManage/logManage.ts'
+    import { TYPE_LIST, LOG_COLUMNS } from '@/common/constants/systemManage/logManage.ts'
 
-    interface Pagination {
-        current: number;
-        count: number;
-        limit: number;
-    }
     @Component({
         name: 'log-manage',
         components: {
@@ -97,17 +88,9 @@
             page_size: 10
         }
 
-        typeList = [
-            { id: 'add', name: '增加' },
-            { id: 'modify', name: '修改' },
-            { id: 'exec', name: '执行' },
-            { id: 'delete', name: '删除' },
-            { id: 'download', name: '下载' },
-            { id: 'upload', name: '上传' },
-            { id: 'login', name: '登录' }
-        ]
+        typeList = TYPE_LIST
 
-        logList: Log[] = [
+        logList: LogList[] = [
             {
                 operator: 'test',
                 operate_obj: '',
@@ -119,43 +102,11 @@
 
         pagination: Pagination = {
             current: 1,
-            count: 10,
-            limit: 10
+            count: 0,
+            limit: 20
         }
 
-        columns = [
-            {
-                label: '操作者',
-                key: 'operator',
-                align: 'left',
-                minWidth: '100px'
-            },
-            {
-                label: '操作对象',
-                key: 'operate_obj',
-                align: 'left',
-                minWidth: '200px'
-            },
-            {
-                label: '操作类型',
-                key: 'operate_type',
-                align: 'left',
-                minWidth: '100px',
-                scopedSlots: 'operate_type'
-            },
-            {
-                label: '操作时间',
-                key: 'created_at',
-                align: 'left',
-                minWidth: '140'
-            },
-            {
-                label: '概要',
-                key: 'operate_summary',
-                align: 'left',
-                minWidth: '200px'
-            }
-        ]
+        columns: Array<TableData> = LOG_COLUMNS
 
         mounted() {
             this.getLogs()
