@@ -691,3 +691,18 @@
     background-color: #fff;
     padding: 20px;
 }
+
+.el-message-box__btns {
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
+    button {
+        &:nth-child(1) {
+            margin-left: 10px;
+        }
+    }
+}
+
+.el-message-box__content {
+    padding: 0 15px 10px 15px;
+}
