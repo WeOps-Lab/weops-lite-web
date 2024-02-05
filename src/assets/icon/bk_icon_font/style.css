@@ -653,3 +653,27 @@ url("fonts/cw-icon.eot?#iefix") format("embedded-opentype");
 .cw-icon.weops-zu-zhi-jue-se:before {
 	content: "\ed23";
 }
+.cw-icon.weops-zhe-xian-lian-xian:before {
+	content: "\ed31";
+}
+.cw-icon.weops-qu-xian-lian-xian:before {
+	content: "\ed32";
+}
+.cw-icon.weops-zhi-xian-lian-xian:before {
+	content: "\ed33";
+}
+.cw-icon.weops-wen-jian-fen-fa:before {
+	content: "\ed3b";
+}
+.cw-icon.weops-zi-chan-mu-lu:before {
+	content: "\ed3c";
+}
+.cw-icon.weops-dong-tai-fen-zu:before {
+	content: "\ed3d";
+}
+.cw-icon.weops-navigation-expand:before {
+	content: "\ef4f";
+}
+.cw-icon.weops-navigation-indent:before {
+	content: "\ef50";
+}
