@@ -175,8 +175,8 @@ Vue.prototype.$DupRem = function (list) {
 // router/frameRouter.ts
 
 const NoFound = () => import('@/views/404.vue')
-const SysSetting = () => import('@/views/sysSetting/index.vue')
-const SysLog = () => import('@/views/logManage/index.vue')
+const SysSetting = () => import('@/views/sysSetting/index/index.vue')
+const SysLog = () => import('@/views/logManage/index/index.vue')
 // 页面路由
 let mainRouter = [
     {
