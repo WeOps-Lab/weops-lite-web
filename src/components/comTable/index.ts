@@ -3,6 +3,7 @@
  * @param { Array } settingsFields:[],
 */
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Pagination, TableData } from '@/common/types'
 
 @Component({
     name: 'table-component'
@@ -13,7 +14,7 @@ export default class TableComponent extends Vue {
         default: () => [],
         required: true
     })
-    columns: any
+    columns: Array<TableData>
     @Prop({
         type: Boolean,
         default: false
@@ -23,7 +24,7 @@ export default class TableComponent extends Vue {
         type: Array,
         default: () => []
     })
-    settingsFields: any
+    settingsFields: Pagination
     @Prop({
         type: Boolean,
         default: () => false
