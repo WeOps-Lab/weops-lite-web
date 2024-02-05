@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator'
-import PageExplanation from '@/components/pageExplanation.vue'
+import PageExplanation from '@/components/pageExplanation/index.vue'
 import OperateGroup from '../operateGroup/index.vue'
 import AuthWhiteList from '@/views/systemManage/userMange/components/authWhiteList/index.vue'
 import RoleManage from '../roleManage/index.vue'

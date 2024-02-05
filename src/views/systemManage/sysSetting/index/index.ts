@@ -1,9 +1,9 @@
 import { Vue, Component } from 'vue-property-decorator'
-import MenuTab from '@/components/menuTab.vue'
-import HeaderSub from '@/components/headerSub.vue'
+import MenuTab from '@/components/menuTab/index.vue'
+import HeaderSub from '@/components/headerSub/index.vue'
 import LogoSetting from '../logoSettings/index.vue'
 import MenuManage from '../menuManage/index.vue'
-import PageExplanation from '@/components/pageExplanation.vue'
+import PageExplanation from '@/components/pageExplanation/index.vue'
 import { Panels } from '@/common/types'
 import { SYSSETTING_PANELS } from '@/common/constants/systemManage/sysSetting.ts'
 

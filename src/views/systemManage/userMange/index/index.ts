@@ -1,10 +1,10 @@
-import comTable from '@/components/comTable.vue'
+import comTable from '@/components/comTable/index.vue'
 import resetPassword from '../resetPassword/index.vue'
 import operateUser from '../operateUser/index.vue'
 import { Vue, Component } from 'vue-property-decorator'
 import GroupSetting from '../groupSetting/index.vue'
 import RoleManage from '../roleManage/index.vue'
-import PageExplanation from '@/components/pageExplanation.vue'
+import PageExplanation from '@/components/pageExplanation/index.vue'
 import { Pagination, TableData } from '@/common/types'
 import { USER_COLUMNS } from '@/common/constants/systemManage/userMange.ts'
 @Component({

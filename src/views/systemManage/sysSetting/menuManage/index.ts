@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator'
-import CustomMenuTable from '@/components/comTable.vue'
+import CustomMenuTable from '@/components/comTable/index.vue'
 import { mapState } from 'vuex'
 import { Pagination, TableData } from '@/common/types'
 import { MENU_MANAGE_COLUMNS } from '@/common/constants/systemManage/sysSetting.ts'
