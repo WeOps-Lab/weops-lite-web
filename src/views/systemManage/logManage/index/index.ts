@@ -4,8 +4,8 @@ import PageExplanation from '@/components/pageExplanation/index.vue'
 import ComTable from '@/components/comTable/index.vue'
 import moment from 'moment'
 import { Pagination, TableData } from '@/common/types'
-import { LogList } from '@/common/types/systemManage/logManage.ts'
-import { TYPE_LIST, LOG_COLUMNS } from '@/common/constants/systemManage/logManage.ts'
+import { LogList } from '@/common/types/systemManage/logManage'
+import { TYPE_LIST, LOG_COLUMNS } from '@/common/constants/systemManage/logManage'
 
 @Component({
     name: 'log-manage',

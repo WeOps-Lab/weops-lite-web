@@ -23,7 +23,7 @@ export const ROLE_MANAGE_COLUMNS = [
         label: '操作',
         key: 'operation',
         align: 'left',
-        width: '300px',
+        width: '280px',
         scopedSlots: 'operation'
     }
 ]

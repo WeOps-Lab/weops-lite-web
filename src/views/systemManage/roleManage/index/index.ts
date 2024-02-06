@@ -6,7 +6,7 @@ import AuthWhiteList from '@/views/systemManage/userMange/components/authWhiteLi
 import PageExplanation from '@/components/pageExplanation/index.vue'
 import UserAndGroup from '../userAndGroup/index.vue'
 import { Pagination, TableData } from '@/common/types'
-import { ROLE_MANAGE_COLUMNS } from '@/common/constants/systemManage/roleManage.ts'
+import { ROLE_MANAGE_COLUMNS } from '@/common/constants/systemManage/roleManage'
 @Component({
     name: 'role-manage',
     components: {

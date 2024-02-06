@@ -1,7 +1,7 @@
 // 用户管理模块
 import {get, deletes, patch, post, put, reUrl} from '@/api/axiosconfig/axiosconfig'
 import Mock from 'mockjs'
-import responseData from './responseData.ts'
+import responseData from './responseData'
 export default {
     /**
      * 查询自定义菜单列表

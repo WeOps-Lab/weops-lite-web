@@ -3,7 +3,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import ComTable from '@/components/comTable/index.vue'
 import DrawerComponent from '@/components/comDrawer/index.vue'
 import { Pagination, TableData } from '@/common/types'
-import { ROLE_COLUMNS } from '@/common/constants/systemManage/userMange.ts'
+import { ROLE_COLUMNS } from '@/common/constants/systemManage/userMange'
 @Component({
     components: {
         MenuTab,

@@ -1,7 +1,7 @@
 import MenuTab from '@/components/menuTab/index.vue'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Pagination, TableData, Panels } from '@/common/types'
-import { USER_COLUMNS, ROLE_PANELS } from '@/common/constants/systemManage/roleManage.ts'
+import { USER_COLUMNS, ROLE_PANELS } from '@/common/constants/systemManage/roleManage'
 import ComTable from '@/components/comTable/index.vue'
 import DrawerComponent from '@/components/comDrawer/index.vue'
 

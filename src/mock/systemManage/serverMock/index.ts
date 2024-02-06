@@ -1,7 +1,7 @@
 // server模块（各模块）api
 import { get, post, put, reUrl } from '@/api/axiosconfig/axiosconfig'
 import Mock from 'mockjs'
-import responseData from './responseData.ts'
+import responseData from './responseData'
 
 // 返回在vue模板中的调用接口
 export default {

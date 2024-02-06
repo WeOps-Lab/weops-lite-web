@@ -6,7 +6,7 @@ import GroupSetting from '../groupSetting/index.vue'
 import RoleManage from '../roleManage/index.vue'
 import PageExplanation from '@/components/pageExplanation/index.vue'
 import { Pagination, TableData } from '@/common/types'
-import { USER_COLUMNS } from '@/common/constants/systemManage/userMange.ts'
+import { USER_COLUMNS } from '@/common/constants/systemManage/userMange'
 @Component({
     name: 'user-manage',
     components: {

@@ -14,7 +14,8 @@ export const SYSSETTING_PANELS = [
 export const MENU_MANAGE_COLUMNS = [
     {
         label: '菜单名称',
-        key: 'menu_name'
+        key: 'menu_name',
+        minWidth: '200px'
     },
     {
         label: '创建人',
@@ -31,7 +32,7 @@ export const MENU_MANAGE_COLUMNS = [
     {
         label: '操作',
         key: 'operation',
-        width: '250px',
+        width: '200px',
         prop: 'operation',
         scopedSlots: 'operation'
     }
