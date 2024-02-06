@@ -13,6 +13,10 @@
         border-top: none;
     }
 
+    /deep/.border-right-none {
+        border-right: none;
+    }
+
     .tree-box {
         .tree-box-body {
             overflow: auto;
