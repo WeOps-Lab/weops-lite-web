@@ -1,4 +1,4 @@
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import PageExplanation from '@/components/pageExplanation/index.vue'
 import OperateGroup from '../operateGroup/index.vue'
 import AuthWhiteList from '@/views/systemManage/userMange/components/authWhiteList/index.vue'
@@ -13,13 +13,33 @@ import RoleManage from '../roleManage/index.vue'
     }
 })
 export default class GroupManage extends Vue {
-    search: string = '';
-    nodeData: any[] = [];
-    loading: boolean = false;
+    search: string = ''
+    nodeData: any[] = []
+    loading: boolean = false
     // 存放复选框勾选的id
-    checkedIds: string[] = [];
+    checkedIds: string[] = []
     get user() {
         return this.$store.state.permission.user
+    }
+    @Watch('nodeData', {
+        deep: true
+    })
+    onNodeDataChange() {
+        // 表格纵向出现滚动条时样式优化
+        this.$nextTick(() => {
+            const tbody: any = document.querySelector('.tree-box-body')
+            const hasVerticalScrollbar = tbody?.scrollHeight > tbody?.clientHeight
+            const nodeContent:any = document.querySelectorAll('.el-tree-node__content') || []
+            if (hasVerticalScrollbar) {
+                nodeContent.forEach(node => {
+                    node.classList.add('border-right-none')
+                })
+                return
+            }
+            nodeContent.forEach(node => {
+                node.classList.remove('border-right-none')
+            })
+        })
     }
     mounted() {
         this.getGroups()
