@@ -5,8 +5,9 @@
             :visible="isShow"
             :size="600"
             :before-close="beforeClose"
+            custom-class="common-dialog-wrapper"
             @changeVisible="changeVisible">
-            <div slot="content" class="content-box" v-loading="pageLoading">
+            <div slot="content" class="common-dialog-wrapper-main content-box" v-loading="pageLoading">
                 <el-form label-width="80px" :model="formData" ref="validateForm"
                     v-loading="isInfoLoading" :rules="formRules">
                     <el-form-item label="用户名" :required="true" prop="username">
@@ -78,6 +79,9 @@
                     </el-form-item>
                 </el-form>
             </div>
+            <template slot="footer">
+                <el-button type="default" size="small" @click="isShow = false">取消</el-button>
+            </template>
         </drawer-component>
     </div>
 </template>
