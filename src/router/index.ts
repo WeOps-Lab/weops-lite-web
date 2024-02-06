@@ -75,7 +75,8 @@ function checkRouteAccess(to, from, next) {
         const permission = store.state.permission
         const menuList = permission.menuList
         const defaultName = findFirstUrl(menuList)
-        if (to.fullPath === '/' && defaultName) {
+        if ((to.fullPath === '/' || to.fullPath.startsWith('/#iss=')) && defaultName) {
+            // 兼容keycloak登录后返回的首页url和默认的首页url'/'
             next({ name: defaultName })
             return
         }
