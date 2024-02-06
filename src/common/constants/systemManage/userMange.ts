@@ -63,7 +63,7 @@ export const USER_COLUMNS = [
         label: '操作',
         key: 'operation',
         align: 'left',
-        width: '368px',
+        width: '330px',
         fixed: 'right',
         scopedSlots: 'operation'
     }

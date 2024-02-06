@@ -20,25 +20,25 @@ export const LOG_COLUMNS = [
         label: '操作对象',
         key: 'operate_obj',
         align: 'left',
-        minWidth: '200px'
+        minWidth: '180px'
     },
     {
         label: '操作类型',
         key: 'operate_type',
         align: 'left',
-        minWidth: '100px',
+        minWidth: '80px',
         scopedSlots: 'operate_type'
     },
     {
         label: '操作时间',
         key: 'created_at',
         align: 'left',
-        minWidth: '140'
+        minWidth: '100'
     },
     {
         label: '概要',
         key: 'operate_summary',
         align: 'left',
-        minWidth: '200px'
+        minWidth: '240px'
     }
 ]
