@@ -15,6 +15,7 @@
                             id: $route.name,
                             type: 'SysUser_create'
                         }"
+                        size="small"
                         @click="operateUser('add')">
                         新增用户
                     </el-button>
@@ -26,6 +27,7 @@
                     placeholder="请输入搜索关键字"
                     :suffix-icon="'el-icon-search'"
                     v-model="search"
+                    size="small"
                     @change="handlerIconClick"
                     @clear="handlerIconClick"
                 >
@@ -57,6 +59,7 @@
                                 id: $route.name,
                                 type: 'SysUser_edit'
                             }"
+                            size="small"
                             @click="operateRole(row)">
                             设置角色
                         </el-button>
@@ -67,6 +70,7 @@
                                 id: $route.name,
                                 type: 'SysUser_edit'
                             }"
+                            size="small"
                             @click="operateGroup(row)">
                             设置组织
                         </el-button>
@@ -77,6 +81,7 @@
                                 id: $route.name,
                                 type: 'SysUser_edit'
                             }"
+                            size="small"
                             @click="operateUser('edit', row)">
                             编辑
                         </el-button>
@@ -87,6 +92,7 @@
                                 id: $route.name,
                                 type: 'SysUser_delete'
                             }"
+                            size="small"
                             @click="deleteUser(row)">
                             删除
                         </el-button>
@@ -97,6 +103,7 @@
                                 id: $route.name,
                                 type: 'SysUser_edit'
                             }"
+                            size="small"
                             @click="resetPassword(row)">
                             重置密码
                         </el-button>

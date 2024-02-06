@@ -3,8 +3,9 @@
         title="权限管理"
         :visible="isShow"
         :size="850"
+        custom-class="common-dialog-wrapper"
         @changeVisible="changeVisible">
-        <div slot="content" class="content-box">
+        <div slot="content" class="common-dialog-wrapper-main">
             <menu-tab :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
             <div class="main-box" v-loading="loading" v-if="isShow">
                 <operation-permission
@@ -31,12 +32,17 @@
                     ref="instancePermission">
                 </instance-permission> -->
             </div>
-            <div class="footer-box">
-                <el-button v-if="active !== 'instancePermission'" :disabled="disableBtn || loading" :type="'primary'" @click="confirm">
-                    确定
-                </el-button>
-            </div>
         </div>
+        <template slot="footer">
+            <el-button
+                v-if="active !== 'instancePermission'"
+                :disabled="disableBtn || loading"
+                type="primary"
+                size="small"
+                @click="confirm">
+                确定
+            </el-button>
+        </template>
     </drawer-component>
 </template>
 

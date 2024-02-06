@@ -6,6 +6,7 @@
                     clearable
                     placeholder="请输入关键词"
                     v-model="keywords"
+                    size="small"
                     @change="getMenuList"
                     @clear="getMenuList">
                 </el-input>
@@ -16,6 +17,7 @@
                     }"
                     class="ml10"
                     :type="'primary'"
+                    size="small"
                     @click="handleAdd">
                     新建菜单
                 </el-button>
@@ -34,6 +36,7 @@
                         <el-button
                             v-if="row.use"
                             type="text"
+                            size="small"
                             disabled>
                             已启用
                         </el-button>
@@ -44,6 +47,7 @@
                                 type: 'SysSetting_menus_edit'
                             }"
                             type="text"
+                            size="small"
                             @click="handleChangeSatus(row)">
                             启用
                         </el-button>
@@ -55,6 +59,7 @@
                             }"
                             :disabled="row.use"
                             type="text"
+                            size="small"
                             @click="handleEdit(row)">
                             编辑
                         </el-button>
@@ -65,6 +70,7 @@
                             }"
                             :disabled="row.default || row.use"
                             type="text"
+                            size="small"
                             @click="handleDelete(row)">
                             删除
                         </el-button>

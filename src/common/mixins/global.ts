@@ -2,7 +2,7 @@ export default {
     data() {
         return {
             tableMaxHeight: 0,
-            pageOccupiedHeight: 350 // 默认的表格高度
+            pageOccupiedHeight: 344 // 默认的表格高度
         }
     },
     created() {
