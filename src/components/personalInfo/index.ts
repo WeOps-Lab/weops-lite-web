@@ -64,6 +64,7 @@ export default class PersonalInfo extends Vue {
     }
 
     show() {
+        Object.assign(this.$data, this.$options.data.call(this))
         this.formData.id = this.user.user_info?.sub
         this.isShow = true
         this.getUserInfo(this.formData.id)
