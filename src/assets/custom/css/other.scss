@@ -255,6 +255,10 @@
         padding: 20px;
         height: calc(100vh - 114px);
     }
+    &-footer {
+        display: flex;
+        flex-direction: row-reverse;
+    }
 }
 
 .pop-custom {

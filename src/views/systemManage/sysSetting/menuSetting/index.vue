@@ -6,6 +6,7 @@
                 style="width: 250px;"
                 :clearable="true"
                 v-model="menuTitle"
+                size="small"
                 placeholder="请输入菜单名称" />
         </div>
         <div class="custom-menu-content mt15">

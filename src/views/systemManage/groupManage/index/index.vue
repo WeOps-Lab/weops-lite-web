@@ -13,6 +13,7 @@
                             id: $route.name,
                             type: 'SysGroup_create'
                         }"
+                        size="small"
                         @click="operateGroup('add')">
                         新增组织
                     </el-button>
@@ -23,6 +24,7 @@
                             id: $route.name,
                             type: 'SysGroup_delete'
                         }"
+                        size="small"
                         @click="deleteNodes">
                         批量删除
                     </el-button>
@@ -32,6 +34,7 @@
                     style="width: 300px;"
                     placeholder="请输入搜索关键字"
                     suffix-icon="el-icon-search"
+                    size="small"
                     v-model="search"
                     @change="handlerIconClick"
                     @clear="handlerIconClick"
@@ -60,6 +63,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_create'
                                 }"
+                                size="small"
                                 @click.stop="operateGroup('addSub', node)">
                                 添加子组
                             </el-button>
@@ -69,6 +73,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_user'
                                 }"
+                                size="small"
                                 @click.stop="personnelManage(node)">
                                 人员管理
                             </el-button>
@@ -78,6 +83,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_role'
                                 }"
+                                size="small"
                                 @click.stop="roleManage(node)">
                                 角色管理
                             </el-button>
@@ -87,6 +93,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_edit'
                                 }"
+                                size="small"
                                 @click.stop="operateGroup('edit', node)">
                                 编辑
                             </el-button>
@@ -97,6 +104,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_delete'
                                 }"
+                                size="small"
                                 @click.stop="deleteNode(node)">
                                 删除
                             </el-button>

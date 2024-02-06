@@ -23,6 +23,7 @@
                             style="width: 300px;"
                             :placeholder="'请输入关键字搜索'"
                             :suffix-icon="'el-icon-search'"
+                            size="small"
                             v-model="searchValue"
                             @clear="handleSearch"
                             @change="handleSearch">
@@ -48,6 +49,7 @@
                                 style="width: 300px;"
                                 placeholder="请输入搜索关键字"
                                 :suffix-icon="'el-icon-search'"
+                                size="small"
                                 v-model="searchValue"
                                 @change="handlerIconClick"
                                 @clear="handlerIconClick"
@@ -88,11 +90,13 @@
                 class="mr10"
                 :type="'primary'"
                 :loading="isConfirm"
+                size="small"
                 @click="handleConfirm()">
                 确认
             </el-button>
             <el-button
                 :disabled="isConfirm"
+                size="small"
                 @click="handleClose()">
                 取消
             </el-button>

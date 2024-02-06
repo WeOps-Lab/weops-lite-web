@@ -31,6 +31,11 @@ export default class TableComponent extends Vue {
     })
     needNextTick: boolean
     @Prop({
+        type: String,
+        default: () => 'small'
+    })
+    size: string
+    @Prop({
         type: Boolean,
         default: () => false
     })

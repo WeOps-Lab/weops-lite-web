@@ -13,12 +13,10 @@
 
         .menu-box,
         .operate-auth {
-            flex: 1;
             padding-left: 15px;
         }
-
-        .operate-box {
-            min-width: 65%;
+        .menu-box {
+            width: 325px;
         }
     }
 
@@ -40,14 +38,13 @@
 
             .menu-name,
             .menu-operate {
-                flex: 1;
                 padding-left: 15px;
             }
 
             .menu-name {
-                font-size: 0;
                 display: flex;
                 align-items: center;
+                width: 30%;
 
                 .expand-icon {
                     font-size: 18px !important;
@@ -65,15 +62,15 @@
 
             .menu-operate {
                 display: flex;
-                min-width: 65%;
+                justify-content: flex-start;
+                width: 70%;
 
                 div {
-                    //flex: 1;
                     font-size: 0;
                     display: flex;
                     align-items: center;
                     margin-right: 10px;
-                    width: 112px;
+                    width: 80px;
 
                     span {
                         flex: 1;
@@ -91,7 +88,6 @@
         }
 
         .check-box {
-            //vertical-align: text-top;
             margin-right: 5px;
         }
 

@@ -16,6 +16,7 @@
                             style="width: 300px;"
                             :placeholder="'请输入关键字搜索'"
                             v-model="searchValue"
+                            size="small"
                             @clear="handleSearch"
                             @change="handleSearch">
                             <i slot="suffix" class="el-input__icon el-icon-search"></i>
@@ -52,11 +53,13 @@
                 class="mr10"
                 :type="'primary'"
                 :loading="isConfirm"
+                size="small"
                 @click="handleConfirm()">
                 确认
             </el-button>
             <el-button
                 :disabled="isConfirm"
+                size="small"
                 @click="handleClose()">
                 取消
             </el-button>

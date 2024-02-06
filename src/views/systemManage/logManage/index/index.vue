@@ -11,13 +11,17 @@
                     v-model="params.operator"
                     style="width: 150px;"
                     placeholder="请输入操作者"
+                    size="small"
                     @change="searchDataByUser">
                 </el-input>
                 <span>操作类型</span>
                 <el-select
                     v-model="params.operate_type"
-                    style="width: 150px;background-color: #ffffff;"
-                    clearable placeholder="请选择操作类型"
+                    style="width: 150px;
+                    background-color: #ffffff;"
+                    clearable
+                    placeholder="请选择操作类型"
+                    size="small"
                     @change="searchDataByType">
                     <el-option
                         v-for="item in typeList"
@@ -34,9 +38,16 @@
                     range-separator="-"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
+                    size="small"
                     @change="getDate">
                 </el-date-picker>
-                <el-button :disabled="isLoading" @click="resetSearch">重置</el-button>
+                <el-button
+                    :disabled="isLoading"
+                    size="small"
+                    type="primary"
+                    @click="resetSearch">
+                    重置
+                </el-button>
             </div>
             <div class="test-dom" v-loading="isLoading">
                 <com-table

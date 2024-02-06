@@ -6,6 +6,7 @@
             :default-expand-all="defaultExpandAll"
             :row-key="rowKey"
             :expand-row-keys="expandRowKeys"
+            :size="size"
             @select="onselect"
             @cell-click="cellClick"
             @row-click="rowClick"

@@ -13,6 +13,7 @@
                     class="mr10"
                     type="primary"
                     icon="el-icon-plus"
+                    size="small"
                     @click="operateRole('add')">
                     新增角色
                 </el-button>
@@ -21,6 +22,7 @@
                     style="width: 300px;"
                     placeholder="请输入搜索关键字"
                     suffix-icon="el-icon-search"
+                    size="small"
                     v-model="search"
                     @change="handlerIconClick"
                     @clear="handlerIconClick"
@@ -49,6 +51,7 @@
                             }"
                             class="mr10"
                             type="text"
+                            size="small"
                             @click="personnelManage(row)">
                             人员和组织
                         </el-button>
@@ -59,6 +62,7 @@
                             }"
                             class="mr10"
                             type="text"
+                            size="small"
                             :disabled=" ['admin', 'IA_admin'].includes(row.name)"
                             @click="setPermission(row)">
                             设置权限
@@ -70,6 +74,7 @@
                             }"
                             class="mr10"
                             type="text"
+                            size="small"
                             :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="operateRole('edit', row)">
                             编辑
@@ -81,6 +86,7 @@
                             }"
                             class="mr10"
                             type="text"
+                            size="small"
                             :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
                             @click="deleteRole(row)">
                             删除
