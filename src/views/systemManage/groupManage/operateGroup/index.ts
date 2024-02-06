@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator'
-import { RulesForm } from '@/common/types/systemManage/groupManage.ts'
+import { RulesForm } from '@/common/types/systemManage/groupManage'
 import { COMMON_RULE } from '@/common/constants'
 @Component
 export default class OperateGroup extends Vue {

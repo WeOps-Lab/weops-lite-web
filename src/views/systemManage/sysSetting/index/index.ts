@@ -5,7 +5,7 @@ import LogoSetting from '../logoSettings/index.vue'
 import MenuManage from '../menuManage/index.vue'
 import PageExplanation from '@/components/pageExplanation/index.vue'
 import { Panels } from '@/common/types'
-import { SYSSETTING_PANELS } from '@/common/constants/systemManage/sysSetting.ts'
+import { SYSSETTING_PANELS } from '@/common/constants/systemManage/sysSetting'
 
 @Component({
     name: 'sys-setting',

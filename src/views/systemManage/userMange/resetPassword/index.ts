@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator'
-import { OperateUserRules, OperateUserFormData } from '@/common/types/systemManage/userMange.ts'
+import { OperateUserRules, OperateUserFormData } from '@/common/types/systemManage/userMange'
 import { COMMON_RULE } from '@/common/constants'
 @Component({
     name: 'reset-password'

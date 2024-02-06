@@ -1,6 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator'
 import DrawerComponent from '@/components/comDrawer/index.vue'
-import { ExtenalChainRules } from '@/common/types/systemManage/sysSetting.ts'
+import { ExtenalChainRules } from '@/common/types/systemManage/sysSetting'
 import { COMMON_RULE } from '@/common/constants'
 import uuid from 'uuid'
 @Component({

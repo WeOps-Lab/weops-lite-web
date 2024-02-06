@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator'
-import { RulesForm } from '@/common/types/systemManage/roleManage.ts'
+import { RulesForm } from '@/common/types/systemManage/roleManage'
 import { COMMON_RULE } from '@/common/constants'
 @Component
 export default class OperateRole extends Vue {
