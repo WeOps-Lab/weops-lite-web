@@ -29,7 +29,7 @@ export default class GroupManage extends Vue {
         this.$nextTick(() => {
             const tbody: any = document.querySelector('.tree-box-body')
             const hasVerticalScrollbar = tbody?.scrollHeight > tbody?.clientHeight
-            const nodeContent:any = document.querySelectorAll('.el-tree-node__content') || []
+            const nodeContent: any = document.querySelectorAll('.el-tree-node__content') || []
             if (hasVerticalScrollbar) {
                 nodeContent.forEach(node => {
                     node.classList.add('border-right-none')
@@ -110,20 +110,18 @@ export default class GroupManage extends Vue {
         })
     }
     async confirmDelete(node?) {
-        let deleteIds
         // 有传参则删除一个，没有则删除勾选组织
-        if (node) {
-            deleteIds = [node.data.id]
-        } else {
-            deleteIds = this.checkedIds
+        const deleteIds = node ? [node.data.id] : this.checkedIds
+        if (!deleteIds.length) {
+            this.$warn('请选择要删除的组织')
+            return
         }
         const res = await this.$api.GroupManage.delGroup({ deleteIds })
-        if (res.result) {
-            this.$success('删除成功')
-            this.getGroups()
-        } else {
-            this.$error('删除失败')
+        if (!res.result) {
+            return this.$error('删除失败')
         }
+        this.$success('删除成功')
+        this.getGroups()
     }
     // 刷新
     refreshList() {
