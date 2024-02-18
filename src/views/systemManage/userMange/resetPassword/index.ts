@@ -16,11 +16,6 @@ export default class ResetPassword extends Vue {
     rules: OperateUserRules = {
         password: [
             COMMON_RULE
-            // {
-            //     regex: /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,32}$/,
-            //     message: '密码长度为8-32个字符，必须包含大小写字母，数字',
-            //     trigger: 'blur'
-            // }
         ],
         confirmPassword: [
             {

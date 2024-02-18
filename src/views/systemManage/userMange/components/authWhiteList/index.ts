@@ -129,9 +129,7 @@ export default class AuthWhiteList extends Vue {
         }
         this.loading = true
         try {
-            const res = this.isGroup
-                ? await this.$api.UserManageMain.searchRoleList(params)
-                : await this.$api.UserManageMain.getUserList(params)
+            const res = await this.$api.UserManageMain[this.isGroup ? 'searchRoleList' : 'getUserList'](params)
             if (!res.result) {
                 this.dataList = []
                 this.pagination.count = 0
