@@ -47,13 +47,16 @@ export default class MenuSetting extends Vue {
     menuCloneList: any = []
     refreshKey = ''
     mounted() {
+        this.initMenu()
+    }
+    initMenu() {
         const id = this.$route.query?.id
         this.id = id
         if (id) {
             this.getMenuById(id)
-        } else {
-            this.handleMenuData()
+            return
         }
+        this.handleMenuData()
     }
     findAndReplaceByKey(arr, key, replacement) {
         for (let i = 0; i < arr.length; i++) {

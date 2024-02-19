@@ -26,9 +26,6 @@ export default class LogoSettings extends Vue {
         this.getLogo()
     }
     async uploadLogo() {
-        // const config = {
-        //     headers: {'Content-Type': 'multipart/form-data'}
-        // }
         if (!this.$BtnPermission(this.powerParams) || !this.fileData) {
             return false
         }

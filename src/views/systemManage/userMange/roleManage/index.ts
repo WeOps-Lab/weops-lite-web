@@ -103,7 +103,6 @@ export default class RoleManage extends Vue {
     handleConfirm() {
         this.visible = false
         this.setRoles(this.rawSelected, this.allSelected)
-        // this.$emit('confirm', this.selectedData)
     }
     async setRoles(rawData, updateData) {
         // 找出要删除的id和要增加的id
@@ -194,7 +193,7 @@ export default class RoleManage extends Vue {
 
     handleRemove(row) {
         const index = this.allSelected.findIndex(r => r.id === row.id && r.type === row.type)
-        if (index || index === 0) {
+        if (index !== -1) {
             this.allSelected.splice(index, 1)
         }
         this.$nextTick(() => {
