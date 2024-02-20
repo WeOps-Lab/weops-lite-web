@@ -70,7 +70,8 @@ export const USER_COLUMNS = [
 ]
 export const ROLE_COLUMNS = [
     {
-        type: 'selection'
+        type: 'selection',
+        selectable: row => row.role_type !== 'group'
     },
     {
         label: '角色名称',

@@ -117,17 +117,14 @@ export default class TableComponent extends Vue {
     }
     // 切换表格分页时会触发的事件
     handlePageChange(page) {
-        this.$store.commit('setResourcePage', page)
         this.$emit('page-change', page)
     }
     // 切换表格每页显示条数时会触发的事件
     limitChange(limit) {
-        this.$store.commit('setResourceLimit', limit)
         this.$emit('page-limit-change', limit)
     }
     handleSettingChange({ fields, size }) {
         this.setting.size = size
-        this.$store.commit('setCustomFields', fields)
         this.$emit('handle-setting-change', fields)
     }
     // 表格的筛选条件发生变化的时候触发
@@ -174,7 +171,6 @@ export default class TableComponent extends Vue {
     confirmPopover() {
         this.$refs.popverCom?.hide()
         const fields = this.setting.fields.filter(item => this.settingKeys.includes(item.key))
-        this.$store.commit('setCustomFields', fields)
         this.$emit('handle-setting-change', fields)
     }
     handleCheckAll() {

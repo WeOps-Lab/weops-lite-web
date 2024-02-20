@@ -20,7 +20,6 @@ export default class RoleManage extends Vue {
     visible: boolean = false
     loading: boolean = false
     isConfirm: boolean = false
-    active: string = 'role'
     pagination: Pagination = {
         current: 1,
         count: 0,
@@ -36,9 +35,6 @@ export default class RoleManage extends Vue {
     rawSelected: any = []
     credentialsDetail: any = {}
     roleDetail: any = {}
-    get isGroup() {
-        return this.active === 'role'
-    }
 
     async showSlider(list, row?) {
         this.visible = true
@@ -56,10 +52,7 @@ export default class RoleManage extends Vue {
     }
 
     handleAllSelected() {
-        this.allSelected = []
-        Object.keys(this.selectedData).forEach(key => {
-            this.allSelected = this.allSelected.concat(this.selectedData[key].map(r => ({ ...r, type: key })))
-        })
+        this.allSelected = this.selectedData.role
     }
     async getDataList() {
         const params = {
@@ -76,10 +69,11 @@ export default class RoleManage extends Vue {
                 this.pagination.count = 0
                 return this.$error(res.message)
             }
-            const selectMap = Object.fromEntries((this.selectedData[this.active] || []).map(r => [r.id, r]))
+            const selectMap = Object.fromEntries((this.selectedData.role || []).map(r => [r.id, r]))
             const isAdminGroup = this.roleDetail?.role_name === 'admin_group'
             this.rawDataList = (res.data?.items || []).map(item => ({
                 ...item,
+                role_type: selectMap[item.id]?.role_type || 'user',
                 isChecked: isAdminGroup ? selectMap[item.id] : true
             }))
             const { current, limit } = this.pagination
@@ -149,28 +143,13 @@ export default class RoleManage extends Vue {
         this.visible = false
     }
 
-    handleSelect(selection, row) {
-        const current = selection.find(select => select.id === row.id)
-        if (current) {
-            this.selectedData[this.active].push(row)
-        } else {
-            const index = this.selectedData[this.active].findIndex(r => r.id === row.id)
-            this.selectedData[this.active].splice(index, 1)
-        }
+    handleSelect(selection) {
+        this.selectedData.role = selection
         this.handleAllSelected()
     }
 
     handleAllSelect(selection) {
-        const isSelected = !!selection.length
-        this.dataList.forEach(item => {
-            if (isSelected) {
-                const current = this.selectedData[this.active].find(r => r.id === item.id)
-                !current && this.selectedData[this.active].push(item)
-            } else {
-                const index = this.selectedData[this.active].findIndex(r => r.id === item.id)
-                this.selectedData[this.active].splice(index, 1)
-            }
-        })
+        this.selectedData.role = selection
         this.handleAllSelected()
     }
 
@@ -178,12 +157,24 @@ export default class RoleManage extends Vue {
         this.pagination.current = page
         const { limit } = this.pagination
         this.dataList = this.dataList.slice((page - 1) * limit, page * limit)
+        this.toggleRowSelection()
     }
 
     handleLimitChange(size) {
         this.pagination.current = 1
         this.pagination.limit = size
         this.dataList = this.rawDataList.slice(0, size)
+        this.toggleRowSelection()
+    }
+
+    toggleRowSelection() {
+        this.$nextTick(() => {
+            this.dataList.forEach(item => {
+                if (this.allSelected.find(target => target.id === item.id)) {
+                    this.$refs.userTable?.toggleRowSelection(item, true)
+                }
+            })
+        })
     }
 
     handleSearch() {
@@ -209,14 +200,13 @@ export default class RoleManage extends Vue {
     }
 
     handleClear() {
-        this.selectedData = {
-            role: [],
-            group_role: this.selectedData.group_role
-        }
+        this.selectedData.role = this.selectedData.role.filter(item => item.role_type === 'group')
         this.handleAllSelected()
         this.$nextTick(() => {
             this.dataList.forEach(item => {
-                this.$refs.userTable?.toggleRowSelection(item, false)
+                if (item.role_type !== 'group') {
+                    this.$refs.userTable?.toggleRowSelection(item, false)
+                }
             })
         })
     }

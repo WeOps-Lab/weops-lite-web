@@ -17,17 +17,6 @@
                         @click="operateGroup('add')">
                         新增组织
                     </el-button>
-                    <el-button
-                        class="mr10"
-                        title="批量删除"
-                        v-permission="{
-                            id: $route.name,
-                            type: 'SysGroup_delete'
-                        }"
-                        size="small"
-                        @click="deleteNodes">
-                        批量删除
-                    </el-button>
                 </div>
                 <el-input
                     clearable
@@ -50,7 +39,6 @@
                     class="tree-box-body"
                     ref="tree"
                     :data="nodeData"
-                    show-checkbox
                     default-expand-all
                     :props="{ children: 'subGroups' }"
                     @check-change="handleCheck">
