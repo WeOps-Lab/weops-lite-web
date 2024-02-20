@@ -12,7 +12,10 @@ export default {
     getLogs: function(params) {
         return get(reUrl + '/operation_log/', params)
     },
+    getOperateType: function(params = {}) {
+        return get(reUrl + '/operation_log/custom/operate_type/enum/', params)
+    },
     resetlogo: function(params) {
-        return post(reUrl + '/logo/reset/', params, {showLoad: true})
+        return post(reUrl + '/logo/reset/', params, { showLoad: true })
     }
 }
