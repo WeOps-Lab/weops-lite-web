@@ -118,7 +118,7 @@ export default class GroupManage extends Vue {
         }
         const res = await this.$api.GroupManage.delGroup({ deleteIds })
         if (!res.result) {
-            return this.$error('删除失败')
+            return this.$error(res.message)
         }
         this.$success('删除成功')
         this.getGroups()
