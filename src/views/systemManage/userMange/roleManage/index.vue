@@ -39,11 +39,10 @@
                     <p>已选择（共<span>{{allSelected.length}}</span>条）<span class="clear" @click="handleClear">清空</span></p>
                     <ul>
                         <li v-for="item in allSelected" :key="item.id + item.type">
-                            <span v-if="item.type === 'role'" class="cw-icon weops-ge-ren-jue-se"></span>
-                            <span v-else class="cw-icon weops-zu-zhi-jue-se"></span>
+                            <span :class="['cw-icon',item.role_type === 'group' ? 'weops-zu-zhi-jue-se' : 'weops-ge-ren-jue-se']"></span>
                             {{ item.name }}
-                            <span>{{ item.type === 'role' ? '个人角色' : '组织角色' }}</span>
-                            <i class="el-icon-close" style="font-size: 12px;" v-if="item.type === 'role'" @click="handleRemove(item)"></i>
+                            <span>{{ item.role_type === 'group' ? '组织角色' : '个人角色' }}</span>
+                            <i class="el-icon-close" style="font-size: 12px;" v-if="item.role_type !== 'group'" @click="handleRemove(item)"></i>
                         </li>
                     </ul>
                 </div>

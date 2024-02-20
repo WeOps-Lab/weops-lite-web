@@ -194,15 +194,6 @@ export default class UserManage extends Vue {
                     name: item.name
                 }
             })
-            const target = this.columns.find(item => item.key === 'roles')
-            if (target) {
-                target.filters = this.roleList.map(item => {
-                    return {
-                        text: item.name,
-                        value: item.id
-                    }
-                })
-            }
         })
     }
     handlePageChange(val) {
