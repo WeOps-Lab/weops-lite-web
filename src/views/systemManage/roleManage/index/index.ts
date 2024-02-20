@@ -124,10 +124,10 @@ export default class RoleManage extends Vue {
                 }
             })
             // 三个角色置顶，其他角色按照创建时间排序
-            const topDataName = ['admin', 'IA_admin', 'normal']
+            const topDataName = ['admin', 'grade_admin', 'normal']
             const orderMap = {
                 admin: 0,
-                IA_admin: 1,
+                grade_admin: 1,
                 normal: 2
             }
             const topData = []
