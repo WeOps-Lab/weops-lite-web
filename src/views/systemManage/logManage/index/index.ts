@@ -5,7 +5,7 @@ import ComTable from '@/components/comTable/index.vue'
 import moment from 'moment'
 import { Pagination, TableData } from '@/common/types'
 import { LogList } from '@/common/types/systemManage/logManage'
-import { TYPE_LIST, LOG_COLUMNS } from '@/common/constants/systemManage/logManage'
+import { LOG_COLUMNS } from '@/common/constants/systemManage/logManage'
 
 @Component({
     name: 'log-manage',
@@ -27,17 +27,9 @@ export default class LogManage extends Vue {
         page_size: 10
     }
 
-    typeList = TYPE_LIST
+    typeList = []
 
-    logList: LogList[] = [
-        {
-            operator: 'test',
-            operate_obj: '',
-            operate_type: '',
-            created_at: '',
-            operate_summary: ''
-        }
-    ]
+    logList: Array<LogList> = []
 
     pagination: Pagination = {
         current: 1,
@@ -47,7 +39,8 @@ export default class LogManage extends Vue {
 
     columns: Array<TableData> = LOG_COLUMNS
 
-    mounted() {
+    created() {
+        this.getOperateTypeList()
         this.getLogs()
     }
     getOperateType(id) {
@@ -70,19 +63,29 @@ export default class LogManage extends Vue {
         this.params.page_size = this.pagination.limit
         this.getLogsRequest()
     }
-    getLogsRequest() {
-        this.isLoading = true
-        this.$api.Server.getLogs(this.params).then(res => {
-            if (!res.result) {
-                this.$error(res.message)
+    async getOperateTypeList() {
+        const res = await this.$api.Server.getOperateType()
+        const { message, result, data } = res
+        if (!result) {
+            return this.$error(message)
+        }
+        this.typeList = Object.keys(data).map(key => ({ id: key, name: data[key] }))
+    }
+    async getLogsRequest() {
+        try {
+            this.isLoading = true
+            const res = await this.$api.Server.getLogs(this.params)
+            const { message, result, data } = res
+            if (!result) {
+                this.$error(message)
                 this.logList = []
                 return false
             }
-            this.logList = res.data.data
-            this.pagination.count = res.data.count
-        }).finally(() => {
+            this.logList = data.data
+            this.pagination.count = data.count
+        } finally {
             this.isLoading = false
-        })
+        }
     }
     resetSearch() {
         this.params = {

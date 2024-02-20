@@ -185,7 +185,7 @@ export const routeConfig = [
                                 value: false,
                                 label: '查看',
                                 type: 'check',
-                                apiKey: ['operation_log_list']
+                                apiKey: ['operation_log_list', 'operate_type_enum']
                             }
                         ]
                     },
