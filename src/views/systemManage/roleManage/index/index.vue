@@ -41,7 +41,8 @@
                     @page-limit-change="limitChange"
                 >
                     <template slot="built_in" slot-scope="{ row }">
-                        {{['admin', 'normal', 'IA_admin'].includes(row.name) ? '是' : '否'}}
+                        <el-tag type="success" v-if="['admin', 'normal', 'grade_admin'].includes(row.name)">是</el-tag>
+                        <el-tag v-else>否</el-tag>
                     </template>
                     <template slot="operation" slot-scope="{ row }">
                         <el-button
@@ -63,7 +64,7 @@
                             class="mr10"
                             type="text"
                             size="small"
-                            :disabled=" ['admin', 'IA_admin'].includes(row.name)"
+                            :disabled=" ['admin', 'grade_admin'].includes(row.name)"
                             @click="setPermission(row)">
                             设置权限
                         </el-button>
@@ -75,7 +76,7 @@
                             class="mr10"
                             type="text"
                             size="small"
-                            :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
+                            :disabled="['admin', 'normal', 'grade_admin'].includes(row.name)"
                             @click="operateRole('edit', row)">
                             编辑
                         </el-button>
@@ -87,7 +88,7 @@
                             class="mr10"
                             type="text"
                             size="small"
-                            :disabled="['admin', 'normal', 'IA_admin'].includes(row.name)"
+                            :disabled="['admin', 'normal', 'grade_admin'].includes(row.name)"
                             @click="deleteRole(row)">
                             删除
                         </el-button>
@@ -105,3 +106,6 @@
 </template>
 
 <script lang="ts" src="./index.ts"></script>
+<style lang="scss">
+@import "./index.scss"
+</style>
