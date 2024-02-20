@@ -39,6 +39,56 @@ export const routeConfig = [
                 ],
                 children: [
                     {
+                        name: '组织管理',
+                        id: 'SysGroup',
+                        icon: 'cw-icon weops-user',
+                        url: '/sysGroup',
+                        auth: [
+                            {
+                                key: 'SysGroup_view',
+                                value: false,
+                                label: '查看',
+                                type: 'check',
+                                apiKey: ['group_list']
+                            },
+                            {
+                                key: 'SysGroup_create',
+                                value: false,
+                                label: '创建组织',
+                                type: 'operate',
+                                apiKey: ['group_create']
+                            },
+                            {
+                                key: 'SysGroup_edit',
+                                value: false,
+                                label: '编辑组织',
+                                type: 'operate',
+                                apiKey: ['group_update']
+                            },
+                            {
+                                key: 'SysGroup_delete',
+                                value: false,
+                                label: '删除组织',
+                                type: 'operate',
+                                apiKey: ['group_delete']
+                            },
+                            {
+                                key: 'SysGroup_role',
+                                value: false,
+                                label: '角色管理',
+                                type: 'operate',
+                                apiKey: ['group_users', 'user_list', 'group_add_users', 'group_remove_users']
+                            },
+                            {
+                                key: 'SysGroup_user',
+                                value: false,
+                                label: '人员管理',
+                                type: 'operate',
+                                apiKey: ['group_roles', 'role_list', 'group_add_roles', 'group_remove_roles']
+                            }
+                        ]
+                    },
+                    {
                         name: '角色管理',
                         id: 'SysRole',
                         icon: 'cw-icon weops-role',
@@ -121,56 +171,6 @@ export const routeConfig = [
                                 label: '删除用户',
                                 type: 'operate',
                                 apiKey: ['user_delete']
-                            }
-                        ]
-                    },
-                    {
-                        name: '组织管理',
-                        id: 'SysGroup',
-                        icon: 'cw-icon weops-user',
-                        url: '/sysGroup',
-                        auth: [
-                            {
-                                key: 'SysGroup_view',
-                                value: false,
-                                label: '查看',
-                                type: 'check',
-                                apiKey: ['group_list']
-                            },
-                            {
-                                key: 'SysGroup_create',
-                                value: false,
-                                label: '创建组织',
-                                type: 'operate',
-                                apiKey: ['group_create']
-                            },
-                            {
-                                key: 'SysGroup_edit',
-                                value: false,
-                                label: '编辑组织',
-                                type: 'operate',
-                                apiKey: ['group_update']
-                            },
-                            {
-                                key: 'SysGroup_delete',
-                                value: false,
-                                label: '删除组织',
-                                type: 'operate',
-                                apiKey: ['group_delete']
-                            },
-                            {
-                                key: 'SysGroup_role',
-                                value: false,
-                                label: '角色管理',
-                                type: 'operate',
-                                apiKey: ['group_users', 'user_list', 'group_add_users', 'group_remove_users']
-                            },
-                            {
-                                key: 'SysGroup_user',
-                                value: false,
-                                label: '人员管理',
-                                type: 'operate',
-                                apiKey: ['group_roles', 'role_list', 'group_add_roles', 'group_remove_roles']
                             }
                         ]
                     },
