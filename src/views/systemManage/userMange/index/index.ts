@@ -161,7 +161,7 @@ export default class UserManage extends Vue {
         const params = {
             roles: this.roles,
             page: this.pagination.current,
-            per_page: this.pagination.limit,
+            page_size: this.pagination.limit,
             search: this.search
         }
         this.tableLoading = true

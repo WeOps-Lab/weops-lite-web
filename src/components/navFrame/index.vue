@@ -57,6 +57,9 @@
                         class="el-menu-vertical"
                         :default-active="defaultActive"
                         :collapse="!open && defaultOpen"
+                        text-color="#7588a3"
+                        background-color="#f4f5f8"
+                        active-text-color="#409eff"
                         :unique-opened="true"
                         @select="handleSelect">
                         <template v-for="item in leftNavList">

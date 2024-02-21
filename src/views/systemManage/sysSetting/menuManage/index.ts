@@ -25,7 +25,7 @@ export default class MenuManage extends Vue {
         limit: 20
     }
     columns: Array<TableData> = MENU_MANAGE_COLUMNS
-    pageOccupiedHeight: number = 396
+    pageOccupiedHeight: number = 366
     mounted() {
         this.getMenuList()
     }

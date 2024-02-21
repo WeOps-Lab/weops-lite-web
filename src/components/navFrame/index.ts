@@ -105,9 +105,10 @@ export default class NavFrame extends Vue {
         deep: true
     })
     onLeftNavListChanged(val) {
-        // 判断用户不是超管组内的人员，则不展示系统管理的界面[角色管理，用户管理，通知渠道，服务台管理]
-        if (!this.user.is_super) {
-            const ONLY_ADMIN_HAS_MENUS = ['ServiceDeskManage', 'AutoProcessManage', 'NoticeWays']
+        // 超管或者分级管理员才能展示系统管理的界面[角色管理]
+        console.log(this.user)
+        if (!this.user.is_super && this.user.user_info?.preferred_username !== 'grade_admin') {
+            const ONLY_ADMIN_HAS_MENUS = ['SysRole']
             removeItemsWithId(val, ONLY_ADMIN_HAS_MENUS)
         }
     }
