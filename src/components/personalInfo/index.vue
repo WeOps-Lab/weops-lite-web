@@ -33,12 +33,8 @@
                         placeholder="请输入邮箱">
                     </el-input>
                 </el-form-item>
-                <el-form-item v-show="isEdit" class="form-btn">
-                    <el-button type="primary" size="small" @click="onFormSubmit">提交</el-button>
-                    <el-button type="default" size="small" @click="onFormCancel">取消</el-button>
-                </el-form-item>
             </el-form>
-            <div class="btn-box">
+            <div class="btn-box" v-if="!isEdit">
                 <el-button
                     type="text"
                     style="margin-right: 20px;"
@@ -52,7 +48,11 @@
             <reset-password ref="resetPassword" />
         </div>
         <template slot="footer">
-            <el-button type="default" size="small" @click="isShow = false">关闭</el-button>
+            <div v-if="isEdit">
+                <el-button type="primary" size="small" @click="onFormSubmit">提交</el-button>
+                <el-button type="default" size="small" @click="onFormCancel">取消</el-button>
+            </div>
+            <el-button v-else type="default" size="small" @click="isShow = false">关闭</el-button>
         </template>
     </drawer-component>
 </template>
