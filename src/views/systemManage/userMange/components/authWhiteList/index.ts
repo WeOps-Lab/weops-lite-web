@@ -124,7 +124,7 @@ export default class AuthWhiteList extends Vue {
     async getDataList() {
         const params = {
             page: this.pagination.current,
-            per_page: this.pagination.limit,
+            page_size: this.pagination.limit,
             search: this.searchValue
         }
         this.loading = true

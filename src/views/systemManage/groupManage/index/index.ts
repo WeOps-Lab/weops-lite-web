@@ -139,7 +139,7 @@ export default class GroupManage extends Vue {
         const res = await this.$api.GroupManage.getGroupUsers({
             id: node.data.id,
             page: 1,
-            per_page: 20
+            page_size: 20
         })
         res.data = res.data.map((item) => ({
             id: item.id,
