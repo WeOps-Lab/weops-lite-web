@@ -1,8 +1,10 @@
 .title-area {
-    background-color: #fff;
+    background-image: url("../../assets/img/guidance_background.png");
+    background-size: contain;
     margin-bottom: 10px;
     border-radius: 4px;
     padding: 15px;
+    color: #1e252e;
 
     div:nth-child(1) {
         font-size: 25px;
@@ -11,6 +13,6 @@
 
     div:nth-child(2) {
         font-size: 14px;
-        color: #838383;
+        color: #475468;
     }
 }

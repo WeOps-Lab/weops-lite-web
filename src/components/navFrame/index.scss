@@ -5,13 +5,34 @@
 }
 
 .el-container {
+    background: #edeff3;
+
     .el-aside {
+        border-radius: 20px 0 0 0;
+
         .el-menu {
             height: 100%;
+
+            /deep/.el-submenu__title:hover {
+                background: transparent !important;
+            }
 
             .el-menu-item {
                 text-align: left;
                 padding: 0 20px !important;
+                border-right: solid 1px #e6e6e6;
+
+                &:hover {
+                    background: #edeff3 !important;
+                }
+            }
+
+            .el-menu-item.is-active {
+                background: #d3e1f9 !important;
+
+                &:hover {
+                    background: #d3e1f9 !important;
+                }
             }
 
             /deep/.nav-slider-footer {
@@ -23,7 +44,7 @@
                 i {
                     font-size: 16px;
                     cursor: pointer;
-                    color: #909399;
+                    color: #7588a3;
                     transition: all;
                 }
             }
@@ -31,14 +52,15 @@
     }
 
     .el-main {
-        background-color: #f5f7fa;
+        background-color: #fff;
+        border-radius: 0 20px 0 0;
     }
 }
 
 .navigation-header {
     display: flex;
     align-items: center;
-    background-color: rgb(24, 33, 50);
+    background-color: #edeff3;
     // flex-basis: 52px;
     height: 52px;
     padding-right: 24px;
@@ -52,7 +74,7 @@
         .title-desc {
             font-size: 16px;
             font-weight: 700;
-            color: #96a2b9;
+            color: #1e252e;
             display: inline-block;
             margin-left: 16px;
             line-height: 24px;
@@ -77,13 +99,15 @@
                 margin-right: 65px;
                 display: flex;
                 align-items: center;
-                color: #96a2b9;
+                color: #475468;
                 font-size: 14px;
                 white-space: nowrap;
+                padding: 5px 10px;
 
                 &:hover {
                     cursor: pointer;
-                    color: #d3d9e4;
+                    background: #f4f5f8;
+                    border-radius: 4px;
                 }
 
                 &:last-child {
@@ -92,7 +116,7 @@
             }
 
             .active-top-nav {
-                color: #fff;
+                color: #1272ff;
             }
         }
 
