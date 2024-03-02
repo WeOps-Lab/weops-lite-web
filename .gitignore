@@ -19,5 +19,3 @@ deploy.sh
 # 忽略不提交projects和.gitmodules
 /src/projects/*
 .gitmodules
-
-swagger.yml
