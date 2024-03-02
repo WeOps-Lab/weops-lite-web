@@ -110,4 +110,4 @@ export const deleteb = (url, params, opts = {}) =>
 export const patch = (url, params, opts = {}) =>
     getPromise('patch', url, params, opts)
 
-export const reUrl = '/api'
+export const reUrl = process.env.USE_MOCK ? 'http://yapi.canway.top/mock/3436/api' : '/api'
