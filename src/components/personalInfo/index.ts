@@ -81,6 +81,7 @@ export default class PersonalInfo extends Vue {
             this.$error(res.message)
         } else {
             this.$success('修改成功!')
+            this.isEdit = false
         }
         await this.$store.dispatch('GenerateNavLists1')
         this.isInfoLoading = false
