@@ -76,7 +76,7 @@ export default class PersonalInfo extends Vue {
             lastName: this.formData.display_name,
             email: this.formData.email
         }
-        const res = await this.$api.UserManageMain.editUser(params)
+        const res = await this.$api.UserManageMain.editUserInfo(params)
         if (!res.result) {
             this.$error(res.message)
         } else {
