@@ -36,7 +36,7 @@ export default class UserManage extends Vue {
     }
     // 获取用户拥有的全部角色
     getRoles(row) {
-        return (row.roles || []).map(item => item.name + '角色').join('; ') || '--'
+        return (row.roles || []).map(item => item.name).join('; ') || '--'
     }
     getOrganizationOrSuperior(row, { listKey, fieldKey }) {
         return (row[listKey] || []).map(item => item[fieldKey].slice(1)).join(';') || '--'
