@@ -115,5 +115,21 @@ export default {
      */
     getUserInfo(params = {}) {
         return get(`${reUrl}/user/${params.id}/`, params)
+    },
+    /**
+     * 重置用户密码
+     *
+     * @param {Object} params 请求参数
+     */
+    resetUserPassword(params = {}) {
+        return patch(`${reUrl}/user/${params.id}/my_pwd/reset/`, params)
+    },
+    /**
+     * 编辑用户
+     *
+     * @param {Object} params 请求参数
+     */
+    editUserInfo(params = {}) {
+        return put(`${reUrl}/user/${params.id}/my_userinfo/update/`, params)
     }
 }

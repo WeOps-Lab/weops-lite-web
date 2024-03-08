@@ -76,11 +76,12 @@ export default class PersonalInfo extends Vue {
             lastName: this.formData.display_name,
             email: this.formData.email
         }
-        const res = await this.$api.UserManageMain.editUser(params)
+        const res = await this.$api.UserManageMain.editUserInfo(params)
         if (!res.result) {
             this.$error(res.message)
         } else {
             this.$success('修改成功!')
+            this.isEdit = false
         }
         await this.$store.dispatch('GenerateNavLists1')
         this.isInfoLoading = false
