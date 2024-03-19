@@ -54,7 +54,7 @@ export default class TableComponent extends Vue {
         type: Object,
         default: () => ({
             current: 1,
-            count: 1,
+            count: 0,
             limit: 20
         })
     })

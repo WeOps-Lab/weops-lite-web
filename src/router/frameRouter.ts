@@ -12,6 +12,10 @@ const SysLog = () => import('@/views/systemManage/logManage/index/index.vue')
 const MenuSetting = () => import('@/views/systemManage/sysSetting/menuSetting/index.vue')
 const SysGroup = () => import('@/views/systemManage/groupManage/index/index.vue')
 
+// 资产管理
+const ModelManage = () => import('@/views/assetManage/modelManage/index/index.vue')
+const ModelDetail = () => import('@/views/assetManage/modelManage/modelDetail/index.vue')
+
 const mainRouter = [
     {
         path: '/authPermissionFail',
@@ -88,6 +92,25 @@ const mainRouter = [
         component: SysGroup,
         meta: {
             title: '组织管理'
+        }
+    },
+    {
+        path: '/modelManage',
+        name: 'ModelManage',
+        component: ModelManage,
+        meta: {
+            title: '模型管理'
+        }
+    },
+    {
+        path: '/modelManage/modelDetail',
+        name: 'ModelDetail',
+        component: ModelDetail,
+        meta: {
+            title: '模型详情',
+            activeMenu: 'ModelManage',
+            parentIds: ['ModelManage'],
+            needCache: false // 离开后是父级页面否需要缓存。需注意的是，要配合cacheName使用，并且在父级页面的beforeRouteLeave钩子中，判断是否需要缓存。若需要缓存，则调用this.$handleKeepAlive(to, from)这个方法,vuex中的keepAliveList要把父级页面的路由名称加进去
         }
     }
 ]

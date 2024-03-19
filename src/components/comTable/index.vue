@@ -44,7 +44,7 @@
                 <slot name="empty"></slot>
             </template>
         </el-table>
-        <div class="pagination_box">
+        <div class="pagination_box" v-if="pagination.count">
             <el-pagination
                 background
                 :current-page.sync="pagination.current"
