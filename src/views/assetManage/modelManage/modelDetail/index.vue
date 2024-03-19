@@ -33,8 +33,8 @@
                     v-loading="loading"
                     :max-height="tableMaxHeight">
                     <template slot="operation" slot-scope="{ row }">
-                        <el-button type="text" size="mini" icon="el-icon-edit" @click="editAttr(row)"></el-button>
-                        <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteAtrr(row)"></el-button>
+                        <el-button type="text" size="mini" @click="editAttr(row)">编辑</el-button>
+                        <el-button type="text" size="mini" @click="deleteAtrr(row)">删除</el-button>
                     </template>
                     <template slot="require" slot-scope="{ row }">
                         <span>{{ row.isrequired ? '是' : '否' }}</span>
