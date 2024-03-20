@@ -265,14 +265,28 @@ export const routeConfig = [
                                 value: false,
                                 label: '查看',
                                 type: 'check',
-                                apiKey: ['group_list']
+                                apiKey: ['classification_search', 'model_list', 'model_association_list', 'model_attr_list', 'model_association_type']
                             },
                             {
                                 key: 'ModelManage_create',
                                 value: false,
-                                label: '创建组织',
+                                label: '创建模型',
                                 type: 'operate',
-                                apiKey: ['group_create']
+                                apiKey: ['classification_create', 'model_create', 'model_association_create', 'model_attr_create']
+                            },
+                            {
+                                key: 'ModelManage_edit',
+                                value: false,
+                                label: '编辑模型',
+                                type: 'operate',
+                                apiKey: ['group_edit']
+                            },
+                            {
+                                key: 'ModelManage_delete',
+                                value: false,
+                                label: '删除模型',
+                                type: 'operate',
+                                apiKey: ['classification_delete', 'model_delete', 'model_association_delete', 'model_attr_delete']
                             }
                         ]
                     }
