@@ -356,7 +356,7 @@
         loading: boolean = false
         operationMap = {
             'singlechar': 'regularCheck',
-            'longchar': 'regularCheck',
+            'str': 'regularCheck',
             'bool': 'defaultValue'
         }
         oldData: any = ''
@@ -536,7 +536,7 @@
             if (['bool'].includes(this.formData.valueType)) {
                 this.formData.fieldEdit.defaultValue = this.attrData.option || false
             }
-            if (['singlechar', 'longchar'].includes(this.formData.valueType)) {
+            if (['singlechar', 'str'].includes(this.formData.valueType)) {
                 this.formData.fieldEdit.regularCheck = this.attrData.option || ''
             }
             if (['int', 'float'].includes(this.formData.valueType)) {
@@ -584,7 +584,7 @@
             return params
         }
         handleNormalType(params) {
-            if (['singlechar', 'longchar', 'bool'].includes(this.formData.valueType)) {
+            if (['singlechar', 'str', 'bool'].includes(this.formData.valueType)) {
                 params.option = this.formData.fieldEdit[this.operationMap[this.formData.valueType]]
             }
             if (['int', 'float'].includes(this.formData.valueType)) {

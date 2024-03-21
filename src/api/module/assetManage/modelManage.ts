@@ -6,21 +6,21 @@ export default {
      * @param {Object} params 请求参数
      */
     getClassification(params = {}) {
-        return get(`${reUrl}/model/classification/`, params)
+        return get(`${reUrl}/classification/`, params)
     },
     /**
      * 创建模型分类
      * @param {Object} params 请求参数
      */
     createClassification(params = {}) {
-        return post(`${reUrl}/model/classification/`, params)
+        return post(`${reUrl}/classification/`, params)
     },
     /**
      * 删除模型分类
      * @param {Object} params 请求参数
      */
     deleteClassification(params = {}) {
-        return deletes(`${reUrl}/model/classification/${params.id}/`)
+        return deletes(`${reUrl}/classification/${params.id}/`)
     },
     /**
      * 查询模型

@@ -41,8 +41,8 @@ export const OPERATE_TYPE_LIST = [
     //     name: '短字符'
     // },
     {
-        id: 'longchar',
-        name: '长字符'
+        id: 'str',
+        name: '字符串'
     },
     {
         id: 'int',
