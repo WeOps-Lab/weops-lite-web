@@ -279,7 +279,7 @@ export const routeConfig = [
                                 value: false,
                                 label: '编辑模型',
                                 type: 'operate',
-                                apiKey: ['group_edit']
+                                apiKey: ['model_attr_update', 'model_update']
                             },
                             {
                                 key: 'ModelManage_delete',
