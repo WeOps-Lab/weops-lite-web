@@ -20,7 +20,7 @@ export const PROPERTY_COLUMNS = [
     },
     {
         label: '是否必填',
-        key: 'isrequired',
+        key: 'is_required',
         align: 'left',
         minWidth: '100px',
         scopedSlots: 'require'

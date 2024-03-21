@@ -203,10 +203,10 @@
                                 v-if="!['date', 'time', 'bool'].includes(formData.valueType)"
                                 label="是否唯一"
                                 :required="true"
-                                :property="'isOnly'"
+                                :property="'is_only'"
                                 ext-cls="whether-class"
                                 :error-display-type="'normal'">
-                                <bk-radio-group v-model="formData.isOnly">
+                                <bk-radio-group v-model="formData.is_only">
                                     <bk-radio :value="true" style="margin-right: 27px;">是</bk-radio>
                                     <bk-radio :value="false">否</bk-radio>
                                 </bk-radio-group>
@@ -214,10 +214,10 @@
                             <el-form-item
                                 label="是否必填"
                                 :required="true"
-                                :prop="'isRequired'"
+                                :prop="'is_required'"
                                 ext-cls="whether-class"
                                 :error-display-type="'normal'">
-                                <el-radio-group v-model="formData.isRequired" style="width: 100%;">
+                                <el-radio-group v-model="formData.is_required" style="width: 100%;">
                                     <el-radio :label="true" class="mr20">是</el-radio>
                                     <el-radio :label="false">否</el-radio>
                                 </el-radio-group>
@@ -284,8 +284,8 @@
             name: '',
             valueType: '',
             group: '',
-            isOnly: '',
-            isRequired: '',
+            is_only: '',
+            is_required: '',
             fieldEdit: {
                 isEdit: false,
                 defaultValue: false,
@@ -336,14 +336,14 @@
                     trigger: 'blur'
                 }
             ],
-            isOnly: [
+            is_only: [
                 {
                     required: true,
                     message: '请选择是否唯一',
                     trigger: 'blur'
                 }
             ],
-            isRequired: [
+            is_required: [
                 {
                     required: true,
                     message: '请选择是否必填',
@@ -516,8 +516,8 @@
                 name: this.attrData.attr_name || '',
                 valueType: this.attrData.attr_type || '',
                 group: this.attrData.attr_group || '',
-                isOnly: this.attrData.isonly || false,
-                isRequired: this.attrData.isrequired || false,
+                is_only: this.attrData.is_only || false,
+                is_required: this.attrData.is_required || false,
                 fieldEdit: {
                     isEdit: this.attrData.editable || false,
                     defaultValue: false,
@@ -574,9 +574,9 @@
                 attr_id: this.formData.propertyID,
                 attr_name: this.formData.name,
                 attr_type: this.formData.valueType,
-                isrequired: this.formData.isRequired,
+                is_required: this.formData.is_required,
                 attr_group: '',
-                isonly: false,
+                is_only: false,
                 editable: false
             }
             this.handleNormalType(params)
@@ -625,7 +625,7 @@
         }
         save(params) {
             this.loading = true
-            this.$api.ModelManage[this.isAdd ? 'createModelAttr' : 'createModelAttr'](params).then(res => {
+            this.$api.ModelManage[this.isAdd ? 'createModelAttr' : 'updateModelAttr'](params).then(res => {
                 if (!res.result) {
                     this.$error(res.message)
                     return false

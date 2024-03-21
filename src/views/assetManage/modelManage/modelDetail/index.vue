@@ -37,7 +37,7 @@
                         <el-button type="text" size="mini" @click="deleteAtrr(row)">删除</el-button>
                     </template>
                     <template slot="require" slot-scope="{ row }">
-                        <span>{{ row.isrequired ? '是' : '否' }}</span>
+                        <span>{{ row.is_required ? '是' : '否' }}</span>
                     </template>
                     <template slot="attrType" slot-scope="{ row }">
                         <span>{{ showAttrType(row.attr_type) }}</span>

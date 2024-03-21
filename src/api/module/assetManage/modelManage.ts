@@ -1,5 +1,5 @@
 // 模型管理模块
-import {get, deletes, post, reUrl} from '@/api/axiosconfig/axiosconfig'
+import {get, deletes, post, put, reUrl} from '@/api/axiosconfig/axiosconfig'
 export default {
     /**
      * 查询模型分类
@@ -37,6 +37,13 @@ export default {
         return post(`${reUrl}/model/`, params)
     },
     /**
+     * 修改模型
+     * @param {Object} params 请求参数
+     */
+    updateModel(params = {}) {
+        return put(`${reUrl}/model/${params.model_id}/`, params)
+    },
+    /**
      * 删除模型
      * @param {Object} params 请求参数
      */
@@ -56,6 +63,13 @@ export default {
      */
     createModelAttr(params = {}) {
         return post(`${reUrl}/model/${params.id}/attr/`, params)
+    },
+    /**
+     * 修改模型属性
+     * @param {Object} params 请求参数
+     */
+    updateModelAttr(params = {}) {
+        return put(`${reUrl}/model/${params.id}/attr_update/`, params)
     },
     /**
      * 删除模型属性

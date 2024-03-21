@@ -154,7 +154,7 @@
         }
         createModel(params) {
             this.loading = true
-            this.$api.ModelManage[this.isAdd ? 'createModel' : 'createModel'](params).then(res => {
+            this.$api.ModelManage[this.isAdd ? 'createModel' : 'updateModel'](params).then(res => {
                 if (!res.result) {
                     this.$error(res.message)
                     return false
