@@ -441,3 +441,25 @@ function isExit(value) {
 }
 
 Vue.prototype.$isExit = isExit
+
+function getSvgIcon() {
+    // @ts-ignore
+    const data = require.context('@/assets/svg/model', false, /\.svg$/).keys()
+    for (const i in data) {
+        data[i] = data[i].replace(/\.\//g, '').replace(/\.svg/g, '')
+    }
+    return data
+}
+
+Vue.prototype.$getSvgIcon = getSvgIcon
+
+Vue.prototype.$ArrayObjDup = function distinct1(arr, key) {
+    const newObj = {}; const newArr = []
+    for (let i = 0; i < arr.length; i++) {
+        const item = arr[i]
+        if (!newObj[item[key]]) {
+            newObj[item[key]] = newArr.push(item)
+        }
+    }
+    return newArr
+}

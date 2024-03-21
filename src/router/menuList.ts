@@ -233,6 +233,64 @@ export const routeConfig = [
                         ]
                     }
                 ]
+            },
+            {
+                name: '资产管理',
+                icon: 'cw-icon weops-system',
+                id: 'AssetManage',
+                sortIndex: 10,
+                auth: [
+                    {
+                        key: 'checkAuth',
+                        value: false,
+                        label: '查看',
+                        type: 'check'
+                    },
+                    {
+                        key: 'operateAuth',
+                        value: false,
+                        label: '操作',
+                        type: 'operate'
+                    }
+                ],
+                children: [
+                    {
+                        name: '模型管理',
+                        id: 'ModelManage',
+                        icon: 'cw-icon weops-user',
+                        url: '/modelManage',
+                        auth: [
+                            {
+                                key: 'ModelManage_view',
+                                value: false,
+                                label: '查看',
+                                type: 'check',
+                                apiKey: ['classification_search', 'model_list', 'model_association_list', 'model_attr_list', 'model_association_type']
+                            },
+                            {
+                                key: 'ModelManage_create',
+                                value: false,
+                                label: '创建模型',
+                                type: 'operate',
+                                apiKey: ['classification_create', 'model_create', 'model_association_create', 'model_attr_create']
+                            },
+                            {
+                                key: 'ModelManage_edit',
+                                value: false,
+                                label: '编辑模型',
+                                type: 'operate',
+                                apiKey: ['model_attr_update', 'model_update']
+                            },
+                            {
+                                key: 'ModelManage_delete',
+                                value: false,
+                                label: '删除模型',
+                                type: 'operate',
+                                apiKey: ['classification_delete', 'model_delete', 'model_association_delete', 'model_attr_delete']
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }
