@@ -5,6 +5,7 @@
             :size="500"
             :visible="visible"
             custom-class="common-dialog-wrapper"
+            destroy-on-close
             :before-close="cancel"
             @changeVisible="changeVisible">
             <div slot="content" class="common-dialog-wrapper-main">
@@ -15,11 +16,9 @@
                     ref="validateForm">
                     <el-form-item
                         label="唯一标识"
-                        :required="true"
                         desc="可使用英文、数字、下划线，需以字母开头"
                         :desc-type="'icon'"
-                        :prop="'onlyMark'"
-                        :error-display-type="'normal'">
+                        prop="onlyMark">
                         <el-input
                             v-model="formData.onlyMark"
                             :disabled="!isAdd"
@@ -30,9 +29,7 @@
                     </el-form-item>
                     <el-form-item
                         label="名称"
-                        :required="true"
-                        :prop="'name'"
-                        :error-display-type="'normal'">
+                        prop="name">
                         <el-input size="small" v-model="formData.name" placeholder="请输入名称"></el-input>
                     </el-form-item>
                 </el-form>
@@ -137,18 +134,15 @@ export default class ModelOperation extends Vue {
     }
     cancel() {
         const result = this.$compareFormData(this.formData, this.formDataCopy)
-        const validateForm: any = this.$refs.validateForm
         if (!result) {
             this.$confirm('放弃将导致未保存信息丢失', '是否放弃本次操作？', {
                 center: true
             }).then(() => {
                 this.visible = false
-                validateForm.clearValidate()
             })
             return
         }
         this.visible = false
-        validateForm.clearValidate()
     }
     initData() {
         this.groupDetial = {}

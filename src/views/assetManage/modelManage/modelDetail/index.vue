@@ -1,26 +1,24 @@
 <template>
     <div class="model-detail">
-        <el-card>
-            <div class="detail-header">
-                <div class="header-info">
-                    <div class="icon">
-                        <img :src="require(`@/assets/svg/model/${modelInfo.icn || 'cc-default_默认'}.svg`)" alt="">
-                    </div>
-                    <div class="object">
-                        <div class="object-name">{{ modelInfo.model_name }}</div>
-                        <div class="object-id">{{ modelInfo.model_id }}</div>
-                    </div>
-                    <!-- <div class="asset">
+        <div class="detail-header">
+            <div class="header-info">
+                <div class="icon">
+                    <img :src="require(`@/assets/svg/model/${modelInfo.icn || 'cc-default_默认'}.svg`)" alt="">
+                </div>
+                <div class="object">
+                    <div class="object-name">{{ modelInfo.model_name }}</div>
+                    <div class="object-id">{{ modelInfo.model_id }}</div>
+                </div>
+                <!-- <div class="asset">
                         <span>资产数量：</span>
                         <span class="asset-num">12</span>
                     </div> -->
-                </div>
-                <div class="header-operate">
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click="editModel">编辑</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-delete" @click="handleDelete">删除</el-button>
-                </div>
             </div>
-        </el-card>
+            <div class="header-operate">
+                <el-button type="text" size="mini" icon="el-icon-edit" @click="editModel">编辑</el-button>
+                <el-button type="text" size="mini" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+            </div>
+        </div>
         <el-card class="mt10">
             <menu-tab type="line" :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
             <div v-if="active === 'property'">
@@ -31,13 +29,13 @@
                     :data="propertyData"
                     :columns="columns"
                     v-loading="loading"
-                    :max-height="tableMaxHeight">
+                    :height="tableMaxHeight">
                     <template slot="operation" slot-scope="{ row }">
                         <el-button type="text" size="mini" @click="editAttr(row)">编辑</el-button>
                         <el-button type="text" size="mini" @click="deleteAtrr(row)">删除</el-button>
                     </template>
                     <template slot="require" slot-scope="{ row }">
-                        <span>{{ row.is_required ? '是' : '否' }}</span>
+                        <el-tag :type="row.is_required ? 'success' : ''">{{row.is_required ? '是' : '否'}}</el-tag>
                     </template>
                     <template slot="attrType" slot-scope="{ row }">
                         <span>{{ showAttrType(row.attr_type) }}</span>
@@ -52,7 +50,7 @@
                     :data="relationData"
                     :columns="relateColumns"
                     v-loading="relateLoading"
-                    :max-height="tableMaxHeight">
+                    :height="tableMaxHeight">
                     <template slot="operation">
                         <el-button type="text" size="mini">编辑</el-button>
                         <el-button type="text" size="mini">删除</el-button>
@@ -86,7 +84,6 @@
         }
     })
     export default class ModelManage extends Vue {
-        modelInfo: any = {}
         panels: Array<any> = [
             { name: 'property', label: '字段属性' },
             { name: 'relation', label: '关联关系' }
@@ -105,6 +102,11 @@
             return {}
         }
 
+        get modelInfo() {
+            const modelInfo:any = this.$route.query.modelInfo || '{}'
+            return JSON.parse(modelInfo)
+        }
+
         @Watch('active')
         onAlreadyAddListChanged(val) {
             if (val) {
@@ -113,8 +115,6 @@
         }
 
         mounted() {
-            const modelInfo:any = this.$route.query.modelInfo || '{}'
-            this.modelInfo = JSON.parse(modelInfo)
             this.getModelAttrList()
             this.getClassification()
         }
@@ -192,8 +192,13 @@
             this.modelGroupList = data
         }
 
-        refreshModel() {
-            this.$router.go(-1)
+        refreshModel(params) {
+            this.$router.replace({
+                name: 'ModelDetail',
+                query: {
+                    modelInfo: JSON.stringify(params)
+                }
+            })
         }
 
         // 删除模型
@@ -220,7 +225,7 @@
                 return this.$error(res.message)
             }
             this.$success('删除成功')
-            this.refreshModel()
+            this.$router.go(-1)
         }
 
         // 删除属性
@@ -263,12 +268,14 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        border-radius: 4px;
+        background-image: url(~@/assets/img/model_bg.png);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        padding: 20px 100px 20px 20px;
         .header-info {
             display: flex;
             align-items: center;
             .icon {
-                border: 1px solid #c3cdd7;
-                border-radius: 50%;
                 cursor: pointer;
                 height: 50px;
                 margin: 0 auto;
