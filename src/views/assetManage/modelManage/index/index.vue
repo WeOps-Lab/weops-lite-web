@@ -44,8 +44,22 @@
                             <span class="count">{{`(${item.list.length})`}}</span>
                         </div>
                         <div class="model-header-operation show-operation">
-                            <!-- <i class="cw-icon weops-edit icon" @click="groupOperation('edit',item)"></i> -->
-                            <i class="cw-icon weops-delete" v-permission="permissionObj" @click="handleDelete(item)"></i>
+                            <el-button
+                                v-permission="permissionObj"
+                                :disabled="!!item.list.length"
+                                type="text"
+                                size="mini"
+                                icon="el-icon-delete"
+                                @click="handleDelete(item)">
+                            </el-button>
+                            <!-- <el-button
+                                v-permission="permissionObj"
+                                :disabled="!!item.list.length"
+                                type="text"
+                                size="mini"
+                                icon="el-icon-edit"
+                                @click="groupOperation('edit',item)">
+                            </el-button> -->
                         </div>
                     </div>
                     <div class="model-body">
@@ -380,6 +394,9 @@
                         display: flex;
                         cursor: pointer;
                     }
+                }
+                /deep/ .el-button--text {
+                    padding: 0;
                 }
             }
             .model-body {

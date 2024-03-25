@@ -4,6 +4,7 @@
             :title="`${isAdd ? '新建' : '编辑'}模型`"
             :size="500"
             :visible="isShow"
+            destroy-on-close
             custom-class="common-dialog-wrapper"
             :before-close="cancel"
             @changeVisible="changeVisible"
@@ -20,13 +21,10 @@
                     :model="formData"
                     :rules="rules"
                     ref="validateForm"
-                    form-type="vertical"
                 >
                     <el-form-item
                         label="所属分组"
-                        :required="true"
-                        :prop="'group'"
-                        :error-display-type="'normal'">
+                        prop="group">
                         <el-select v-model="formData.group" size="small" style="width: 100%;" :disabled="!isAdd">
                             <el-option v-for="option in groupList"
                                 :key="option.classification_id"
@@ -37,20 +35,16 @@
                     </el-form-item>
                     <el-form-item
                         label="唯一标识"
-                        :required="true"
                         desc="可使用英文、数字、下划线，需以字母开头"
                         :desc-type="'icon'"
-                        :prop="isAdd ? 'onlyMark' : ''"
-                        :error-display-type="'normal'">
+                        :prop="isAdd ? 'onlyMark' : ''">
                         <el-input size="small" v-model="formData.onlyMark" :disabled="!isAdd" placeholder="请输入唯一标识"></el-input>
                     </el-form-item>
                     <el-form-item
                         label="名称"
-                        :required="true"
-                        :prop="'name'"
+                        prop="name"
                         desc="请填写模型名"
-                        :desc-type="'icon'"
-                        :error-display-type="'normal'">
+                        :desc-type="'icon'">
                         <el-input size="small" v-model="formData.name" placeholder="请输入名称"></el-input>
                     </el-form-item>
                 </el-form>
@@ -147,7 +141,6 @@
                         icn: this.iconUrl,
                         classification_id: this.formData.group
                     }
-                    console.log(params)
                     this.createModel(params)
                 }
             })
@@ -161,29 +154,20 @@
                 }
                 this.$success(`${this.isAdd ? '新增' : '编辑'}模型成功!`)
                 this.isShow = false
-                this.isAdd ? this.$emit('getAllModelList') : this.$emit('refreshModel', {
-                    classification_id: this.formData.group,
-                    ...params
-                })
-                if (this.isAdd) {
-                    this.$store.dispatch('getOtherMenus')
-                }
+                this.isAdd ? this.$emit('getAllModelList') : this.$emit('refreshModel', params)
             }).finally(() => {
                 this.loading = false
             })
         }
         cancel() {
             const flag = this.$compareFormData(this.formData, this.formDataV2)
-            const validateForm: any = this.$refs.validateForm
             if (!flag) {
                 this.$confirm('放弃将导致未保存信息丢失', '是否放弃本次操作？', {
                     center: true
                 }).then(() => {
                     this.isShow = false
-                    validateForm.clearValidate()
                 })
             } else {
-                validateForm.clearValidate()
                 this.isShow = false
             }
         }

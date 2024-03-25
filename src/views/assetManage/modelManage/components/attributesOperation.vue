@@ -5,6 +5,7 @@
             :title="`${currentType}属性`"
             :visible="isShow"
             :quick-close="true"
+            destroy-on-close
             custom-class="common-dialog-wrapper"
             :before-close="cancel"
             @changeVisible="changeVisible">
@@ -18,11 +19,9 @@
                             ref="validateForm">
                             <el-form-item
                                 label="属性ID"
-                                :required="true"
                                 desc="请填写英文开头，下划线、数字、英文的组合"
                                 :desc-type="'icon'"
-                                :prop="isAdd ? 'propertyID' : ''"
-                                :error-display-type="'normal'">
+                                :prop="isAdd ? 'propertyID' : ''">
                                 <el-input
                                     v-model="formData.propertyID"
                                     size="small"
@@ -32,16 +31,12 @@
                             </el-form-item>
                             <el-form-item
                                 label="属性名"
-                                :required="true"
-                                :prop="'name'"
-                                :error-display-type="'normal'">
+                                prop="name">
                                 <el-input v-model="formData.name" size="small" placeholder="请输入属性名"></el-input>
                             </el-form-item>
                             <el-form-item
                                 label="值类型"
-                                :required="true"
-                                :prop="'valueType'"
-                                :error-display-type="'normal'">
+                                prop="valueType">
                                 <el-select
                                     style="width: 100%;"
                                     placeholder="请选择值类型"
@@ -213,8 +208,7 @@
                             </bk-form-item> -->
                             <el-form-item
                                 label="是否必填"
-                                :required="true"
-                                :prop="'is_required'"
+                                prop="is_required"
                                 ext-cls="whether-class"
                                 :error-display-type="'normal'">
                                 <el-radio-group v-model="formData.is_required" style="width: 100%;">
@@ -285,7 +279,7 @@
             valueType: '',
             group: '',
             is_only: '',
-            is_required: '',
+            is_required: false,
             fieldEdit: {
                 isEdit: false,
                 defaultValue: false,

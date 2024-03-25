@@ -29,13 +29,13 @@
                     :data="propertyData"
                     :columns="columns"
                     v-loading="loading"
-                    :max-height="tableMaxHeight">
+                    :height="tableMaxHeight">
                     <template slot="operation" slot-scope="{ row }">
                         <el-button type="text" size="mini" @click="editAttr(row)">编辑</el-button>
                         <el-button type="text" size="mini" @click="deleteAtrr(row)">删除</el-button>
                     </template>
                     <template slot="require" slot-scope="{ row }">
-                        <span>{{ row.is_required ? '是' : '否' }}</span>
+                        <el-tag :type="row.is_required ? 'success' : ''">{{row.is_required ? '是' : '否'}}</el-tag>
                     </template>
                     <template slot="attrType" slot-scope="{ row }">
                         <span>{{ showAttrType(row.attr_type) }}</span>
@@ -50,7 +50,7 @@
                     :data="relationData"
                     :columns="relateColumns"
                     v-loading="relateLoading"
-                    :max-height="tableMaxHeight">
+                    :height="tableMaxHeight">
                     <template slot="operation">
                         <el-button type="text" size="mini">编辑</el-button>
                         <el-button type="text" size="mini">删除</el-button>
@@ -84,7 +84,6 @@
         }
     })
     export default class ModelManage extends Vue {
-        modelInfo: any = {}
         panels: Array<any> = [
             { name: 'property', label: '字段属性' },
             { name: 'relation', label: '关联关系' }
@@ -103,6 +102,11 @@
             return {}
         }
 
+        get modelInfo() {
+            const modelInfo:any = this.$route.query.modelInfo || '{}'
+            return JSON.parse(modelInfo)
+        }
+
         @Watch('active')
         onAlreadyAddListChanged(val) {
             if (val) {
@@ -111,8 +115,6 @@
         }
 
         mounted() {
-            const modelInfo:any = this.$route.query.modelInfo || '{}'
-            this.modelInfo = JSON.parse(modelInfo)
             this.getModelAttrList()
             this.getClassification()
         }
@@ -190,8 +192,13 @@
             this.modelGroupList = data
         }
 
-        refreshModel() {
-            this.$router.go(-1)
+        refreshModel(params) {
+            this.$router.replace({
+                name: 'ModelDetail',
+                query: {
+                    modelInfo: JSON.stringify(params)
+                }
+            })
         }
 
         // 删除模型
@@ -218,7 +225,7 @@
                 return this.$error(res.message)
             }
             this.$success('删除成功')
-            this.refreshModel()
+            this.$router.go(-1)
         }
 
         // 删除属性
