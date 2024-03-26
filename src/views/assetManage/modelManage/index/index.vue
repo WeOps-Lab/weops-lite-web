@@ -52,14 +52,13 @@
                                 icon="el-icon-delete"
                                 @click="handleDelete(item)">
                             </el-button>
-                            <!-- <el-button
+                            <el-button
                                 v-permission="permissionObj"
-                                :disabled="!!item.list.length"
                                 type="text"
                                 size="mini"
                                 icon="el-icon-edit"
                                 @click="groupOperation('edit',item)">
-                            </el-button> -->
+                            </el-button>
                         </div>
                     </div>
                     <div class="model-body">

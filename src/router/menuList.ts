@@ -63,7 +63,7 @@ export const routeConfig = [
                                 value: false,
                                 label: '编辑模型',
                                 type: 'operate',
-                                apiKey: ['model_attr_update', 'model_update']
+                                apiKey: ['classification_update', 'model_attr_update', 'model_update']
                             },
                             {
                                 key: 'ModelManage_delete',
