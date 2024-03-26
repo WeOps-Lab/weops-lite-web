@@ -16,6 +16,13 @@ export default {
         return post(`${reUrl}/classification/`, params)
     },
     /**
+     * 修改模型分类
+     * @param {Object} params 请求参数
+     */
+    updateClassification(params = {}) {
+        return put(`${reUrl}/classification/${params.classification_id}/`, params)
+    },
+    /**
      * 删除模型分类
      * @param {Object} params 请求参数
      */

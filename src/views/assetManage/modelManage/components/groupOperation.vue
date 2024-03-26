@@ -118,7 +118,7 @@ export default class ModelOperation extends Vue {
     }
     async createOrEditGroup(params) {
         this.loading = true
-        const url = this.isAdd ? 'createClassification' : 'upDateClassification'
+        const url = this.isAdd ? 'createClassification' : 'updateClassification'
         try {
             const res = await this.$api.ModelManage[url](params)
             if (!res.result) {
