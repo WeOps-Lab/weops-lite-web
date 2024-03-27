@@ -91,5 +91,33 @@ export default {
      */
     getModelAssoList(params = {}) {
         return get(`${reUrl}/model/${params.id}/association/`)
+    },
+    /**
+     * 查询模型关联类型
+     * @param {Object} params 请求参数
+     */
+    getAssotypeList(params = {}) {
+        return get(`${reUrl}/model/model_association_type/`, params)
+    },
+    /**
+     * 创建模型关联
+     * @param {Object} params 请求参数
+     */
+    createAssociation(params = {}) {
+        return post(`${reUrl}/model/association/`, params)
+    },
+    /**
+     * 修改模型关联
+     * @param {Object} params 请求参数
+     */
+    updateAssociation(params = {}) {
+        return put(`${reUrl}/model/association/${params.model_asst_id}/`, params)
+    },
+    /**
+     * 删除
+     * @param {Object} params 请求参数
+     */
+    deleteAssociation(params = {}) {
+        return deletes(`${reUrl}/model/association/${params.id}/`)
     }
 }

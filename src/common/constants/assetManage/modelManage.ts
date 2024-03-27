@@ -29,7 +29,7 @@ export const PROPERTY_COLUMNS = [
         label: '操作',
         key: 'operation',
         align: 'left',
-        width: '180px',
+        width: '140px',
         scopedSlots: 'operation'
     }
 ]
@@ -78,39 +78,60 @@ export const OPERATE_TYPE_LIST = [
 export const RELATION_COLUMNS = [
     {
         label: '关联名称',
-        key: 'asst_id',
+        key: 'model_asst_id',
         align: 'left',
-        minWidth: '100px'
+        minWidth: '140px',
+        scopedSlots: 'model_asst_id'
     },
     {
         label: '源模型',
         key: 'src_model_id',
         align: 'left',
-        minWidth: '100px'
+        minWidth: '120px',
+        scopedSlots: 'src_model_id'
     },
     {
         label: '目标模型',
         key: 'dst_model_id',
         align: 'left',
-        minWidth: '100px'
+        minWidth: '120px',
+        scopedSlots: 'dst_model_id'
     },
     {
         label: '关联关系',
-        key: 'model_asst_id',
+        key: 'asst_id',
         align: 'left',
-        minWidth: '100px'
+        minWidth: '100px',
+        scopedSlots: 'asst_id'
     },
     {
         label: '约束条件',
         key: 'mapping',
         align: 'left',
-        minWidth: '100px'
+        minWidth: '100px',
+        scopedSlots: 'mapping'
     },
     {
         label: '操作',
         key: 'operation',
         align: 'left',
-        width: '180px',
+        width: '140px',
         scopedSlots: 'operation'
+    }
+]
+
+// 约束条件
+export const TARGET_BIND_LIST = [
+    {
+        id: 'n:n',
+        name: 'N-N'
+    },
+    {
+        id: '1:n',
+        name: '1-N'
+    },
+    {
+        id: '1:1',
+        name: '1-1'
     }
 ]
