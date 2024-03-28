@@ -14,7 +14,7 @@
                         <span class="asset-num">12</span>
                     </div> -->
             </div>
-            <div class="header-operate ml20">
+            <div class="header-operate">
                 <el-button type="text" size="mini" icon="el-icon-edit" @click="editModel">编辑</el-button>
                 <el-button type="text" size="mini" icon="el-icon-delete" @click="handleDelete">删除</el-button>
             </div>
@@ -375,10 +375,11 @@
     .detail-header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         border-radius: 4px;
         background-image: url(~@/assets/img/model_bg.png);
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-        padding: 20px;
+        padding: 20px 60px 20px 20px;
         .header-info {
             display: flex;
             align-items: center;
