@@ -22,7 +22,7 @@
         <el-card class="mt10">
             <menu-tab type="line" :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
             <div v-if="active === 'property'">
-                <el-button class="mt10 mb10" size="small" type="primary" @click="editAttr()">
+                <el-button class="mt20 mb15" size="small" type="primary" @click="editAttr()">
                     添加属性
                 </el-button>
                 <com-table
@@ -43,7 +43,7 @@
                 </com-table>
             </div>
             <template v-else>
-                <el-button class="mt10 mb10" size="small" type="primary" @click="relationOperate('add')">
+                <el-button class="mt20 mb15" size="small" type="primary" @click="relationOperate('add')">
                     添加关联
                 </el-button>
                 <com-table
@@ -119,7 +119,7 @@
         relationData: Array<any> = []
         loading: boolean = false
         relateLoading: boolean = false
-        pageOccupiedHeight: number = 386
+        pageOccupiedHeight: number = 400
         modelGroupList: Array<any> = []
         modelList: Array<any> = []
         modelInfoList: Array<any> = []
