@@ -3,6 +3,7 @@ import Vue from 'vue'
 import permission from './modules/permisson'
 import global from './global'
 import product from './modules/product'
+import menu from './modules/menu'
 
 // @ts-ignore
 Vue.use(Vuex)
@@ -10,7 +11,8 @@ Vue.use(Vuex)
 const modules = {
     permission,
     global,
-    product
+    product,
+    menu
 }
 
 // @ts-ignore

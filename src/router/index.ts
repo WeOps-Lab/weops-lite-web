@@ -68,6 +68,11 @@ function checkRouteAccess(to, from, next) {
     const permission = store.state.permission
     const isDefinedRoute = frameRouter.some(item => item.name === to?.name)
     const ids = findIdsWithNoChildren(permission.menuList).concat(['404', '403', 'AuthPermissionFail'])
+    // // 资产实例详情添加动态的parentIds，避免页面403
+    if (to.name === 'AssetDetail') {
+        const dynamicMenus = store.state.menu.dynamicMenus
+        to.meta.parentIds = dynamicMenus.map(item => item.classification_id) || []
+    }
     const isHasPermission = ids.includes(to.name) || (to?.meta?.parentIds || []).filter(r => ids.includes(r)).length || ids.includes(to?.meta?.relatedMenu)
     // 不包含在全定义路由中,即是不存在该页面
     if (!isDefinedRoute && !ids.includes(to.name)) {
@@ -136,10 +141,10 @@ router.beforeEach(async(to, from, next) => {
     const completeDynamicRoute = permission.completeDynamicRoute
     const completeLoadChildApp = menu?.completeLoadChildApp
     // 处理其他菜单 如:资产的动态和基础监控的动态菜单时,需要走以下的公共逻辑
-    if (!completeDynamicRoute && hasCommonFolder('common')) {
+    if (!completeDynamicRoute) {
         // @ts-ignore
-        const commonFiles = require.context('@/projects', true, /\.ts$/)
-        const module = commonFiles('./common/router/dealRoute.ts')
+        const commonFiles = require.context('@/router', true, /\.ts$/)
+        const module = commonFiles('./dealRoute.ts')
         if (module?.default) {
             await module.default.dealRouterByMenu(to, next)
         } else {

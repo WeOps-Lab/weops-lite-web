@@ -1,5 +1,47 @@
 export const routeConfig = [
     {
+        name: '资产',
+        id: 'Asset',
+        sortIndex: 6,
+        auth: [
+            {
+                key: 'checkAuth',
+                value: false,
+                label: '查看',
+                type: 'check'
+            },
+            {
+                key: 'operateAuth',
+                value: false,
+                label: '操作',
+                type: 'operate'
+            }
+        ],
+        children: [
+            {
+                name: '资产数据',
+                icon: 'cw-icon weops-system',
+                id: 'AssetData',
+                sortIndex: 8,
+                auth: [
+                    {
+                        key: 'checkAuth',
+                        value: false,
+                        label: '查看',
+                        type: 'check'
+                    },
+                    {
+                        key: 'operateAuth',
+                        value: false,
+                        label: '操作',
+                        type: 'operate'
+                    }
+                ],
+                children: []
+            }
+        ]
+    },
+    {
         name: '管理',
         id: 'Setting',
         sortIndex: 7,

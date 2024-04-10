@@ -5,13 +5,15 @@ import UserManageMain from './module/systemManage/userManage'
 import RoleManageMain from './module/systemManage/roleManage'
 import GroupManage from './module/systemManage/groupManage'
 import ModelManage from './module/assetManage/modelManage'
+import AssetData from './module/asset/assetData'
 const api: any = {
     Server,
     User,
     UserManageMain,
     RoleManageMain,
     GroupManage,
-    ModelManage
+    ModelManage,
+    AssetData
 }
 
 // @ts-ignore
