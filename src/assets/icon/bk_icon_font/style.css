@@ -566,20 +566,14 @@ url("fonts/cw-icon.eot?#iefix") format("embedded-opentype");
 .cw-icon.weops-zi-ding-yi-chang-jing:before {
 	content: "\ecef";
 }
-.cw-icon.weops-application-1:before {
-	content: "\ecf0";
-}
 .cw-icon.weops-k-8-s---1:before {
 	content: "\ecf1";
 }
 .cw-icon.weops-k-8-s:before {
 	content: "\ecf2";
 }
-.cw-icon.weops-ying-yong-xian:before {
+.cw-icon.weops-apps:before {
 	content: "\ecf3";
-}
-.cw-icon.weops-ying-yong-xian-1:before {
-	content: "\ecf4";
 }
 .cw-icon.weops-bao-cun:before {
 	content: "\ecf5";
@@ -676,4 +670,34 @@ url("fonts/cw-icon.eot?#iefix") format("embedded-opentype");
 }
 .cw-icon.weops-navigation-indent:before {
 	content: "\ef50";
+}
+.cw-icon.weops-apply:before {
+	content: "\ef5d";
+}
+.cw-icon.weops-module:before {
+	content: "\ef5e";
+}
+.cw-icon.weops-set:before {
+	content: "\ef5f";
+}
+.cw-icon.weops-dian-bo-xin-dian-tu:before {
+	content: "\ef9b";
+}
+.cw-icon.weops-yuan-cheng-lian-jie:before {
+	content: "\ef9c";
+}
+.cw-icon.weops-triangle-left:before {
+	content: "\efa7";
+}
+.cw-icon.weops-triangle-right:before {
+	content: "\efa8";
+}
+.cw-icon.weops-more-vertical:before {
+	content: "\efa9";
+}
+.cw-icon.weops-refresh-off:before {
+	content: "\efaf";
+}
+.cw-icon.weops-filter-linear:before {
+	content: "\efb0";
 }

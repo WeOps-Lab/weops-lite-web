@@ -155,6 +155,9 @@
                 this.$success(`${this.isAdd ? '新增' : '编辑'}模型成功!`)
                 this.isShow = false
                 this.isAdd ? this.$emit('getAllModelList') : this.$emit('refreshModel', params)
+                if (this.isAdd) {
+                    this.$store.dispatch('getOtherMenus')
+                }
             }).finally(() => {
                 this.loading = false
             })

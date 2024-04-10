@@ -13,6 +13,7 @@
                             id: $route.name,
                             type: 'SysGroup_create'
                         }"
+                        disabled
                         size="small"
                         @click="operateGroup('add')">
                         新增组织
@@ -92,6 +93,7 @@
                                     id: $route.name,
                                     type: 'SysGroup_delete'
                                 }"
+                                :disabled="!!data.subGroupCount"
                                 size="small"
                                 @click.stop="deleteNode(node)">
                                 删除
