@@ -69,7 +69,7 @@
                                 v-model="formData[tex.attr_id]"
                                 size="small"
                                 clearable
-                                :type="['int', 'float'].includes(tex['attr_type']) ? 'number' : 'text'">
+                                type="text">
                             </el-input>
                         </template>
                         <template v-else>
@@ -98,12 +98,9 @@
 
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator'
-    import DrawerComponent from '@/components/comDrawer/index.vue'
     @Component({
         name: 'add-resource',
-        components: {
-            DrawerComponent
-        }
+        components: {}
     })
     export default class AddResource extends Vue {
     @Prop({
@@ -229,15 +226,18 @@
         const addResourceForm: any = this.$refs.addResourceForm
         addResourceForm.validateField([tex.attr_id], async errMsg => {
             if (!errMsg) {
+                const info = this.$copy(this.formDataV2)
+                info[tex.attr_id] = this.formData[tex.attr_id]
                 const params = {
                     id: this.$route.query.instId,
-                    instance_info: this.formData
+                    instance_info: info
                 }
                 const { result, message } = await this.$api.AssetData.updateInstance(params)
                 if (!result) {
                     return this.$error(message)
                 }
                 this.$success('修改成功！')
+                this.formDataV2[tex.attr_id] = this.formData[tex.attr_id]
                 tex.isEdit = false
             }
         })
