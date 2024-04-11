@@ -71,7 +71,7 @@
                                 v-model="formData[tex.attr_id]"
                                 size="small"
                                 clearable
-                                :type="['int', 'float'].includes(tex['attr_type']) ? 'number' : 'text'">
+                                type="text">
                             </el-input>
                         </el-form-item>
                     </div>

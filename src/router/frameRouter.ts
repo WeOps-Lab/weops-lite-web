@@ -126,7 +126,6 @@ const mainRouter = [
             needCache: false
         },
         beforeEnter: (to, from, next) => {
-            console.log(to.query)
             if (to.query.inst_name && to.query.fromPage) {
                 to.meta.title = `资产详情-${to.query.inst_name}`
                 to.meta.activeMenu = to.query.fromPage

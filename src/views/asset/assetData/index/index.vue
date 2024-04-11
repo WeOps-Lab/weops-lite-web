@@ -1,6 +1,6 @@
 <template>
     <div class="asset-model page-container" v-loading="loading">
-        <el-tabs v-model="currentModel" @tab-click="handleTabClick">
+        <el-tabs class="asset-model-tabs" v-model="currentModel" @tab-click="handleTabClick">
             <el-tab-pane
                 v-for="(item,index) in modelList"
                 :key="index"
@@ -63,15 +63,7 @@
                         </el-dropdown>
                     </div>
                     <div class="operate-box-right">
-                        <el-input
-                            clearable
-                            style="width: 300px;"
-                            placeholder="请输入搜索关键字"
-                            suffix-icon="el-icon-search"
-                            size="small"
-                            v-model="search"
-                        >
-                        </el-input>
+                        <selectInput :property-list="atrrList" @change="changeFeild" />
                     </div>
                 </div>
                 <com-table
@@ -121,11 +113,13 @@
     import { Component, Vue } from 'vue-property-decorator'
     import ComTable from '@/components/comTable/index.vue'
     import { Pagination, TableData } from '@/common/types'
-    import addInstance from '../components/addInstance/index.vue'
+    import AddInstance from '../components/addInstance/index.vue'
+    import SelectInput from '../components/selectInput/index.vue'
     @Component({
         components: {
             ComTable,
-            addInstance
+            AddInstance,
+            SelectInput
         }
     })
     export default class ModelManage extends Vue {
@@ -147,6 +141,19 @@
         pageOccupiedHeight: number = 266
         groupList: Array<any> = []
         currentNode: any = {}
+        condition: any = null
+
+        get atrrList() {
+            return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
+                if (item.attr_type === 'bool') {
+                    item.option = [
+                        {name: '是', id: true},
+                        {name: '否', id: false}
+                    ]
+                }
+                return item
+            })
+        }
 
         get classifyId() {
             return this.$route.name
@@ -164,6 +171,10 @@
             })
         }
 
+        changeFeild(condition) {
+            this.condition = condition
+            this.getInstanceList()
+        }
         addResource(mode, row = {}) {
             const addInstance: any = this.$refs.addInstance
             addInstance.showDialog({
@@ -196,6 +207,8 @@
         }
         selectGroup(node) {
             this.currentNode = node
+            this.pagination.current = 1
+            this.getInstanceList()
         }
         handleTabClick(tab, event) {
             this.pagination.current = 1
@@ -221,11 +234,11 @@
                 return this.$error(message)
             }
             this.treeList = data
+            this.currentNode = data[0]
             this.groupList = this.convertArray(data)
             this.$nextTick(() => {
                 const groupTree:any = this.$refs.groupTree
                 groupTree.setCurrentKey(data[0]?.id || '')
-                this.currentNode = data[0]
             })
         }
         convertArray(arr) {
@@ -281,13 +294,7 @@
         async getInstanceList(type?) {
             this.tableLoading = type !== 'init'
             try {
-                const params = {
-                    query_list: [],
-                    page: this.pagination.current,
-                    page_size: this.pagination.limit,
-                    order: '',
-                    model_id: this.currentModel
-                }
+                const params = this.getParams()
                 const { result, message, data } = await this.$api.AssetData.getInstanceList(params)
                 if (!result) {
                     return this.$error(message)
@@ -298,6 +305,34 @@
                 this.tableLoading = false
             }
         }
+        getParams() {
+            const params = {
+                query_list: [],
+                page: this.pagination.current,
+                page_size: this.pagination.limit,
+                order: '',
+                model_id: this.currentModel
+            }
+            if (this.condition) {
+                params.query_list = [
+                    {
+                        field: 'organization',
+                        type: 'list[]',
+                        value: [this.currentNode.id]
+                    },
+                    this.condition
+                ]
+            } else if (this.currentNode.id) {
+                params.query_list = [
+                    {
+                        field: 'organization',
+                        type: 'list[]',
+                        value: [this.currentNode.id]
+                    }
+                ]
+            }
+            return params
+        }
         // 批量删除
         async deleteInstance() {
             this.tableLoading = true
@@ -307,6 +342,7 @@
                 this.tableLoading = false
                 return this.$error(message)
             }
+            this.$success('删除成功！')
             this.getInstanceList()
         }
         handlePageChange(page) {
@@ -324,6 +360,10 @@
 
 <style lang="scss" scoped>
 .asset-model {
+    .asset-model-tabs {
+        min-height: 54px;
+    }
+
     .asset-model-wrapper {
         display: flex;
     }
