@@ -34,7 +34,28 @@ function handleOtherMenus(data, commit, state) {
                                     value: false,
                                     label: '查看',
                                     type: 'check',
-                                    apiKey: []
+                                    apiKey: ['group_list','model_list','model_attr_list','instance_list']
+                                },
+                                {
+                                    key: '${i.classification_id}_create',
+                                    value: false,
+                                    label: '创建资产',
+                                    type: 'operate',
+                                    apiKey: ['instance_create','group_list','model_attr_list']
+                                },
+                                {
+                                    key: '${i.classification_id}_edit',
+                                    value: false,
+                                    label: '编辑资产',
+                                    type: 'operate',
+                                    apiKey: ['instance_update','group_list','model_attr_list','instance_detail']
+                                },
+                                {
+                                    key: '${i.classification_id}_delete',
+                                    value: false,
+                                    label: '删除资产',
+                                    type: 'operate',
+                                    apiKey: ['instance_batch_delete']
                                 }
                             ]
                         }
