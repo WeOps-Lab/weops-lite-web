@@ -195,7 +195,7 @@
                 name: 'AssetDetail',
                 query: {
                     fromPage: this.classifyId,
-                    inst_name: '10.10.10.11',
+                    inst_name: row.inst_name || row.biz_name || '--',
                     modelId: this.currentModel,
                     instId: row._id,
                     groupId: this.currentNode.id
@@ -323,10 +323,14 @@
                 value: id
             }
             if (this.condition) {
-                params.query_list = [
-                    groupCondition,
-                    this.condition
-                ]
+                if (level !== 1) {
+                    params.query_list = [
+                        groupCondition,
+                        this.condition
+                    ]
+                } else {
+                    params.query_list = [this.condition]
+                }
             } else if (id && level !== 1) {
                 params.query_list = [
                     groupCondition
