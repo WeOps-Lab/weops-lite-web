@@ -72,7 +72,7 @@
                     :data="instanceList"
                     :columns="columns"
                     :pagination="pagination"
-                    :height="tableMaxHeight"
+                    :max-height="tableMaxHeight"
                     @page-change="handlePageChange"
                     @page-limit-change="handleLimitChange"
                     @select="handleSelect"
@@ -197,7 +197,7 @@
                     fromPage: this.classifyId,
                     inst_name: '10.10.10.11',
                     modelId: this.currentModel,
-                    instId: row.id,
+                    instId: row._id,
                     groupId: this.currentNode.id
                 }
             })
@@ -205,8 +205,8 @@
         handleSelect(selections) {
             this.selectedInstances = selections
         }
-        selectGroup(node) {
-            this.currentNode = node
+        selectGroup(node, row) {
+            this.currentNode = {...node, level: row.level}
             this.pagination.current = 1
             this.getInstanceList()
         }
@@ -234,7 +234,10 @@
                 return this.$error(message)
             }
             this.treeList = data
-            this.currentNode = data[0]
+            this.currentNode = {
+                ...data[0],
+                level: 1
+            }
             this.groupList = this.convertArray(data)
             this.$nextTick(() => {
                 const groupTree:any = this.$refs.groupTree
@@ -313,30 +316,37 @@
                 order: '',
                 model_id: this.currentModel
             }
+            const { id, level } = this.currentNode
+            const groupCondition = {
+                field: 'organization',
+                type: 'str=',
+                value: id
+            }
             if (this.condition) {
                 params.query_list = [
-                    {
-                        field: 'organization',
-                        type: 'list[]',
-                        value: [this.currentNode.id]
-                    },
+                    groupCondition,
                     this.condition
                 ]
-            } else if (this.currentNode.id) {
+            } else if (id && level !== 1) {
                 params.query_list = [
-                    {
-                        field: 'organization',
-                        type: 'list[]',
-                        value: [this.currentNode.id]
-                    }
+                    groupCondition
                 ]
             }
             return params
         }
         // 批量删除
-        async deleteInstance() {
+        deleteInstance() {
+            this.$confirm('确认要删除该资产？', '提示', {
+                center: true
+            }).then(() => {
+                this.deleteInstanceRequest()
+            })
+        }
+        async deleteInstanceRequest() {
             this.tableLoading = true
-            const params = JSON.stringify(this.selectedInstances.map(item => item.id))
+            const params = {
+                body: this.selectedInstances.map(item => item._id)
+            }
             const { result, message } = await this.$api.AssetData.deleteInstance(params)
             if (!result) {
                 this.tableLoading = false

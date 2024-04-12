@@ -37,12 +37,17 @@
         }
 
         async getGroups() {
-            const res = await this.$api.GroupManage.getGroups()
-            const { result, message, data } = res
-            if (!result) {
-                return this.$error(message)
+            this.loading = true
+            try {
+                const res = await this.$api.GroupManage.getGroups()
+                const { result, message, data } = res
+                if (!result) {
+                    return this.$error(message)
+                }
+                this.groupList = this.convertArray(data)
+            } finally {
+                this.loading = false
             }
-            this.groupList = this.convertArray(data)
         }
         convertArray(arr) {
             const result = []
