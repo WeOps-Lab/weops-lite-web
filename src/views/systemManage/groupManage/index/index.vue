@@ -5,7 +5,7 @@
             content="您可以创建组织，用于管理一组用户，或者进行角色授权，您可以创建、修改和删除组织，并管理其下级单位。" />
         <div class="organization-manage manage-wrapper">
             <div class="operate-box">
-                <div>
+                <!-- <div >
                     <el-button
                         class="mr10"
                         type="primary"
@@ -13,12 +13,11 @@
                             id: $route.name,
                             type: 'SysGroup_create'
                         }"
-                        disabled
                         size="small"
                         @click="operateGroup('add')">
                         新增组织
                     </el-button>
-                </div>
+                </div> -->
                 <el-input
                     clearable
                     style="width: 300px;"
