@@ -1,5 +1,5 @@
 <template>
-    <div class="base-info">
+    <div class="base-info" v-loading="loading">
         <el-form
             label-width="200"
             ref="addResourceForm"
@@ -77,7 +77,7 @@
                                 <span v-overflow-tooltip class="content">{{ getShowValue(tex) }}</span>
                                 <span class="operate-edit">
                                     <span v-if="!tex.isEdit" class="edit-icon">
-                                        <span class="cw-icon weops-edit operate-icon-edit" @click="editInfo(tex)"></span>
+                                        <span v-if="tex.editable" class="cw-icon weops-edit operate-icon-edit" @click="editInfo(tex)"></span>
                                         <span class="cw-icon weops-copy operate-icon-copy" v-copy="getShowValue(tex)"></span>
                                     </span>
                                 </span>
@@ -230,15 +230,21 @@
                 info[tex.attr_id] = this.formData[tex.attr_id]
                 const params = {
                     id: this.$route.query.instId,
-                    instance_info: info
+                    body: {}
                 }
-                const { result, message } = await this.$api.AssetData.updateInstance(params)
-                if (!result) {
-                    return this.$error(message)
+                params.body[tex.attr_id] = this.formData[tex.attr_id]
+                try {
+                    this.loading = true
+                    const { result, message } = await this.$api.AssetData.updateInstance(params)
+                    if (!result) {
+                        return this.$error(message)
+                    }
+                    this.$success('修改成功！')
+                    this.formDataV2[tex.attr_id] = this.formData[tex.attr_id]
+                    tex.isEdit = false
+                } finally {
+                    this.loading = false
                 }
-                this.$success('修改成功！')
-                this.formDataV2[tex.attr_id] = this.formData[tex.attr_id]
-                tex.isEdit = false
             }
         })
     }

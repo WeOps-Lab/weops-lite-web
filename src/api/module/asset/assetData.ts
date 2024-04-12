@@ -20,14 +20,14 @@ export default {
      * @param {Object} params 请求参数
      */
     updateInstance(params = {}) {
-        return patch(`${reUrl}/instance/${params.id}/`, params)
+        return patch(`${reUrl}/instance/${params.id}/`, params.body)
     },
     /**
      * 批量删除实例
      * @param {Object} params 请求参数
      */
     deleteInstance(params = {}) {
-        return post(`${reUrl}/instance/batch_delete/`, params)
+        return post(`${reUrl}/instance/batch_delete/`, params.body)
     },
     /**
      * 实例详情

@@ -238,7 +238,7 @@
     flex-wrap: wrap;
 }
 /deep/.el-form-item {
-    width: 290px;
+    width: 286px;
     &:nth-of-type(2n) {
         margin-left: 20px;
     }
