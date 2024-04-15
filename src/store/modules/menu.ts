@@ -23,11 +23,12 @@ function handleOtherMenus(data, commit, state) {
             item.children.forEach(tex => {
                 // 资产下的资产数据
                 if (tex.id === 'AssetData') {
+                    console.log(compMap['assetData'])
                     data.forEach(i => {
                         const obj = {
                             id: i.classification_id,
                             name: i.classification_name,                            ,
-                            url: `/assetData/${i.classification_id}`,
+                            url: `/${i.classification_id}`,
                             auth: [
                                 {
                                     key: '${i.classification_id}_view',
@@ -62,7 +63,7 @@ function handleOtherMenus(data, commit, state) {
                         tex.children.push(obj)
                         // 动态路由的添加
                         const route: any = {
-                            path: `/assetData/${i.classification_id}`,
+                            path: `/${i.classification_id}`,
                             name: i.classification_id,
                             component: compMap['assetData'],
                             meta: {
