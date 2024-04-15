@@ -23,7 +23,6 @@ function handleOtherMenus(data, commit, state) {
             item.children.forEach(tex => {
                 // 资产下的资产数据
                 if (tex.id === 'AssetData') {
-                    console.log(compMap['assetData'])
                     data.forEach(i => {
                         const obj = {
                             id: i.classification_id,
