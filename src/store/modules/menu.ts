@@ -3,8 +3,6 @@ import { menuList } from '@/router/frameRouter'
 import api from '@/api/index'
 import router from '@/router'
 import permission from '@/store/modules/permisson'
-const AssetData = () => import('@/views/asset/assetData/index/index.vue')
-
 const state = {
     dynamicMenus: '',
     dynamicRoutes: [],
@@ -12,8 +10,13 @@ const state = {
 }
 
 function handleOtherMenus(data, commit, state) {
-    console.log(AssetData)
     const dynamicRoutes = []
+    let compMap = {}
+    try {
+        compMap['assetData'] = require('@/views/asset/assetData/index/index.vue').default
+    } catch (e) {
+        console.error(`Failed to load Component: ${e.message}`)
+    }
     menuList.forEach(item => {
         // 寻找菜单目录下: 资产数据
         if (item.id === 'Asset') {
@@ -61,7 +64,7 @@ function handleOtherMenus(data, commit, state) {
                         const route: any = {
                             path: `/assetData/${i.classification_id}`,
                             name: i.classification_id,
-                            component: AssetData,
+                            component: compMap['assetData'],
                             meta: {
                                 title: i.classification_name,
                                 relatedMenu: tex.id

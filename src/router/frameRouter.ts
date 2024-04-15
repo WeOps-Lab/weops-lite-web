@@ -17,6 +17,7 @@ const ModelManage = () => import('@/views/assetManage/modelManage/index/index.vu
 const ModelDetail = () => import('@/views/assetManage/modelManage/modelDetail/index.vue')
 // 资产数据
 const AssetDetail = () => import('@/views/asset/assetData/detial/index.vue')
+const AssetData = () => import('@/views/asset/assetData/index/index.vue')
 
 const mainRouter = [
     {
@@ -113,6 +114,14 @@ const mainRouter = [
             activeMenu: 'ModelManage',
             parentIds: ['ModelManage'],
             needCache: false // 离开后是父级页面否需要缓存。需注意的是，要配合cacheName使用，并且在父级页面的beforeRouteLeave钩子中，判断是否需要缓存。若需要缓存，则调用this.$handleKeepAlive(to, from)这个方法,vuex中的keepAliveList要把父级页面的路由名称加进去
+        }
+    },
+    {
+        path: '/text',
+        name: 'AssetData',
+        component: AssetData,
+        meta: {
+            title: '测试'
         }
     },
     {
