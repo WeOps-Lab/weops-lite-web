@@ -37,7 +37,14 @@ export const routeConfig = [
                         type: 'operate'
                     }
                 ],
-                children: []
+                children: [
+                    {
+                        id: 'AssetData',
+                        name: '测试',
+                        url: '/text',
+                        auth: []
+                    }
+                ]
             }
         ]
     },
