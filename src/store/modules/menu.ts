@@ -12,6 +12,7 @@ const state = {
 }
 
 function handleOtherMenus(data, commit, state) {
+    console.log(AssetData)
     const dynamicRoutes = []
     menuList.forEach(item => {
         // 寻找菜单目录下: 资产数据
