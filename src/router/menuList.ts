@@ -37,14 +37,7 @@ export const routeConfig = [
                         type: 'operate'
                     }
                 ],
-                children: [
-                    {
-                        id: 'biz_manage',
-                        name: '应用管理',
-                        url: '/assetData/biz_manage',
-                        auth: []
-                    }
-                ]
+                children: []
             }
         ]
     },
