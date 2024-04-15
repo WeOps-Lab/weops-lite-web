@@ -18,10 +18,10 @@ function handleOtherMenus(data, commit, state) {
         console.error(`Failed to load Component: ${e.message}`)
     }
     menuList.forEach(item => {
-        // 寻找菜单目录下: 资产记录和监控模块
+        // 寻找菜单目录下: 资产数据
         if (item.id === 'Asset') {
             item.children.forEach(tex => {
-                // 资产下的资产记录 和 监控下的基础基础和云平台监控
+                // 资产下的资产数据
                 if (tex.id === 'AssetData') {
                     tex.children = []
                     data.forEach(i => {
