@@ -23,6 +23,7 @@ function handleOtherMenus(data, commit, state) {
             item.children.forEach(tex => {
                 // 资产下的资产记录 和 监控下的基础基础和云平台监控
                 if (tex.id === 'AssetData') {
+                    tex.children = []
                     data.forEach(i => {
                         const obj = {
                             id: i.classification_id,
