@@ -62,6 +62,6 @@ export default {
      * @param {Object} params 请求参数
      */
     getRelatedList(params = {}) {
-        return post(`${reUrl}/instance/association_list/`, params)
+        return get(`${reUrl}/instance/instance_association/${params.model_id}/${params.inst_id}/`)
     }
 }
