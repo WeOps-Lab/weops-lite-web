@@ -54,6 +54,19 @@
                     >
                         关联
                     </el-button>
+                    <!-- <el-button
+                        v-else
+                        v-permission="{
+                            id: $route.name,
+                            type: 'SysRole_users_manage'
+                        }"
+                        class="mr10"
+                        type="text"
+                        size="small"
+                        @click="cancelRelate(row)"
+                    >
+                        取消关联
+                    </el-button> -->
                 </template>
                 <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">
                     <div :key="field.key">
@@ -265,15 +278,40 @@
                 return this.$error(message)
             }
             this.instanceList = data.insts.map(item => {
+                const target = this.relatedList.find(rel => rel.dst_inst_id === item._id)
                 return {
                     ...item,
-                    isRelated: !!this.relatedList.find(rel => rel.dst_inst_id === item._id)
+                    relatedId: target?._id || '',
+                    isRelated: !!target
                 }
             })
             this.pagination.count = data.count
         } finally {
             this.tableLoading = false
         }
+    }
+    cancelRelate(row) {
+        this.$confirm('确定取消关联吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            center: true
+        }).then(async() => {
+            try {
+                const res = await this.$api.AssetData.deleteInstAsso({
+                    id: row.relatedId
+                })
+                if (!res.result) {
+                    return this.$error(res.message)
+                } else {
+                    this.$success('已成功取消关联!')
+                    this.$emit('refreshList')
+                    this.getInstanceList()
+                }
+                return true
+            } catch (e) {
+                return false
+            }
+        })
     }
     getParams() {
         const relation = JSON.parse(this.relation)

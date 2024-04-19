@@ -158,8 +158,8 @@
     async getRelatedList() {
         const { instId, modelId } = this.$route.query
         const params = {
-            dst_inst_id: instId,
-            dst_model_id: modelId
+            inst_id: instId,
+            model_id: modelId
         }
         const { result, message, data } = await this.$api.AssetData.getRelatedList(params)
         if (!result) {
