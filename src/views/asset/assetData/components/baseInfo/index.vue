@@ -5,102 +5,100 @@
             ref="addResourceForm"
             :rules="rules"
             :model="formData">
-            <div class="info-box" v-for="item in resourcList" :key="item.id">
-                <div :class="['header',!item.isExpand && 'mb20']">
-                    <span
-                        :class="['cw-icon' ,'title-icon',item.isExpand ? 'weops-triangle-down' : 'weops-triangle-right']"
-                        @click="item.isExpand = !item.isExpand">
-                    </span>
-                    <span class="title">{{ item.label }}</span>
-                </div>
-                <div v-show="item.isExpand" class="show-info">
-                    <el-form-item
-                        v-for="tex in item.list"
-                        class="custom-form-item"
-                        :key="tex['attr_id']"
-                        :label="tex['attr_name']"
-                        :prop="tex['attr_id']">
-                        <span :class="['custom-label',tex.is_required && 'label-required']">
-                            <span v-overflow-tooltip class="attr-name">{{ tex['attr_name'] }}</span>
-                            <span>:</span>
-                        </span>
-                        <template v-if="tex.isEdit">
-                            <el-date-picker
-                                v-if="['date', 'time'].includes(tex['attr_type'])"
-                                class="form-item"
-                                size="small"
-                                v-model="formData[tex.attr_id]"
-                                :placeholder="'选择日期时间'"
-                                :value-format="tex['attr_type'] === 'time' ? 'yyyy-MM-dd HH:mm:ss' : ''"
-                                :type="tex['attr_type'] === 'date' ? 'date' : 'datetime'">
-                            </el-date-picker>
-                            <el-select
-                                class="form-item"
-                                v-else-if="['enum', 'list'].includes(tex['attr_type'])"
-                                size="small"
-                                v-model="formData[tex.attr_id]"
-                                filterable>
-                                <el-option
-                                    v-for="option in tex.option"
-                                    :key="option.id"
-                                    :value="option.id"
-                                    :label="option.name">
-                                </el-option>
-                            </el-select>
-                            <el-switch
-                                class="form-item"
-                                v-else-if="tex['attr_type'] === 'bool'"
-                                size="small"
-                                v-model="formData[tex.attr_id]">
-                            </el-switch>
-                            <el-cascader
-                                v-else-if="tex['attr_type'] === 'organization'"
-                                :props="{
-                                    emitPath: false,
-                                    checkStrictly: true
-                                }"
-                                class="form-item"
-                                size="small"
-                                v-model="formData[tex.attr_id]"
-                                :options="groupList">
-                            </el-cascader>
-                            <el-input
-                                v-else
-                                v-model="formData[tex.attr_id]"
-                                size="small"
-                                clearable
-                                type="text">
-                            </el-input>
-                        </template>
-                        <template v-else>
-                            <div class="operate-content">
-                                <span v-overflow-tooltip class="content">{{ getShowValue(tex) }}</span>
-                                <span class="operate-edit">
-                                    <span v-if="!tex.isEdit" class="edit-icon">
-                                        <span v-if="tex.editable" class="cw-icon weops-edit operate-icon-edit" @click="editInfo(tex)"></span>
-                                        <span class="cw-icon weops-copy operate-icon-copy" v-copy="getShowValue(tex)"></span>
-                                    </span>
-                                </span>
-                            </div>
-                        </template>
-                        <span class="operate-confirm">
-                            <span v-if="tex.isEdit" class="confirm-cancel">
-                                <span class="cw-icon weops-complete operate-icon-left" @click="confirmEdit(tex)"></span>
-                                <span class="cw-icon weops-close operate-icon-right" @click="cancelEdit(tex)"></span>
+            <collapse :collapse-list="resourcList">
+                <template slot="content" slot-scope="{ collRow }">
+                    <div class="show-info">
+                        <el-form-item
+                            v-for="tex in collRow.list"
+                            class="custom-form-item"
+                            :key="tex['attr_id']"
+                            :label="tex['attr_name']"
+                            :prop="tex['attr_id']">
+                            <span :class="['custom-label',tex.is_required && 'label-required']">
+                                <span v-overflow-tooltip class="attr-name">{{ tex['attr_name'] }}</span>
+                                <span>:</span>
                             </span>
-                        </span>
-                    </el-form-item>
-                </div>
-            </div>
+                            <template v-if="tex.isEdit">
+                                <el-date-picker
+                                    v-if="['date', 'time'].includes(tex['attr_type'])"
+                                    class="form-item"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]"
+                                    :placeholder="'选择日期时间'"
+                                    :value-format="tex['attr_type'] === 'time' ? 'yyyy-MM-dd HH:mm:ss' : ''"
+                                    :type="tex['attr_type'] === 'date' ? 'date' : 'datetime'">
+                                </el-date-picker>
+                                <el-select
+                                    class="form-item"
+                                    v-else-if="['enum', 'list'].includes(tex['attr_type'])"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]"
+                                    filterable>
+                                    <el-option
+                                        v-for="option in tex.option"
+                                        :key="option.id"
+                                        :value="option.id"
+                                        :label="option.name">
+                                    </el-option>
+                                </el-select>
+                                <el-switch
+                                    class="form-item"
+                                    v-else-if="tex['attr_type'] === 'bool'"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]">
+                                </el-switch>
+                                <el-cascader
+                                    v-else-if="tex['attr_type'] === 'organization'"
+                                    :props="{
+                                        emitPath: false,
+                                        checkStrictly: true
+                                    }"
+                                    class="form-item"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]"
+                                    :options="groupList">
+                                </el-cascader>
+                                <el-input
+                                    v-else
+                                    v-model="formData[tex.attr_id]"
+                                    size="small"
+                                    clearable
+                                    type="text">
+                                </el-input>
+                            </template>
+                            <template v-else>
+                                <div class="operate-content">
+                                    <span v-overflow-tooltip class="content">{{ getShowValue(tex) }}</span>
+                                    <span class="operate-edit">
+                                        <span v-if="!tex.isEdit" class="edit-icon">
+                                            <span v-if="tex.editable" class="cw-icon weops-edit operate-icon-edit" @click="editInfo(tex)"></span>
+                                            <span class="cw-icon weops-copy operate-icon-copy" v-copy="getShowValue(tex)"></span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </template>
+                            <span class="operate-confirm">
+                                <span v-if="tex.isEdit" class="confirm-cancel">
+                                    <span class="cw-icon weops-complete operate-icon-left" @click="confirmEdit(tex)"></span>
+                                    <span class="cw-icon weops-close operate-icon-right" @click="cancelEdit(tex)"></span>
+                                </span>
+                            </span>
+                        </el-form-item>
+                    </div>
+                </template>
+            </collapse>
         </el-form>
     </div>
 </template>
 
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator'
+    import Collapse from '@/components/collapse/index.vue'
     @Component({
         name: 'add-resource',
-        components: {}
+        components: {
+            Collapse
+        }
     })
     export default class AddResource extends Vue {
     @Prop({
@@ -108,6 +106,11 @@
         default: () => []
     })
     groupList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    propertyList: Array<any>
 
     resourcList: Array<any> = [
         {
@@ -128,7 +131,6 @@
             isExpand: true
         }
     ]
-    propertyList: Array<any> = []
     instDetail: any = {}
     loading: boolean = false
     formData: any = {}
@@ -136,27 +138,23 @@
     formDataV2 = {}
 
     mounted() {
-        this.initData()
-    }
-    async getModelAttrList() {
-        const params = {
-            id: this.$route.query.modelId
-        }
-        const { result, message, data } = await this.$api.ModelManage.getModelAttrList(params)
-        if (!result) {
-            return this.$error(message)
-        }
-        this.propertyList = data
+        this.getInstDetial()
     }
     async getInstDetial() {
-        const params = {
-            id: this.$route.query.instId
+        this.loading = true
+        try {
+            const params = {
+                id: this.$route.query.instId
+            }
+            const { result, message, data } = await this.$api.AssetData.getInstDetial(params)
+            if (!result) {
+                return this.$error(message)
+            }
+            this.instDetail = data
+            this.initData(data)
+        } finally {
+            this.loading = false
         }
-        const { result, message, data } = await this.$api.AssetData.getInstDetial(params)
-        if (!result) {
-            return this.$error(message)
-        }
-        this.instDetail = data
     }
     // 编辑信息
     editInfo(tex) {
@@ -195,32 +193,29 @@
         }
         return '--'
     }
-    initData() {
-        this.loading = true
-        Promise.all([this.getModelAttrList(), this.getInstDetial()]).finally(() => {
-            this.loading = false
-            const groupProperty = this.propertyList.find(item => item.attr_id === 'organization')
-            if (!groupProperty) {
-                this.propertyList = [
-                    ...this.propertyList,
-                    ...this.resourcList.at(0).list
-                ]
+    initData(data) {
+        let propertyList = this.$copy(this.propertyList)
+        const groupProperty = propertyList.find(item => item.attr_id === 'organization')
+        if (!groupProperty) {
+            propertyList = [
+                ...propertyList,
+                ...this.resourcList.at(0).list
+            ]
+        }
+        propertyList.forEach(item => {
+            if (item.is_required) {
+                this.$set(this.rules, item.attr_id, {
+                    required: true,
+                    message: '必填项',
+                    trigger: 'blur'
+                })
             }
-            this.propertyList.forEach(item => {
-                if (item.is_required) {
-                    this.$set(this.rules, item.attr_id, {
-                        required: true,
-                        message: '必填项',
-                        trigger: 'blur'
-                    })
-                }
-                const defaultVal = item.attr_type === 'bool' ? false : item.attr_type === 'organization' ? this.$route.query.groupId : ''
-                this.$set(this.formData, item.attr_id, this.instDetail[item.attr_id] || defaultVal)
-            })
-            const baseInfo = this.resourcList.find(item => item.id === 'base')
-            baseInfo.list = this.propertyList.filter(item => item.attr_id !== 'organization')
-            this.formDataV2 = this.$copy(this.formData)
+            const defaultVal = item.attr_type === 'bool' ? false : item.attr_type === 'organization' ? this.$route.query.groupId : ''
+            this.$set(this.formData, item.attr_id, data[item.attr_id] || defaultVal)
         })
+        const baseInfo = this.resourcList.find(item => item.id === 'base')
+        baseInfo.list = propertyList.filter(item => item.attr_id !== 'organization')
+        this.formDataV2 = this.$copy(this.formData)
     }
     confirmEdit(tex) {
         const addResourceForm: any = this.$refs.addResourceForm
@@ -277,14 +272,6 @@
     }
     .operate-edit {
         display: none;
-    }
-}
-.header {
-    width: 100%;
-    font-weight: 600;
-    margin-bottom: 20px;
-    .title-icon {
-        cursor: pointer;
     }
 }
 /* stylelint-disable selector-class-pattern */

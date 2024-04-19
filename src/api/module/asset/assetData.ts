@@ -35,5 +35,33 @@ export default {
      */
     getInstDetial(params = {}) {
         return get(`${reUrl}/instance/${params.id}/`)
+    },
+    /**
+     * 查询某个实例的所有关联实例
+     * @param {Object} params 请求参数
+     */
+    getAssoInstList(params = {}) {
+        return get(`${reUrl}/instance/association_instance_list/${params.model_id}/${params.inst_id}/`)
+    },
+    /**
+     * 创建实例关联
+     * @param {Object} params 请求参数
+     */
+    createInstAsso(params = {}) {
+        return post(`${reUrl}/instance/association/`, params)
+    },
+    /**
+     * 删除实例关联
+     * @param {Object} params 请求参数
+     */
+    deleteInstAsso(params = {}) {
+        return deletes(`${reUrl}/instance/association/${params.id}/`)
+    },
+    /**
+     * 删除实例关联
+     * @param {Object} params 请求参数
+     */
+    getRelatedList(params = {}) {
+        return post(`${reUrl}/instance/association_list/`, params)
     }
 }
