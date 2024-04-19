@@ -93,8 +93,12 @@
                     </template>
                     <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">
                         <div :key="field.key">
-                            <span v-if="field.attr_type === 'enum'">{{ showEnumName(field, row) }}</span>
-                            <el-tag v-else :type="row[field.key] ? 'success' : ''">{{row[field.key] ? '是' : '否'}}</el-tag>
+                            <el-tag
+                                v-if="field.attr_type === 'bool'"
+                                :type="row[field.key] ? 'success' : ''">
+                                {{getShowValue(field, row)}}
+                            </el-tag>
+                            <span v-else>{{ getShowValue(field, row) }}</span>
                         </div>
                     </template>
                 </com-table>
@@ -187,8 +191,37 @@
             this.pagination.current = 1
             this.getInstanceList()
         }
-        showEnumName(field, row) {
-            return (field.option || []).find(item => item.id === row[field.key])?.name || '--'
+        getShowValue(field, tex) {
+        let str = '--'
+            switch (field.attr_type) {
+                case 'organization':
+                    str = this.findLabelByValue(this.groupList, tex[field.key])
+                    break
+                case 'enum':
+                    str = (field.option || []).find(item => item.id === tex[field.key])?.name || '--'
+                    break
+                case 'bool':
+                    str = tex[field.key] ? '是' : '否'
+                    break
+                default:
+                    str = tex[field.key] || '--'
+                    break
+            }
+            return str
+        }
+        findLabelByValue(arr, value) {
+            for (let i = 0; i < arr.length; i++) {
+              if (arr[i].value === value) {
+                return arr[i].label
+              }
+              if (arr[i].children && arr[i].children.length) {
+                const label = this.findLabelByValue(arr[i].children, value)
+                if (label) {
+                  return label
+                }
+              }
+            }
+            return '--'
         }
         checkDetail(row) {
             this.$router.push({
@@ -281,7 +314,7 @@
                 item.label = item.attr_name
                 item.minWidth = '100px'
                 item.align = 'left'
-                if (['enum', 'bool'].includes(item.attr_type)) {
+                if (['enum', 'bool', 'organization'].includes(item.attr_type)) {
                     item.scopedSlots = item.attr_id
                 }
             })

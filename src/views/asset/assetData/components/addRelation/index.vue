@@ -7,7 +7,7 @@
         custom-class="common-dialog-wrapper"
         :before-close="beforeCloseDialog"
         @changeVisible="changeVisible">
-        <div slot="content" class="content-box common-dialog-wrapper-main">
+        <div slot="content" class="content-box common-dialog-wrapper-main" v-loading="relateLoading">
             <div class="operate-item mb20">
                 <span class="label">关联列表</span>
                 <el-select
@@ -15,8 +15,9 @@
                     size="small"
                     filterable
                     v-model="relation"
+                    placeholder="请选择"
                     :loading="relateLoading"
-                    placeholder="请选择">
+                    @change="searchRelationData">
                     <el-option
                         v-for="(item,index) in relationData"
                         :key="index"
@@ -48,6 +49,7 @@
                         class="mr10"
                         type="text"
                         size="small"
+                        :disabled="row.isRelated"
                         @click="handleRelate(row)"
                     >
                         关联
@@ -119,6 +121,12 @@
     })
     modelInfoList: Array<any>
 
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    groupList: Array<any>
+
     pagination: Pagination = {
         current: 1,
         count: 0,
@@ -126,13 +134,14 @@
     }
     instanceList: Array<any> = []
     tableLoading: boolean = false
+    loading: boolean = false
     condition: any = null
     visible: boolean = false
     pageOccupiedHeight: number = 320
     relation: string = ''
     relateLoading: boolean = false
     relationData: Array<any> = []
-    currentRow: any = {}
+    relatedList: Array<any> = []
 
     get atrrList() {
         return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
@@ -146,11 +155,14 @@
         })
     }
 
-    show(row) {
+    show(relatedList) {
         this.visible = true
-        this.currentRow = row
-        this.getInstanceList()
+        this.relatedList = relatedList
         this.getModelAssoList()
+    }
+    searchRelationData() {
+        this.pagination.current = 1
+        this.getInstanceList()
     }
     showModelName(id) {
         return this.modelInfoList.find(item => item.model_id === id)?.model_name || '--'
@@ -182,23 +194,29 @@
             model_asst_id: relation.model_asst_id,
             src_model_id: relation.src_model_id,
             dst_model_id: relation.dst_model_id,
-            src_inst_id: row._id,
-            dst_inst_id: this.$route.query.instId
+            asst_id: relation.asst_id
         }
-        this.relateLoading = true
+        if (relation.dst_model_id === this.$route.query.modelId) {
+            params.dst_inst_id = this.$route.query.instId
+            params.src_inst_id = row._id
+        } else {
+            params.dst_inst_id = row._id
+            params.src_inst_id = this.$route.query.instId
+        }
         const { result, message } = await this.$api.AssetData.createInstAsso(params)
         if (!result) {
             return this.$error(message)
         }
         this.$success('已成功关联')
+        this.$emit('refreshList')
         this.getInstanceList()
     }
     async getModelAssoList() {
+        this.relateLoading = true
         try {
             const params = {
                 id: this.$route.query.modelId
             }
-            this.relateLoading = true
             const { result, message, data } = await this.$api.ModelManage.getModelAssoList(params)
             if (!result) {
                 return this.$error(message)
@@ -210,8 +228,10 @@
                 }
             })
             this.relation = JSON.stringify(data[0]) || ''
-        } catch (e) {
-            console.error(e)
+            if (!this.relation.length) {
+                return
+            }
+            this.getInstanceList()
         } finally {
             this.relateLoading = false
         }
@@ -232,6 +252,7 @@
     }
 
     changeFeild(condition) {
+        this.pagination.current = 1
         this.condition = condition
         this.getInstanceList()
     }
@@ -243,19 +264,25 @@
             if (!result) {
                 return this.$error(message)
             }
-            this.instanceList = data.insts
+            this.instanceList = data.insts.map(item => {
+                return {
+                    ...item,
+                    isRelated: !!this.relatedList.find(rel => rel.dst_inst_id === item._id)
+                }
+            })
             this.pagination.count = data.count
         } finally {
             this.tableLoading = false
         }
     }
     getParams() {
+        const relation = JSON.parse(this.relation)
         const params = {
             query_list: [],
             page: this.pagination.current,
             page_size: this.pagination.limit,
             order: '',
-            model_id: this.$route.query.modelId
+            model_id: relation.dst_model_id || ''
         }
         if (this.condition) {
             params.query_list = [this.condition]

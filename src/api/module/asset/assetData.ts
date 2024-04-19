@@ -55,6 +55,13 @@ export default {
      * @param {Object} params 请求参数
      */
     deleteInstAsso(params = {}) {
-        return deletes(`${reUrl}/instance/association/${params.id}`)
+        return deletes(`${reUrl}/instance/association/${params.id}/`)
+    },
+    /**
+     * 删除实例关联
+     * @param {Object} params 请求参数
+     */
+    getRelatedList(params = {}) {
+        return post(`${reUrl}/instance/association_list/`, params)
     }
 }

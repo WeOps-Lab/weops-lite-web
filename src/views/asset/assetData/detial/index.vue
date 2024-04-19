@@ -7,11 +7,15 @@
                 :label="item.label"
                 :name="item.name">
             </el-tab-pane>
-            <component
-                :is="active"
+            <asso-info
+                v-if="active === 'assoInfo' && !loading"
                 :group-list="groupList"
                 :connect-type-list="connectTypeList"
                 :model-info-list="modelInfoList"
+                :property-list="propertyList" />
+            <base-info
+                v-if="active === 'baseInfo' && !loading"
+                :group-list="groupList"
                 :property-list="propertyList"
             />
         </el-tabs>
@@ -86,16 +90,12 @@
         }
         async getGroups() {
             this.loading = true
-            try {
-                const res = await this.$api.GroupManage.getGroups()
-                const { result, message, data } = res
-                if (!result) {
-                    return this.$error(message)
-                }
-                this.groupList = this.convertArray(data)
-            } finally {
-                this.loading = false
+            const res = await this.$api.GroupManage.getGroups()
+            const { result, message, data } = res
+            if (!result) {
+                return this.$error(message)
             }
+            this.groupList = this.convertArray(data)
         }
         convertArray(arr) {
             const result = []
@@ -116,6 +116,6 @@
 
 <style lang="scss" scoped>
 .asset-detial {
-    //
+    height: calc(100% - 50px);
 }
 </style>

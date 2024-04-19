@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+    import { Vue, Component, Prop } from 'vue-property-decorator'
     import Collapse from '@/components/collapse/index.vue'
     @Component({
         name: 'add-resource',
@@ -136,13 +136,6 @@
     formData: any = {}
     rules = {}
     formDataV2 = {}
-
-    @Watch('propertyList', {
-        deep: true
-    })
-    onPropertyListChange(val) {
-        this.getInstDetial()
-    }
 
     mounted() {
         this.getInstDetial()

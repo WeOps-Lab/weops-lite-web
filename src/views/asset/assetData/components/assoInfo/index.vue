@@ -60,8 +60,10 @@
             :property-list="propertyList"
             :connect-type-list="connectTypeList"
             :model-info-list="modelInfoList"
+            :group-list="groupList"
             :columns="columns"
             :slot-columns="slotColumns"
+            @refreshList="initData"
         />
     </div>
 </template>
@@ -112,6 +114,7 @@
         limit: 20
     }
     tableMaxHeight: number = 300
+    relatedList: Array<any> = []
 
     get slotColumns() {
         return this.columns.filter(item => item.scopedSlots && item.scopedSlots !== 'operation')
@@ -123,7 +126,7 @@
 
     addRelation() {
         const addRelation: any = this.$refs.addRelation
-        addRelation.show()
+        addRelation.show(this.relatedList)
     }
     cancelRelate(row) {
         this.$confirm('确定取消关联吗？', {
@@ -133,12 +136,13 @@
         }).then(async() => {
             try {
                 const res = await this.$api.AssetData.deleteInstAsso({
-                    id: row._id
+                    id: row.relatedId
                 })
                 if (!res.result) {
                     return this.$error(res.message)
                 } else {
                     this.$success('已成功取消关联!')
+                    this.initData()
                 }
                 return true
             } catch (e) {
@@ -151,31 +155,49 @@
             item.isExpand = bool
         })
     }
-    async initData() {
+    async getRelatedList() {
+        const { instId, modelId } = this.$route.query
+        const params = {
+            dst_inst_id: instId,
+            dst_model_id: modelId
+        }
+        const { result, message, data } = await this.$api.AssetData.getRelatedList(params)
+        if (!result) {
+            return this.$error(message)
+        }
+        this.relatedList = data
+    }
+    async getAssoInstList() {
+        const { instId, modelId } = this.$route.query
+        const params = {
+            inst_id: instId,
+            model_id: modelId
+        }
+        const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
+        if (!result) {
+            return this.$error(message)
+        }
+        this.assoData = data
+    }
+    initData() {
         this.loading = true
-        try {
-            const { instId, modelId } = this.$route.query
-            const params = {
-                inst_id: instId,
-                model_id: modelId
-            }
-            const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
-            if (!result) {
-                return this.$error(message)
-            }
-            this.assoData = data
+        Promise.all([this.getRelatedList(), this.getAssoInstList()]).finally(() => {
+            this.loading = false
             this.columns = this.getColumns()
             this.resourcList = this.assoData.filter(row => row.inst_list?.length).map((item, index) => {
                 return {
                     label: this.showConnectName(item),
                     id: index,
-                    list: item.inst_list,
+                    list: item.inst_list.map(inst => {
+                        return {
+                            relatedId: this.relatedList.find(relate => relate.dst_inst_id === inst._id)?._id || '',
+                            ...inst
+                        }
+                    }),
                     isExpand: true
                 }
             })
-        } finally {
-            this.loading = false
-        }
+        })
     }
     getShowValue(field, tex) {
         let str = '--'
@@ -224,7 +246,7 @@
             item.label = item.attr_name
             item.minWidth = '100px'
             item.align = 'left'
-            if (['enum', 'bool'].includes(item.attr_type)) {
+            if (['enum', 'bool', 'organization'].includes(item.attr_type)) {
                 item.scopedSlots = item.attr_id
             }
         })
@@ -242,7 +264,7 @@
     showConnectName(row) {
         const sourceName = this.showModelName(row.src_model_id)
         const targetName = this.showModelName(row.dst_model_id)
-        const relation = this.showConnectType(row.model_asst_id, 'name')
+        const relation = this.showConnectType(row.asst_id, 'name')
         return `${sourceName} ${relation} ${targetName}`
     }
 }
