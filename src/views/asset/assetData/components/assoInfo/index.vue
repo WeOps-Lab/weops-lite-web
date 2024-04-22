@@ -136,7 +136,7 @@
         }).then(async() => {
             try {
                 const res = await this.$api.AssetData.deleteInstAsso({
-                    id: row.relatedId
+                    id: row.inst_asst_id
                 })
                 if (!res.result) {
                     return this.$error(res.message)
@@ -155,49 +155,38 @@
             item.isExpand = bool
         })
     }
-    async getRelatedList() {
-        const { instId, modelId } = this.$route.query
-        const params = {
-            inst_id: instId,
-            model_id: modelId
-        }
-        const { result, message, data } = await this.$api.AssetData.getRelatedList(params)
-        if (!result) {
-            return this.$error(message)
-        }
-        this.relatedList = data
-    }
-    async getAssoInstList() {
-        const { instId, modelId } = this.$route.query
-        const params = {
-            inst_id: instId,
-            model_id: modelId
-        }
-        const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
-        if (!result) {
-            return this.$error(message)
-        }
-        this.assoData = data
-    }
-    initData() {
+    async initData(type?) {
         this.loading = true
-        Promise.all([this.getRelatedList(), this.getAssoInstList()]).finally(() => {
-            this.loading = false
+        try {
+            const { instId, modelId } = this.$route.query
+            const params = {
+                inst_id: instId,
+                model_id: modelId
+            }
+            const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
+            if (!result) {
+                return this.$error(message)
+            }
+            this.assoData = data
             this.columns = this.getColumns()
             this.resourcList = this.assoData.filter(row => row.inst_list?.length).map((item, index) => {
                 return {
                     label: this.showConnectName(item),
                     id: index,
-                    list: item.inst_list.map(inst => {
-                        return {
-                            relatedId: this.relatedList.find(relate => relate.dst_inst_id === inst._id)?._id || '',
-                            ...inst
-                        }
-                    }),
+                    list: item.inst_list,
                     isExpand: true
                 }
             })
-        })
+            this.relatedList = this.resourcList.reduce((pre, cur) => {
+                return pre.concat(cur.list)
+            }, [])
+            if (type === 'update') {
+                const addRelation:any = this.$refs.addRelation
+                addRelation?.updateInstanceList(this.relatedList)
+            }
+        } finally {
+            this.loading = false
+        }
     }
     getShowValue(field, tex) {
         let str = '--'
