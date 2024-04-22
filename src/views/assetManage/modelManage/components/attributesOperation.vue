@@ -216,6 +216,26 @@
                                     <el-radio :label="false">否</el-radio>
                                 </el-radio-group>
                             </el-form-item>
+                            <el-form-item
+                                label="可编辑"
+                                prop="editable"
+                                ext-cls="whether-class"
+                                :error-display-type="'normal'">
+                                <el-radio-group v-model="formData.editable" style="width: 100%;">
+                                    <el-radio :label="true" class="mr20">是</el-radio>
+                                    <el-radio :label="false">否</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item
+                                label="是否唯一"
+                                prop="is_only"
+                                ext-cls="whether-class"
+                                :error-display-type="'normal'">
+                                <el-radio-group v-model="formData.is_only" style="width: 100%;">
+                                    <el-radio :label="true" class="mr20">是</el-radio>
+                                    <el-radio :label="false">否</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
                             <!-- <bk-form-item
                                 v-if="formData.valueType === 'int'"
                                 label="单位">
@@ -278,8 +298,9 @@
             name: '',
             valueType: '',
             group: '',
-            is_only: '',
+            is_only: false,
             is_required: false,
+            editable: false,
             fieldEdit: {
                 isEdit: false,
                 defaultValue: false,
@@ -334,6 +355,13 @@
                 {
                     required: true,
                     message: '请选择是否唯一',
+                    trigger: 'blur'
+                }
+            ],
+            editable: [
+                {
+                    required: true,
+                    message: '请选择是否可编辑',
                     trigger: 'blur'
                 }
             ],
@@ -512,6 +540,7 @@
                 group: this.attrData.attr_group || '',
                 is_only: this.attrData.is_only || false,
                 is_required: this.attrData.is_required || false,
+                editable: this.attrData.editable || false,
                 fieldEdit: {
                     isEdit: this.attrData.editable || false,
                     defaultValue: false,
@@ -570,8 +599,8 @@
                 attr_type: this.formData.valueType,
                 is_required: this.formData.is_required,
                 attr_group: '',
-                is_only: false,
-                editable: false
+                is_only: this.formData.is_only,
+                editable: this.formData.editable
             }
             this.handleNormalType(params)
             this.handleEnumType(params)

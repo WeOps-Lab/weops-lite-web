@@ -29,6 +29,7 @@
                     :data="propertyData"
                     :columns="columns"
                     v-loading="loading"
+                    :row-key="'attr_id'"
                     :height="tableMaxHeight">
                     <template slot="operation" slot-scope="{ row }">
                         <el-button type="text" size="mini" @click="editAttr(row)">编辑</el-button>
@@ -36,6 +37,12 @@
                     </template>
                     <template slot="require" slot-scope="{ row }">
                         <el-tag :type="row.is_required ? 'success' : ''">{{row.is_required ? '是' : '否'}}</el-tag>
+                    </template>
+                    <template slot="editable" slot-scope="{ row }">
+                        <el-tag :type="row.editable ? 'success' : ''">{{row.editable ? '是' : '否'}}</el-tag>
+                    </template>
+                    <template slot="is_only" slot-scope="{ row }">
+                        <el-tag :type="row.is_only ? 'success' : ''">{{row.is_only ? '是' : '否'}}</el-tag>
                     </template>
                     <template slot="attrType" slot-scope="{ row }">
                         <span>{{ showAttrType(row.attr_type) }}</span>
