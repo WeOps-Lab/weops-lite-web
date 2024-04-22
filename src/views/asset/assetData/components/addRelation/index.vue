@@ -42,6 +42,7 @@
             >
                 <template slot="operation" slot-scope="{ row }">
                     <el-button
+                        v-if="!row.isRelated"
                         v-permission="{
                             id: $route.name,
                             type: 'SysRole_users_manage'
@@ -49,12 +50,11 @@
                         class="mr10"
                         type="text"
                         size="small"
-                        :disabled="row.isRelated"
                         @click="handleRelate(row)"
                     >
                         关联
                     </el-button>
-                    <!-- <el-button
+                    <el-button
                         v-else
                         v-permission="{
                             id: $route.name,
@@ -66,7 +66,7 @@
                         @click="cancelRelate(row)"
                     >
                         取消关联
-                    </el-button> -->
+                    </el-button>
                 </template>
                 <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">
                     <div :key="field.key">
@@ -151,7 +151,7 @@
     condition: any = null
     visible: boolean = false
     pageOccupiedHeight: number = 320
-    relation: string = ''
+    relation: string = '{}'
     relateLoading: boolean = false
     relationData: Array<any> = []
     relatedList: Array<any> = []
@@ -221,8 +221,11 @@
             return this.$error(message)
         }
         this.$success('已成功关联')
-        this.$emit('refreshList')
-        this.getInstanceList()
+        this.$emit('refreshList', 'update')
+    }
+    updateInstanceList(data) {
+        this.relatedList = data
+        this.getInstanceList('')
     }
     async getModelAssoList() {
         this.relateLoading = true
@@ -278,10 +281,10 @@
                 return this.$error(message)
             }
             this.instanceList = data.insts.map(item => {
-                const target = this.relatedList.find(rel => rel.dst_inst_id === item._id)
+                const target = this.relatedList.find(rel => rel._id === item._id)
                 return {
                     ...item,
-                    relatedId: target?._id || '',
+                    relatedId: target?.inst_asst_id || '',
                     isRelated: !!target
                 }
             })
@@ -304,8 +307,7 @@
                     return this.$error(res.message)
                 } else {
                     this.$success('已成功取消关联!')
-                    this.$emit('refreshList')
-                    this.getInstanceList()
+                    this.$emit('refreshList', 'update')
                 }
                 return true
             } catch (e) {
