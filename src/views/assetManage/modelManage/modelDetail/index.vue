@@ -180,6 +180,7 @@
         }
 
         showAttrType(type) {
+            if (type === 'organization') return '组织'
             return OPERATE_TYPE_LIST.find(item => item.id === type)?.name || '--'
         }
 

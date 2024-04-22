@@ -74,10 +74,14 @@ export const OPERATE_TYPE_LIST = [
         id: 'time',
         name: '时间'
     },
-    // {
-    //     id: 'objuser',
-    //     name: '用户'
-    // },
+    {
+        id: 'user',
+        name: '用户'
+    },
+    {
+        id: 'pwd',
+        name: '密码'
+    },
     {
         id: 'bool',
         name: '布尔'
