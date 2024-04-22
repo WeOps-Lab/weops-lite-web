@@ -300,7 +300,7 @@
             group: '',
             is_only: false,
             is_required: false,
-            editable: false,
+            editable: true,
             fieldEdit: {
                 isEdit: false,
                 defaultValue: false,
