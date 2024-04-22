@@ -26,6 +26,20 @@ export const PROPERTY_COLUMNS = [
         scopedSlots: 'require'
     },
     {
+        label: '可编辑',
+        key: 'editable',
+        align: 'left',
+        minWidth: '100px',
+        scopedSlots: 'editable'
+    },
+    {
+        label: '是否唯一',
+        key: 'is_only',
+        align: 'left',
+        minWidth: '100px',
+        scopedSlots: 'is_only'
+    },
+    {
         label: '操作',
         key: 'operation',
         align: 'left',
@@ -60,10 +74,14 @@ export const OPERATE_TYPE_LIST = [
         id: 'time',
         name: '时间'
     },
-    // {
-    //     id: 'objuser',
-    //     name: '用户'
-    // },
+    {
+        id: 'user',
+        name: '用户'
+    },
+    {
+        id: 'pwd',
+        name: '密码'
+    },
     {
         id: 'bool',
         name: '布尔'
