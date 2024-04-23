@@ -30,12 +30,13 @@
                                 </el-date-picker>
                                 <el-select
                                     class="form-item"
-                                    v-else-if="['enum', 'list'].includes(tex['attr_type'])"
+                                    v-else-if="['enum', 'list', 'user'].includes(tex['attr_type'])"
                                     size="small"
+                                    :multiple="tex['attr_type'] === 'user'"
                                     v-model="formData[tex.attr_id]"
                                     filterable>
                                     <el-option
-                                        v-for="option in tex.option"
+                                        v-for="option in tex['attr_type'] === 'user' ? userList : tex.option"
                                         :key="option.id"
                                         :value="option.id"
                                         :label="option.name">
@@ -63,7 +64,8 @@
                                     v-model="formData[tex.attr_id]"
                                     size="small"
                                     clearable
-                                    type="text">
+                                    :show-password="tex['attr_type'] === 'pwd'"
+                                    :type="tex['attr_type'] === 'pwd' ? 'password' : 'text'">
                                 </el-input>
                             </template>
                             <template v-else>
@@ -94,6 +96,7 @@
 <script lang="ts">
     import { Vue, Component, Prop } from 'vue-property-decorator'
     import Collapse from '@/components/collapse/index.vue'
+    import { getAssetAttrValue } from '@/controller/func/common'
     @Component({
         name: 'add-resource',
         components: {
@@ -106,6 +109,11 @@
         default: () => []
     })
     groupList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    userList: Array<any>
     @Prop({
         type: Array,
         default: () => []
@@ -160,38 +168,12 @@
     editInfo(tex) {
         this.$set(tex, 'isEdit', true)
     }
-    // 复制信息
-    getShowValue(tex) {
-        let str = '--'
-        switch (tex.attr_type) {
-            case 'organization':
-                str = this.findLabelByValue(this.groupList, this.formData[tex.attr_id])
-                break
-            case 'enum':
-                str = tex.option.find(item => item.id === this.formData[tex.attr_id])?.name || '--'
-                break
-            case 'bool':
-                str = this.formData[tex.attr_id] ? '是' : '否'
-                break
-            default:
-                str = this.formData[tex.attr_id] || '--'
-                break
-        }
-        return str
-    }
-    findLabelByValue(arr, value) {
-        for (let i = 0; i < arr.length; i++) {
-          if (arr[i].value === value) {
-            return arr[i].label
-          }
-          if (arr[i].children && arr[i].children.length) {
-            const label = this.findLabelByValue(arr[i].children, value)
-            if (label) {
-              return label
-            }
-          }
-        }
-        return '--'
+    getShowValue(field) {
+        field.key = field.attr_id
+        return getAssetAttrValue(field, this.formData, {
+            groupList: this.groupList,
+            userList: this.userList
+        })
     }
     initData(data) {
         let propertyList = this.$copy(this.propertyList)

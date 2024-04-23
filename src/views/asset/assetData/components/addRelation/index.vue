@@ -28,7 +28,7 @@
             </div>
             <div class="operate-item mb20">
                 <span class="label">条件筛选</span>
-                <selectInput :property-list="atrrList" @change="changeFeild" />
+                <selectInput :property-list="atrrList" :user-list="userList" @change="changeFeild" />
             </div>
             <com-table
                 v-loading="tableLoading"
@@ -96,6 +96,7 @@
     import ComTable from '@/components/comTable/index.vue'
     import SelectInput from '../selectInput/index.vue'
     import { Pagination, TableData } from '@/common/types'
+    import { getAssetAttrValue } from '@/controller/func/common'
     @Component({
         components: {
             DrawerComponent,
@@ -139,6 +140,11 @@
         default: () => []
     })
     groupList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    userList: Array<any>
 
     pagination: Pagination = {
         current: 1,
@@ -184,22 +190,10 @@
         return this.connectTypeList.find(item => item.id === id)?.[key] || '--'
     }
     getShowValue(field, tex) {
-        let str = '--'
-        switch (field.attr_type) {
-            case 'organization':
-                str = this.findLabelByValue(this.groupList, tex[field.key])
-                break
-            case 'enum':
-                str = (field.option || []).find(item => item.id === tex[field.key])?.name || '--'
-                break
-            case 'bool':
-                str = tex[field.key] ? '是' : '否'
-                break
-            default:
-                str = tex[field.key] || '--'
-                break
-        }
-        return str
+        return getAssetAttrValue(field, tex, {
+            groupList: this.groupList,
+            userList: this.userList
+        })
     }
     async handleRelate(row) {
         const relation = JSON.parse(this.relation)
@@ -252,21 +246,6 @@
             this.relateLoading = false
         }
     }
-    findLabelByValue(arr, value) {
-        for (let i = 0; i < arr.length; i++) {
-          if (arr[i].value === value) {
-            return arr[i].label
-          }
-          if (arr[i].children && arr[i].children.length) {
-            const label = this.findLabelByValue(arr[i].children, value)
-            if (label) {
-              return label
-            }
-          }
-        }
-        return '--'
-    }
-
     changeFeild(condition) {
         this.pagination.current = 1
         this.condition = condition

@@ -61,6 +61,7 @@
             :connect-type-list="connectTypeList"
             :model-info-list="modelInfoList"
             :group-list="groupList"
+            :user-list="userList"
             :columns="columns"
             :slot-columns="slotColumns"
             @refreshList="initData"
@@ -74,6 +75,7 @@
     import { Pagination, TableData } from '@/common/types'
     import Collapse from '@/components/collapse/index.vue'
     import AddRelation from '../addRelation/index.vue'
+    import { getAssetAttrValue } from '@/controller/func/common'
     @Component({
         name: 'asso-info',
         components: {
@@ -88,6 +90,11 @@
         default: () => []
     })
     groupList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    userList: Array<any>
     @Prop({
         type: Array,
         default: () => []
@@ -189,36 +196,10 @@
         }
     }
     getShowValue(field, tex) {
-        let str = '--'
-        switch (field.attr_type) {
-            case 'organization':
-                str = this.findLabelByValue(this.groupList, tex[field.key])
-                break
-            case 'enum':
-                str = (field.option || []).find(item => item.id === tex[field.key])?.name || '--'
-                break
-            case 'bool':
-                str = tex[field.key] ? '是' : '否'
-                break
-            default:
-                str = tex[field.key] || '--'
-                break
-        }
-        return str
-    }
-    findLabelByValue(arr, value) {
-        for (let i = 0; i < arr.length; i++) {
-          if (arr[i].value === value) {
-            return arr[i].label
-          }
-          if (arr[i].children && arr[i].children.length) {
-            const label = this.findLabelByValue(arr[i].children, value)
-            if (label) {
-              return label
-            }
-          }
-        }
-        return '--'
+        return getAssetAttrValue(field, tex, {
+            groupList: this.groupList,
+            userList: this.userList
+        })
     }
     getColumns() {
         const operateColumn = {
@@ -235,9 +216,7 @@
             item.label = item.attr_name
             item.minWidth = '100px'
             item.align = 'left'
-            if (['enum', 'bool', 'organization'].includes(item.attr_type)) {
-                item.scopedSlots = item.attr_id
-            }
+            item.scopedSlots = item.attr_id
         })
         return [
             ...propertyList,

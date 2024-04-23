@@ -463,3 +463,57 @@ Vue.prototype.$ArrayObjDup = function distinct1(arr, key) {
     }
     return newArr
 }
+
+/**
+ * @description 资产字段属性对应值的回显处理
+ * @param field 字段属性
+ * @param tex 表单
+ * @param others 其它参数，包括groupList、userList等的对象
+ * @returns 返回属性映射值
+ */
+export const getAssetAttrValue = (field, tex, others) => {
+    let str = '--'
+    switch (field.attr_type) {
+        case 'organization':
+            str = findGroupNameById(others.groupList || [], tex[field.key])
+            break
+        case 'user':
+            str = findNameByIds(others.userList || [], tex[field.key] || [])
+            break
+        case 'enum':
+            str = (field.option || []).find(item => item.id === tex[field.key])?.name || '--'
+            break
+        case 'bool':
+            str = tex[field.key] ? '是' : '否'
+            break
+        case 'pwd':
+            str = tex[field.key] ? '***' : '--'
+            break
+        default:
+            str = tex[field.key] || '--'
+            break
+    }
+    return str
+}
+
+// 根据分组id找出分组名称
+export const findGroupNameById = (arr, value) => {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].value === value) {
+            return arr[i].label
+        }
+        if (arr[i].children && arr[i].children.length) {
+            const label = findGroupNameById(arr[i].children, value)
+            if (label) {
+                return label
+            }
+        }
+    }
+    return '--'
+}
+
+// 根据数组id找出对应名称（多选）
+export const findNameByIds = (list, ids) => {
+    const map = new Map(list.map(i => [i.id, i.name]))
+    return ids.map(id => map.get(id)).join('，') || '--'
+}
