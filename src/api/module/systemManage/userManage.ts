@@ -131,5 +131,13 @@ export default {
      */
     editUserInfo(params = {}) {
         return put(`${reUrl}/user/${params.id}/my_userinfo/update/`, params)
+    },
+    /**
+     * 查询所有用户
+     *
+     * @param {Object} params 请求参数
+     */
+    getAllUsers(params = {}) {
+        return get(`${reUrl}/user/all/`, params)
     }
 }

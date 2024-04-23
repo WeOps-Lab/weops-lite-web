@@ -108,6 +108,7 @@
             ref="addInstance"
             :model-id="currentModel"
             :group-list="groupList"
+            :user-list="userList"
             :current-node="currentNode"
             @on-success="updateInstanceList" />
     </div>
@@ -119,6 +120,7 @@
     import { Pagination, TableData } from '@/common/types'
     import AddInstance from '../components/addInstance/index.vue'
     import SelectInput from '../components/selectInput/index.vue'
+    import { getAssetAttrValue } from '@/controller/func/common'
     @Component({
         components: {
             ComTable,
@@ -146,6 +148,7 @@
         groupList: Array<any> = []
         currentNode: any = {}
         condition: any = null
+        userList: Array<any> = []
 
         get atrrList() {
             return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
@@ -170,11 +173,23 @@
         async mounted() {
             this.loading = true
             await this.getAllModelList()
-            Promise.all([this.getGroups(), this.getModelAttrList(), this.getInstanceList('init')]).finally(() => {
+            Promise.all([this.getGroups(), this.getUserList(), this.getModelAttrList(), this.getInstanceList('init')]).finally(() => {
                 this.loading = false
             })
         }
 
+        async getUserList() {
+            const { result, message, data } = await this.$api.UserManageMain.getAllUsers()
+            if (!result) {
+                return this.$error(message)
+            }
+            this.userList = data.map(item => {
+                return {
+                    name: item.lastName,
+                    id: item.username
+                }
+            })
+        }
         changeFeild(condition) {
             this.condition = condition
             this.getInstanceList()
@@ -192,36 +207,10 @@
             this.getInstanceList()
         }
         getShowValue(field, tex) {
-        let str = '--'
-            switch (field.attr_type) {
-                case 'organization':
-                    str = this.findLabelByValue(this.groupList, tex[field.key])
-                    break
-                case 'enum':
-                    str = (field.option || []).find(item => item.id === tex[field.key])?.name || '--'
-                    break
-                case 'bool':
-                    str = tex[field.key] ? '是' : '否'
-                    break
-                default:
-                    str = tex[field.key] || '--'
-                    break
-            }
-            return str
-        }
-        findLabelByValue(arr, value) {
-            for (let i = 0; i < arr.length; i++) {
-              if (arr[i].value === value) {
-                return arr[i].label
-              }
-              if (arr[i].children && arr[i].children.length) {
-                const label = this.findLabelByValue(arr[i].children, value)
-                if (label) {
-                  return label
-                }
-              }
-            }
-            return '--'
+            return getAssetAttrValue(field, tex, {
+                groupList: this.groupList,
+                userList: this.userList
+            })
         }
         checkDetail(row) {
             this.$router.push({
@@ -314,7 +303,7 @@
                 item.label = item.attr_name
                 item.minWidth = '100px'
                 item.align = 'left'
-                if (['enum', 'bool', 'organization'].includes(item.attr_type)) {
+                if (['enum', 'bool', 'organization', 'user', 'pwd'].includes(item.attr_type)) {
                     item.scopedSlots = item.attr_id
                 }
             })

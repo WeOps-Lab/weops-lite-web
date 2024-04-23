@@ -12,9 +12,11 @@
                 :group-list="groupList"
                 :connect-type-list="connectTypeList"
                 :model-info-list="modelInfoList"
+                :user-list="userList"
                 :property-list="propertyList" />
             <base-info
                 v-if="active === 'baseInfo' && !loading"
+                :user-list="userList"
                 :group-list="groupList"
                 :property-list="propertyList"
             />
@@ -42,6 +44,7 @@
         connectTypeList: Array<any> = []
         modelInfoList: Array<any> = []
         propertyList: Array<any> = []
+        userList: Array<any> = []
 
         created() {
             this.getConfigInfo()
@@ -49,7 +52,7 @@
 
         getConfigInfo() {
             this.loading = true
-            Promise.all([this.getGroups(), this.getConnectTypeList(), this.getModelInfoList(), this.getModelAttrList()]).finally(() => {
+            Promise.all([this.getGroups(), this.getUserList(), this.getConnectTypeList(), this.getModelInfoList(), this.getModelAttrList()]).finally(() => {
                 this.loading = false
             })
         }
@@ -87,6 +90,18 @@
                 return this.$error(message)
             }
             this.propertyList = data
+        }
+        async getUserList() {
+            const { result, message, data } = await this.$api.UserManageMain.getAllUsers()
+            if (!result) {
+                return this.$error(message)
+            }
+            this.userList = data.map(item => {
+                return {
+                    name: item.lastName,
+                    id: item.username
+                }
+            })
         }
         async getGroups() {
             this.loading = true
