@@ -487,7 +487,7 @@ export const getAssetAttrValue = (field, tex, others) => {
             str = tex[field.key] ? '是' : '否'
             break
         case 'pwd':
-            str = '***'
+            str = tex[field.key] ? '***' : '--'
             break
         default:
             str = tex[field.key] || '--'

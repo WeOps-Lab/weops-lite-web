@@ -63,7 +63,7 @@
                         </el-dropdown>
                     </div>
                     <div class="operate-box-right">
-                        <selectInput :property-list="atrrList" @change="changeFeild" />
+                        <selectInput :property-list="atrrList" :user-list="userList" @change="changeFeild" />
                     </div>
                 </div>
                 <com-table

@@ -26,15 +26,16 @@
                 @change="changeFieldvaule">
             </el-date-picker>
             <el-select
-                v-else-if="['enum', 'bool'].includes(currentFeildInfo['attr_type'])"
+                v-else-if="['enum', 'bool','user'].includes(currentFeildInfo['attr_type'])"
                 class="value"
                 clearable=""
                 size="small"
                 v-model="fieldValue"
                 filterable
+                :multiple="currentFeildInfo['attr_type'] === 'user'"
                 @change="changeFieldvaule">
                 <el-option
-                    v-for="option in currentFeildInfo.option"
+                    v-for="option in currentFeildInfo['attr_type'] === 'user' ? userList : currentFeildInfo.option"
                     :key="option.id"
                     :value="option.id"
                     :label="option.name">
@@ -69,6 +70,11 @@
         default: () => 350
     })
     width: number
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    userList: Array<any>
 
     fieldKey: string = ''
     fieldValue: any = ''
@@ -90,7 +96,7 @@
             type: this.currentFeildInfo.attr_type,
             value: val
          }
-         if (!val && val !== false) {
+         if ((!val && val !== false) || (Array.isArray(val) && !val.length)) {
             condition = null
          } else {
             switch (this.currentFeildInfo.attr_type) {
@@ -99,6 +105,9 @@
                     break
                 case 'str':
                     condition.type = 'str='
+                    break
+                case 'user':
+                    condition.type = 'user[]'
                     break
                 case 'int':
                     condition.type = 'int='
