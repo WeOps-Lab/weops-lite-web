@@ -303,9 +303,7 @@
                 item.label = item.attr_name
                 item.minWidth = '100px'
                 item.align = 'left'
-                if (['enum', 'bool', 'organization', 'user', 'pwd'].includes(item.attr_type)) {
-                    item.scopedSlots = item.attr_id
-                }
+                item.scopedSlots = item.attr_id
             })
             this.columns = [
                 {

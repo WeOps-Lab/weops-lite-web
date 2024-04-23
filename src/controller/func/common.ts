@@ -478,7 +478,7 @@ export const getAssetAttrValue = (field, tex, others) => {
             str = findGroupNameById(others.groupList || [], tex[field.key])
             break
         case 'user':
-            str = findNameByIds(others.userList, tex[field.key])
+            str = findNameByIds(others.userList || [], tex[field.key] || [])
             break
         case 'enum':
             str = (field.option || []).find(item => item.id === tex[field.key])?.name || '--'
@@ -513,7 +513,7 @@ export const findGroupNameById = (arr, value) => {
 }
 
 // 根据数组id找出对应名称（多选）
-export const findNameByIds = (list = [], ids = []) => {
+export const findNameByIds = (list, ids) => {
     const map = new Map(list.map(i => [i.id, i.name]))
-    return ids.map(id => map.get(id)).join('，')
+    return ids.map(id => map.get(id)).join('，') || '--'
 }

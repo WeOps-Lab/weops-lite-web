@@ -38,12 +38,13 @@
                             </el-date-picker>
                             <el-select
                                 class="form-item"
-                                v-else-if="['enum', 'list'].includes(tex['attr_type'])"
+                                v-else-if="['enum', 'list', 'user'].includes(tex['attr_type'])"
                                 size="small"
+                                :multiple="tex['attr_type'] === 'user'"
                                 v-model="formData[tex.attr_id]"
                                 filterable>
                                 <el-option
-                                    v-for="option in tex.option"
+                                    v-for="option in tex['attr_type'] === 'user' ? userList : tex.option"
                                     :key="option.id"
                                     :value="option.id"
                                     :label="option.name">
@@ -71,7 +72,8 @@
                                 v-model="formData[tex.attr_id]"
                                 size="small"
                                 clearable
-                                type="text">
+                                :show-password="tex['attr_type'] === 'pwd'"
+                                :type="tex['attr_type'] === 'pwd' ? 'password' : 'text'">
                             </el-input>
                         </el-form-item>
                     </div>
@@ -115,6 +117,11 @@
         default: () => []
     })
     groupList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    userList: Array<any>
     @Prop({
         type: Object,
         default: () => ({})
