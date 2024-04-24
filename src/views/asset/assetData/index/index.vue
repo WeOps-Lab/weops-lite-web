@@ -39,7 +39,7 @@
                             </el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item @click.native="addResource('add')">手动创建</el-dropdown-item>
-                                <el-dropdown-item v-if="false">批量导入</el-dropdown-item>
+                                <el-dropdown-item @click.native="addResource('import')">批量导入</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                         <el-dropdown class="mr10 ml10">
@@ -51,14 +51,14 @@
                                 <el-dropdown-item :disabled="!selectedInstances.length" @click.native="deleteInstance">批量删除</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                        <el-dropdown v-if="false">
+                        <el-dropdown>
                             <el-button size="small">
                                 导出
                                 <i class="el-icon-arrow-down el-icon--right"></i>
                             </el-button>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>导出全部</el-dropdown-item>
-                                <el-dropdown-item>导出所选</el-dropdown-item>
+                                <el-dropdown-item @click.native="exportInst([])">导出全部</el-dropdown-item>
+                                <el-dropdown-item :disabled="!selectedInstances.length" @click.native="exportInst(selectedInstances)">导出所选</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -111,6 +111,11 @@
             :user-list="userList"
             :current-node="currentNode"
             @on-success="updateInstanceList" />
+        <import-instance
+            ref="importInstance"
+            :model-id="currentModel"
+            :current-node="currentNode"
+            @on-success="updateInstanceList" />
     </div>
 </template>
 
@@ -119,13 +124,15 @@
     import ComTable from '@/components/comTable/index.vue'
     import { Pagination, TableData } from '@/common/types'
     import AddInstance from '../components/addInstance/index.vue'
+    import ImportInstance from '../components/importInstance/index.vue'
     import SelectInput from '../components/selectInput/index.vue'
     import { getAssetAttrValue } from '@/controller/func/common'
     @Component({
         components: {
             ComTable,
             AddInstance,
-            SelectInput
+            SelectInput,
+            ImportInstance
         }
     })
     export default class ModelManage extends Vue {
@@ -178,6 +185,24 @@
             })
         }
 
+        // 导出资产
+        exportInst(list) {
+            const params = {
+                id: this.currentModel,
+                body: list.map(item => item._id)
+            }
+            this.$api.AssetData.exportInst(params).then((res) => {
+                const blob = new Blob([res], {type: '.xlsx'})
+                // 通过创建a标签实现
+                const link = document.createElement('a')
+                link.href = window.URL.createObjectURL(blob)
+                // 对下载的文件命名
+                link.download = `${this.currentModel}资产列表.xlsx`
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+            })
+        }
         async getUserList() {
             const { result, message, data } = await this.$api.UserManageMain.getAllUsers()
             if (!result) {
@@ -195,6 +220,11 @@
             this.getInstanceList()
         }
         addResource(mode, row = {}) {
+            if (mode === 'import') {
+                const importInstance:any = this.$refs.importInstance
+                importInstance.showDialog()
+                return
+            }
             const addInstance: any = this.$refs.addInstance
             addInstance.showDialog({
                 mode,
