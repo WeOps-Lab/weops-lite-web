@@ -4,8 +4,7 @@
         :visible="isShow"
         :size="600"
         :before-close="beforeClose"
-        custom-class="common-dialog-wrapper"
-        @changeVisible="changeVisible">
+        custom-class="common-dialog-wrapper">
         <div slot="content" class="common-dialog-wrapper-main content-box" v-loading="pageLoading">
             <el-form label-width="80px" :model="formData" ref="validateForm"
                 v-loading="isInfoLoading" :rules="formRules">

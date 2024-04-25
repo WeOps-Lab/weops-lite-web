@@ -4,8 +4,7 @@
         :visible="visible"
         :size="800"
         custom-class="common-dialog-wrapper"
-        :before-close="handleClose"
-        @changeVisible="changeVisible">
+        :before-close="handleClose">
         <div slot="content" class="transfer-box common-dialog-wrapper-main">
             <div class="source-list">
                 <div class="header">待选择列表</div>

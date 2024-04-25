@@ -5,8 +5,7 @@
         :visible="visible"
         destroy-on-close
         custom-class="common-dialog-wrapper"
-        :before-close="beforeCloseDialog"
-        @changeVisible="changeVisible">
+        :before-close="beforeCloseDialog">
         <div slot="content" class="content-box common-dialog-wrapper-main">
             <div class="upload-area">
                 <el-upload

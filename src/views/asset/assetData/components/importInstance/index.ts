@@ -30,9 +30,6 @@ export default class ImportResource extends Vue {
         }
         this.formData.fileList = [data.file]
     }
-    changeVisible(val) {
-        this.visible = val
-    }
     showDialog() {
         this.visible = true
         this.formData.fileList = []

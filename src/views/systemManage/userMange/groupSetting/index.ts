@@ -166,7 +166,4 @@ export default class GroupSetting extends Vue {
     handleClose() {
         this.visible = false
     }
-    changeVisible(val) {
-        this.visible = val
-    }
 }

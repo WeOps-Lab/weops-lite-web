@@ -24,9 +24,15 @@ export default class DrawerComponent extends Vue {
         return this.visible
     }
     set drawerVisible(val) {
+        // 如果组件引用时没有配置beforeClose这个属性，则组件要加changeVisible这个方法去关闭这个抽屉
         this.$emit('changeVisible', val)
     }
     handleClose() {
-        this.$emit('changeVisible', false)
+        const drawer: any = this.$refs.drawer
+        if (drawer.beforeClose) {
+            drawer.beforeClose()
+            return
+        }
+        this.drawerVisible = false
     }
 }

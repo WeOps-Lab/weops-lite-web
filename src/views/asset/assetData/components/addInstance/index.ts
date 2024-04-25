@@ -63,9 +63,6 @@ export default class AddResource extends Vue {
         return this.configInfo.mode === 'add'
     }
 
-    changeVisible(val) {
-        this.visible = val
-    }
     showDialog(configInfo) {
         this.visible = true
         this.configInfo = configInfo

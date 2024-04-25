@@ -5,8 +5,7 @@
         :visible="visible"
         destroy-on-close
         custom-class="common-dialog-wrapper"
-        :before-close="beforeCloseDialog"
-        @changeVisible="changeVisible">
+        :before-close="beforeCloseDialog">
         <div slot="content" class="content-box common-dialog-wrapper-main" v-loading="relateLoading">
             <div class="operate-item mb20">
                 <span class="label">关联列表</span>

@@ -119,9 +119,6 @@ export default class connectOperation extends Vue {
             return require('@/assets/svg/model/cc-default_默认.svg')
         }
     }
-    changeVisible(val) {
-        this.isShow = val
-    }
     changeConnectType() {
         this.getConnectTypeDetail()
     }

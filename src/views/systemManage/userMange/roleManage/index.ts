@@ -210,8 +210,4 @@ export default class RoleManage extends Vue {
             })
         })
     }
-    // 子组件$on触发的函数，改变visible
-    changeVisible(val) {
-        this.visible = val
-    }
 }

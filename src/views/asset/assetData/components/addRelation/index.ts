@@ -234,9 +234,6 @@ export default class AddRelation extends Vue {
     beforeCloseDialog() {
         this.visible = false
     }
-    changeVisible(val) {
-        this.visible = val
-    }
     handlePageChange(page) {
         this.pagination.current = page
         this.getInstanceList()
