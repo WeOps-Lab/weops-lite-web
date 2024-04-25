@@ -63,5 +63,26 @@ export default {
      */
     getRelatedList(params = {}) {
         return get(`${reUrl}/instance/instance_association/${params.model_id}/${params.inst_id}/`)
+    },
+    /**
+    * 下载导入模板
+    * @param {Object} params 请求参数
+    */
+    downloadTemplate(params = {}) {
+        return get(`${reUrl}/instance/${params.id}/download_template/`, {}, {responseType: 'blob'})
+    },
+    /**
+    * 实例导出
+    * @param {Object} params 请求参数
+    */
+    exportInst(params = {}) {
+        return post(`${reUrl}/instance/${params.id}/inst_export/`, params.body, {responseType: 'blob'})
+    },
+    /**
+    * 实例导入
+    * @param {Object} params 请求参数
+    */
+    importInst(params = {}) {
+        return post(`${reUrl}/instance/${params.id}/inst_import/`, params.body)
     }
 }

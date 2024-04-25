@@ -41,7 +41,7 @@ function handleOtherMenus(data, commit, state) {
                                     value: false,
                                     label: '创建资产',
                                     type: 'operate',
-                                    apiKey: ['instance_create','group_list','model_attr_list']
+                                    apiKey: ['instance_create','group_list','model_attr_list','download_template','inst_import']
                                 },
                                 {
                                     key: `${i.classification_id}_edit`,
@@ -56,6 +56,13 @@ function handleOtherMenus(data, commit, state) {
                                     label: '删除资产',
                                     type: 'operate',
                                     apiKey: ['instance_batch_delete']
+                                },
+                                {
+                                    key:`${i.classification_id}_export`,
+                                    value: false,
+                                    label: '导出资产',
+                                    type: 'operate',
+                                    apiKey: ['inst_export']
                                 },
                                 {
                                     key: `${i.classification_id}_relation`,
