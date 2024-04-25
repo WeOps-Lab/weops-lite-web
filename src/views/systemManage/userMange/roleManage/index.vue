@@ -4,8 +4,7 @@
         :visible="visible"
         :size="850"
         custom-class="common-dialog-wrapper"
-        :before-close="handleClose"
-        @changeVisible="changeVisible">
+        :before-close="handleClose">
         <div slot="content"
             class="common-dialog-wrapper-main">
             <div class="auth-white-list">

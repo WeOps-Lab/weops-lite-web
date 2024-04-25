@@ -1,0 +1,30 @@
+.show-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/deep/.el-form-item {
+    width: 286px;
+
+    &:nth-of-type(2n) {
+        margin-left: 20px;
+    }
+}
+
+.form-item {
+    width: 100%;
+}
+
+.header {
+    width: 100%;
+    font-weight: 600;
+
+    .title-icon {
+        cursor: pointer;
+    }
+}
+
+/* stylelint-disable selector-class-pattern */
+/deep/ .el-form-item__label {
+    text-align: left;
+}

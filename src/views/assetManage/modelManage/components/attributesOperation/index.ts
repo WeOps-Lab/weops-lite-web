@@ -397,7 +397,4 @@ export default class AttributesOperation extends Vue {
     hiddenSlider() {
         Object.assign(this.$data, this.$options.data.call(this))
     }
-    changeVisible(val) {
-        this.isShow = val
-    }
 }

@@ -1,6 +1,7 @@
 <template>
     <div class="drawer-container">
         <el-drawer
+            ref="drawer"
             :visible.sync="drawerVisible"
             v-bind="$attrs">
             <div class="title-slot" slot="title">

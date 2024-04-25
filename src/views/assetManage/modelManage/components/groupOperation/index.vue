@@ -6,8 +6,7 @@
             :visible="visible"
             custom-class="common-dialog-wrapper"
             destroy-on-close
-            :before-close="cancel"
-            @changeVisible="changeVisible">
+            :before-close="cancel">
             <div slot="content" class="common-dialog-wrapper-main">
                 <el-form
                     label-width="110"

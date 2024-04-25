@@ -215,8 +215,4 @@ export default class RoleManage extends Vue {
             })
         })
     }
-
-    changeVisible(val) {
-        this.visible = val
-    }
 }

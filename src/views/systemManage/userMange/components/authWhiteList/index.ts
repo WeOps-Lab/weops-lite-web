@@ -320,8 +320,4 @@ export default class AuthWhiteList extends Vue {
             })
         })
     }
-
-    changeVisible(val) {
-        this.visible = val
-    }
 }

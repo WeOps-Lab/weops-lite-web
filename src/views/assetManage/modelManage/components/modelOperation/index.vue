@@ -6,9 +6,7 @@
             :visible="isShow"
             destroy-on-close
             custom-class="common-dialog-wrapper"
-            :before-close="cancel"
-            @changeVisible="changeVisible"
-        >
+            :before-close="cancel">
             <div slot="content" class="common-dialog-wrapper-main">
                 <div class="icon-box">
                     <div class="icon" @click="selectIcon">
@@ -68,6 +66,6 @@
 
 <script lang="ts" src="./index.ts"></script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./index.scss"
 </style>

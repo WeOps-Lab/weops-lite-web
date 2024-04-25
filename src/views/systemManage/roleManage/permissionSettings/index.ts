@@ -108,7 +108,6 @@ export default class permissionSettings extends Vue {
             this.loading = false
         })
     }
-
     changeVisible(val) {
         this.isShow = val
     }

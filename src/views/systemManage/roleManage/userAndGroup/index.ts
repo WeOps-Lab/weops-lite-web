@@ -330,8 +330,4 @@ export default class userAndGroup extends Vue {
             }
         }
     }
-
-    changeVisible(val) {
-        this.visible = val
-    }
 }

@@ -6,8 +6,7 @@
         :quick-close="true"
         destroy-on-close
         custom-class="common-dialog-wrapper"
-        :before-close="cancel"
-        @changeVisible="changeVisible">
+        :before-close="cancel">
         <div slot="content" class="common-dialog-wrapper-main content-box">
             <el-form
                 v-loading="loading"
@@ -161,6 +160,6 @@
 
 <script lang="ts" src="./index.ts"></script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./index.scss"
 </style>

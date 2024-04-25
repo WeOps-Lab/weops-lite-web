@@ -20,9 +20,6 @@ export default class ModelOperation extends Vue {
     get isAdd() {
         return this.currentType === 'add'
     }
-    changeVisible(val) {
-        this.visible = val
-    }
     show(type, data) {
         this.currentType = type
         this.visible = true

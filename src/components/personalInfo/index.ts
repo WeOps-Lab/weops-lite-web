@@ -101,10 +101,6 @@ export default class PersonalInfo extends Vue {
 
     beforeClose() {
         this.isEdit = false
-        return true
-    }
-
-    changeVisible(val) {
-        this.isShow = val
+        this.isShow = false
     }
 }

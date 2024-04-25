@@ -75,7 +75,6 @@ export default class ExternalChain extends Vue {
         const validateForm: any = this.$refs.validateForm
         validateForm.resetFields()
     }
-
     changeVisible(val) {
         this.isShow = val
     }

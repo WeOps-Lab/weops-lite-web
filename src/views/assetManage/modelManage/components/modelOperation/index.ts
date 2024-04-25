@@ -42,9 +42,6 @@ export default class ModelOperation extends Vue {
     setIcon(url) {
         this.iconUrl = url
     }
-    changeVisible(val) {
-        this.isShow = val
-    }
     show(type, data) {
         this.currentType = type
         this.isShow = true
