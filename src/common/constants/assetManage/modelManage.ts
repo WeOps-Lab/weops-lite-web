@@ -153,3 +153,27 @@ export const TARGET_BIND_LIST = [
         name: '1-1'
     }
 ]
+
+// 模型详情tab
+export const MODEL_DETAIL_PANELS = [
+    { name: 'property', label: '字段属性' },
+    { name: 'relation', label: '关联关系' }
+]
+
+// 模型分组rule
+export const GROUP_OPETATE_RULE = {
+    onlyMark: [
+        {
+            required: true,
+            message: '请输入唯一标识',
+            trigger: 'blur'
+        }
+    ],
+    name: [
+        {
+            required: true,
+            message: '请输入唯一名称',
+            trigger: 'blur'
+        }
+    ]
+}
