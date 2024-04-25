@@ -31,13 +31,13 @@ export default class ModelManage extends Vue {
     modelInfoList: Array<any> = []
     connectTypeList: Array<any> = []
 
-    get powerParams() {
-        return {}
-    }
-
     get modelInfo() {
         const modelInfo: any = this.$route.query.modelInfo || '{}'
         return JSON.parse(modelInfo)
+    }
+
+    get classifyId() {
+        return 'ModelManage'
     }
 
     @Watch('active')
@@ -85,7 +85,7 @@ export default class ModelManage extends Vue {
 
     relationOperate(type, row = {}) {
         if (!this.$BtnPermission({
-            id: this.$route.name,
+            id: this.classifyId,
             type: type === 'edit' ? 'ModelManage_edit' : 'ModelManage_create'
         })) {
             return false
@@ -149,7 +149,7 @@ export default class ModelManage extends Vue {
 
     editAttr(row) {
         if (!this.$BtnPermission({
-            id: this.$route.name,
+            id: this.classifyId,
             type: row ? 'ModelManage_edit' : 'ModelManage_create'
         })) {
             return false
@@ -165,7 +165,7 @@ export default class ModelManage extends Vue {
 
     editModel() {
         if (!this.$BtnPermission({
-            id: this.$route.name,
+            id: this.classifyId,
             type: 'ModelManage_edit'
         })) {
             return false
@@ -202,7 +202,7 @@ export default class ModelManage extends Vue {
     // 删除模型
     handleDelete(row) {
         if (!this.$BtnPermission({
-            id: this.$route.name,
+            id: this.classifyId,
             type: 'ModelManage_delete'
         })) {
             return false
@@ -228,7 +228,7 @@ export default class ModelManage extends Vue {
     // 删除关联
     deleteAsso(row) {
         if (!this.$BtnPermission({
-            id: this.$route.name,
+            id: this.classifyId,
             type: 'ModelManage_delete'
         })) {
             return false
@@ -255,7 +255,7 @@ export default class ModelManage extends Vue {
     // 删除属性
     deleteAtrr(row) {
         if (!this.$BtnPermission({
-            id: this.$route.name,
+            id: this.classifyId,
             type: 'ModelManage_delete'
         })) {
             return false
