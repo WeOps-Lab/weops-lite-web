@@ -159,5 +159,37 @@
 <script lang="ts" src="./index.ts"></script>
 
 <style lang="scss" scoped>
-@import "./index.scss"
+.asset-model {
+    .asset-model-tabs {
+        min-height: 54px;
+    }
+
+    .asset-model-wrapper {
+        display: flex;
+    }
+
+    .instance-list {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: scroll;
+        flex-flow: column;
+        background: #fff;
+    }
+
+    .group-tree {
+        width: 250px;
+        background: #fff;
+        border: 1px solid #edeff3;
+        margin-right: 10px;
+        padding: 10px;
+        overflow: scroll;
+        height: calc(100vh - 150px);
+    }
+
+    /* stylelint-disable selector-class-pattern */
+    /deep/ .el-tree-node__label {
+        font-size: 12px;
+    }
+}
 </style>
