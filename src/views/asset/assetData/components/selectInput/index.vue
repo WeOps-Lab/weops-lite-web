@@ -32,7 +32,6 @@
                 size="small"
                 v-model="fieldValue"
                 filterable
-                :multiple="currentFeildInfo['attr_type'] === 'user'"
                 @change="changeFieldvaule">
                 <el-option
                     v-for="option in currentFeildInfo['attr_type'] === 'user' ? userList : currentFeildInfo.option"

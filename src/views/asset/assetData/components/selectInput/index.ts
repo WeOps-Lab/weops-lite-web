@@ -39,6 +39,7 @@ export default class SelectInput extends Vue {
             type: this.currentFeildInfo.attr_type,
             value: val
         }
+        // 排除布尔类型的false || 多选框没选时的空数组
         if ((!val && val !== false) || (Array.isArray(val) && !val.length)) {
             condition = null
         } else {
@@ -51,6 +52,7 @@ export default class SelectInput extends Vue {
                     break
                 case 'user':
                     condition.type = 'user[]'
+                    condition.value = [val]
                     break
                 case 'int':
                     condition.type = 'int='
