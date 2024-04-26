@@ -23,11 +23,11 @@
 }
 
 /* stylelint-disable selector-class-pattern */
-.el-form-item__label {
+/deep/ .el-form-item__label {
     display: none;
 }
 
-.el-form-item__content {
+/deep/ .el-form-item__content {
     width: 100%;
     display: flex;
     align-items: center;
