@@ -39,7 +39,6 @@
                                 class="form-item"
                                 v-else-if="['enum', 'list', 'user'].includes(tex['attr_type'])"
                                 size="small"
-                                :multiple="tex['attr_type'] === 'user'"
                                 v-model="formData[tex.attr_id]"
                                 filterable>
                                 <el-option
