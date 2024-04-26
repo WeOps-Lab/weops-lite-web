@@ -3,7 +3,7 @@
     flex-wrap: wrap;
 }
 
-.el-form-item {
+/deep/.el-form-item {
     width: 286px;
 
     &:nth-of-type(2n) {
@@ -25,6 +25,6 @@
 }
 
 /* stylelint-disable selector-class-pattern */
-.el-form-item__label {
+/deep/ .el-form-item__label {
     text-align: left;
 }
