@@ -55,10 +55,6 @@ export const registerNode = (G6, vue) => {
     )
 }
 
-export default {
-    registerNode
-}
-
 const addMainShape = (cfg, group) => {
     const width = cfg.size[0]
     const height = cfg.size[1]
