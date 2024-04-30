@@ -1,6 +1,4 @@
-import G6 from '@antv/g6'
-
-const registerNode = () => {
+export const registerNode = (G6, vue) => {
     // 注册自定义节点，包括一个子分组作为keyShape
     G6.registerNode(
         'asso-node',
