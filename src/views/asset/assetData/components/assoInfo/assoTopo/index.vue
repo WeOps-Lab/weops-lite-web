@@ -182,9 +182,6 @@ export default class AssoTopo extends Vue {
             }
         })
         this.graph.data(this.topoData)
-        this.graph.getNodes().forEach(node => {
-            this.graph.update(node, node.getModel())
-        })
         this.graph.render()
         this.initEvent()
     }
@@ -192,13 +189,14 @@ export default class AssoTopo extends Vue {
         this.graph.on('node:click', this.handleExpand)
     }
     handleExpand(e) {
+        const model = e.item.getModel()
         if (e.target.get('name') === 'collapse-icon') {
-            e.item.getModel().collapsed = !e.item.getModel().collapsed
-            this.graph.setItemState(e.item, 'collapsed', e.item.getModel().collapsed)
+            model.collapsed = !model.collapsed
+            this.graph.setItemState(e.item, 'collapsed', !!model.collapsed)
             this.graph.layout()
             return
         }
-        this.currentModelCfg = e.item.getModel()
+        this.currentModelCfg = model
         this.visible = true
     }
     async getInstanceTopo() {
@@ -228,7 +226,7 @@ export default class AssoTopo extends Vue {
     }
     dealArrow(data, type) {
         data.isSource = type === 'src'
-        data.collapsed = true
+        data.collapsed = false
         if (data.children?.length) {
             data.children.forEach(item => this.dealArrow(item, type))
         }
