@@ -10,6 +10,7 @@
                     <div class="show-info">
                         <el-form-item
                             v-for="tex in collRow.list"
+                            :style="{ width: displayPercent }"
                             class="custom-form-item"
                             :key="tex['attr_id']"
                             :label="tex['attr_name']"

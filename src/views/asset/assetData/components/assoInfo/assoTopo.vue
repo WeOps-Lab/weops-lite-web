@@ -1,6 +1,30 @@
 <template>
     <div class="asso-topo" v-loading="loading">
         <div class="topo" ref="canvasRef"></div>
+        <drawer-component
+            title="导入资产"
+            :size="800"
+            :visible="visible"
+            destroy-on-close
+            custom-class="common-dialog-wrapper"
+            :before-close="beforeCloseDialog">
+            <div slot="content" class="content-box common-dialog-wrapper-main">
+                <base-info
+                    :group-list="groupList"
+                    :user-list="userList"
+                    :current-model-cfg="currentModelCfg"
+                    display-percent="50%"
+                >
+                </base-info>
+            </div>
+            <div slot="footer">
+                <el-button
+                    size="small"
+                    @click="beforeCloseDialog">
+                    关闭
+                </el-button>
+            </div>
+        </drawer-component>
     </div>
 </template>
 
@@ -8,7 +32,14 @@
     import G6 from '@antv/g6'
     import { Vue, Component, Prop } from 'vue-property-decorator'
     import registerNode from './registerNode'
-@Component()
+    import DrawerComponent from '@/components/comDrawer/index.vue'
+    import BaseInfo from '../baseInfo/index.vue'
+@Component({
+    components: {
+        DrawerComponent,
+        BaseInfo
+    }
+})
 export default class AssoTopo extends Vue {
     @Prop({
         type: Array,
@@ -20,10 +51,22 @@ export default class AssoTopo extends Vue {
         default: () => []
     })
     connectTypeList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    userList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    groupList: Array<any>
 
     graph: any = null
     loading: boolean = false
+    visible: boolean = false
     topoData: any = {}
+    currentModelCfg: any = {}
 
     mounted() {
         registerNode.registerNode()
@@ -37,6 +80,9 @@ export default class AssoTopo extends Vue {
         }
     }
 
+    beforeCloseDialog() {
+        this.visible = false
+    }
     getViewCenter() {
         const width = this.graph.get('width')
         const height = this.graph.get('height')
@@ -117,14 +163,15 @@ export default class AssoTopo extends Vue {
             },
             defaultEdge: {
                 type: 'cubic-horizontal',
-                // label: () => this.getLabel(),
+                label: '属于',
                 labelCfg: {
                     autoRotate: true,
-                    position: 'middle',
+                    position: 'center',
                     style: {
-                        fill: '#ddd',
+                        fill: '#B2BDCC',
                         fontSize: 8,
                         background: {
+                            fill: '#fff',
                             padding: [2, 2, 2, 2],
                             radius: 2
                         },
@@ -151,12 +198,11 @@ export default class AssoTopo extends Vue {
             }
         })
         this.graph.data(this.topoData)
+        this.graph.getNodes().forEach(node => {
+            this.graph.update(node, node.getModel())
+        })
         this.graph.render()
         this.initEvent()
-    }
-    getLabel(item) {
-        console.log(item)
-        return '123'
     }
     initEvent() {
         this.graph.on('node:click', this.handleExpand)
@@ -168,7 +214,8 @@ export default class AssoTopo extends Vue {
             this.graph.layout()
             return
         }
-        console.log(123)
+        this.currentModelCfg = e.item.getModel()
+        this.visible = true
     }
     async getInstanceTopo() {
         this.loading = true
@@ -182,13 +229,8 @@ export default class AssoTopo extends Vue {
             if (!result) {
                 return this.$error(message)
             }
-            const srcData = data.src_result.children.map(item => {
-                return {
-                    isSource: true,
-                    ...item
-                }
-            })
-            const dstData = data.dst_result.children
+            const srcData = data.src_result.children.map(item => this.dealArrow(item, 'src'))
+            const dstData = data.dst_result.children.map(item => this.dealArrow(item, 'dst'))
             const currentNode = this.$copy(data.src_result)
             delete currentNode.children
             const topoData = {
@@ -196,10 +238,17 @@ export default class AssoTopo extends Vue {
                 children: [...dstData, ...srcData]
             }
             this.topoData = this.dealTopoData(topoData)
-            console.log(this.topoData)
         } finally {
             this.loading = false
         }
+    }
+    dealArrow(data, type) {
+        data.isSource = type === 'src'
+        data.collapsed = true
+        if (data.children?.length) {
+            data.children.forEach(item => this.dealArrow(item, type))
+        }
+        return data
     }
     dealTopoData(data) {
         if (data.model_id) {
@@ -207,6 +256,7 @@ export default class AssoTopo extends Vue {
             data.model_name = targetModel?.model_name || '--'
             data.icn = targetModel?.icn || 'cc-default_默认'
             data.asst_name = this.connectTypeList.find(item => item.id === data.asst_id)?.label || '--'
+            data.inst_id = data._id
         }
         if (data.children?.length) {
             data.children.forEach(item => this.dealTopoData(item))
@@ -220,7 +270,8 @@ export default class AssoTopo extends Vue {
             {
                 afterDraw(cfg, group) {
                     const shape = group.get('children')[0]
-                    const { isSource } = cfg.targetNode.getModel()
+                    const tagetModel = cfg.targetNode.getModel()
+                    const { isSource, asst_name: asstName } = tagetModel
                     const style = {}
                     const key = isSource ? 'endArrow' : 'startArrow'
                     style[key] = {
@@ -228,6 +279,11 @@ export default class AssoTopo extends Vue {
                         fill: '#ddd'
                     }
                     shape.attr(style)
+                    // 更新label内容
+                    const labelCfg = group.shapeMap['edge-label']
+                    if (labelCfg) {
+                        labelCfg.attr({text: asstName})
+                    }
                 }
             },
             'cubic-horizontal'

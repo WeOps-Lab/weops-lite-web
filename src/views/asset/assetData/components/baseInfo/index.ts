@@ -23,6 +23,16 @@ export default class AddResource extends Vue {
         default: () => []
     })
     propertyList: Array<any>
+    @Prop({
+        type: Object,
+        default: () => ({})
+    })
+    currentModelCfg: any
+    @Prop({
+        type: String,
+        default: () => '33%'
+    })
+    displayPercent: string
 
     resourcList: Array<any> = [
         {
@@ -48,19 +58,39 @@ export default class AddResource extends Vue {
     formData: any = {}
     rules = {}
     formDataV2 = {}
+    attrList: Array<any> = []
 
     get classifyId() {
         return this.$route.query.fromPage
     }
 
-    mounted() {
+    get instId() {
+        return this.currentModelCfg.inst_id || this.$route.query.instId
+    }
+
+    async mounted() {
+        if (this.currentModelCfg.model_id) {
+            await this.getModelAttrList()
+        } else {
+            this.attrList = this.propertyList
+        }
         this.getInstDetial()
+    }
+    async getModelAttrList() {
+        const params = {
+            id: this.currentModelCfg.model_id
+        }
+        const { result, message, data } = await this.$api.ModelManage.getModelAttrList(params)
+        if (!result) {
+            return this.$error(message)
+        }
+        this.attrList = data
     }
     async getInstDetial() {
         this.loading = true
         try {
             const params = {
-                id: this.$route.query.instId
+                id: this.instId
             }
             const { result, message, data } = await this.$api.AssetData.getInstDetial(params)
             if (!result) {
@@ -84,7 +114,7 @@ export default class AddResource extends Vue {
         })
     }
     initData(data) {
-        let propertyList = this.$copy(this.propertyList)
+        let propertyList = this.$copy(this.attrList)
         const groupProperty = propertyList.find(item => item.attr_id === 'organization')
         if (!groupProperty) {
             propertyList = [
@@ -120,7 +150,7 @@ export default class AddResource extends Vue {
                 const info = this.$copy(this.formDataV2)
                 info[tex.attr_id] = this.formData[tex.attr_id]
                 const params = {
-                    id: this.$route.query.instId,
+                    id: this.instId,
                     body: {}
                 }
                 params.body[tex.attr_id] = this.formData[tex.attr_id]

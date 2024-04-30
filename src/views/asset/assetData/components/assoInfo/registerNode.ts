@@ -21,7 +21,7 @@ const registerNode = () => {
                 addIconShape(cfg, subShape)
                 addPathShape(cfg, subShape)
                 // 必须返回一个keyShape
-                cfg.children &&
+                cfg.children?.length &&
                     group.addShape('marker', {
                         attrs: {
                             x: width,

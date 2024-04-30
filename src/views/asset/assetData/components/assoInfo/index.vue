@@ -74,7 +74,12 @@
                 @refreshList="initData"
             />
         </div>
-        <asso-topo v-else :model-info-list="modelInfoList" :connect-type-list="connectTypeList" />
+        <asso-topo v-else
+            :model-info-list="modelInfoList"
+            :connect-type-list="connectTypeList"
+            :group-list="groupList"
+            :user-list="userList"
+        />
     </div>
 </template>
 
