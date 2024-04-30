@@ -84,5 +84,12 @@ export default {
     */
     importInst(params = {}) {
         return post(`${reUrl}/instance/${params.id}/inst_import/`, params.body)
+    },
+    /**
+     * 查询实例拓扑
+     * @param {Object} params 请求参数
+     */
+    getInstanceTopo(params = {}) {
+        return get(`${reUrl}/instance/topo_search/${params.model_id}/${params.inst_id}/`)
     }
 }

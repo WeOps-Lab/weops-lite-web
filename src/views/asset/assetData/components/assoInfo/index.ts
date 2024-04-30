@@ -1,17 +1,19 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import ComTable from '@/components/comTable/index.vue'
-import { Pagination, TableData } from '@/common/types'
+import { Pagination } from '@/common/types'
 import Collapse from '@/components/collapse/index.vue'
 import AddRelation from '../addRelation/index.vue'
 import { getAssetAttrValue } from '@/controller/func/common'
-    @Component({
-        name: 'asso-info',
-        components: {
-            ComTable,
-            Collapse,
-            AddRelation
-        }
-    })
+import AssoTopo from './assoTopo.vue'
+@Component({
+    name: 'asso-info',
+    components: {
+        ComTable,
+        Collapse,
+        AddRelation,
+        AssoTopo
+    }
+})
 export default class AssoInfo extends Vue {
     @Prop({
         type: Array,
@@ -41,7 +43,6 @@ export default class AssoInfo extends Vue {
 
     resourcList: Array<any> = []
     loading: boolean = false
-    columns: Array<TableData> = []
     assoData: Array<any> = []
     pagination: Pagination = {
         current: 1,
@@ -50,10 +51,8 @@ export default class AssoInfo extends Vue {
     }
     tableMaxHeight: number = 300
     relatedList: Array<any> = []
+    active: string = '列表'
 
-    get slotColumns() {
-        return this.columns.filter(item => item.scopedSlots && item.scopedSlots !== 'operation')
-    }
     get classifyId() {
         return this.$route.query.fromPage
     }
@@ -62,6 +61,9 @@ export default class AssoInfo extends Vue {
         this.initData()
     }
 
+    showTable(item) {
+        return !!item.columns?.length
+    }
     addRelation() {
         if (!this.$BtnPermission({
             id: this.classifyId,
@@ -115,13 +117,14 @@ export default class AssoInfo extends Vue {
             }
             const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
             if (!result) {
+                this.loading = false
                 return this.$error(message)
             }
             this.assoData = data
-            this.columns = this.getColumns()
             this.resourcList = this.assoData.filter(row => row.inst_list?.length).map((item, index) => {
                 return {
                     label: this.showConnectName(item),
+                    attrId: this.getAttrId(item),
                     id: index,
                     list: item.inst_list,
                     isExpand: true
@@ -130,13 +133,37 @@ export default class AssoInfo extends Vue {
             this.relatedList = this.resourcList.reduce((pre, cur) => {
                 return pre.concat(cur.list)
             }, [])
+            Promise.all(this.resourcList.map(item => this.getModelAttrList(item, { id: item.attrId }))).finally(() => {
+                this.loading = false
+            })
             if (type === 'update') {
-                const addRelation:any = this.$refs.addRelation
+                const addRelation: any = this.$refs.addRelation
                 addRelation?.updateInstanceList(this.relatedList)
             }
-        } finally {
+        } catch {
             this.loading = false
         }
+    }
+    getAttrId(item) {
+        const { modelId } = this.$route.query
+        const { dst_model_id: dstModelId, src_model_id: srcModelId } = item
+        let id = modelId
+        if (modelId === dstModelId) {
+            id = srcModelId
+        }
+        if (modelId === srcModelId) {
+            id = dstModelId
+        }
+        return id
+    }
+    async getModelAttrList(item, params) {
+        const { result, message, data } = await this.$api.ModelManage.getModelAttrList(params)
+        if (!result) {
+            return this.$error(message)
+        }
+        const columns = this.getColumns(data)
+        this.$set(item, 'columns', columns)
+        this.$set(item, 'slotColumns', columns.filter(item => item.scopedSlots && item.scopedSlots !== 'operation'))
     }
     getShowValue(field, tex) {
         return getAssetAttrValue(field, tex, {
@@ -144,7 +171,7 @@ export default class AssoInfo extends Vue {
             userList: this.userList
         })
     }
-    getColumns() {
+    getColumns(data) {
         const operateColumn = {
             label: '操作',
             key: 'operation',
@@ -153,7 +180,7 @@ export default class AssoInfo extends Vue {
             fixed: 'right',
             scopedSlots: 'operation'
         }
-        const propertyList = this.$copy(this.propertyList)
+        const propertyList = this.$copy(data)
         propertyList.forEach(item => {
             item.key = item.attr_id
             item.label = item.attr_name
@@ -178,4 +205,4 @@ export default class AssoInfo extends Vue {
         const relation = this.showConnectType(row.asst_id, 'name')
         return `${sourceName} ${relation} ${targetName}`
     }
-    }
+}

@@ -16,32 +16,12 @@ export default class AddRelation extends Vue {
         type: Array,
         default: () => []
     })
-    columns: Array<TableData>
-
-    @Prop({
-        type: Array,
-        default: () => []
-    })
-    slotColumns: Array<TableData>
-
-    @Prop({
-        type: Array,
-        default: () => []
-    })
-    propertyList: Array<any>
-
-    @Prop({
-        type: Array,
-        default: () => []
-    })
     connectTypeList: Array<any>
-
     @Prop({
         type: Array,
         default: () => []
     })
     modelInfoList: Array<any>
-
     @Prop({
         type: Array,
         default: () => []
@@ -52,10 +32,6 @@ export default class AddRelation extends Vue {
         default: () => []
     })
     userList: Array<any>
-
-    get classifyId() {
-        return this.$route.query.fromPage
-    }
 
     pagination: Pagination = {
         current: 1,
@@ -72,6 +48,16 @@ export default class AddRelation extends Vue {
     relateLoading: boolean = false
     relationData: Array<any> = []
     relatedList: Array<any> = []
+    columns: Array<any> = []
+    propertyList: Array<any> = []
+
+    get classifyId() {
+        return this.$route.query.fromPage
+    }
+
+    get slotColumns() {
+        return this.columns.filter(item => item.scopedSlots && item.scopedSlots !== 'operation')
+    }
 
     get atrrList() {
         return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
@@ -85,14 +71,72 @@ export default class AddRelation extends Vue {
         })
     }
 
-    show(relatedList) {
+    async getModelAttrList() {
+        const params = this.getAttrParams()
+        const { result, message, data } = await this.$api.ModelManage.getModelAttrList(params)
+        if (!result) {
+            return this.$error(message)
+        }
+        this.propertyList = data
+        this.columns = this.getColumns(data)
+        this.$nextTick(() => {
+            const table:any = this.$refs.comTable
+            table.updateColumns(this.columns)
+        })
+    }
+    getAttrParams() {
+        const relation = JSON.parse(this.relation)
+        const { modelId } = this.$route.query
+        const { dst_model_id: dstModelId, src_model_id: srcModelId } = relation
+        const params = {}
+        if (modelId === dstModelId) {
+            params.id = srcModelId
+        }
+        if (modelId === srcModelId) {
+            params.id = dstModelId
+        }
+        return params
+    }
+    getColumns(data) {
+        const operateColumn = {
+            label: '操作',
+            key: 'operation',
+            align: 'left',
+            width: '140px',
+            fixed: 'right',
+            scopedSlots: 'operation'
+        }
+        data.forEach(item => {
+            item.key = item.attr_id
+            item.label = item.attr_name
+            item.minWidth = '100px'
+            item.align = 'left'
+            item.scopedSlots = item.attr_id
+        })
+        return [
+            ...data,
+            operateColumn
+        ]
+    }
+
+    async show(relatedList) {
         this.visible = true
         this.relatedList = relatedList
-        this.getModelAssoList()
+        await this.getModelAssoList()
+        if (!this.relation.length) {
+            return
+        }
+        this.getColumnsAndData()
+    }
+    getColumnsAndData() {
+        this.tableLoading = true
+        Promise.all([this.getModelAttrList(), this.getInstanceList('init')]).finally(() => {
+            this.tableLoading = false
+        })
     }
     searchRelationData() {
         this.pagination.current = 1
-        this.getInstanceList()
+        this.getColumnsAndData()
     }
     showModelName(id) {
         return this.modelInfoList.find(item => item.model_id === id)?.model_name || '--'
@@ -136,7 +180,7 @@ export default class AddRelation extends Vue {
     }
     updateInstanceList(data) {
         this.relatedList = data
-        this.getInstanceList('')
+        this.getInstanceList()
     }
     async getModelAssoList() {
         this.relateLoading = true
@@ -150,15 +194,11 @@ export default class AddRelation extends Vue {
             }
             this.relationData = data.map(item => {
                 return {
-                    name: `${this.showConnectType(item.asst_id, 'label')}-${this.showModelName(item.dst_model_id)}`,
+                    name: `${this.showModelName(item.src_model_id)}-${this.showConnectType(item.asst_id, 'label')}-${this.showModelName(item.dst_model_id)}`,
                     id: JSON.stringify(item)
                 }
             })
             this.relation = JSON.stringify(data[0]) || ''
-            if (!this.relation.length) {
-                return
-            }
-            this.getInstanceList()
         } finally {
             this.relateLoading = false
         }
@@ -169,7 +209,7 @@ export default class AddRelation extends Vue {
         this.getInstanceList()
     }
     async getInstanceList(type?) {
-        this.tableLoading = type !== 'init'
+        this.tableLoading = true
         try {
             const params = this.getParams()
             const { result, message, data } = await this.$api.AssetData.getInstanceList(params)
@@ -186,7 +226,7 @@ export default class AddRelation extends Vue {
             })
             this.pagination.count = data.count
         } finally {
-            this.tableLoading = false
+            this.tableLoading = type === 'init'
         }
     }
     cancelRelate(row) {
@@ -218,13 +258,13 @@ export default class AddRelation extends Vue {
         })
     }
     getParams() {
-        const relation = JSON.parse(this.relation)
+        const attrParams = this.getAttrParams()
         const params = {
             query_list: [],
             page: this.pagination.current,
             page_size: this.pagination.limit,
             order: '',
-            model_id: relation.dst_model_id || ''
+            model_id: attrParams.id
         }
         if (this.condition) {
             params.query_list = [this.condition]
