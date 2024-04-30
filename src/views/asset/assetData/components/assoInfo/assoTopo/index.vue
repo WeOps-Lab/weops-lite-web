@@ -2,7 +2,7 @@
     <div class="asso-topo" v-loading="loading">
         <div class="topo" ref="canvasRef"></div>
         <drawer-component
-            title="导入资产"
+            :title="`实例详情-${currentModelCfg.inst_name}`"
             :size="800"
             :visible="visible"
             destroy-on-close
