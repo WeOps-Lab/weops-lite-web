@@ -1,34 +1,30 @@
 <template>
-    <div class="asso-info">
-        <el-radio-group v-model="active" size="small" class="mb20">
-            <el-radio-button label="列表"></el-radio-button>
-            <el-radio-button label="拓扑"></el-radio-button>
-        </el-radio-group>
-        <div v-loading="loading" v-if="active === '列表'">
-            <div class="operate-box">
-                <div class="operate-box-left">
-                    <el-button
-                        v-permission="{
-                            id: classifyId,
-                            type: `${classifyId}_relation`
-                        }"
-                        :type="'primary'"
-                        size="small"
-                        @click="addRelation">
-                        新建关联
-                    </el-button>
-                    <el-button
-                        size="small"
-                        @click="expandAll(true)">
-                        全部展开
-                    </el-button>
-                    <el-button
-                        size="small"
-                        @click="expandAll(false)">
-                        全部收起
-                    </el-button>
-                </div>
+    <div class="asso-list" v-loading="loading">
+        <div class="operate-box">
+            <div class="operate-box-left">
+                <el-button
+                    v-permission="{
+                        id: classifyId,
+                        type: `${classifyId}_relation`
+                    }"
+                    :type="'primary'"
+                    size="small"
+                    @click="addRelation">
+                    新建关联
+                </el-button>
+                <el-button
+                    size="small"
+                    @click="expandAll(true)">
+                    全部展开
+                </el-button>
+                <el-button
+                    size="small"
+                    @click="expandAll(false)">
+                    全部收起
+                </el-button>
             </div>
+        </div>
+        <div class="asso-list-main">
             <collapse :collapse-list="resourcList">
                 <template slot="content" slot-scope="{ collRow }">
                     <com-table
@@ -65,22 +61,24 @@
                     </com-table>
                 </template>
             </collapse>
-            <add-relation
-                ref="addRelation"
-                :connect-type-list="connectTypeList"
-                :model-info-list="modelInfoList"
-                :group-list="groupList"
-                :user-list="userList"
-                @refreshList="initData"
-            />
         </div>
-        <asso-topo v-else
-            :model-info-list="modelInfoList"
+        <add-relation
+            ref="addRelation"
             :connect-type-list="connectTypeList"
+            :model-info-list="modelInfoList"
             :group-list="groupList"
             :user-list="userList"
+            @refreshList="initData"
         />
     </div>
 </template>
 
 <script lang="ts" src="./index.ts"></script>
+<style lang="scss" scoped>
+.asso-list {
+    .asso-list-main {
+        height: calc(100vh - 300px);
+        overflow: auto;
+    }
+}
+</style>

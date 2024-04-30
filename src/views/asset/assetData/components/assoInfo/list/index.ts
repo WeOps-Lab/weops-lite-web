@@ -2,19 +2,17 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import ComTable from '@/components/comTable/index.vue'
 import { Pagination } from '@/common/types'
 import Collapse from '@/components/collapse/index.vue'
-import AddRelation from '../addRelation/index.vue'
+import AddRelation from '../../addRelation/index.vue'
 import { getAssetAttrValue } from '@/controller/func/common'
-import AssoTopo from './assoTopo.vue'
 @Component({
-    name: 'asso-info',
+    name: 'asso-list',
     components: {
         ComTable,
         Collapse,
-        AddRelation,
-        AssoTopo
+        AddRelation
     }
 })
-export default class AssoInfo extends Vue {
+export default class AssoList extends Vue {
     @Prop({
         type: Array,
         default: () => []
@@ -51,7 +49,6 @@ export default class AssoInfo extends Vue {
     }
     tableMaxHeight: number = 300
     relatedList: Array<any> = []
-    active: string = '列表'
 
     get classifyId() {
         return this.$route.query.fromPage

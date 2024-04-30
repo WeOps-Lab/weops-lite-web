@@ -31,9 +31,9 @@
 <script lang="ts">
     import G6 from '@antv/g6'
     import { Vue, Component, Prop } from 'vue-property-decorator'
-    import registerNode from './registerNode'
+    import registerFactory from '@/views/asset/assetData/components/assoInfo/utils/registerFactory/exports'
     import DrawerComponent from '@/components/comDrawer/index.vue'
-    import BaseInfo from '../baseInfo/index.vue'
+    import BaseInfo from '@/views/asset/assetData/components/baseInfo/index.vue'
 @Component({
     components: {
         DrawerComponent,
@@ -69,8 +69,7 @@ export default class AssoTopo extends Vue {
     currentModelCfg: any = {}
 
     mounted() {
-        registerNode.registerNode()
-        registerEdge()
+        registerFactory(G6, this)
         this.initGraph()
     }
 
@@ -82,21 +81,6 @@ export default class AssoTopo extends Vue {
 
     beforeCloseDialog() {
         this.visible = false
-    }
-    getViewCenter() {
-        const width = this.graph.get('width')
-        const height = this.graph.get('height')
-        return {
-            x: width / 2,
-            y: height / 2
-        }
-    }
-    fitGraph() {
-        this.graph.fitView([80], {}, false)
-        if (this.graph.getZoom() > 1) {
-            this.graph.zoomTo(1)
-            this.graph.fitCenter(false)
-        }
     }
     async initGraph() {
         const container: any = this.$refs['canvasRef']
@@ -264,31 +248,6 @@ export default class AssoTopo extends Vue {
         return data
     }
 }
-    function registerEdge() {
-        G6.registerEdge(
-            'cubic-horizontal',
-            {
-                afterDraw(cfg, group) {
-                    const shape = group.get('children')[0]
-                    const tagetModel = cfg.targetNode.getModel()
-                    const { isSource, asst_name: asstName } = tagetModel
-                    const style = {}
-                    const key = isSource ? 'endArrow' : 'startArrow'
-                    style[key] = {
-                        path: 'M 0,0 L 8,4 L 8,-4 Z',
-                        fill: '#ddd'
-                    }
-                    shape.attr(style)
-                    // 更新label内容
-                    const labelCfg = group.shapeMap['edge-label']
-                    if (labelCfg) {
-                        labelCfg.attr({text: asstName})
-                    }
-                }
-            },
-            'cubic-horizontal'
-        )
-    }
 </script>
 
 <style lang="scss" scoped>
