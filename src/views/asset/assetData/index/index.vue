@@ -21,16 +21,17 @@
                     :props="{ children: 'subGroups', label: 'name' }"
                     node-key="id"
                     @node-click="selectGroup">
-                    <!-- <span slot-scope="{ data }">
+                    <span slot-scope="{ data }" class="tree-node">
+                        <span class="cw-icon weops-apply tree-icon"></span>
                         <span>{{ data.name }}</span>
-                    </span> -->
+                    </span>
                 </el-tree>
                 <el-empty v-else class="empty" :image-size="50"></el-empty>
             </div>
             <div class="instance-list">
                 <div class="operate-box">
                     <div class="operate-box-left">
-                        <el-dropdown>
+                        <el-dropdown size="small">
                             <el-button
                                 size="small"
                                 type="primary">
@@ -56,7 +57,7 @@
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                        <el-dropdown class="mr10 ml10">
+                        <el-dropdown class="mr10 ml10" size="small">
                             <el-button size="small">
                                 操作
                                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -68,12 +69,12 @@
                                         type: `${classifyId}_delete`
                                     }"
                                     :disabled="!selectedInstances.length"
-                                    @click.native="deleteInstance">
+                                    @click.native="deleteInstance(selectedInstances)">
                                     批量删除
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                        <el-dropdown>
+                        <el-dropdown size="small">
                             <el-button size="small">
                                 导出
                                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -127,6 +128,17 @@
                             @click="checkDetail(row)">
                             详情
                         </el-button>
+                        <el-button
+                            v-permission="{
+                                id: $route.name,
+                                type: `${classifyId}_delete`
+                            }"
+                            class="mr10"
+                            type="text"
+                            size="small"
+                            @click="deleteInstance([row])">
+                            删除
+                        </el-button>
                     </template>
                     <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">
                         <div :key="field.key">
@@ -162,6 +174,7 @@
 .asset-model {
     .asset-model-tabs {
         min-height: 54px;
+        margin-top: -14px;
     }
 
     .asset-model-wrapper {
@@ -179,17 +192,35 @@
 
     .group-tree {
         width: 250px;
-        background: #fff;
+        background: #fafbfd;
         border: 1px solid #edeff3;
         margin-right: 10px;
         padding: 10px;
         overflow: scroll;
-        height: calc(100vh - 150px);
+        height: calc(100vh - 130px);
+    }
+    .tree-node {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        .tree-icon {
+            color: #a3c5fd;
+            margin-right: 4px;
+        }
     }
 
     /* stylelint-disable selector-class-pattern */
     /deep/ .el-tree-node__label {
         font-size: 12px;
+    }
+    /deep/ .el-tree-node > .el-tree-node__children {
+        background-color: #fafbfd;
+    }
+    /deep/ .is-current > .el-tree-node__content {
+        background-color: #e1ecff;
+        .tree-icon {
+            color: #4b8fff !important;
+        }
     }
 }
 </style>

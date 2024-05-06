@@ -29,7 +29,7 @@ export default class ModelManage extends Vue {
     tableLoading: boolean = false
     selectedInstances: Array<any> = []
     search: string = ''
-    pageOccupiedHeight: number = 266
+    pageOccupiedHeight: number = 246
     groupList: Array<any> = []
     currentNode: any = {}
     condition: any = null
@@ -227,7 +227,8 @@ export default class ModelManage extends Vue {
         })
         this.columns = [
             {
-                type: 'selection'
+                type: 'selection',
+                fixed: true
             },
             ...propertyList,
             operateColumn
@@ -279,7 +280,7 @@ export default class ModelManage extends Vue {
         return params
     }
     // 批量删除
-    deleteInstance() {
+    deleteInstance(list) {
         if (!this.$BtnPermission({
             id: this.$route.name,
             type: `${this.classifyId}_delete`
@@ -289,13 +290,13 @@ export default class ModelManage extends Vue {
         this.$confirm('确认要删除该资产？', '提示', {
             center: true
         }).then(() => {
-            this.deleteInstanceRequest()
+            this.deleteInstanceRequest(list)
         })
     }
-    async deleteInstanceRequest() {
+    async deleteInstanceRequest(list) {
         this.tableLoading = true
         const params = {
-            body: this.selectedInstances.map(item => item._id)
+            body: list.map(item => item._id)
         }
         const { result, message } = await this.$api.AssetData.deleteInstance(params)
         if (!result) {

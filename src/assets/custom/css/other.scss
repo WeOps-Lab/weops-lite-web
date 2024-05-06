@@ -720,3 +720,15 @@
     height: 18px;
     line-height: 16px;
 }
+
+.el-tabs__nav-wrap::after {
+    height: 1px;
+}
+
+.el-table-column--selection {
+    text-align: center !important;
+}
+
+.el-table th.el-table__cell.is-leaf {
+    background-color: #f4f5f8;
+}
