@@ -69,7 +69,7 @@ function handleOtherMenus(data, commit, state) {
                                     value: false,
                                     label: '关联管理',
                                     type: 'operate',
-                                    apiKey: ['instance_association_create','instance_association_delete','instance_association_instance_list','group_list','model_attr_list','model_association_type']
+                                    apiKey: ['instance_association_create','instance_association_delete','instance_association_instance_list','group_list','model_attr_list','model_association_type','topo_search']
                                 }
                             ]
                         }
