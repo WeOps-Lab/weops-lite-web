@@ -16,8 +16,12 @@ export const registerEdge = (G6, vue) => {
                 // 更新label内容
                 const labelCfg = group.shapeMap['edge-label']
                 if (labelCfg) {
+                    // 下面没加update，更换label不生效
                     labelCfg.attr({ text: asstName })
                 }
+            },
+            update(cfg, group) {
+
             }
         },
         'cubic-horizontal'
