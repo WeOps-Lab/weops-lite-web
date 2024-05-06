@@ -4,6 +4,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        font-size: 12px;
     }
 
     /* stylelint-disable selector-class-pattern */
@@ -33,6 +34,8 @@
             padding-left: 24px;
             color: #909399;
             font-weight: bold;
+            background-color: #f4f5f8;
+            font-size: 12px;
 
             span {
                 &:nth-last-child(1) {

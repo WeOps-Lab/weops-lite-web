@@ -17,7 +17,7 @@ export default class TableComponent extends Vue {
     columns: Array<TableData>
     @Prop({
         type: Boolean,
-        default: false
+        default: true
     })
     noneBorder: boolean
     @Prop({
