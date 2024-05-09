@@ -89,7 +89,7 @@ const addIconShape = (cfg, group) => {
     return group.addShape(
         'image', {
             attrs: {
-                x: 18,
+                x: 14,
                 y: 14,
                 img: ccImage,
                 width: 22,
@@ -133,7 +133,7 @@ const addTextShape = (cfg, group) => {
     return group.addShape(
         'text', {
             attrs: {
-                x: 95,
+                x: 106,
                 y: `${cfg.inst_name === undefined ? 20 : 14}`,
                 text: `${vale}`,
                 textAlign: 'center',
@@ -153,7 +153,7 @@ const addTextShapes = (cfg, group) => {
     return group.addShape(
         'text', {
             attrs: {
-                x: 95,
+                x: 106,
                 y: 32,
                 text: `${cfg.model_name === undefined ? '' : cfg.model_name}`,
                 textAlign: 'center',

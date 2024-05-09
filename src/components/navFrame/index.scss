@@ -12,6 +12,7 @@
 
         .el-menu {
             height: 100%;
+            max-height: calc(100vh - 52px);
 
             /deep/.el-submenu__title:hover {
                 background: transparent !important;

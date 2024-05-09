@@ -210,6 +210,12 @@
     }
 
     /* stylelint-disable selector-class-pattern */
+    /deep/ .el-tree-node__content {
+        background: #fafbfd;
+        &:hover {
+            background: #f0f7ff;
+        }
+    }
     /deep/ .el-tree-node__label {
         font-size: 12px;
     }
@@ -217,7 +223,7 @@
         background-color: #fafbfd;
     }
     /deep/ .is-current > .el-tree-node__content {
-        background-color: #e1ecff;
+        background-color: #e1ecff !important;
         .tree-icon {
             color: #4b8fff !important;
         }
