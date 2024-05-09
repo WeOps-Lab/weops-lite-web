@@ -483,6 +483,7 @@ npm run build
 |----------------------------|------------------------------------------------------------------------|----------------------------|
 | @antv/data-set             | https://github.com/antvis/data-set                                     | 图表数据清洗库                    |
 | @antv/g2                   | https://g2.antv.antgroup.com/                                          | 图表库                        |
+| @antv/g6                   | https://g6.antv.antgroup.com/                                          | 图可视化引擎库                        |
 | axios                      | https://github.com/axios/axios                                         | HTTP请求库                    |
 | echarts                    | https://github.com/apache/echarts                                      | 图表框架                       |
 | element-ui                 | https://element.eleme.cn/#/zh-CN                                       | UI框架                       |
