@@ -105,7 +105,7 @@ const mainRouter = [
         }
     },
     {
-        path: '/modelManage/modelDetail',
+        path: '/modelDetail',
         name: 'ModelDetail',
         component: ModelDetail,
         meta: {
@@ -116,7 +116,7 @@ const mainRouter = [
         }
     },
     {
-        path: '/assetData/instance',
+        path: '/assetDetail',
         name: 'AssetDetail',
         component: AssetDetail,
         meta: {
