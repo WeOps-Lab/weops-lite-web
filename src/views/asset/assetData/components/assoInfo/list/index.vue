@@ -68,6 +68,7 @@
             :model-info-list="modelInfoList"
             :group-list="groupList"
             :user-list="userList"
+            :inst-info="instInfo"
             @refreshList="initData"
         />
     </div>

@@ -48,7 +48,7 @@ function handleOtherMenus(data, commit, state) {
                                     value: false,
                                     label: '编辑资产',
                                     type: 'operate',
-                                    apiKey: ['instance_update','group_list','model_attr_list','instance_detail']
+                                    apiKey: ['instance_update','group_list','model_attr_list','instance_detail','instance_batch_update']
                                 },
                                 {
                                     key:`${i.classification_id}_delete`,

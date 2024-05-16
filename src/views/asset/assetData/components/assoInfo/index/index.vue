@@ -4,7 +4,7 @@
             <el-radio-button label="列表"></el-radio-button>
             <el-radio-button label="拓扑"></el-radio-button>
         </el-radio-group>
-        <component :is="commentsMap[active]" v-bind="$attrs">
+        <component :is="commentsMap[active]" v-bind="$attrs" :inst-info="instInfo">
         </component>
     </div>
 </template>

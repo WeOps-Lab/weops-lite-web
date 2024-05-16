@@ -105,5 +105,12 @@ export default {
     */
     setShowFields(params = {}) {
         return post(`${reUrl}/instance/${params.model_id}/show_field/settings/`, params.body)
+    },
+    /**
+    * 批量修改实例
+    * @param {Object} params 请求参数
+    */
+    batchUpdate(params = {}) {
+        return post(`${reUrl}/instance/batch_update/`, params)
     }
 }

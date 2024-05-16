@@ -1,4 +1,4 @@
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import AssoTopo from '../assoTopo/index.vue'
 import List from '../list/index.vue'
 @Component({
@@ -9,6 +9,12 @@ import List from '../list/index.vue'
     }
 })
 export default class AssoInfo extends Vue {
+    @Prop({
+        type: Object,
+        default: () => ({})
+    })
+    instInfo: any
+
     active: string = '列表'
     commentsMap: any = {
         '列表': 'list',
