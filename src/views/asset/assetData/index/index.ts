@@ -34,6 +34,8 @@ export default class ModelManage extends Vue {
     currentNode: any = {}
     condition: any = null
     userList: Array<any> = []
+    displayFields: Array<any> = []
+    selecteFieldsKeys: Array<string> = []
 
     get atrrList() {
         return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
@@ -58,7 +60,8 @@ export default class ModelManage extends Vue {
     async mounted() {
         this.loading = true
         await this.getAllModelList()
-        Promise.all([this.getGroups(), this.getUserList(), this.getModelAttrList(), this.getInstanceList('init')]).finally(() => {
+        Promise.all([this.getGroups(), this.getUserList(), this.getModelAttrList(), this.getShowFields(), this.getInstanceList('init')]).finally(() => {
+            this.updateTable()
             this.loading = false
         })
     }
@@ -98,6 +101,34 @@ export default class ModelManage extends Vue {
                 id: item.username
             }
         })
+    }
+    updateTable() {
+        this.$nextTick(() => {
+            const resourceTable: any = this.$refs.comTable
+            this.displayFields = this.selecteFieldsKeys.length ? this.getColumns(this.getDisplayFields(this.selecteFieldsKeys)) : this.$Copy(this.columns)
+            if (resourceTable) {
+                resourceTable.updateColumns(this.displayFields)
+                resourceTable.updateFields(this.columns)
+            }
+        })
+    }
+    async handleSettingChange(list) {
+        this.tableLoading = true
+        try {
+            const params = {
+                model_id: this.currentModel,
+                body: list.map(item => item.key)
+            }
+            const { result, message, data } = await this.$api.AssetData.setShowFields(params)
+            if (!result) {
+                return this.$error(message)
+            }
+            this.$success('设置成功！')
+            this.selecteFieldsKeys = data.show_fields || []
+            this.updateTable()
+        } finally {
+            this.tableLoading = false
+        }
     }
     changeFeild(condition) {
         this.condition = condition
@@ -155,7 +186,8 @@ export default class ModelManage extends Vue {
     handleTabClick(tab, event) {
         this.pagination.current = 1
         this.loading = true
-        Promise.all([this.getModelAttrList(), this.getInstanceList('init')]).finally(() => {
+        Promise.all([this.getModelAttrList(), this.getInstanceList('init'), this.getShowFields()]).finally(() => {
+            this.updateTable()
             this.loading = false
         })
     }
@@ -168,6 +200,25 @@ export default class ModelManage extends Vue {
         }
         this.modelList = data.filter(item => item.classification_id === this.classifyId)
         this.currentModel = this.modelList[0]?.model_id || ''
+    }
+    async getShowFields() {
+        const res = await this.$api.AssetData.getShowFields({
+            model_id: this.currentModel
+        })
+        const { result, message, data } = res
+        if (!result) {
+            return this.$error(message)
+        }
+        this.selecteFieldsKeys = data?.show_fields || []
+    }
+    // 根据展示字段的key返回columns
+    getDisplayFields(keys) {
+        const fields = []
+        keys.forEach(key => {
+            const target = this.columns.find(item => item.key === key)
+            target && fields.push(target)
+        })
+        return fields
     }
     async getGroups() {
         const res = await this.$api.GroupManage.getGroups()
@@ -209,14 +260,6 @@ export default class ModelManage extends Vue {
             return this.$error(message)
         }
         this.propertyList = data
-        const operateColumn = {
-            label: '操作',
-            key: 'operation',
-            align: 'left',
-            width: '140px',
-            fixed: 'right',
-            scopedSlots: 'operation'
-        }
         const propertyList = this.$copy(this.propertyList)
         propertyList.forEach(item => {
             item.key = item.attr_id
@@ -225,15 +268,25 @@ export default class ModelManage extends Vue {
             item.align = 'left'
             item.scopedSlots = item.attr_id
         })
-        this.columns = [
+        this.columns = this.getColumns(propertyList)
+    }
+    getColumns(list) {
+        const operateColumn = {
+            label: '操作',
+            key: 'operation',
+            align: 'left',
+            width: '140px',
+            fixed: 'right',
+            scopedSlots: 'operation'
+        }
+        return [
             {
                 type: 'selection',
                 fixed: true
             },
-            ...propertyList,
+            ...list,
             operateColumn
         ]
-        this.$refs.comTable?.updateColumns(this.columns)
     }
     async getInstanceList(type?) {
         this.tableLoading = type !== 'init'

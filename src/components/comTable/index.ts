@@ -4,9 +4,13 @@
 */
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Pagination, TableData } from '@/common/types'
+import draggable from 'vuedraggable'
 
 @Component({
-    name: 'table-component'
+    name: 'table-component',
+    components: {
+        draggable
+    }
 })
 export default class TableComponent extends Vue {
     @Prop({
@@ -22,9 +26,9 @@ export default class TableComponent extends Vue {
     noneBorder: boolean
     @Prop({
         type: Array,
-        default: () => []
+        default: () => null
     })
-    settingsFields: Pagination
+    settingsFields: Array<any>
     @Prop({
         type: Boolean,
         default: () => false
@@ -58,7 +62,7 @@ export default class TableComponent extends Vue {
             limit: 20
         })
     })
-    pagination: any
+    pagination: Pagination
 
     setting = {
         fields: [],
@@ -67,22 +71,29 @@ export default class TableComponent extends Vue {
     }
     topDistance: number = 0
     hasYScroll: boolean = true
-    isCheckAll: boolean = false
+    isCheckAll: boolean = true
     settingKeys: any = []
-
-    get indeterminate() {
-        return !!this.settingKeys.length && this.settingKeys.length < this.settingsFields.length
-    }
+    settingVisible: boolean = false
+    indeterminate: boolean = false
+    tableKey: number = +new Date()
 
     mounted() {
         this.setting.selectFields = this.columns
-        this.setting.fields = this.settingsFields || []
+        this.setting.fields = this.handleFields(this.settingsFields || [])
         this.settingKeys = this.handleKeys(this.columns)
         this.handleCheckAll()
     }
 
+    get showSetting() {
+        return !!this.settingsFields
+    }
+
     handleKeys(columns) {
         return Array.from(new Set(columns.filter(r => r.key && r.key !== 'operation').map(r => r.key)))
+    }
+
+    handleFields(fields) {
+        return fields.filter(item => !item.type && item.key !== 'operation')
     }
 
     // 过滤字段触发方法
@@ -94,13 +105,16 @@ export default class TableComponent extends Vue {
             return true
         }
     }
+    // 刷新表头和已选展示字段
     updateColumns(columns) {
+        this.tableKey = +new Date()
         this.setting.selectFields = columns
         this.settingKeys = this.handleKeys(columns)
         this.handleCheckAll()
     }
+    // 设置可选展示字段
     updateFields(fields) {
-        this.setting.fields = fields
+        this.setting.fields = this.handleFields(fields)
         this.handleCheckAll()
     }
     // 勾选数据行的 Checkbox 时触发的事件
@@ -166,15 +180,29 @@ export default class TableComponent extends Vue {
         this.$refs.table.clearSelection()
     }
     hidePopover() {
-        this.$refs.popverCom?.hide()
+        this.settingVisible = false
+    }
+    showPopover() {
+        this.settingVisible = true
+        this.settingKeys = this.handleKeys(this.settingsFields || [])
+        this.handleCheckAll()
     }
     confirmPopover() {
-        this.$refs.popverCom?.hide()
-        const fields = this.setting.fields.filter(item => this.settingKeys.includes(item.key))
-        this.$emit('handle-setting-change', fields)
+        if (!this.settingKeys.length) {
+            this.$warn('列表字段不能为空！')
+            return
+        }
+        this.hidePopover()
+        const newFields = []
+        this.settingKeys.forEach(key => {
+            const field = this.setting.fields.find(item => item.key === key)
+            field && newFields.push(field)
+        })
+        this.$emit('handle-setting-change', newFields)
     }
     handleCheckAll() {
         this.isCheckAll = this.settingKeys.length === this.setting.fields.length
+        this.changeIndeterminate()
     }
     changeAllCheck() {
         if (this.indeterminate || !this.settingKeys.length) {
@@ -182,8 +210,29 @@ export default class TableComponent extends Vue {
         } else {
             this.settingKeys = this.setting.fields.filter(r => r.disabled).map(r => r.key)
         }
+        this.indeterminate = false
     }
     changeCheckbox() {
         this.isCheckAll = !!this.settingKeys.length && this.settingKeys.length === this.setting.fields.length
+        this.changeIndeterminate()
+    }
+    changeIndeterminate() {
+        this.indeterminate = !!this.settingKeys.length && this.settingKeys.length < this.setting.fields.length
+    }
+    showFieldName(key) {
+        return this.setting.fields.find(item => item.key === key)?.label || '--'
+    }
+    deleteField(key) {
+        const index = this.settingKeys.findIndex(item => item === key)
+        if (index !== -1) {
+            this.settingKeys.splice(index, 1)
+            this.changeIndeterminate()
+            this.isCheckAll = false
+        }
+    }
+    deleteAllField() {
+        this.settingKeys = []
+        this.isCheckAll = false
+        this.indeterminate = false
     }
 }

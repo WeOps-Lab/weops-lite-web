@@ -111,10 +111,12 @@
                     :columns="columns"
                     :pagination="pagination"
                     :max-height="tableMaxHeight"
+                    :settings-fields="displayFields"
                     @page-change="handlePageChange"
                     @page-limit-change="handleLimitChange"
                     @select="handleSelect"
                     @select-all="handleSelect"
+                    @handle-setting-change="handleSettingChange"
                 >
                     <template slot="operation" slot-scope="{ row }">
                         <el-button

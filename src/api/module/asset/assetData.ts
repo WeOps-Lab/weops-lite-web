@@ -91,5 +91,19 @@ export default {
      */
     getInstanceTopo(params = {}) {
         return get(`${reUrl}/instance/topo_search/${params.model_id}/${params.inst_id}/`)
+    },
+    /**
+     * 实例列表展示字段
+     * @param {Object} params 请求参数
+     */
+    getShowFields(params = {}) {
+        return get(`${reUrl}/instance/${params.model_id}/show_field/detail/`)
+    },
+    /**
+    * 设置实例列表展示字段
+    * @param {Object} params 请求参数
+    */
+    setShowFields(params = {}) {
+        return post(`${reUrl}/instance/${params.model_id}/show_field/settings/`, params.body)
     }
 }
