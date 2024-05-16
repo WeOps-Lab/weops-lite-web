@@ -72,6 +72,15 @@
                                     @click.native="deleteInstance(selectedInstances)">
                                     批量删除
                                 </el-dropdown-item>
+                                <el-dropdown-item
+                                    v-permission="{
+                                        id: $route.name,
+                                        type: `${classifyId}_create`
+                                    }"
+                                    :disabled="!selectedInstances.length"
+                                    @click.native="addResource('batchUpdate')">
+                                    批量更新
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                         <el-dropdown size="small">
@@ -122,9 +131,8 @@
                         <el-button
                             v-permission="{
                                 id: $route.name,
-                                type: 'SysRole_users_manage'
+                                type: `${classifyId}_check`
                             }"
-                            class="mr10"
                             type="text"
                             size="small"
                             @click="checkDetail(row)">
@@ -133,13 +141,32 @@
                         <el-button
                             v-permission="{
                                 id: $route.name,
+                                type: `${classifyId}_edit`
+                            }"
+                            type="text"
+                            size="small"
+                            @click="addResource('edit',row)">
+                            编辑
+                        </el-button>
+                        <el-button
+                            v-permission="{
+                                id: $route.name,
                                 type: `${classifyId}_delete`
                             }"
-                            class="mr10"
                             type="text"
                             size="small"
                             @click="deleteInstance([row])">
                             删除
+                        </el-button>
+                        <el-button
+                            v-permission="{
+                                id: $route.name,
+                                type: `${classifyId}_check`
+                            }"
+                            type="text"
+                            size="small"
+                            @click="checkRelate(row)">
+                            关联
                         </el-button>
                     </template>
                     <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">
@@ -167,6 +194,14 @@
             :model-id="currentModel"
             :current-node="currentNode"
             @on-success="updateInstanceList" />
+        <relation ref="relation"
+            :group-list="groupList"
+            :connect-type-list="connectTypeList"
+            :model-info-list="modelInfoList"
+            :user-list="userList"
+            :property-list="propertyList"
+            :inst-info="instInfo"
+        />
     </div>
 </template>
 

@@ -4,13 +4,15 @@ import { Pagination, TableData } from '@/common/types'
 import AddInstance from '../components/addInstance/index.vue'
 import ImportInstance from '../components/importInstance/index.vue'
 import SelectInput from '../components/selectInput/index.vue'
+import Relation from '../components/relation/index.vue'
 import { getAssetAttrValue } from '@/controller/func/common'
 @Component({
     components: {
         ComTable,
         AddInstance,
         SelectInput,
-        ImportInstance
+        ImportInstance,
+        Relation
     }
 })
 export default class ModelManage extends Vue {
@@ -36,6 +38,9 @@ export default class ModelManage extends Vue {
     userList: Array<any> = []
     displayFields: Array<any> = []
     selecteFieldsKeys: Array<string> = []
+    modelInfoList: Array<any> = []
+    connectTypeList: Array<any> = []
+    instInfo: any = {}
 
     get atrrList() {
         return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
@@ -57,6 +62,10 @@ export default class ModelManage extends Vue {
         return this.columns.filter(item => item.scopedSlots && item.scopedSlots !== 'operation')
     }
 
+    created() {
+        this.getConnectTypeList()
+    }
+
     async mounted() {
         this.loading = true
         await this.getAllModelList()
@@ -66,6 +75,15 @@ export default class ModelManage extends Vue {
         })
     }
 
+    checkRelate(row) {
+        this.instInfo = {
+            instId: row._id,
+            modelId: this.currentModel,
+            classifyId: this.classifyId
+        }
+        const relation: any = this.$refs.relation
+        relation.show(row)
+    }
     // 导出资产
     exportInst(list) {
         if (!this.$BtnPermission({
@@ -99,6 +117,19 @@ export default class ModelManage extends Vue {
             return {
                 name: item.lastName,
                 id: item.username
+            }
+        })
+    }
+    async getConnectTypeList() {
+        const { result, data } = await this.$api.ModelManage.getAssotypeList()
+        if (!result) {
+            return false
+        }
+        this.connectTypeList = data.map(item => {
+            return {
+                id: item.asst_id,
+                label: item.asst_name,
+                name: `${item.asst_name}(${item.asst_id})`
             }
         })
     }
@@ -150,7 +181,8 @@ export default class ModelManage extends Vue {
         addInstance.showDialog({
             mode,
             row,
-            propertyList: this.propertyList
+            propertyList: this.propertyList,
+            inst_ids: mode === 'add' ? [] : mode === 'batchUpdate' ? this.selectedInstances : [row]
         })
     }
     updateInstanceList() {
@@ -198,6 +230,7 @@ export default class ModelManage extends Vue {
             this.modelList = []
             return this.$error(message)
         }
+        this.modelInfoList = data
         this.modelList = data.filter(item => item.classification_id === this.classifyId)
         this.currentModel = this.modelList[0]?.model_id || ''
     }
@@ -275,7 +308,7 @@ export default class ModelManage extends Vue {
             label: '操作',
             key: 'operation',
             align: 'left',
-            width: '140px',
+            width: '170px',
             fixed: 'right',
             scopedSlots: 'operation'
         }

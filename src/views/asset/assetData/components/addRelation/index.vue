@@ -4,6 +4,7 @@
         :size="640"
         :visible="visible"
         destroy-on-close
+        :append-to-body="true"
         custom-class="common-dialog-wrapper"
         :before-close="beforeCloseDialog">
         <div slot="content" class="content-box common-dialog-wrapper-main" v-loading="relateLoading">

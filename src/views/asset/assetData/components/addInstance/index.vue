@@ -26,8 +26,18 @@
                             :key="tex['attr_id']"
                             :label="tex['attr_name']"
                             :prop="tex['attr_id']">
+                            <div :class="['el-form-item__label','custom-label',tex.is_required && 'required']">
+                                <el-checkbox
+                                    v-if="isBatchUpdate"
+                                    :disabled="!tex.editable"
+                                    v-model="tex.checked">
+                                    {{ tex['attr_name'] }}
+                                </el-checkbox>
+                                <span v-else>{{ tex['attr_name'] }}</span>
+                            </div>
                             <el-date-picker
                                 v-if="['date', 'time'].includes(tex['attr_type'])"
+                                :disabled="!canEdit(tex)"
                                 class="form-item"
                                 size="small"
                                 v-model="formData[tex.attr_id]"
@@ -36,8 +46,9 @@
                                 :type="tex['attr_type'] === 'date' ? 'date' : 'datetime'">
                             </el-date-picker>
                             <el-select
-                                class="form-item"
                                 v-else-if="['enum', 'list', 'user'].includes(tex['attr_type'])"
+                                class="form-item"
+                                :disabled="!canEdit(tex)"
                                 size="small"
                                 v-model="formData[tex.attr_id]"
                                 filterable>
@@ -49,13 +60,15 @@
                                 </el-option>
                             </el-select>
                             <el-switch
-                                class="form-item"
                                 v-else-if="tex['attr_type'] === 'bool'"
+                                class="form-item"
+                                :disabled="!canEdit(tex)"
                                 size="small"
                                 v-model="formData[tex.attr_id]">
                             </el-switch>
                             <el-cascader
                                 v-else-if="tex['attr_type'] === 'organization'"
+                                :disabled="!canEdit(tex)"
                                 :props="{
                                     emitPath: false,
                                     checkStrictly: true
@@ -67,6 +80,7 @@
                             </el-cascader>
                             <el-input
                                 v-else
+                                :disabled="!canEdit(tex)"
                                 v-model="formData[tex.attr_id]"
                                 size="small"
                                 clearable
@@ -82,6 +96,7 @@
             <el-button
                 :loading="loading"
                 :type="'primary'"
+                :disabled="saveDisabled"
                 size="small"
                 @click="handleSubmit">
                 保存

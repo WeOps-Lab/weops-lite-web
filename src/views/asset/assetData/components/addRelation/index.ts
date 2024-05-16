@@ -32,13 +32,18 @@ export default class AddRelation extends Vue {
         default: () => []
     })
     userList: Array<any>
+    @Prop({
+        type: Object,
+        default: () => ({})
+    })
+    instInfo: any
 
     pagination: Pagination = {
         current: 1,
         count: 0,
         limit: 20
     }
-    instanceList: Array<any> = []
+    instanceList: Array<TableData> = []
     tableLoading: boolean = false
     loading: boolean = false
     condition: any = null
@@ -52,7 +57,7 @@ export default class AddRelation extends Vue {
     propertyList: Array<any> = []
 
     get classifyId() {
-        return this.$route.query.fromPage
+        return this.$route.query.fromPage || this.instInfo.classifyId
     }
 
     get slotColumns() {
@@ -80,13 +85,16 @@ export default class AddRelation extends Vue {
         this.propertyList = data
         this.columns = this.getColumns(data)
         this.$nextTick(() => {
-            const table:any = this.$refs.comTable
+            const table: any = this.$refs.comTable
             table.updateColumns(this.columns)
         })
     }
     getAttrParams() {
         const relation = JSON.parse(this.relation)
-        const { modelId } = this.$route.query
+        let { modelId } = this.$route.query
+        if (!modelId) {
+            modelId = this.instInfo.modelId
+        }
         const { dst_model_id: dstModelId, src_model_id: srcModelId } = relation
         const params = {}
         if (modelId === dstModelId) {
@@ -164,12 +172,19 @@ export default class AddRelation extends Vue {
             dst_model_id: relation.dst_model_id,
             asst_id: relation.asst_id
         }
-        if (relation.dst_model_id === this.$route.query.modelId) {
-            params.dst_inst_id = this.$route.query.instId
+        let { modelId, instId } = this.$route.query
+        if (!modelId) {
+            modelId = this.instInfo.modelId
+        }
+        if (!instId) {
+            instId = this.instInfo.instId
+        }
+        if (relation.dst_model_id === modelId) {
+            params.dst_inst_id = instId
             params.src_inst_id = row._id
         } else {
             params.dst_inst_id = row._id
-            params.src_inst_id = this.$route.query.instId
+            params.src_inst_id = instId
         }
         const { result, message } = await this.$api.AssetData.createInstAsso(params)
         if (!result) {
@@ -186,7 +201,7 @@ export default class AddRelation extends Vue {
         this.relateLoading = true
         try {
             const params = {
-                id: this.$route.query.modelId
+                id: this.$route.query.modelId || this.instInfo.modelId
             }
             const { result, message, data } = await this.$api.ModelManage.getModelAssoList(params)
             if (!result) {

@@ -38,6 +38,11 @@ export default class AssoList extends Vue {
         default: () => []
     })
     propertyList: Array<any>
+    @Prop({
+        type: Object,
+        default: () => ({})
+    })
+    instInfo: any
 
     resourcList: Array<any> = []
     loading: boolean = false
@@ -51,7 +56,7 @@ export default class AssoList extends Vue {
     relatedList: Array<any> = []
 
     get classifyId() {
-        return this.$route.query.fromPage
+        return this.$route.query.fromPage || this.instInfo.classifyId
     }
 
     mounted() {
@@ -109,8 +114,8 @@ export default class AssoList extends Vue {
         try {
             const { instId, modelId } = this.$route.query
             const params = {
-                inst_id: instId,
-                model_id: modelId
+                inst_id: instId || this.instInfo.instId,
+                model_id: modelId || this.instInfo.modelId
             }
             const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
             if (!result) {
@@ -144,7 +149,7 @@ export default class AssoList extends Vue {
     getAttrId(item) {
         const { modelId } = this.$route.query
         const { dst_model_id: dstModelId, src_model_id: srcModelId } = item
-        let id = modelId
+        let id = modelId || this.instInfo.modelId
         if (modelId === dstModelId) {
             id = srcModelId
         }

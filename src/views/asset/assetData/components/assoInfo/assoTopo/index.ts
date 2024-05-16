@@ -30,6 +30,11 @@ export default class AssoTopo extends Vue {
         default: () => []
     })
     groupList: Array<any>
+    @Prop({
+        type: Object,
+        default: () => ({})
+    })
+    instInfo: any
 
     graph: any = null
     loading: boolean = false
@@ -172,8 +177,8 @@ export default class AssoTopo extends Vue {
         this.loading = true
         const { modelId, instId } = this.$route.query
         const params = {
-            model_id: modelId,
-            inst_id: instId
+            model_id: modelId || this.instInfo.modelId,
+            inst_id: instId || this.instInfo.instId
         }
         try {
             const { result, message, data } = await this.$api.AssetData.getInstanceTopo(params)
