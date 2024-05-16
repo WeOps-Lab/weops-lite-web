@@ -1,5 +1,5 @@
 <template>
-    <div class="table-container" :class="{ 'border-none': noneBorder }">
+    <div :key="tableKey" class="table-container" :class="{ 'border-none': noneBorder }">
         <el-table
             ref="table"
             v-bind="$attrs"
@@ -19,9 +19,10 @@
             @cell-mouse-leave="cellMouseLeave">
             <template v-for="column in setting.selectFields">
                 <el-table-column
+                    v-if="['selection', 'index'].includes(column.type)"
                     v-bind="column"
                     :key="column.type + '_opertion'"
-                    v-if="['selection', 'index'].includes(column.type)">
+                >
                 </el-table-column>
                 <el-table-column
                     v-else
@@ -40,6 +41,13 @@
                     </template>
                 </el-table-column>
             </template>
+            <el-table-column v-if="showSetting" fixed="right" align="left" width="40">
+                <template slot="header">
+                    <div class="setting" @click="showPopover">
+                        <i class="el-icon-s-tools"></i>
+                    </div>
+                </template>
+            </el-table-column>
             <template slot="empty">
                 <slot name="empty"></slot>
             </template>
@@ -57,58 +65,82 @@
                 @current-change="handlePageChange">
             </el-pagination>
         </div>
-        <div v-if="settingsFields && settingsFields.length > 0" class="table-content-setting">
-            <el-popover
-                ref="popverCom"
-                trigger="click"
-                width="400"
-                placement="bottom-end">
-                <i class="el-icon-s-tools"></i>
-                <template>
-                    <div class="content-setting-wrapper">
-                        <h2>表格设置</h2>
-                        <div class="setting-fields-checkout-group">
-                            <div class="mb10">
-                                <el-checkbox
-                                    :indeterminate="indeterminate"
-                                    v-model="isCheckAll"
-                                    @change="changeAllCheck">
-                                    全选
-                                </el-checkbox>
+        <div v-if="showSetting" class="table-content-setting">
+            <el-dialog
+                title="列表字段设置"
+                append-to-body
+                :close-on-click-modal="false"
+                :destroy-on-close="false"
+                :visible.sync="settingVisible"
+                width="800px">
+                <div class="setting-fields-checkout-group">
+                    <div class="source-list">
+                        <div class="header">待选择列表</div>
+                        <div class="content-box">
+                            <!-- <div class="search">
+                                <el-input
+                                    clearable
+                                    style="width: 300px;"
+                                    placeholder="请输入搜索关键字"
+                                    :suffix-icon="'el-icon-search'"
+                                    size="small"
+                                >
+                                </el-input>
+                            </div> -->
+                            <div class="organization-box">
+                                <div class="mb10 mt10">
+                                    <el-checkbox
+                                        :indeterminate="indeterminate"
+                                        v-model="isCheckAll"
+                                        @change="changeAllCheck">
+                                        全选
+                                    </el-checkbox>
+                                </div>
+                                <el-checkbox-group
+                                    v-model="settingKeys"
+                                    @change="changeCheckbox">
+                                    <el-checkbox
+                                        :key="item.key"
+                                        :label="item.key"
+                                        :disabled="item.disabled"
+                                        v-for="item in setting.fields">
+                                        <span :title="item.label">{{ item.label }}</span>
+                                    </el-checkbox>
+                                </el-checkbox-group>
                             </div>
-                            <el-checkbox-group
-                                v-model="settingKeys"
-                                @change="changeCheckbox">
-                                <el-checkbox
-                                    :key="item.key"
-                                    :value="item.key"
-                                    :disabled="item.disabled"
-                                    v-for="item in setting.fields">
-                                    <span :title="item.label">{{ item.label }}</span>
-                                </el-checkbox>
-                            </el-checkbox-group>
-                        </div>
-                        <div class="content-setting-footer">
-                            <el-button
-                                type="primary"
-                                @click="confirmPopover">
-                                确定
-                            </el-button>
-                            <el-button
-                                class="ml20"
-                                @click="hidePopover">
-                                取消
-                            </el-button>
                         </div>
                     </div>
-                </template>
-            </el-popover>
+                    <div class="selection-container">
+                        <p>已选择（共<span>{{ settingKeys.length }}</span>条）<span class="clear" @click="deleteAllField">清空</span></p>
+                        <ul>
+                            <draggable
+                                v-if="settingKeys.length"
+                                :list="settingKeys"
+                                :scroll="true"
+                                animation="500"
+                                handle=".mover"
+                                ghost-class="ghost"
+                                force-fallback="true">
+                                <li v-for="item in settingKeys" :key="item">
+                                    <span class="cw-icon weops-drag-drop mover"></span>
+                                    {{ showFieldName(item) }}
+                                    <i class="el-icon-close" style="font-size: 12px;" @click="deleteField(item)"></i>
+                                </li>
+                            </draggable>
+                        </ul>
+                    </div>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button size="small" @click="hidePopover">取 消</el-button>
+                    <el-button size="small" type="primary" @click="confirmPopover">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
     </div>
 </template>
 
 <script lang="ts" src="./index.ts"></script>
 
-<style scoped lang="scss">
+<style scoped lang="scss" scope>
 @import "./index.scss"
 </style>
