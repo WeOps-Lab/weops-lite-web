@@ -68,6 +68,13 @@ export default class AddResource extends Vue {
         return this.currentModelCfg.inst_id || this.$route.query.instId
     }
 
+    get operatePower() {
+        return {
+            id: this.$route.name,
+            type: `${this.classifyId}_manage`
+        }
+    }
+
     async mounted() {
         if (this.currentModelCfg.model_id) {
             await this.getModelAttrList()
@@ -138,10 +145,7 @@ export default class AddResource extends Vue {
         this.formDataV2 = this.$copy(this.formData)
     }
     confirmEdit(tex) {
-        if (!this.$BtnPermission({
-            id: this.classifyId,
-            type: `${this.classifyId}_edit`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         const addResourceForm: any = this.$refs.addResourceForm

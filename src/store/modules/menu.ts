@@ -34,42 +34,14 @@ function handleOtherMenus(data, commit, state) {
                                     value: false,
                                     label: '查看',
                                     type: 'check',
-                                    apiKey: ['group_list','model_list','model_attr_list','instance_list']
+                                    apiKey: ['group_list','model_list','model_attr_list','instance_list','group_list','instance_detail','instance_association_instance_list','model_association_type','topo_search']
                                 },
                                 {
-                                    key: `${i.classification_id}_create`,
+                                    key: `${i.classification_id}_manage`,
                                     value: false,
-                                    label: '创建资产',
+                                    label: '管理',
                                     type: 'operate',
-                                    apiKey: ['instance_create','group_list','model_attr_list','download_template','inst_import']
-                                },
-                                {
-                                    key: `${i.classification_id}_edit`,
-                                    value: false,
-                                    label: '编辑资产',
-                                    type: 'operate',
-                                    apiKey: ['instance_update','group_list','model_attr_list','instance_detail','instance_batch_update']
-                                },
-                                {
-                                    key:`${i.classification_id}_delete`,
-                                    value: false,
-                                    label: '删除资产',
-                                    type: 'operate',
-                                    apiKey: ['instance_batch_delete']
-                                },
-                                {
-                                    key:`${i.classification_id}_export`,
-                                    value: false,
-                                    label: '导出资产',
-                                    type: 'operate',
-                                    apiKey: ['inst_export']
-                                },
-                                {
-                                    key: `${i.classification_id}_relation`,
-                                    value: false,
-                                    label: '关联管理',
-                                    type: 'operate',
-                                    apiKey: ['instance_association_create','instance_association_delete','instance_association_instance_list','group_list','model_attr_list','model_association_type','topo_search']
+                                    apiKey: ['instance_create','download_template','inst_import','instance_update','instance_batch_update','instance_batch_delete','inst_export','instance_association_create','instance_association_delete']
                                 }
                             ]
                         }

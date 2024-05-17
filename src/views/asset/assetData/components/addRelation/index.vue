@@ -43,10 +43,6 @@
                 <template slot="operation" slot-scope="{ row }">
                     <el-button
                         v-if="!row.isRelated"
-                        v-permission="{
-                            id: classifyId,
-                            type: `classifyId_relation`
-                        }"
                         class="mr10"
                         type="text"
                         size="small"
@@ -56,10 +52,6 @@
                     </el-button>
                     <el-button
                         v-else
-                        v-permission="{
-                            id: classifyId,
-                            type: `classifyId_relation`
-                        }"
                         class="mr10"
                         type="text"
                         size="small"
