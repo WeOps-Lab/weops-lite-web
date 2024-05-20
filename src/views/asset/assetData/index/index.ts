@@ -6,6 +6,7 @@ import ImportInstance from '../components/importInstance/index.vue'
 import SelectInput from '../components/selectInput/index.vue'
 import Relation from '../components/relation/index.vue'
 import { getAssetAttrValue } from '@/controller/func/common'
+import { camelCaseToUnderscore } from '@/common/dealMenu'
 @Component({
     components: {
         ComTable,
@@ -64,14 +65,14 @@ export default class ModelManage extends Vue {
 
     get operatePower() {
         return {
-            id: this.$route.name,
+            id: this.classifyId,
             type: `${this.classifyId}_manage`
         }
     }
 
     get checkPower() {
         return {
-            id: this.$route.name,
+            id: this.classifyId,
             type: `${this.classifyId}_check`
         }
     }
@@ -245,7 +246,7 @@ export default class ModelManage extends Vue {
             return this.$error(message)
         }
         this.modelInfoList = data
-        this.modelList = data.filter(item => item.classification_id === this.classifyId)
+        this.modelList = data.filter(item => item.classification_id === camelCaseToUnderscore(this.classifyId))
         this.currentModel = this.modelList[0]?.model_id || ''
     }
     async getShowFields() {

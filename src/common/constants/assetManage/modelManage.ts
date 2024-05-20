@@ -160,6 +160,14 @@ export const MODEL_DETAIL_PANELS = [
     { name: 'relation', label: '关联关系' }
 ]
 
+const validateMark = (rule, value, callback) => {
+    if (!/^[a-z][^A-Z]*$/.test(value)) {
+        callback(new Error('请输入正确的格式，可使用小写字母、数字、下划线，需以字母开头'))
+        return
+    }
+    callback()
+}
+
 // 模型分组rule
 export const GROUP_OPETATE_RULE = {
     onlyMark: [
@@ -167,7 +175,8 @@ export const GROUP_OPETATE_RULE = {
             required: true,
             message: '请输入唯一标识',
             trigger: 'blur'
-        }
+        },
+        { validator: validateMark, trigger: 'blur' }
     ],
     name: [
         {

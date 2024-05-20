@@ -3,6 +3,7 @@ import { menuList } from '@/router/frameRouter'
 import api from '@/api/index'
 import router from '@/router'
 import permission from '@/store/modules/permisson'
+import { underscoreToCamelCase } from '@/common/dealMenu'
 const state = {
     dynamicMenus: '',
     dynamicRoutes: [],
@@ -11,7 +12,7 @@ const state = {
 
 function handleOtherMenus(data, commit, state) {
     const dynamicRoutes = []
-    let compMap = {}
+    const compMap = {}
     try {
         compMap['assetData'] = require('@/views/asset/assetData/index/index.vue').default
     } catch (e) {
@@ -25,23 +26,23 @@ function handleOtherMenus(data, commit, state) {
                 if (tex.id === 'AssetData') {
                     data.forEach(i => {
                         const obj = {
-                            id: i.classification_id,
-                            name: i.classification_name,                            ,
+                            id: underscoreToCamelCase(i.classification_id),
+                            name: i.classification_name,
                             url: `/${i.classification_id}`,
                             auth: [
                                 {
-                                    key: `${i.classification_id}_view`,
+                                    key: `${underscoreToCamelCase(i.classification_id)}_view`,
                                     value: false,
                                     label: '查看',
                                     type: 'check',
-                                    apiKey: ['group_list','model_list','model_attr_list','instance_list','group_list','instance_detail','instance_association_instance_list','model_association_type','topo_search']
+                                    apiKey: ['group_list', 'model_list', 'model_attr_list', 'instance_list', 'group_list', 'instance_detail', 'instance_association_instance_list', 'model_association_type', 'topo_search']
                                 },
                                 {
-                                    key: `${i.classification_id}_manage`,
+                                    key: `${underscoreToCamelCase(i.classification_id)}_manage`,
                                     value: false,
                                     label: '管理',
                                     type: 'operate',
-                                    apiKey: ['instance_create','download_template','inst_import','instance_update','instance_batch_update','instance_batch_delete','inst_export','instance_association_create','instance_association_delete']
+                                    apiKey: ['instance_create', 'download_template', 'inst_import', 'instance_update', 'instance_batch_update', 'instance_batch_delete', 'inst_export', 'instance_association_create', 'instance_association_delete']
                                 }
                             ]
                         }
@@ -49,7 +50,7 @@ function handleOtherMenus(data, commit, state) {
                         // 动态路由的添加
                         const route: any = {
                             path: `/${i.classification_id}`,
-                            name: i.classification_id,
+                            name: underscoreToCamelCase(i.classification_id),
                             component: compMap['assetData'],
                             meta: {
                                 title: i.classification_name,

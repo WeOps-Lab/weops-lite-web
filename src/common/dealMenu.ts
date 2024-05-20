@@ -134,3 +134,23 @@ export function getMenuIdsAndOperateIds(data) {
         operate_ids: operateIds
     }
 }
+
+// 转换成大驼峰格式
+export const underscoreToCamelCase = (str) => {
+    const words = str.split('_') // 将字符串以下划线分隔成单词数组
+    const camelCaseWords = words.map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1) // 单词首字母大写
+    })
+    return camelCaseWords.join('') // 将单词数组合并成驼峰格式的字符串
+}
+
+// 大驼峰格式还原以下划线拼接
+export const camelCaseToUnderscore = (str) => {
+    return str.replace(/([A-Z])/g, (match, p1, offset) => {
+        if (!offset) {
+            // 第一个单词不需要加下划线
+            return match.toLowerCase()
+        }
+        return '_' + match.toLowerCase()
+    })
+}

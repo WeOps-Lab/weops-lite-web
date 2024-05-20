@@ -15,14 +15,14 @@
                     ref="validateForm">
                     <el-form-item
                         label="唯一标识"
-                        desc="可使用英文、数字、下划线，需以字母开头"
+                        desc="可使用小写字母、数字、下划线，需以字母开头"
                         :desc-type="'icon'"
                         prop="onlyMark">
                         <el-input
                             v-model="formData.onlyMark"
                             :disabled="!isAdd"
                             size="small"
-                            placeholder="请输入唯一标识"
+                            placeholder="请输入唯一标识，可使用小写字母、数字、下划线，需以字母开头"
                             ref="onlyMark">
                         </el-input>
                     </el-form-item>

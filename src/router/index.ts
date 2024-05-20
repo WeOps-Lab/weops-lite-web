@@ -3,7 +3,7 @@ import store from '@/store'
 import Router from 'vue-router'
 import { frameRouter } from './frameRouter'
 import httpConfig from '@/api/axiosconfig/request'
-import {findFirstUrl, findIdsWithNoChildren, hasPathInChildren} from '@/common/dealMenu'
+import { findFirstUrl, findIdsWithNoChildren, hasPathInChildren, underscoreToCamelCase } from '@/common/dealMenu'
 
 // 遇到路由重读点击报错时，取消注释解决
 // const originalPush = Router.prototype.push
@@ -71,7 +71,7 @@ function checkRouteAccess(to, from, next) {
     // // 资产实例详情添加动态的parentIds，避免页面403
     if (to.name === 'AssetDetail') {
         const dynamicMenus = store.state.menu.dynamicMenus
-        to.meta.parentIds = dynamicMenus.map(item => item.classification_id) || []
+        to.meta.parentIds = dynamicMenus.map(item => underscoreToCamelCase(item.classification_id)) || []
     }
     const isHasPermission = ids.includes(to.name) || (to?.meta?.parentIds || []).filter(r => ids.includes(r)).length || ids.includes(to?.meta?.relatedMenu)
     // 不包含在全定义路由中,即是不存在该页面

@@ -70,7 +70,7 @@ export default class AddResource extends Vue {
 
     get operatePower() {
         return {
-            id: this.$route.name,
+            id: this.classifyId,
             type: `${this.classifyId}_manage`
         }
     }
