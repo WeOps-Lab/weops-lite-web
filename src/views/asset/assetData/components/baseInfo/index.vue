@@ -73,7 +73,11 @@
                                     <span v-overflow-tooltip class="content">{{ getShowValue(tex) }}</span>
                                     <span class="operate-edit">
                                         <span v-if="!tex.isEdit" class="edit-icon">
-                                            <span v-if="tex.editable" class="cw-icon weops-edit operate-icon-edit" @click="editInfo(tex)"></span>
+                                            <span
+                                                v-if="tex.editable"
+                                                v-permission="operatePower"
+                                                class="cw-icon weops-edit operate-icon-edit"
+                                                @click="editInfo(tex)"></span>
                                             <span class="cw-icon weops-copy operate-icon-copy" v-copy="getShowValue(tex)"></span>
                                         </span>
                                     </span>

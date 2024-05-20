@@ -112,7 +112,6 @@
                 >
                     <template slot="operation" slot-scope="{ row }">
                         <el-button
-                            v-permission="checkPower"
                             type="text"
                             size="small"
                             @click="checkDetail(row)">
@@ -126,7 +125,6 @@
                             编辑
                         </el-button>
                         <el-button
-                            v-permission="checkPower"
                             type="text"
                             size="small"
                             @click="checkRelate(row)">

@@ -106,6 +106,9 @@ export default class AddResource extends Vue {
     }
     // 编辑信息
     editInfo(tex) {
+        if (!this.$BtnPermission(this.operatePower)) {
+            return false
+        }
         this.$set(tex, 'isEdit', true)
     }
     getShowValue(field) {
