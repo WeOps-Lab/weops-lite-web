@@ -96,6 +96,7 @@
                     </div>
                 </div>
                 <com-table
+                    v-show="columns.length"
                     v-loading="tableLoading"
                     ref="comTable"
                     :data="instanceList"
