@@ -65,7 +65,7 @@ export default class AddRelation extends Vue {
     }
 
     get atrrList() {
-        return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
+        return this.propertyList.map(item => {
             if (item.attr_type === 'bool') {
                 item.option = [
                     { name: '是', id: true },
@@ -159,12 +159,6 @@ export default class AddRelation extends Vue {
         })
     }
     async handleRelate(row) {
-        if (!this.$BtnPermission({
-            id: this.classifyId,
-            type: `${this.classifyId}_relation`
-        })) {
-            return false
-        }
         const relation = JSON.parse(this.relation)
         const params = {
             model_asst_id: relation.model_asst_id,
@@ -245,12 +239,6 @@ export default class AddRelation extends Vue {
         }
     }
     cancelRelate(row) {
-        if (!this.$BtnPermission({
-            id: this.classifyId,
-            type: `${this.classifyId}_relation`
-        })) {
-            return false
-        }
         this.$confirm('确定取消关联吗？', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',

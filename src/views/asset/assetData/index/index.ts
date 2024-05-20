@@ -6,6 +6,7 @@ import ImportInstance from '../components/importInstance/index.vue'
 import SelectInput from '../components/selectInput/index.vue'
 import Relation from '../components/relation/index.vue'
 import { getAssetAttrValue } from '@/controller/func/common'
+import { camelCaseToUnderscore } from '@/common/dealMenu'
 @Component({
     components: {
         ComTable,
@@ -62,6 +63,20 @@ export default class ModelManage extends Vue {
         return this.columns.filter(item => item.scopedSlots && item.scopedSlots !== 'operation')
     }
 
+    get operatePower() {
+        return {
+            id: this.classifyId,
+            type: `${this.classifyId}_manage`
+        }
+    }
+
+    get checkPower() {
+        return {
+            id: this.classifyId,
+            type: `${this.classifyId}_check`
+        }
+    }
+
     created() {
         this.getConnectTypeList()
     }
@@ -76,6 +91,9 @@ export default class ModelManage extends Vue {
     }
 
     checkRelate(row) {
+        if (!this.$BtnPermission(this.checkPower)) {
+            return false
+        }
         this.instInfo = {
             instId: row._id,
             modelId: this.currentModel,
@@ -86,10 +104,7 @@ export default class ModelManage extends Vue {
     }
     // 导出资产
     exportInst(list) {
-        if (!this.$BtnPermission({
-            id: this.$route.name,
-            type: `${this.classifyId}_export`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         const params = {
@@ -166,10 +181,7 @@ export default class ModelManage extends Vue {
         this.getInstanceList()
     }
     addResource(mode, row = {}) {
-        if (!this.$BtnPermission({
-            id: this.$route.name,
-            type: `${this.classifyId}_create`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         if (mode === 'import') {
@@ -196,6 +208,9 @@ export default class ModelManage extends Vue {
         })
     }
     checkDetail(row) {
+        if (!this.$BtnPermission(this.checkPower)) {
+            return false
+        }
         this.$router.push({
             name: 'AssetDetail',
             query: {
@@ -231,7 +246,7 @@ export default class ModelManage extends Vue {
             return this.$error(message)
         }
         this.modelInfoList = data
-        this.modelList = data.filter(item => item.classification_id === this.classifyId)
+        this.modelList = data.filter(item => item.classification_id === camelCaseToUnderscore(this.classifyId))
         this.currentModel = this.modelList[0]?.model_id || ''
     }
     async getShowFields() {
@@ -367,10 +382,7 @@ export default class ModelManage extends Vue {
     }
     // 批量删除
     deleteInstance(list) {
-        if (!this.$BtnPermission({
-            id: this.$route.name,
-            type: `${this.classifyId}_delete`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         this.$confirm('确认要删除该资产？', '提示', {

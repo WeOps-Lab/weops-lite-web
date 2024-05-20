@@ -28,7 +28,11 @@
             </div>
             <div class="operate-item mb20">
                 <span class="label">条件筛选</span>
-                <selectInput :property-list="atrrList" :user-list="userList" @change="changeFeild" />
+                <selectInput
+                    :property-list="atrrList"
+                    :user-list="userList"
+                    :group-list="groupList"
+                    @change="changeFeild" />
             </div>
             <com-table
                 v-loading="tableLoading"
@@ -43,10 +47,6 @@
                 <template slot="operation" slot-scope="{ row }">
                     <el-button
                         v-if="!row.isRelated"
-                        v-permission="{
-                            id: classifyId,
-                            type: `classifyId_relation`
-                        }"
                         class="mr10"
                         type="text"
                         size="small"
@@ -56,10 +56,6 @@
                     </el-button>
                     <el-button
                         v-else
-                        v-permission="{
-                            id: classifyId,
-                            type: `classifyId_relation`
-                        }"
                         class="mr10"
                         type="text"
                         size="small"

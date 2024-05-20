@@ -38,12 +38,7 @@ export default class AddResource extends Vue {
         {
             label: '组织信息',
             id: 'group',
-            list: [{
-                attr_id: 'organization',
-                attr_name: '所属组织',
-                attr_type: 'organization',
-                is_required: true
-            }],
+            list: [],
             isExpand: true
         },
         {
@@ -66,6 +61,13 @@ export default class AddResource extends Vue {
 
     get instId() {
         return this.currentModelCfg.inst_id || this.$route.query.instId
+    }
+
+    get operatePower() {
+        return {
+            id: this.classifyId,
+            type: `${this.classifyId}_manage`
+        }
     }
 
     async mounted() {
@@ -114,14 +116,7 @@ export default class AddResource extends Vue {
         })
     }
     initData(data) {
-        let propertyList = this.$copy(this.attrList)
-        const groupProperty = propertyList.find(item => item.attr_id === 'organization')
-        if (!groupProperty) {
-            propertyList = [
-                ...propertyList,
-                ...this.resourcList.at(0).list
-            ]
-        }
+        const propertyList = this.$copy(this.attrList)
         propertyList.forEach(item => {
             if (item.is_required) {
                 this.$set(this.rules, item.attr_id, {
@@ -134,14 +129,13 @@ export default class AddResource extends Vue {
             this.$set(this.formData, item.attr_id, data[item.attr_id] || defaultVal)
         })
         const baseInfo = this.resourcList.find(item => item.id === 'base')
+        const groupInfo = this.resourcList.find(item => item.id === 'group')
         baseInfo.list = propertyList.filter(item => item.attr_id !== 'organization')
+        groupInfo.list = propertyList.filter(item => item.attr_id === 'organization')
         this.formDataV2 = this.$copy(this.formData)
     }
     confirmEdit(tex) {
-        if (!this.$BtnPermission({
-            id: this.classifyId,
-            type: `${this.classifyId}_edit`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         const addResourceForm: any = this.$refs.addResourceForm

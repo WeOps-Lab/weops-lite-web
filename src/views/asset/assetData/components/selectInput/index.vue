@@ -40,6 +40,19 @@
                     :label="option.name">
                 </el-option>
             </el-select>
+            <el-cascader
+                v-else-if="currentFeildInfo['attr_type'] === 'organization'"
+                class="value"
+                :props="{
+                    emitPath: false,
+                    checkStrictly: true
+                }"
+                size="small"
+                v-model="fieldValue"
+                clearable
+                :options="groupList"
+                @change="changeFieldvaule">
+            </el-cascader>
             <el-input
                 v-else
                 class="value"

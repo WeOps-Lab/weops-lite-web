@@ -40,18 +40,12 @@
                             </el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: `${classifyId}_create`
-                                    }"
+                                    v-permission="operatePower"
                                     @click.native="addResource('add')">
                                     手动创建
                                 </el-dropdown-item>
                                 <el-dropdown-item
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: `${classifyId}_create`
-                                    }"
+                                    v-permission="operatePower"
                                     @click.native="addResource('import')">
                                     批量导入
                                 </el-dropdown-item>
@@ -64,19 +58,13 @@
                             </el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: `${classifyId}_delete`
-                                    }"
+                                    v-permission="operatePower"
                                     :disabled="!selectedInstances.length"
                                     @click.native="deleteInstance(selectedInstances)">
                                     批量删除
                                 </el-dropdown-item>
                                 <el-dropdown-item
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: `${classifyId}_create`
-                                    }"
+                                    v-permission="operatePower"
                                     :disabled="!selectedInstances.length"
                                     @click.native="addResource('batchUpdate')">
                                     批量更新
@@ -90,18 +78,12 @@
                             </el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: `${classifyId}_export`
-                                    }"
+                                    v-permission="operatePower"
                                     @click.native="exportInst([])">
                                     导出全部
                                 </el-dropdown-item>
                                 <el-dropdown-item
-                                    v-permission="{
-                                        id: $route.name,
-                                        type: `${classifyId}_export`
-                                    }"
+                                    v-permission="operatePower"
                                     :disabled="!selectedInstances.length"
                                     @click.native="exportInst(selectedInstances)">
                                     导出所选
@@ -114,6 +96,7 @@
                     </div>
                 </div>
                 <com-table
+                    v-show="columns.length"
                     v-loading="tableLoading"
                     ref="comTable"
                     :data="instanceList"
@@ -129,44 +112,32 @@
                 >
                     <template slot="operation" slot-scope="{ row }">
                         <el-button
-                            v-permission="{
-                                id: $route.name,
-                                type: `${classifyId}_check`
-                            }"
+                            v-permission="checkPower"
                             type="text"
                             size="small"
                             @click="checkDetail(row)">
                             详情
                         </el-button>
                         <el-button
-                            v-permission="{
-                                id: $route.name,
-                                type: `${classifyId}_edit`
-                            }"
+                            v-permission="operatePower"
                             type="text"
                             size="small"
                             @click="addResource('edit',row)">
                             编辑
                         </el-button>
                         <el-button
-                            v-permission="{
-                                id: $route.name,
-                                type: `${classifyId}_delete`
-                            }"
-                            type="text"
-                            size="small"
-                            @click="deleteInstance([row])">
-                            删除
-                        </el-button>
-                        <el-button
-                            v-permission="{
-                                id: $route.name,
-                                type: `${classifyId}_check`
-                            }"
+                            v-permission="checkPower"
                             type="text"
                             size="small"
                             @click="checkRelate(row)">
                             关联
+                        </el-button>
+                        <el-button
+                            v-permission="operatePower"
+                            type="text"
+                            size="small"
+                            @click="deleteInstance([row])">
+                            删除
                         </el-button>
                     </template>
                     <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">

@@ -59,6 +59,13 @@ export default class AssoList extends Vue {
         return this.$route.query.fromPage || this.instInfo.classifyId
     }
 
+    get operatePower() {
+        return {
+            id: this.classifyId,
+            type: `${this.classifyId}_manage`
+        }
+    }
+
     mounted() {
         this.initData()
     }
@@ -67,20 +74,14 @@ export default class AssoList extends Vue {
         return !!item.columns?.length
     }
     addRelation() {
-        if (!this.$BtnPermission({
-            id: this.classifyId,
-            type: `${this.classifyId}_relation`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         const addRelation: any = this.$refs.addRelation
         addRelation.show(this.relatedList)
     }
     cancelRelate(row) {
-        if (!this.$BtnPermission({
-            id: this.classifyId,
-            type: `${this.classifyId}_relation`
-        })) {
+        if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
         this.$confirm('确定取消关联吗？', {

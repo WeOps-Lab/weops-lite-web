@@ -82,10 +82,7 @@
                             <span class="operate-confirm">
                                 <span v-if="tex.isEdit" class="confirm-cancel">
                                     <span
-                                        v-permission="{
-                                            id: classifyId,
-                                            type: `${classifyId}_edit`
-                                        }"
+                                        v-permission="operatePower"
                                         class="cw-icon weops-complete operate-icon-left"
                                         @click="confirmEdit(tex)">
                                     </span>

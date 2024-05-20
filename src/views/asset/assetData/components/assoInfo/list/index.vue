@@ -3,10 +3,7 @@
         <div class="operate-box">
             <div class="operate-box-left">
                 <el-button
-                    v-permission="{
-                        id: classifyId,
-                        type: `${classifyId}_relation`
-                    }"
+                    v-permission="operatePower"
                     :type="'primary'"
                     size="small"
                     @click="addRelation">
@@ -36,10 +33,7 @@
                     >
                         <template slot="operation" slot-scope="{ row }">
                             <el-button
-                                v-permission="{
-                                    id: classifyId,
-                                    type: `${classifyId}_relation`
-                                }"
+                                v-permission="operatePower"
                                 class="mr10"
                                 type="text"
                                 size="small"
