@@ -1,9 +1,11 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import DrawerComponent from '@/components/comDrawer/index.vue'
+import Collapse from '@/components/collapse/index.vue'
 @Component({
     name: 'add-resource',
     components: {
-        DrawerComponent
+        DrawerComponent,
+        Collapse
     }
 })
 export default class AddResource extends Vue {
@@ -38,13 +40,7 @@ export default class AddResource extends Vue {
         {
             label: '组织信息',
             id: 'group',
-            list: [{
-                attr_id: 'organization',
-                attr_name: '所属组织',
-                attr_type: 'organization',
-                is_required: true,
-                checked: false
-            }],
+            list: [],
             isExpand: true
         },
         {
@@ -59,7 +55,6 @@ export default class AddResource extends Vue {
     formData: any = {}
     rules = {}
     formDataV2 = {}
-    expand: boolean = true
 
     get isAdd() {
         return this.configInfo.mode === 'add'
@@ -93,13 +88,6 @@ export default class AddResource extends Vue {
         this.formDataV2 = this.$copy(this.formData)
     }
     initData() {
-        const groupProperty = this.configInfo.propertyList.find(item => item.attr_id === 'organization')
-        if (!groupProperty) {
-            this.configInfo.propertyList = [
-                ...this.configInfo.propertyList,
-                ...this.resourcList.at(0).list
-            ]
-        }
         this.configInfo.propertyList.forEach(item => {
             if (item.is_required) {
                 this.rules[item.attr_id] = [
@@ -114,7 +102,12 @@ export default class AddResource extends Vue {
             this.$set(this.formData, item.attr_id, this.configInfo.row?.[item.attr_id] || defaultVal)
         })
         const baseInfo = this.resourcList.find(item => item.id === 'base')
+        const groupInfo = this.resourcList.find(item => item.id === 'group')
         baseInfo.list = this.configInfo.propertyList.filter(item => item.attr_id !== 'organization').map(tex => ({
+            ...tex,
+            checked: false
+        }))
+        groupInfo.list = this.configInfo.propertyList.filter(item => item.attr_id === 'organization').map(tex => ({
             ...tex,
             checked: false
         }))
@@ -145,8 +138,8 @@ export default class AddResource extends Vue {
         // 批量更新
         if (this.isBatchUpdate) {
             const fields = this.resourcList.reduce((pre, cur) => {
-                return pre.concat(cur.list).filter(item => item.checked).map(tex => tex.attr_id)
-            }, [])
+                return pre.concat(cur.list).filter(item => item.checked)
+            }, []).map(tex => tex.attr_id)
             let isError = false
             addResourceForm.validateField(fields, error => {
                 if (error) {

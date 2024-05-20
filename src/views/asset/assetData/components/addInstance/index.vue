@@ -12,84 +12,79 @@
                 ref="addResourceForm"
                 :rules="rules"
                 :model="formData">
-                <div class="info-box" v-for="item in resourcList" :key="item.id">
-                    <div :class="['header',!item.isExpand && 'mb20']">
-                        <span
-                            :class="['cw-icon' ,'title-icon',item.isExpand ? 'weops-triangle-down' : 'weops-triangle-right']"
-                            @click="item.isExpand = !item.isExpand">
-                        </span>
-                        <span class="title">{{ item.label }}</span>
-                    </div>
-                    <div v-show="item.isExpand" class="show-info">
-                        <el-form-item
-                            v-for="tex in item.list"
-                            :key="tex['attr_id']"
-                            :label="tex['attr_name']"
-                            :prop="tex['attr_id']">
-                            <div :class="['el-form-item__label','custom-label',tex.is_required && 'required']">
-                                <el-checkbox
-                                    v-if="isBatchUpdate"
-                                    :disabled="!tex.editable"
-                                    v-model="tex.checked">
-                                    {{ tex['attr_name'] }}
-                                </el-checkbox>
-                                <span v-else>{{ tex['attr_name'] }}</span>
-                            </div>
-                            <el-date-picker
-                                v-if="['date', 'time'].includes(tex['attr_type'])"
-                                :disabled="!canEdit(tex)"
-                                class="form-item"
-                                size="small"
-                                v-model="formData[tex.attr_id]"
-                                :placeholder="'选择日期时间'"
-                                :value-format="tex['attr_type'] === 'time' ? 'yyyy-MM-dd HH:mm:ss' : ''"
-                                :type="tex['attr_type'] === 'date' ? 'date' : 'datetime'">
-                            </el-date-picker>
-                            <el-select
-                                v-else-if="['enum', 'list', 'user'].includes(tex['attr_type'])"
-                                class="form-item"
-                                :disabled="!canEdit(tex)"
-                                size="small"
-                                v-model="formData[tex.attr_id]"
-                                filterable>
-                                <el-option
-                                    v-for="option in tex['attr_type'] === 'user' ? userList : tex.option"
-                                    :key="option.id"
-                                    :value="option.id"
-                                    :label="option.name">
-                                </el-option>
-                            </el-select>
-                            <el-switch
-                                v-else-if="tex['attr_type'] === 'bool'"
-                                class="form-item"
-                                :disabled="!canEdit(tex)"
-                                size="small"
-                                v-model="formData[tex.attr_id]">
-                            </el-switch>
-                            <el-cascader
-                                v-else-if="tex['attr_type'] === 'organization'"
-                                :disabled="!canEdit(tex)"
-                                :props="{
-                                    emitPath: false,
-                                    checkStrictly: true
-                                }"
-                                class="form-item"
-                                size="small"
-                                v-model="formData[tex.attr_id]"
-                                :options="groupList">
-                            </el-cascader>
-                            <el-input
-                                v-else
-                                :disabled="!canEdit(tex)"
-                                v-model="formData[tex.attr_id]"
-                                size="small"
-                                clearable
-                                :show-password="tex['attr_type'] === 'pwd'"
-                                :type="tex['attr_type'] === 'pwd' ? 'password' : 'text'">
-                            </el-input>
-                        </el-form-item>
-                    </div>
-                </div>
+                <collapse :collapse-list="resourcList">
+                    <template slot="content" slot-scope="{ collRow }">
+                        <div class="show-info">
+                            <el-form-item
+                                v-for="tex in collRow.list"
+                                :key="tex['attr_id']"
+                                :label="tex['attr_name']"
+                                :prop="tex['attr_id']">
+                                <div :class="['el-form-item__label','custom-label',tex.is_required && 'required']">
+                                    <el-checkbox
+                                        v-if="isBatchUpdate"
+                                        :disabled="!tex.editable"
+                                        v-model="tex.checked">
+                                        {{ tex['attr_name'] }}
+                                    </el-checkbox>
+                                    <span v-else>{{ tex['attr_name'] }}</span>
+                                </div>
+                                <el-date-picker
+                                    v-if="['date', 'time'].includes(tex['attr_type'])"
+                                    :disabled="!canEdit(tex)"
+                                    class="form-item"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]"
+                                    :placeholder="'选择日期时间'"
+                                    :value-format="tex['attr_type'] === 'time' ? 'yyyy-MM-dd HH:mm:ss' : ''"
+                                    :type="tex['attr_type'] === 'date' ? 'date' : 'datetime'">
+                                </el-date-picker>
+                                <el-select
+                                    v-else-if="['enum', 'list', 'user'].includes(tex['attr_type'])"
+                                    class="form-item"
+                                    :disabled="!canEdit(tex)"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]"
+                                    filterable>
+                                    <el-option
+                                        v-for="option in tex['attr_type'] === 'user' ? userList : tex.option"
+                                        :key="option.id"
+                                        :value="option.id"
+                                        :label="option.name">
+                                    </el-option>
+                                </el-select>
+                                <el-switch
+                                    v-else-if="tex['attr_type'] === 'bool'"
+                                    class="form-item"
+                                    :disabled="!canEdit(tex)"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]">
+                                </el-switch>
+                                <el-cascader
+                                    v-else-if="tex['attr_type'] === 'organization'"
+                                    :disabled="!canEdit(tex)"
+                                    :props="{
+                                        emitPath: false,
+                                        checkStrictly: true
+                                    }"
+                                    class="form-item"
+                                    size="small"
+                                    v-model="formData[tex.attr_id]"
+                                    :options="groupList">
+                                </el-cascader>
+                                <el-input
+                                    v-else
+                                    :disabled="!canEdit(tex)"
+                                    v-model="formData[tex.attr_id]"
+                                    size="small"
+                                    clearable
+                                    :show-password="tex['attr_type'] === 'pwd'"
+                                    :type="tex['attr_type'] === 'pwd' ? 'password' : 'text'">
+                                </el-input>
+                            </el-form-item>
+                        </div>
+                    </template>
+                </collapse>
             </el-form>
         </div>
         <div slot="footer">
