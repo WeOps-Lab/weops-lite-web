@@ -94,14 +94,14 @@ export default class AssoTopo extends Vue {
                                     </span>
                                 `
                             if (re.test(node.inst_name)) {
-                                if (node.inst_name.split('').length > 10) {
+                                if (node.inst_name.split('').length > 13) {
                                     return showTip
                                 }
                                 return ''
                             }
                             if (typeof node.inst_name === 'string') {
                                 const res = /^[\u4e00-\u9fa5]/
-                                const MAX_COUNT_LENGTH = res.test(node.inst_name) ? 5 : 10
+                                const MAX_COUNT_LENGTH = res.test(node.inst_name) ? 5 : 13
                                 return node.inst_name.split('').length > MAX_COUNT_LENGTH ? showTip : ''
                             }
                             return showTip

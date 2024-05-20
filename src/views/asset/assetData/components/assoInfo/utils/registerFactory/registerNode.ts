@@ -122,10 +122,10 @@ const addTextShape = (cfg, group) => {
     } else {
         const re = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/
         if (re.test(cfg.inst_name)) {
-            vale = cfg.inst_name.split('').length > 10 ? cfg.inst_name.split('').slice(0, 10).join('') + '...' : cfg.inst_name
+            vale = cfg.inst_name.split('').length > 13 ? cfg.inst_name.split('').slice(0, 10).join('') + '...' : cfg.inst_name
         } else {
             if (typeof cfg.inst_name === 'string') {
-                vale = cfg.inst_name.split('').length > 10 ? cfg.inst_name.split('').slice(0, 5).join('') + '...' : cfg.inst_name
+                vale = cfg.inst_name.split('').length > 13 ? cfg.inst_name.split('').slice(0, 5).join('') + '...' : cfg.inst_name
             }
         }
     }
