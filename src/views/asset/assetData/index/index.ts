@@ -70,13 +70,6 @@ export default class ModelManage extends Vue {
         }
     }
 
-    get checkPower() {
-        return {
-            id: this.classifyId,
-            type: `${this.classifyId}_check`
-        }
-    }
-
     created() {
         this.getConnectTypeList()
     }
@@ -91,9 +84,6 @@ export default class ModelManage extends Vue {
     }
 
     checkRelate(row) {
-        if (!this.$BtnPermission(this.checkPower)) {
-            return false
-        }
         this.instInfo = {
             instId: row._id,
             modelId: this.currentModel,
@@ -208,9 +198,6 @@ export default class ModelManage extends Vue {
         })
     }
     checkDetail(row) {
-        if (!this.$BtnPermission(this.checkPower)) {
-            return false
-        }
         this.$router.push({
             name: 'AssetDetail',
             query: {
