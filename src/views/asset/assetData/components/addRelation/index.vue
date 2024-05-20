@@ -28,7 +28,11 @@
             </div>
             <div class="operate-item mb20">
                 <span class="label">条件筛选</span>
-                <selectInput :property-list="atrrList" :user-list="userList" @change="changeFeild" />
+                <selectInput
+                    :property-list="atrrList"
+                    :user-list="userList"
+                    :group-list="groupList"
+                    @change="changeFeild" />
             </div>
             <com-table
                 v-loading="tableLoading"

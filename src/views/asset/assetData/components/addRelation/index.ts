@@ -65,7 +65,7 @@ export default class AddRelation extends Vue {
     }
 
     get atrrList() {
-        return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
+        return this.propertyList.map(item => {
             if (item.attr_type === 'bool') {
                 item.option = [
                     { name: '是', id: true },

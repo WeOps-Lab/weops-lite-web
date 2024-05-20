@@ -18,6 +18,11 @@ export default class SelectInput extends Vue {
         default: () => []
     })
     userList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    groupList: Array<any>
 
     fieldKey: string = ''
     fieldValue: any = ''
@@ -57,6 +62,9 @@ export default class SelectInput extends Vue {
                 case 'int':
                     condition.type = 'int='
                     condition.value = +condition.value
+                    break
+                case 'organization':
+                    condition.type = 'str='
                     break
                 case 'time':
                     delete condition.value
