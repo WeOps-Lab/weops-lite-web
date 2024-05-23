@@ -32,7 +32,6 @@ export default class ModelManage extends Vue {
     tableLoading: boolean = false
     selectedInstances: Array<any> = []
     search: string = ''
-    pageOccupiedHeight: number = 246
     groupList: Array<any> = []
     currentNode: any = {}
     condition: any = null
@@ -204,8 +203,7 @@ export default class ModelManage extends Vue {
                 fromPage: this.classifyId,
                 inst_name: row.inst_name || row.biz_name || '--',
                 modelId: this.currentModel,
-                instId: row._id,
-                groupId: this.currentNode.id
+                instId: row._id
             }
         })
     }

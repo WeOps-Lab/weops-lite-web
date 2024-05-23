@@ -102,7 +102,7 @@
                     :data="instanceList"
                     :columns="columns"
                     :pagination="pagination"
-                    :max-height="tableMaxHeight"
+                    height="calc(100vh - 230px)"
                     :settings-fields="displayFields"
                     @page-change="handlePageChange"
                     @page-limit-change="handleLimitChange"

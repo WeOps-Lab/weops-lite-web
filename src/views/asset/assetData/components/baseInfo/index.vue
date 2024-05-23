@@ -74,7 +74,7 @@
                                     <span class="operate-edit">
                                         <span v-if="!tex.isEdit" class="edit-icon">
                                             <span
-                                                v-if="tex.editable"
+                                                v-if="tex.editable && allowEdit"
                                                 v-permission="operatePower"
                                                 class="cw-icon weops-edit operate-icon-edit"
                                                 @click="editInfo(tex)"></span>

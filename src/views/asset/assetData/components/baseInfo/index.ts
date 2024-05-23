@@ -33,6 +33,11 @@ export default class AddResource extends Vue {
         default: () => '33%'
     })
     displayPercent: string
+    @Prop({
+        type: Boolean,
+        default: () => true
+    })
+    allowEdit: boolean
 
     resourcList: Array<any> = [
         {
@@ -128,7 +133,7 @@ export default class AddResource extends Vue {
                     trigger: 'blur'
                 })
             }
-            const defaultVal = item.attr_type === 'bool' ? false : item.attr_type === 'organization' ? this.$route.query.groupId : ''
+            const defaultVal = item.attr_type === 'bool' ? false : ''
             this.$set(this.formData, item.attr_id, data[item.attr_id] || defaultVal)
         })
         const baseInfo = this.resourcList.find(item => item.id === 'base')

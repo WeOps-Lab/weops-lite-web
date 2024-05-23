@@ -17,6 +17,8 @@ const ModelManage = () => import('@/views/assetManage/modelManage/index/index.vu
 const ModelDetail = () => import('@/views/assetManage/modelManage/modelDetail/index.vue')
 // 资产数据
 const AssetDetail = () => import('@/views/asset/assetData/detial/index.vue')
+// 资产搜索
+const AssetSearch = () => import('@/views/asset/assetSearch/index/index.vue')
 
 const mainRouter = [
     {
@@ -132,6 +134,31 @@ const mainRouter = [
                 to.meta.parentIds = [to.query.fromPage]
             }
             next()
+        }
+    },
+    {
+        path: '/assetInstDetial',
+        name: 'AssetInstDetial',
+        component: AssetDetail,
+        meta: {
+            title: '资产详情',
+            activeMenu: 'AssetSearch',
+            parentIds: ['AssetSearch'],
+            needCache: false
+        },
+        beforeEnter: (to, from, next) => {
+            if (to.query.inst_name && to.query.fromPage) {
+                to.meta.title = `资产详情-${to.query.inst_name}`
+            }
+            next()
+        }
+    },
+    {
+        path: '/assetSearch',
+        name: 'AssetSearch',
+        component: AssetSearch,
+        meta: {
+            title: '资产搜索'
         }
     }
 ]
