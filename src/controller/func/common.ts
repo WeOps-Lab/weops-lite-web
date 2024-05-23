@@ -475,7 +475,7 @@ export const getAssetAttrValue = (field, tex, others) => {
     let str = '--'
     switch (field.attr_type) {
         case 'organization':
-            str = findGroupNameById(others.groupList || [], tex[field.key])
+            str = findGroupNameById(others.groupList || [], tex[field.key]) || '--'
             break
         case 'user':
             str = (others.userList || []).find(item => item.id === tex[field.key])?.name || '--'
@@ -509,7 +509,7 @@ export const findGroupNameById = (arr, value) => {
             }
         }
     }
-    return '--'
+    return null
 }
 
 // 根据数组id找出对应名称（多选）
