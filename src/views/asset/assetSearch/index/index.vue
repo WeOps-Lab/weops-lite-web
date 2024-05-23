@@ -161,7 +161,7 @@ export default class Relation extends Vue {
     }
 
     seeMore() {
-        this.$router.push({
+        const routeObj: any = {
             name: 'AssetInstDetial',
             query: {
                 fromPage: this.modelList.find(item => item.model_id === this.currentModel)?.classification_id || '',
@@ -169,7 +169,9 @@ export default class Relation extends Vue {
                 modelId: this.currentModel,
                 instId: this.currentModelCfg._id
             }
-        })
+        }
+        const route = this.$router.resolve(routeObj)
+        window.open(route.href, '_blank')
     }
     beforeCloseDialog() {
         this.visible = false
