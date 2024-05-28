@@ -409,7 +409,7 @@ Vue.prototype.$handleKeepAlive = function(to, from) {
         }
         store.commit('setCacheRouter', menus)
     } else {
-        const keepAliveList = store.state.product.keepAliveList
+        const keepAliveList = store.state.menu.keepAliveList
         if (keepAliveList.includes(from.name)) {
             const menus = getRouter()
             // @ts-ignore

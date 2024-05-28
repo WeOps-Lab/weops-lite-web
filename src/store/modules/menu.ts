@@ -54,11 +54,13 @@ function handleOtherMenus(data, commit, state) {
                             component: compMap['assetData'],
                             meta: {
                                 title: i.classification_name,
-                                relatedMenu: tex.id
+                                relatedMenu: tex.id,
+                                cacheName: 'asset-data'
                             }
                         }
                         dynamicRoutes.push(route)
                         router.addRoute(route)
+                        commit('setKeepAliveList', route.name)
                     })
                 }
             })
