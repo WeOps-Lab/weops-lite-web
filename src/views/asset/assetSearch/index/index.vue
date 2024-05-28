@@ -376,6 +376,8 @@ export default class Relation extends Vue {
         background-color: #f5f7fa;
         .asset-search-input {
             width: 800px;
+            align-self: flex-start;
+            margin-top: 120px;
         }
     }
     .asset-search-result {
