@@ -1,11 +1,13 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import DrawerComponent from '@/components/comDrawer/index.vue'
 import Collapse from '@/components/collapse/index.vue'
+import AddRelation from '@/views/asset/assetData/components/addRelation/index.vue'
 @Component({
     name: 'add-resource',
     components: {
         DrawerComponent,
-        Collapse
+        Collapse,
+        AddRelation
     }
 })
 export default class AddResource extends Vue {
@@ -29,7 +31,22 @@ export default class AddResource extends Vue {
         default: () => ({})
     })
     currentNode: any
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    connectTypeList: Array<any>
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    modelInfoList: Array<any>
 
+    instInfo: any = {
+        instId: '',
+        modelId: this.modelId,
+        classifyId: this.$route.name
+    }
     configInfo: any = {
         row: null,
         propertyList: [],
@@ -55,6 +72,7 @@ export default class AddResource extends Vue {
     formData: any = {}
     rules = {}
     formDataV2 = {}
+    relatedList: Array<any> = []
 
     get isAdd() {
         return this.configInfo.mode === 'add'
@@ -80,6 +98,10 @@ export default class AddResource extends Vue {
             return tex.editable && tex.checked
         }
         return tex.editable
+    }
+    closeRelate() {
+        const addRelation: any = this.$refs.addRelation
+        addRelation.beforeCloseDialog()
     }
     showDialog(configInfo) {
         this.visible = true
@@ -124,13 +146,13 @@ export default class AddResource extends Vue {
         }
         this.visible = false
     }
-    handleSubmit() {
+    handleSubmit(type) {
         const addResourceForm: any = this.$refs.addResourceForm
         // 新增
         if (this.isAdd) {
             addResourceForm.validate(valid => {
                 if (valid) {
-                    this.createResource()
+                    this.createResource(type)
                 }
             })
             return
@@ -181,20 +203,26 @@ export default class AddResource extends Vue {
             this.loading = false
         }
     }
-    async createResource() {
+    async createResource(type) {
         this.loading = true
         try {
             const params = {
                 model_id: this.modelId,
                 instance_info: this.formData
             }
-            const { result, message } = await this.$api.AssetData.createInstance(params)
+            const { result, message, data } = await this.$api.AssetData.createInstance(params)
             if (!result) {
                 return this.$error(message)
             }
             this.visible = false
             this.$success('新建资产成功！')
             this.$emit('on-success', params)
+            if (type === 'saveAndRelate') {
+                // 创建并关联
+                this.instInfo.instId = data._id
+                const addRelation: any = this.$refs.addRelation
+                addRelation.show([])
+            }
         } finally {
             this.loading = false
         }
