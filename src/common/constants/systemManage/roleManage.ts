@@ -52,3 +52,34 @@ export const ROLE_PANELS = [
         name: 'group'
     }
 ]
+// 角色管理表头
+export const ASSET_AUTH_COLUMNS = [
+    {
+        label: '资产模型',
+        key: 'model_id',
+        align: 'left',
+        minWidth: '100px',
+        scopedSlots: 'model_id'
+    },
+    {
+        label: '权限类型',
+        key: 'permission_type',
+        align: 'left',
+        minWidth: '100px',
+        scopedSlots: 'permission_type'
+    },
+    {
+        label: '资产范围',
+        key: 'resource_type',
+        align: 'left',
+        minWidth: '100px',
+        scopedSlots: 'resource_type'
+    },
+    {
+        label: '操作',
+        key: 'operation',
+        align: 'left',
+        width: '100px',
+        scopedSlots: 'operation'
+    }
+]

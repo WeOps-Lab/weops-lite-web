@@ -1,4 +1,4 @@
-// 资产数据模块
+// 全文检索模块
 import { post, reUrl } from '@/api/axiosconfig/axiosconfig'
 export default {
     /**
