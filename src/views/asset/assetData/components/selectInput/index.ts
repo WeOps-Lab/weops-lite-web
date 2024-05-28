@@ -10,7 +10,7 @@ export default class SelectInput extends Vue {
     propertyList: Array<any>
     @Prop({
         type: Number,
-        default: () => 350
+        default: () => 400
     })
     width: number
     @Prop({
@@ -26,6 +26,8 @@ export default class SelectInput extends Vue {
 
     fieldKey: string = ''
     fieldValue: any = ''
+    exactSearch: boolean = true
+    isExactSearch: number = 0
 
     get currentFeildInfo() {
         return this.propertyList.find(item => item.attr_id === this.fieldKey) || {}
@@ -53,7 +55,7 @@ export default class SelectInput extends Vue {
                     condition.type = typeof val === 'number' ? 'int=' : 'str='
                     break
                 case 'str':
-                    condition.type = 'str='
+                    condition.type = this.isExactSearch ? 'str=' : 'str*'
                     break
                 case 'user':
                     condition.type = 'user[]'

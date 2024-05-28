@@ -62,6 +62,16 @@
                 type="text"
                 @change="changeFieldvaule">
             </el-input>
+            <div v-if="exactSearch"
+                class="exact-search-box">
+                <el-checkbox
+                    :true-label="1"
+                    :false-label="0"
+                    v-model="isExactSearch"
+                    @change="changeFieldvaule(fieldValue)">
+                    精确搜索
+                </el-checkbox>
+            </div>
         </div>
     </div>
 </template>
