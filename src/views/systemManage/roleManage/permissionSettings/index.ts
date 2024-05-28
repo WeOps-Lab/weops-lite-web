@@ -1,6 +1,5 @@
-// import AppPermission from './appPermission.vue'
 import OperationPermission from '../operationPermission/index.vue'
-// import InstancePermission from './instancePermission.vue'
+import InstancePermission from '../instancePermission/index.vue'
 import menuTab from '@/components/menuTab/index.vue'
 import { Vue, Component } from 'vue-property-decorator'
 import DrawerComponent from '@/components/comDrawer/index.vue'
@@ -10,9 +9,8 @@ import { findAuthById } from '@/common/dealMenu'
 @Component({
     name: 'permission-settings',
     components: {
-        // AppPermission,
         OperationPermission,
-        // InstancePermission,
+        InstancePermission,
         menuTab,
         DrawerComponent
     }
@@ -20,8 +18,8 @@ import { findAuthById } from '@/common/dealMenu'
 export default class permissionSettings extends Vue {
     isShow: boolean = false
     panels = [
-        { name: 'operationPermission', label: '操作权限' }
-        // { name: 'instancePermission', label: '实例权限' }
+        { name: 'operationPermission', label: '操作权限' },
+        { name: 'instancePermission', label: '实例权限' }
     ]
     active: string = 'operationPermission'
     role: any = {}
@@ -43,18 +41,9 @@ export default class permissionSettings extends Vue {
         this.latestMenu = data.checkAuthIds
         this.latestOperate = data.operateAuthIds
     }
-    // getLatestApp(data) {
-    //     this.latestApp = data
-    // }
     getMenuLoading(loading) {
         this.menuLoading = loading
     }
-    // getAppLoading(loading, visible) {
-    //     this.appLoading = loading
-    //     if (visible === 'hide') {
-    //         this.isShow = false
-    //     }
-    // }
     show(data) {
         this.isShow = true
         this.role = data
@@ -75,8 +64,6 @@ export default class permissionSettings extends Vue {
     confirm() {
         const menuPermission: any = this.$refs.menuPermission
         menuPermission.getLatestMenu()
-        // const appPermission: any = this.$refs.appPermission
-        // appPermission.getLatestApp()
         const nowIds = []
         // 设置查看权限的id
         this.latestMenu.forEach(item => {

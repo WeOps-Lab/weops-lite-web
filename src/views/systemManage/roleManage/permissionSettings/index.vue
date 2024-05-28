@@ -9,7 +9,7 @@
             <menu-tab :panels="panels" :active-panel="active" @click="toTabMenu"></menu-tab>
             <div class="main-box" v-loading="loading" v-if="isShow">
                 <operation-permission
-                    v-show="active === 'operationPermission'"
+                    v-if="active === 'operationPermission'"
                     :role="role"
                     ref="menuPermission"
                     @getMenuLoading="getMenuLoading"
@@ -18,19 +18,11 @@
                     @getRawIds="getRawIds"
                 >
                 </operation-permission>
-                <!-- <app-permission
-                    v-show="active === 'appPermission'"
-                    :role="role"
-                    ref="appPermission"
-                    @getAppLoading="getAppLoading"
-                    @getLatestApp="getLatestApp"
-                >
-                </app-permission> -->
-                <!-- <instance-permission
-                    v-show="active === 'instancePermission'"
+                <instance-permission
+                    v-if="active === 'instancePermission'"
                     :role="role"
                     ref="instancePermission">
-                </instance-permission> -->
+                </instance-permission>
             </div>
         </div>
         <template slot="footer">

@@ -7,6 +7,7 @@ import GroupManage from './module/systemManage/groupManage'
 import ModelManage from './module/assetManage/modelManage'
 import AssetData from './module/asset/assetData'
 import AssetSearch from './module/asset/assetSearch'
+import InstancePermission from './module/asset/instancePermission'
 const api: any = {
     Server,
     User,
@@ -15,7 +16,8 @@ const api: any = {
     GroupManage,
     ModelManage,
     AssetData,
-    AssetSearch
+    AssetSearch,
+    InstancePermission
 }
 
 // @ts-ignore
