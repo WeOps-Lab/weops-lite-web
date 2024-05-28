@@ -157,6 +157,8 @@
             :group-list="groupList"
             :user-list="userList"
             :current-node="currentNode"
+            :connect-type-list="connectTypeList"
+            :model-info-list="modelInfoList"
             @on-success="updateInstanceList" />
         <import-instance
             ref="importInstance"

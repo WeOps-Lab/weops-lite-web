@@ -12,7 +12,6 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                // target: 'http://weops-lite.lite.cc', // 设置你调用的接口域名和端口号 别忘了加http
                 target: 'http://10.10.41.113:8000', // 设置你调用的接口域名和端口号 别忘了加http
                 changeOrigin: true,
                 pathRewrite: {
