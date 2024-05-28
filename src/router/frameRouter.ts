@@ -125,7 +125,7 @@ const mainRouter = [
             title: '资产详情',
             activeMenu: '',
             parentIds: [],
-            needCache: false
+            needCache: true
         },
         beforeEnter: (to, from, next) => {
             if (to.query.inst_name && to.query.fromPage) {

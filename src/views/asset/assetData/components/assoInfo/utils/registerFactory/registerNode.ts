@@ -125,7 +125,7 @@ const addTextShape = (cfg, group) => {
             vale = cfg.inst_name.split('').length > 13 ? cfg.inst_name.split('').slice(0, 10).join('') + '...' : cfg.inst_name
         } else {
             if (typeof cfg.inst_name === 'string') {
-                vale = cfg.inst_name.split('').length > 13 ? cfg.inst_name.split('').slice(0, 5).join('') + '...' : cfg.inst_name
+                vale = cfg.inst_name.split('').length > 8 ? cfg.inst_name.split('').slice(0, 5).join('') + '...' : cfg.inst_name
             }
         }
     }

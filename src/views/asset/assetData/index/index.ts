@@ -8,15 +8,23 @@ import Relation from '../components/relation/index.vue'
 import { getAssetAttrValue } from '@/controller/func/common'
 import { camelCaseToUnderscore } from '@/common/dealMenu'
 @Component({
+    name: 'asset-data',
     components: {
         ComTable,
         AddInstance,
         SelectInput,
         ImportInstance,
         Relation
+    },
+    beforeRouteLeave(to, from, next) {
+        this.$handleKeepAlive(to, from)
+        next()
+    },
+    activated() {
+        this.getInstanceList()
     }
 })
-export default class ModelManage extends Vue {
+export default class AssetData extends Vue {
     loading: boolean = false
     modelList: Array<any> = []
     treeList: Array<any> = []
