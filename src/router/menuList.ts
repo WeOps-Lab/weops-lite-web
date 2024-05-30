@@ -20,7 +20,7 @@ export const routeConfig = [
         children: [
             {
                 name: '资产搜索',
-                icon: 'cw-icon weops-system',
+                icon: 'cw-icon weops-discover',
                 id: 'AssetSearch',
                 sortIndex: 7,
                 auth: [
@@ -35,7 +35,7 @@ export const routeConfig = [
             },
             {
                 name: '资产数据',
-                icon: 'cw-icon weops-system',
+                icon: 'cw-icon weops-template',
                 id: 'AssetData',
                 sortIndex: 8,
                 auth: [
@@ -77,7 +77,7 @@ export const routeConfig = [
         children: [
             {
                 name: '资产管理',
-                icon: 'cw-icon weops-system',
+                icon: 'cw-icon weops-template',
                 id: 'AssetManage',
                 sortIndex: 10,
                 auth: [

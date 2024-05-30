@@ -44,7 +44,7 @@ export default class AddResource extends Vue {
 
     instInfo: any = {
         instId: '',
-        modelId: this.modelId,
+        modelId: '',
         classifyId: this.$route.name
     }
     configInfo: any = {
@@ -220,6 +220,7 @@ export default class AddResource extends Vue {
             if (type === 'saveAndRelate') {
                 // 创建并关联
                 this.instInfo.instId = data._id
+                this.instInfo.modelId = this.modelId
                 const addRelation: any = this.$refs.addRelation
                 addRelation.show([])
             }
