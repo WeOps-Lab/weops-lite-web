@@ -1,8 +1,14 @@
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import { RulesForm } from '@/common/types/systemManage/roleManage'
 import { COMMON_RULE } from '@/common/constants'
 @Component
 export default class OperateRole extends Vue {
+    @Prop({
+        type: Array,
+        default: () => []
+    })
+    roleList: Array<any>
+
     visible: boolean = false
     loading: boolean = false
     roleInfo: any = ''
@@ -10,10 +16,14 @@ export default class OperateRole extends Vue {
     formData = {
         role_name: '',
         describe: '',
+        superior_role: '',
         id: ''
     }
     rules: RulesForm = {
         role_name: [
+            COMMON_RULE
+        ],
+        superior_role: [
             COMMON_RULE
         ]
     }
@@ -31,10 +41,12 @@ export default class OperateRole extends Vue {
         this.type = type
         this.formData.role_name = ''
         this.formData.describe = ''
+        this.formData.superior_role = ''
         if (['edit', 'copy'].includes(this.type)) {
             this.roleInfo = data
             this.formData.role_name = data.name
             this.formData.describe = data.description
+            this.formData.superior_role = data.superior_role
             if (this.type === 'edit') {
                 this.formData.id = data.id
             }
@@ -50,7 +62,8 @@ export default class OperateRole extends Vue {
                 let url = ''
                 const params: any = {
                     name: this.formData.role_name,
-                    description: this.formData.describe
+                    description: this.formData.describe,
+                    superior_role: this.formData.superior_role
                 }
                 if (['add', 'copy'].includes(this.type)) {
                     url = 'createRole'

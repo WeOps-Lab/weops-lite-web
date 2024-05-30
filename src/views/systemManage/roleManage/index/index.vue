@@ -95,7 +95,7 @@
                     </template>
                 </com-table>
             </div>
-            <operate-role ref="operateRole" @refreshList="refreshList" />
+            <operate-role ref="operateRole" @refreshList="refreshList" :role-list="dataList" />
             <permission-settings ref="permissionSettings" />
             <user-and-group
                 ref="userAndGroup"
