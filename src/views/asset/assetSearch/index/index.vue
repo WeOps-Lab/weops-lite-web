@@ -5,11 +5,12 @@
                 class="asset-search-input"
                 placeholder="请输入关键字，点击或回车搜索"
                 v-model="search"
-                @input="handleTextInput">
+                @keyup.enter.native="showTextSearch">
                 <el-button
                     slot="append"
                     icon="el-icon-search"
-                    type="primary">
+                    type="primary"
+                    @click="showTextSearch">
                     搜索
                 </el-button>
             </el-input>
@@ -22,7 +23,8 @@
                 v-model="search"
                 size="small"
                 clearable
-                @change="handleTextChange">
+                @clear="handleClear"
+                @keyup.enter.native="handleTextChange">
                 <el-button
                     slot="append"
                     icon="el-icon-search"
@@ -302,21 +304,28 @@ export default class Relation extends Vue {
         this.pagination.current = 1
         this.pagination.limit = size
     }
-    handleTextInput() {
+    showTextSearch() {
+        if (!this.search) {
+            return
+        }
         this.onlySearchShow = false
+        this.handleSearch()
     }
-    handleTextChange(val) {
+    handleTextChange() {
         this.instList = []
-        if (!val) {
+        if (!this.search) {
             this.onlySearchShow = true
             return
         }
         this.handleSearch()
     }
+    handleClear() {
+        this.instList = []
+    }
     async handleSearch() {
         this.instList = []
         if (!this.search) {
-            this.onlySearchShow = false
+            this.onlySearchShow = true
             return
         }
         if (this.tableLoading) {
