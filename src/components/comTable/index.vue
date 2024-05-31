@@ -77,16 +77,6 @@
                     <div class="source-list">
                         <div class="header">待选择列表</div>
                         <div class="content-box">
-                            <!-- <div class="search">
-                                <el-input
-                                    clearable
-                                    style="width: 300px;"
-                                    placeholder="请输入搜索关键字"
-                                    :suffix-icon="'el-icon-search'"
-                                    size="small"
-                                >
-                                </el-input>
-                            </div> -->
                             <div class="organization-box">
                                 <div class="mb10 mt10">
                                     <el-checkbox
