@@ -249,7 +249,7 @@ export const routeConfig = [
                                 value: false,
                                 label: '设置权限',
                                 type: 'operate',
-                                apiKey: ['role_permissions', 'role_set_permissions']
+                                apiKey: ['role_permissions', 'role_set_permissions', 'r_permission_list', 'r_permission_create', 'r_permission_del', 'r_permission_update']
                             }
                         ]
                     },
