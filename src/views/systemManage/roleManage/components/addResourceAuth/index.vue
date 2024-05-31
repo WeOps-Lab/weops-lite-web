@@ -157,7 +157,8 @@
                 </el-button>
                 <el-button
                     type="default"
-                    size="small">
+                    size="small"
+                    @click="beforeCloseDialog">
                     取消
                 </el-button>
             </template>
