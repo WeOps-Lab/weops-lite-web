@@ -76,6 +76,13 @@
                         </com-table>
                     </el-tab-pane>
                 </el-tabs>
+                <el-empty
+                    v-if="!instList.length"
+                    :image-size="80"
+                    class="exception-wrap-item exception-part"
+                    description="暂无数据"
+                >
+                </el-empty>
             </div>
         </div>
         <drawer-component
