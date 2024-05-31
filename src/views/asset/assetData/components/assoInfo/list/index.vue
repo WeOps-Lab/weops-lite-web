@@ -55,6 +55,13 @@
                     </com-table>
                 </template>
             </collapse>
+            <el-empty
+                v-if="!resourcList.length"
+                :image-size="80"
+                class="exception-wrap-item exception-part"
+                description="暂无数据"
+            >
+            </el-empty>
         </div>
         <add-relation
             ref="addRelation"

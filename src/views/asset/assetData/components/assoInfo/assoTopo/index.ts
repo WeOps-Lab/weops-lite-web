@@ -41,6 +41,7 @@ export default class AssoTopo extends Vue {
     visible: boolean = false
     topoData: any = {}
     currentModelCfg: any = {}
+    isEmpty: boolean = false
 
     mounted() {
         registerFactory(G6, this)
@@ -183,8 +184,10 @@ export default class AssoTopo extends Vue {
         try {
             const { result, message, data } = await this.$api.AssetData.getInstanceTopo(params)
             if (!result) {
+                this.isEmpty = true
                 return this.$error(message)
             }
+            this.isEmpty = false
             const srcData = data.src_result.children.map(item => this.dealArrow(item, 'src'))
             const dstData = data.dst_result.children.map(item => this.dealArrow(item, 'dst'))
             const currentNode = this.$copy(data.src_result)
@@ -194,6 +197,8 @@ export default class AssoTopo extends Vue {
                 children: [...dstData, ...srcData]
             }
             this.topoData = this.dealTopoData(topoData)
+        } catch {
+            this.isEmpty = true
         } finally {
             this.loading = false
         }

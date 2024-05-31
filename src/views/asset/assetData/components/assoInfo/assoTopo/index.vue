@@ -1,6 +1,13 @@
 <template>
     <div class="asso-topo" v-loading="loading">
-        <div class="topo" ref="canvasRef"></div>
+        <el-empty
+            v-if="isEmpty"
+            :image-size="80"
+            class="exception-wrap-item exception-part"
+            description="暂无数据"
+        >
+        </el-empty>
+        <div v-else class="topo" ref="canvasRef"></div>
         <drawer-component
             :title="`实例详情-${currentModelCfg.inst_name}`"
             :size="800"
