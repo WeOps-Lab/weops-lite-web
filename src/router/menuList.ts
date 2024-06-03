@@ -29,7 +29,7 @@ export const routeConfig = [
                         value: false,
                         label: '查看',
                         type: 'check',
-                        apiKey: ['instance_fulltext_search', 'model_list', 'group_list', 'model_attr_list']
+                        apiKey: ['instance_fulltext_search', 'model_list', 'group_list', 'model_attr_list', 'classification_search']
                     }
                 ]
             },
