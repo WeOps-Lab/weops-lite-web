@@ -240,7 +240,7 @@ export default class AssetData extends Vue {
         }
         this.modelInfoList = data
         this.modelList = data.filter(item => item.classification_id === camelCaseToUnderscore(this.classifyId))
-        this.currentModel = this.modelList[0]?.model_id || ''
+        this.currentModel = this.$route.query.modelId || this.modelList[0]?.model_id || ''
     }
     async getShowFields() {
         const res = await this.$api.AssetData.getShowFields({

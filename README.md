@@ -501,7 +501,8 @@ npm run build
 | vue-router                 | https://github.com/vuejs/router                                        | 路由管理器                      |
 | vue-simple-uploader        | https://github.com/simple-uploader/vue-uploader                        | 文件上传组件                     |
 | vuex                       | https://github.com/vuejs/vuex                                          | 状态管理库                      |
-| vuedraggable               | https://github.com/SortableJS/Vue.Draggable                            | 实现可拖拽和排序的列表功能              |
+| vuedraggable               | https://github.com/SortableJS/Vue.Draggable                            | 实现可拖拽和排序的列表功能
+| vue-waterfall2               | https://github.com/AwesomeDevin/vue-waterfall2                       | 一个基于 Vue 的瀑布流布局组件             |
 | @dsb-norge/vue-keycloak-js | https://github.com/dsb-norge/vue-keycloak-js                           | 实现前端登录验证                   |
 | lodash                     | https://github.com/lodash/lodash                                       | JS工具包                      |
 
