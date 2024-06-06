@@ -13,6 +13,12 @@ export const ROLE_MANAGE_COLUMNS = [
         minWidth: '300px'
     },
     {
+        label: '上级角色',
+        key: 'superior_role',
+        align: 'left',
+        minWidth: '100px'
+    },
+    {
         label: '是否内置',
         key: 'built_in',
         align: 'left',

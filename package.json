@@ -39,6 +39,7 @@
     "vue-router": "^3.0.1",
     "vue-simple-uploader": "^0.7.6",
     "vue-template-compiler": "^2.7.16",
+    "vue-waterfall2": "^1.10.7",
     "vuedraggable": "^2.24.3",
     "vuex": "^2.3.1"
   },

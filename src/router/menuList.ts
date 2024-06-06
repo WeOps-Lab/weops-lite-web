@@ -34,10 +34,25 @@ export const routeConfig = [
                 ]
             },
             {
+                name: '资产目录',
+                icon: 'cw-icon weops-application',
+                id: 'AssetsOverview',
+                sortIndex: 8,
+                auth: [
+                    {
+                        key: 'AssetsOverview_view',
+                        value: false,
+                        label: '查看',
+                        type: 'check',
+                        apiKey: ['model_list', 'classification_search']
+                    }
+                ]
+            },
+            {
                 name: '资产数据',
                 icon: 'cw-icon weops-template',
                 id: 'AssetData',
-                sortIndex: 8,
+                sortIndex: 9,
                 auth: [
                     {
                         key: 'checkAuth',
@@ -59,7 +74,7 @@ export const routeConfig = [
     {
         name: '管理',
         id: 'Setting',
-        sortIndex: 9,
+        sortIndex: 10,
         auth: [
             {
                 key: 'checkAuth',
@@ -79,7 +94,7 @@ export const routeConfig = [
                 name: '资产管理',
                 icon: 'cw-icon weops-template',
                 id: 'AssetManage',
-                sortIndex: 10,
+                sortIndex: 11,
                 auth: [
                     {
                         key: 'checkAuth',
@@ -137,7 +152,7 @@ export const routeConfig = [
                 name: '系统管理',
                 icon: 'cw-icon weops-system',
                 id: 'sysManage',
-                sortIndex: 11,
+                sortIndex: 12,
                 auth: [
                     {
                         key: 'checkAuth',

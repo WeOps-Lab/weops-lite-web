@@ -19,6 +19,8 @@ const ModelDetail = () => import('@/views/assetManage/modelManage/modelDetail/in
 const AssetDetail = () => import('@/views/asset/assetData/detial/index.vue')
 // 资产搜索
 const AssetSearch = () => import('@/views/asset/assetSearch/index/index.vue')
+// 资产目录
+const AssetsOverview = () => import('@/views/asset/assetsOverview/index/index.vue')
 
 const mainRouter = [
     {
@@ -159,6 +161,14 @@ const mainRouter = [
         component: AssetSearch,
         meta: {
             title: '资产搜索'
+        }
+    },
+    {
+        path: '/assetsOverview',
+        name: 'AssetsOverview',
+        component: AssetsOverview,
+        meta: {
+            title: '资产目录'
         }
     }
 ]

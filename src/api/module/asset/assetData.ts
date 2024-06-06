@@ -112,5 +112,12 @@ export default {
     */
     batchUpdate(params = {}) {
         return post(`${reUrl}/instance/batch_update/`, params)
+    },
+    /**
+     * 实例列表展示字段
+     * @param {Object} params 请求参数
+     */
+    getModelInstCount(params = {}) {
+        return get(`${reUrl}/instance/model_inst_count/`, params)
     }
 }
