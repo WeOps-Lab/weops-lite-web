@@ -44,7 +44,7 @@ export const routeConfig = [
                         value: false,
                         label: '查看',
                         type: 'check',
-                        apiKey: ['model_list', 'classification_search']
+                        apiKey: ['model_list', 'classification_search', 'model_inst_count']
                     }
                 ]
             },
