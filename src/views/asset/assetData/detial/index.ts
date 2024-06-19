@@ -3,10 +3,12 @@ import { Panels } from '@/common/types'
 import { ASSET_DTIAL_PANELS } from '@/common/constants/asset/assetData'
 import BaseInfo from '../components/baseInfo/index.vue'
 import AssoInfo from '../components/assoInfo/index/index.vue'
+import AssetRecord from '../components/assetRecord/index/index.vue'
 @Component({
     components: {
         BaseInfo,
-        AssoInfo
+        AssoInfo,
+        AssetRecord
     }
 })
 export default class AssetDetial extends Vue {
