@@ -20,6 +20,14 @@
                 :group-list="groupList"
                 :property-list="propertyList"
             />
+            <asset-record
+                v-if="active === 'assetRecord' && !loading"
+                :user-list="userList"
+                :group-list="groupList"
+                :property-list="propertyList"
+                :model-info-list="modelInfoList"
+                :connect-type-list="connectTypeList"
+            />
         </el-tabs>
     </div>
 </template>
