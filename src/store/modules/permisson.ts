@@ -170,6 +170,13 @@ const actions = {
             api.User.homeInfo().then(async res => {
                 if (res.result) {
                     const { data: userData } = res
+                    if (userData.user_info?.preferred_username !== 'grade_admin' && !userData.is_super) {
+                        // 非超管，或者非grade_admin不能看到角色管理菜单
+                        if (userData?.menus_permissions) {
+                            const targetIndex = userData.menus_permissions.findIndex(item => item === 'SysRole_view')
+                            userData.menus_permissions.splice(targetIndex, 1)
+                        }
+                    }
                     const homeInfo = getMenuIdsAndOperateIds(userData?.menus_permissions || [])
                     userData.menus = homeInfo.menus_ids // 查看权限的菜单id
                     // 处理只有查看权限，没操作权限的菜单
