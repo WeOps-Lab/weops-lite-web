@@ -187,6 +187,8 @@ function handleReject(error, config) {
         let message = (error && error.message) || (data && data.message)
         if (status === 401) {
             message = '未登录'
+            vm.$error(message)
+            vm.$keycloak.logoutFn()
         } else if (status === 500) {
             message = '系统出现异常'
         } else if (status === 403) {
@@ -194,11 +196,6 @@ function handleReject(error, config) {
         } else if ([4005, 4003].includes((data && data.code))) {
             // bus.$emit('show-apply-perm-modal', data?.data)
         }
-        if ([401, 403].includes(status)) {
-            vm.$error(message)
-            vm.$keycloak.logoutFn()
-        }
-
         if ((data && data.code) === 500 && (data && data.request_id)) { // code为500的请求需要带上request_id
             message = `${message}( ${(data && data.request_id.slice(0, 8))} )`
         }

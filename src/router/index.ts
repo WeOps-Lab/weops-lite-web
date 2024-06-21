@@ -56,17 +56,14 @@ const handleRouteAuthorization = async(to, from, next) => {
     if ((!permission.user || JSON.stringify(permission.user) === '{}')) {
         await store.dispatch('GenerateNavLists1')
     }
-    // 后端接口报500，要先注释掉这里才能切换路由
-    // const allUserData = sessionStorage.getItem('allUserData')
-    // if (!(allUserData && JSON.stringify(allUserData).length)) {
-    //     await store.dispatch('getAllUserList')
-    // }
     checkRouteAccess(to, from, next)
 }
 
 function checkRouteAccess(to, from, next) {
     const permission = store.state.permission
     const isDefinedRoute = frameRouter.some(item => item.name === to?.name)
+    const menuList = permission.menuList
+    const defaultName = findFirstUrl(menuList)
     const ids = findIdsWithNoChildren(permission.menuList).concat(['404', '403', 'AuthPermissionFail'])
     // // 资产实例详情添加动态的parentIds，避免页面403
     if (to.name === 'AssetDetail') {
@@ -77,9 +74,6 @@ function checkRouteAccess(to, from, next) {
     // 不包含在全定义路由中,即是不存在该页面
     if (!isDefinedRoute && !ids.includes(to.name)) {
         // 首页需要特殊处理,若defaultName存在,则跳转到该页面
-        const permission = store.state.permission
-        const menuList = permission.menuList
-        const defaultName = findFirstUrl(menuList)
         if ((to.fullPath === '/' || to.fullPath.includes('#iss=http')) && defaultName) {
             // 兼容keycloak登录后返回的首页url和默认的首页url'/'
             next({ name: defaultName })
@@ -90,6 +84,10 @@ function checkRouteAccess(to, from, next) {
     // 判断是否存在在定义的路由中,存在但没有访问权限,则isRead为false,若不在isRead为true,且跳转到404
     const isRead = isDefinedRoute ? isHasPermission : true
     if (!isRead) {
+        if (to.fullPath.includes('#iss=http') && defaultName) {
+            next({ name: defaultName })
+            return
+        }
         next({ name: '403' })
     }
     dealRouterByPermission(to, from, next)
