@@ -44,6 +44,24 @@ export default class permissionSettings extends Vue {
     getMenuLoading(loading) {
         this.menuLoading = loading
     }
+    beforeLeave({ target }) {
+        if (target === 'instancePermission') {
+            const flag = this.compareData()
+            if (!flag) {
+                this.$confirm('离开将导致未保存信息丢失，确认离开？', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    center: true
+                }).then(() => {
+                    this.active = target
+                })
+                return
+            }
+            this.active = target
+            return
+        }
+        this.active = target
+    }
     show(data) {
         this.isShow = true
         this.role = data
@@ -60,8 +78,8 @@ export default class permissionSettings extends Vue {
     getRawIds(data) {
         this.rawIds = data
     }
-
-    confirm() {
+    // 确定时拿到的权限ids
+    getChangePermissionIds() {
         const menuPermission: any = this.$refs.menuPermission
         menuPermission.getLatestMenu()
         const nowIds = []
@@ -78,7 +96,17 @@ export default class permissionSettings extends Vue {
         const operateIds = this.latestOperate.reduce((pre, cur) => {
             return pre.concat(cur.operate_ids)
         }, []) // 菜单操作的权限id
-        this.changePermissionIds = Array.from(new Set([...nowIds, ...operateIds])) // 过滤掉重复的id
+        return Array.from(new Set([...nowIds, ...operateIds])) // 过滤掉重复的id
+    }
+    // 比较之前的数据和现在的数据是否有变化
+    compareData() {
+        const permissionIds = this.getChangePermissionIds()
+        const commonItems = permissionIds.filter(item => this.rawIds.includes(item))
+        return permissionIds.length === this.rawIds.length && this.rawIds.length === commonItems.length
+    }
+
+    confirm() {
+        this.changePermissionIds = this.getChangePermissionIds()
         this.loading = true
         this.$api.RoleManageMain.setRoleMenu({
             name: this.role.name,

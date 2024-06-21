@@ -171,6 +171,7 @@
             :attr-list="attrList"
             :instance-columns="instColumns"
             :model-id="formData.model_id"
+            :role="role"
             @change-list="getSelectList">
         </add-instance>
     </div>
@@ -553,6 +554,11 @@ export default class permissionSettings extends Vue {
     show(data) {
         Object.assign(this.$data, this.$options.data.call(this))
         this.isShow = true
+        if (this.role.superior_role !== 'admin') {
+            this.resourceTypeList = [
+                { name: '指定资产', id: 'fixed' }
+            ]
+        }
         this.instDetail = this.$copy(data)
         this.initPage(this.instDetail.row)
     }

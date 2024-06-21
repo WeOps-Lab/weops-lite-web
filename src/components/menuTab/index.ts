@@ -12,6 +12,7 @@ export default class NavHeader extends Vue {
     // type类型为 card,line,text,capsule
     @Prop({ type: String, default: 'card' }) type: string
     @Prop({ type: Boolean, default: false }) hideArrow: boolean
+    @Prop({ type: Function, default: null }) beforeLeave: null
     active: string = ''
     showOperation: boolean = false
     clientWidth: number = 0
@@ -61,6 +62,15 @@ export default class NavHeader extends Vue {
     }
     toClick(item: Panel) {
         if (item.disabled) {
+            return
+        }
+        if (this.beforeLeave) {
+            const func: any = this.beforeLeave
+            func({
+                that: this,
+                current: this.active,
+                target: item.name
+            })
             return
         }
         this.active = item.name
