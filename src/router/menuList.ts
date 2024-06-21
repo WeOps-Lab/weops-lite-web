@@ -29,7 +29,7 @@ export const routeConfig = [
                         value: false,
                         label: '查看',
                         type: 'check',
-                        apiKey: ['instance_fulltext_search', 'model_list', 'group_list', 'model_attr_list', 'classification_search']
+                        apiKey: ['instance_fulltext_search', 'model_list', 'group_list', 'model_attr_list']
                     }
                 ]
             },
@@ -44,7 +44,7 @@ export const routeConfig = [
                         value: false,
                         label: '查看',
                         type: 'check',
-                        apiKey: ['model_list', 'classification_search', 'model_inst_count']
+                        apiKey: ['model_list', 'model_inst_count']
                     }
                 ]
             },
@@ -121,7 +121,7 @@ export const routeConfig = [
                                 value: false,
                                 label: '查看',
                                 type: 'check',
-                                apiKey: ['classification_search', 'model_list', 'model_association_list', 'model_attr_list', 'model_association_type']
+                                apiKey: ['model_list', 'model_association_list', 'model_attr_list', 'model_association_type']
                             },
                             {
                                 key: 'ModelManage_create',

@@ -35,7 +35,7 @@ function handleOtherMenus(data, commit, state) {
                                     value: false,
                                     label: '查看',
                                     type: 'check',
-                                    apiKey: ['classification_search', 'model_list', 'model_attr_list', 'instance_list', 'group_list', 'instance_detail', 'instance_association_instance_list', 'model_association_type', 'topo_search', 'change_record_list', 'change_record_detail']
+                                    apiKey: ['model_list', 'model_attr_list', 'instance_list', 'group_list', 'instance_detail', 'instance_association_instance_list', 'model_association_type', 'topo_search', 'change_record_list', 'change_record_detail']
                                 },
                                 {
                                     key: `${underscoreToCamelCase(i.classification_id)}_manage`,
