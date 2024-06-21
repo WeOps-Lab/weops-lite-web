@@ -15,11 +15,16 @@ export default class OperationPermission extends Vue {
     permissions = {}
     // 查看权限的映射, 菜单Id:具体操作名称
     checkMap = {}
+    get user() {
+        return this.$store.state.permission.user
+    }
     mounted() {
         this.menuList = JSON.parse(JSON.stringify(this.$store.state.permission.menuList))
-        // 角色权限这四个菜单只有admin能展示，操作权限不予展示
-        const ONLY_ADMIN_HAS_MENUS = ['SysRole']
-        removeItemsWithId(this.menuList, ONLY_ADMIN_HAS_MENUS)
+        // 超管或者分级管理员才能展示系统管理的界面[角色管理],其它角色操作权限不予展示
+        if (!this.user.is_super && this.user.user_info?.preferred_username !== 'grade_admin') {
+            const ONLY_ADMIN_HAS_MENUS = ['SysRole']
+            removeItemsWithId(this.menuList, ONLY_ADMIN_HAS_MENUS)
+        }
         this.handleMenus(this.menuList)
         this.getRoleMenus()
     }
@@ -221,7 +226,7 @@ export default class OperationPermission extends Vue {
                 this.permissions = res.data
                 const result = getMenuIdsAndOperateIds(res.data)
                 // 计算一开始有权限的id
-                const rawIds = res.data.map(item => item.name)
+                const rawIds = res.data
                 // 传给父组件保存
                 this.$emit('getRawIds', rawIds)
                 for (const k in result) {

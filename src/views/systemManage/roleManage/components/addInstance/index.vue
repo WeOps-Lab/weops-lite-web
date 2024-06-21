@@ -121,6 +121,11 @@
             default: () => ''
         })
         modelId: string
+        @Prop({
+            type: Object,
+            default: () => ({})
+        })
+        role: any
         visible: boolean = false
         tableData: any[] = []
         tableLoading: boolean = false
@@ -204,7 +209,8 @@
                     page: this.pagination.current,
                     page_size: this.pagination.limit,
                     order: '',
-                    model_id: this.modelId
+                    model_id: this.modelId,
+                    role: this.role.superior_role
                 }
                 params.query_list = this.condition ? [this.condition] : []
                 const res = await this.$api.AssetData.getInstanceList(params)

@@ -22,17 +22,17 @@ export default class OperateUser extends Vue {
             COMMON_RULE
         ],
         lastName: [
-            COMMON_RULE,
-            {
-                validator: (rule, value, callback) => {
-                    if (!/^$|^[\u4e00-\u9fa5]+$/.test(value)) {
-                        callback(new Error('必须是中文'))
-                    } else {
-                        callback()
-                    }
-                },
-                trigger: 'blur'
-            }
+            COMMON_RULE
+            // {
+            //     validator: (rule, value, callback) => {
+            //         if (!/^$|^[\u4e00-\u9fa5]+$/.test(value)) {
+            //             callback(new Error('必须是中文'))
+            //         } else {
+            //             callback()
+            //         }
+            //     },
+            //     trigger: 'blur'
+            // }
         ],
         password: [
             COMMON_RULE
