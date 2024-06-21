@@ -96,7 +96,7 @@ export default class AssetRecord extends Vue {
         if (!result) {
             return this.$error(message)
         }
-        this.typeList = Object.keys(data).map(key => ({ id: key, name: data[key] })).filter(item => item.id !== 'delete_entity')
+        this.typeList = Object.keys(data).map(key => ({ id: key, name: data[key] }))
     }
     async getLogsRequest() {
         try {
