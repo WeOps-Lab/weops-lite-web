@@ -32,6 +32,17 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item
+                        label="模型类型"
+                        prop="type">
+                        <el-select v-model="formData.model_type" size="small" style="width: 100%;" :disabled="!isAdd">
+                            <el-option v-for="option in typeList"
+                                :key="option.id"
+                                :label="option.name"
+                                :value="option.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item
                         label="唯一标识"
                         desc="可使用英文、数字、下划线，需以字母开头"
                         :desc-type="'icon'"

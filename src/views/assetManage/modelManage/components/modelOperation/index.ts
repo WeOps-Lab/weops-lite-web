@@ -18,7 +18,8 @@ export default class ModelOperation extends Vue {
     formData = {
         group: '',
         onlyMark: '',
-        name: ''
+        name: '',
+        model_type: 'base'
     }
     rules = {
         name: [
@@ -29,6 +30,9 @@ export default class ModelOperation extends Vue {
         ],
         group: [
             COMMON_RULE
+        ],
+        model_type: [
+            COMMON_RULE
         ]
     }
     iconUrl: string = 'cc-default_默认'
@@ -36,6 +40,10 @@ export default class ModelOperation extends Vue {
     currentType: string = 'add'
     modelDetail: any = ''
     formDataV2 = {}
+    typeList: Array<any> = [
+        {id: 'base', name: '基础模型'},
+        {id: 'credential', name: '凭据模型'}
+    ]
     get isAdd() {
         return this.currentType === 'add'
     }
@@ -51,7 +59,8 @@ export default class ModelOperation extends Vue {
             this.formData = {
                 group: data.classification_id,
                 onlyMark: data.model_id,
-                name: data.model_name
+                name: data.model_name,
+                model_type: data.credit
             }
         } else {
             this.iconUrl = 'cc-default_默认'
@@ -67,6 +76,7 @@ export default class ModelOperation extends Vue {
                     model_name: this.formData.name,
                     model_id: this.formData.onlyMark,
                     icn: this.iconUrl,
+                    model_type: this.formData.model_type,
                     classification_id: this.formData.group
                 }
                 this.createModel(params)
@@ -111,7 +121,8 @@ export default class ModelOperation extends Vue {
         this.formData = {
             group: '',
             onlyMark: '',
-            name: ''
+            name: '',
+            model_type: 'base'
         }
     }
 }

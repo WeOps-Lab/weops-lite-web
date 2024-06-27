@@ -41,7 +41,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getAssoInstList(params = {}) {
-        return get(`${reUrl}/instance/association_instance_list/${params.model_id}/${params.inst_id}/`)
+        return get(`${reUrl}/instance/association_instance_list/${params.model_id}/${params.inst_id}/`, params.body)
     },
     /**
      * 创建实例关联
@@ -140,5 +140,19 @@ export default {
      */
     getRecordType(params = {}) {
         return get(`${reUrl}/change_record/enum_data/`)
+    },
+    /**
+     * 凭据授权
+     * @param {Object} params 请求参数
+     */
+    credentialAuthorization(params = {}) {
+        return post(`${reUrl}/credential/authorization/`, params)
+    },
+    /**
+     * 查询授权列表
+     * @param {Object} params 请求参数
+     */
+    getAuthorizationList(params = {}) {
+        return get(`${reUrl}/credential/authorization_list/${params.model_id}/${params.inst_id}/`)
     }
 }

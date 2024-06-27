@@ -90,7 +90,7 @@ export default {
      * @param {Object} params 请求参数
      */
     getModelAssoList(params = {}) {
-        return get(`${reUrl}/model/${params.id}/association/`)
+        return get(`${reUrl}/model/${params.id}/association/`, params.body)
     },
     /**
      * 查询模型关联类型

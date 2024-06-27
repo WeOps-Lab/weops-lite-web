@@ -116,7 +116,10 @@ export default class AssoList extends Vue {
             const { instId, modelId } = this.$route.query
             const params = {
                 inst_id: instId || this.instInfo.instId,
-                model_id: modelId || this.instInfo.modelId
+                model_id: modelId || this.instInfo.modelId,
+                body: {
+                    model_type: this.instInfo.model_type || 'base'
+                }
             }
             const { result, message, data } = await this.$api.AssetData.getAssoInstList(params)
             if (!result) {

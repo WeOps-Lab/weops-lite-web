@@ -8,7 +8,11 @@
                 :name="item.name">
             </el-tab-pane>
             <asso-info
-                v-if="active === 'assoInfo' && !loading"
+                v-if="['assoInfo','assetCredential'].includes(active) && !loading"
+                :key="active"
+                :inst-info="{
+                    model_type: active === 'assoInfo' ? 'base' : 'credential'
+                }"
                 :group-list="groupList"
                 :connect-type-list="connectTypeList"
                 :model-info-list="modelInfoList"

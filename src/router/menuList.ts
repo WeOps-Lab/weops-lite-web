@@ -68,13 +68,35 @@ export const routeConfig = [
                     }
                 ],
                 children: []
+            },
+            {
+                name: '资产凭据',
+                icon: 'cw-icon weops-user-permission',
+                id: 'AssetCredential',
+                sortIndex: 10,
+                auth: [
+                    {
+                        key: 'AssetCredential_view',
+                        value: false,
+                        label: '查看',
+                        type: 'check',
+                        apiKey: ['model_list', 'model_attr_list', 'instance_list', 'group_list', 'instance_detail', 'instance_association_instance_list', 'model_association_type', 'topo_search', 'change_record_list', 'change_record_detail', 'cre_authorization_list']
+                    },
+                    {
+                        key: 'AssetCredential_manage',
+                        value: false,
+                        label: '操作',
+                        type: 'operate',
+                        apiKey: ['instance_create', 'instance_update', 'instance_batch_update', 'instance_batch_delete', 'instance_association_create', 'instance_association_delete', 'cre_authorization']
+                    }
+                ]
             }
         ]
     },
     {
         name: '管理',
         id: 'Setting',
-        sortIndex: 10,
+        sortIndex: 11,
         auth: [
             {
                 key: 'checkAuth',
@@ -94,7 +116,7 @@ export const routeConfig = [
                 name: '资产管理',
                 icon: 'cw-icon weops-template',
                 id: 'AssetManage',
-                sortIndex: 11,
+                sortIndex: 12,
                 auth: [
                     {
                         key: 'checkAuth',
@@ -152,7 +174,7 @@ export const routeConfig = [
                 name: '系统管理',
                 icon: 'cw-icon weops-system',
                 id: 'sysManage',
-                sortIndex: 12,
+                sortIndex: 13,
                 auth: [
                     {
                         key: 'checkAuth',

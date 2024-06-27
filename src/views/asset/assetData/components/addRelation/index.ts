@@ -195,7 +195,10 @@ export default class AddRelation extends Vue {
         this.relateLoading = true
         try {
             const params = {
-                id: this.$route.query.modelId || this.instInfo.modelId
+                id: this.$route.query.modelId || this.instInfo.modelId,
+                body: {
+                    model_type: this.instInfo.model_type || 'base'
+                }
             }
             const { result, message, data } = await this.$api.ModelManage.getModelAssoList(params)
             if (!result) {

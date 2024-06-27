@@ -21,6 +21,8 @@ const AssetDetail = () => import('@/views/asset/assetData/detial/index.vue')
 const AssetSearch = () => import('@/views/asset/assetSearch/index/index.vue')
 // 资产目录
 const AssetsOverview = () => import('@/views/asset/assetsOverview/index/index.vue')
+// 资产凭据
+const AssetCredential = () => import('@/views/asset/assetCredential/index/index.vue')
 
 const mainRouter = [
     {
@@ -169,6 +171,15 @@ const mainRouter = [
         component: AssetsOverview,
         meta: {
             title: '资产目录'
+        }
+    },
+    {
+        path: '/assetCredential',
+        name: 'AssetCredential',
+        component: AssetCredential,
+        meta: {
+            title: '资产凭据',
+            cacheName: 'asset-credential'
         }
     }
 ]

@@ -9,6 +9,7 @@
 
     .el-aside {
         border-radius: 20px 0 0 0;
+        height: calc(100vh - 100px);
 
         .el-menu {
             height: 100%;
@@ -38,7 +39,7 @@
 
             /deep/.nav-slider-footer {
                 position: fixed;
-                bottom: 20px;
+                bottom: 10px;
                 left: 20px;
                 transform: translateY(-50%);
 

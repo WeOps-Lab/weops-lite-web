@@ -1,20 +1,190 @@
-import { Component, Vue } from 'vue-property-decorator'
-import ComTable from '@/components/comTable/index.vue'
-import { Pagination, TableData } from '@/common/types'
-import AddInstance from '../components/addInstance/index.vue'
-import ImportInstance from '../components/importInstance/index.vue'
-import SelectInput from '../components/selectInput/index.vue'
-import Relation from '../components/relation/index.vue'
-import { getAssetAttrValue } from '@/controller/func/common'
-import { camelCaseToUnderscore } from '@/common/dealMenu'
+<template>
+    <div class="asset-credential page-container" v-loading="loading">
+        <el-tabs class="asset-credential-tabs" v-model="currentModel" @tab-click="handleTabClick">
+            <el-tab-pane
+                v-for="(item,index) in modelList"
+                :key="index"
+                :label="item.model_name"
+                :name="item.model_id">
+            </el-tab-pane>
+        </el-tabs>
+        <div class="instance-list">
+            <div class="operate-box">
+                <div class="operate-box-left">
+                    <el-dropdown size="small">
+                        <el-button
+                            size="small"
+                            type="primary">
+                            新建
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                                v-permission="operatePower"
+                                @click.native="addResource('add')">
+                                手动创建
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                    <el-dropdown class="mr10 ml10" size="small">
+                        <el-button size="small">
+                            操作
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                                v-permission="operatePower"
+                                :disabled="!selectedInstances.length"
+                                @click.native="deleteInstance(selectedInstances)">
+                                批量删除
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                v-permission="operatePower"
+                                :disabled="!selectedInstances.length"
+                                @click.native="addResource('batchUpdate')">
+                                批量更新
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+                <div class="operate-box-right">
+                    <selectInput :property-list="atrrList" :user-list="userList" @change="changeFeild" />
+                </div>
+            </div>
+            <com-table
+                v-show="columns.length"
+                v-loading="tableLoading"
+                ref="comTable"
+                :data="instanceList"
+                :columns="columns"
+                :pagination="pagination"
+                height="calc(100vh - 230px)"
+                :settings-fields="displayFields"
+                @page-change="handlePageChange"
+                @page-limit-change="handleLimitChange"
+                @select="handleSelect"
+                @select-all="handleSelect"
+                @handle-setting-change="handleSettingChange"
+            >
+                <template slot="operation" slot-scope="{ row }">
+                    <el-button
+                        type="text"
+                        size="small"
+                        @click="checkDetail(row)">
+                        详情
+                    </el-button>
+                    <el-button
+                        type="text"
+                        size="small"
+                        @click="empower(row)">
+                        授权
+                    </el-button>
+                    <el-button
+                        v-permission="operatePower"
+                        type="text"
+                        size="small"
+                        @click="addResource('edit',row)">
+                        编辑
+                    </el-button>
+                    <el-button
+                        type="text"
+                        size="small"
+                        @click="checkRelate(row)">
+                        关联
+                    </el-button>
+                    <el-button
+                        v-permission="operatePower"
+                        type="text"
+                        size="small"
+                        @click="deleteInstance([row])">
+                        删除
+                    </el-button>
+                </template>
+                <template v-for="field in slotColumns" :slot="field.scopedSlots" slot-scope="{ row }">
+                    <div :key="field.key">
+                        <el-tag
+                            v-if="field.attr_type === 'bool'"
+                            :type="row[field.key] ? 'success' : ''">
+                            {{getShowValue(field, row)}}
+                        </el-tag>
+                        <span v-else>{{ getShowValue(field, row) }}</span>
+                    </div>
+                </template>
+            </com-table>
+        </div>
+        <add-instance
+            ref="addInstance"
+            :model-id="currentModel"
+            :group-list="groupList"
+            :user-list="userList"
+            :current-node="currentNode"
+            :connect-type-list="connectTypeList"
+            :model-info-list="modelInfoList"
+            @on-success="updateInstanceList" />
+        <relation ref="relation"
+            :group-list="groupList"
+            :connect-type-list="connectTypeList"
+            :model-info-list="modelInfoList"
+            :user-list="userList"
+            :property-list="propertyList"
+            :inst-info="instInfo"
+        />
+        <auth-white-list
+            title="凭据授权"
+            :model-info="{
+                model_id: currentModel
+            }"
+            ref="authWhiteList" />
+        <drawer-component
+            :title="`实例详情-${currentModelCfg.inst_name}`"
+            :size="800"
+            :visible="visible"
+            destroy-on-close
+            custom-class="common-dialog-wrapper"
+            :before-close="beforeCloseDialog">
+            <div slot="content" class="content-box common-dialog-wrapper-main">
+                <base-info
+                    :group-list="groupList"
+                    :user-list="userList"
+                    :current-model-cfg="currentModelCfg"
+                    display-percent="50%"
+                    :allow-edit="false"
+                >
+                </base-info>
+            </div>
+            <div slot="footer">
+                <el-button
+                    size="small"
+                    @click="beforeCloseDialog">
+                    关闭
+                </el-button>
+            </div>
+        </drawer-component>
+    </div>
+</template>
+
+<script lang="ts">
+    import { Component, Vue } from 'vue-property-decorator'
+    import ComTable from '@/components/comTable/index.vue'
+    import { Pagination, TableData } from '@/common/types'
+    import AddInstance from '@/views/asset/assetData/components/addInstance/index.vue'
+    import SelectInput from '@/views/asset/assetData/components/selectInput/index.vue'
+    import Relation from '@/views/asset/assetData/components/relation/index.vue'
+    import { getAssetAttrValue } from '@/controller/func/common'
+    import authWhiteList from '@/views/asset/assetCredential/components/authWhiteList/index.vue'
+    import BaseInfo from '@/views/asset/assetData/components/baseInfo/index.vue'
+    import DrawerComponent from '@/components/comDrawer/index.vue'
+
 @Component({
     name: 'asset-data',
     components: {
         ComTable,
         AddInstance,
         SelectInput,
-        ImportInstance,
-        Relation
+        Relation,
+        authWhiteList,
+        BaseInfo,
+        DrawerComponent
     },
     beforeRouteLeave(to, from, next) {
         this.$handleKeepAlive(to, from)
@@ -49,6 +219,9 @@ export default class AssetData extends Vue {
     modelInfoList: Array<any> = []
     connectTypeList: Array<any> = []
     instInfo: any = {}
+    classifyId: string = 'AssetCredential'
+    visible: boolean = false
+    currentModelCfg: any = {}
 
     get atrrList() {
         return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
@@ -60,10 +233,6 @@ export default class AssetData extends Vue {
             }
             return item
         })
-    }
-
-    get classifyId() {
-        return this.$route.name
     }
 
     get slotColumns() {
@@ -90,35 +259,29 @@ export default class AssetData extends Vue {
         })
     }
 
+    beforeCloseDialog() {
+        this.visible = false
+    }
+    checkDetail(row) {
+        this.currentModelCfg = {
+            ...row,
+            inst_id: row._id
+        }
+        this.visible = true
+    }
+    empower(row) {
+        const authWhiteList: any = this.$refs.authWhiteList
+        authWhiteList.showSlider([], row)
+    }
     checkRelate(row) {
         this.instInfo = {
             instId: row._id,
             modelId: this.currentModel,
-            classifyId: this.classifyId
+            classifyId: this.classifyId,
+            model_type: 'credential'
         }
         const relation: any = this.$refs.relation
         relation.show(row)
-    }
-    // 导出资产
-    exportInst(list) {
-        if (!this.$BtnPermission(this.operatePower)) {
-            return false
-        }
-        const params = {
-            id: this.currentModel,
-            body: list.map(item => item._id)
-        }
-        this.$api.AssetData.exportInst(params).then((res) => {
-            const blob = new Blob([res], { type: '.xlsx' })
-            // 通过创建a标签实现
-            const link = document.createElement('a')
-            link.href = window.URL.createObjectURL(blob)
-            // 对下载的文件命名
-            link.download = `${this.currentModel}资产列表.xlsx`
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-        })
     }
     async getUserList() {
         const { result, message, data } = await this.$api.UserManageMain.getAllUsers()
@@ -181,11 +344,6 @@ export default class AssetData extends Vue {
         if (!this.$BtnPermission(this.operatePower)) {
             return false
         }
-        if (mode === 'import') {
-            const importInstance: any = this.$refs.importInstance
-            importInstance.showDialog()
-            return
-        }
         const addInstance: any = this.$refs.addInstance
         addInstance.showDialog({
             mode,
@@ -202,17 +360,6 @@ export default class AssetData extends Vue {
         return getAssetAttrValue(field, tex, {
             groupList: this.groupList,
             userList: this.userList
-        })
-    }
-    checkDetail(row) {
-        this.$router.push({
-            name: 'AssetDetail',
-            query: {
-                fromPage: this.classifyId,
-                inst_name: row.inst_name || row.biz_name || '--',
-                modelId: this.currentModel,
-                instId: row._id
-            }
         })
     }
     handleSelect(selections) {
@@ -232,14 +379,14 @@ export default class AssetData extends Vue {
         })
     }
     async getAllModelList() {
-        const res = await this.$api.ModelManage.getModel({ model_type: 'base' })
+        const res = await this.$api.ModelManage.getModel()
         const { result, message, data } = res
         if (!result) {
             this.modelList = []
             return this.$error(message)
         }
         this.modelInfoList = data
-        this.modelList = data.filter(item => item.classification_id === camelCaseToUnderscore(this.classifyId))
+        this.modelList = data.filter(item => item.model_type === 'credential')
         this.currentModel = this.$route.query.modelId || this.modelList[0]?.model_id || ''
     }
     async getShowFields() {
@@ -273,10 +420,6 @@ export default class AssetData extends Vue {
             level: 1
         }
         this.groupList = this.convertArray(data)
-        this.$nextTick(() => {
-            const groupTree: any = this.$refs.groupTree
-            groupTree.setCurrentKey(data[0]?.id || '')
-        })
     }
     convertArray(arr) {
         const result = []
@@ -316,7 +459,7 @@ export default class AssetData extends Vue {
             label: '操作',
             key: 'operation',
             align: 'left',
-            width: '170px',
+            width: '210px',
             fixed: 'right',
             scopedSlots: 'operation'
         }
@@ -408,3 +551,18 @@ export default class AssetData extends Vue {
         this.getInstanceList()
     }
 }
+</script>
+
+<style lang="scss" scoped>
+.asset-credential {
+    height: 100%;
+    .asset-credential-tabs {
+        min-height: 54px;
+        margin-top: -14px;
+    }
+    .instance-list {
+        width: 100%;
+        background: #fff;
+    }
+}
+</style>
