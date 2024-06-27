@@ -11,6 +11,10 @@ export const ASSET_DTIAL_PANELS = [
     {
         label: '变更记录',
         name: 'assetRecord'
+    },
+    {
+        label: '资产凭据',
+        name: 'assetCredential'
     }
 ]
 // 操作日志表头
