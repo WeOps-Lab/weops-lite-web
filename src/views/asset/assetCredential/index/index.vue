@@ -76,6 +76,7 @@
                     <el-button
                         type="text"
                         size="small"
+                        :disabled="row._creator !== user"
                         @click="empower(row)">
                         授权
                     </el-button>
@@ -83,6 +84,7 @@
                         v-permission="operatePower"
                         type="text"
                         size="small"
+                        :disabled="row._creator !== user"
                         @click="addResource('edit',row)">
                         编辑
                     </el-button>
@@ -96,6 +98,7 @@
                         v-permission="operatePower"
                         type="text"
                         size="small"
+                        :disabled="row._creator !== user"
                         @click="deleteInstance([row])">
                         删除
                     </el-button>
@@ -244,6 +247,9 @@ export default class AssetData extends Vue {
             id: this.classifyId,
             type: `${this.classifyId}_manage`
         }
+    }
+    get user() {
+        return this.$store.state.permission.user.user_info?.preferred_username
     }
 
     created() {
