@@ -232,7 +232,7 @@ export default class AssetData extends Vue {
         })
     }
     async getAllModelList() {
-        const res = await this.$api.ModelManage.getModel()
+        const res = await this.$api.ModelManage.getModel({ model_type: 'base' })
         const { result, message, data } = res
         if (!result) {
             this.modelList = []
