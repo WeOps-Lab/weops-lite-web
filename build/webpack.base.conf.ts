@@ -53,6 +53,9 @@ const createTsLintingRule = () => ({
 module.exports = {
     cache: {
         type: "filesystem",
+        buildDependencies: {
+            config: [__filename], // 当配置文件变更时，缓存失效
+        }
     },
     externals: {
         // 新增

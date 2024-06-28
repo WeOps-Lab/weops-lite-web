@@ -38,4 +38,11 @@
             margin-right: 4px;
         }
     }
+
+    /deep/ .el-input__icon {
+        cursor: pointer;
+        &:hover {
+            color: #3A84FF;
+        }
+    }
 }
