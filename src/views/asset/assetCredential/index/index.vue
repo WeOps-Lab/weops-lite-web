@@ -48,7 +48,11 @@
                     </el-dropdown>
                 </div>
                 <div class="operate-box-right">
-                    <selectInput :property-list="atrrList" :user-list="userList" @change="changeFeild" />
+                    <selectInput
+                        :property-list="atrrList"
+                        :group-list="groupList"
+                        :user-list="userList"
+                        @change="changeFeild" />
                 </div>
             </div>
             <com-table
@@ -227,7 +231,7 @@ export default class AssetData extends Vue {
     currentModelCfg: any = {}
 
     get atrrList() {
-        return this.propertyList.filter(item => item.attr_id !== 'organization').map(item => {
+        return this.propertyList.filter(item => item.attr_type !== 'pwd').map(item => {
             if (item.attr_type === 'bool') {
                 item.option = [
                     { name: '是', id: true },

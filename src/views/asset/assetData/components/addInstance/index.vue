@@ -79,8 +79,13 @@
                                         v-model="formData[tex.attr_id]"
                                         size="small"
                                         clearable
-                                        :show-password="tex['attr_type'] === 'pwd'"
                                         :type="tex['attr_type'] === 'pwd' ? 'password' : 'text'">
+                                        <i
+                                            v-if="tex['attr_type'] === 'pwd'"
+                                            class="el-icon-document-copy el-input__icon"
+                                            slot="suffix"
+                                            v-copy="formData[tex.attr_id]">
+                                        </i>
                                     </el-input>
                                 </el-form-item>
                             </div>
