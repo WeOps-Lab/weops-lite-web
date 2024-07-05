@@ -41,8 +41,8 @@ export default class ModelOperation extends Vue {
     modelDetail: any = ''
     formDataV2 = {}
     typeList: Array<any> = [
-        {id: 'base', name: '基础模型'},
-        {id: 'credential', name: '凭据模型'}
+        { id: 'base', name: '基础模型' },
+        { id: 'credential', name: '凭据模型' }
     ]
     get isAdd() {
         return this.currentType === 'add'
@@ -60,7 +60,7 @@ export default class ModelOperation extends Vue {
                 group: data.classification_id,
                 onlyMark: data.model_id,
                 name: data.model_name,
-                model_type: data.credit
+                model_type: data.model_type || 'base'
             }
         } else {
             this.iconUrl = 'cc-default_默认'

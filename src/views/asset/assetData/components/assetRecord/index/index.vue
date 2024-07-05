@@ -3,19 +3,24 @@
         <div class="manage-wrapper">
             <div class="search-box">
                 <span>操作者</span>
-                <el-input
-                    clearable
+                <el-select
                     v-model="params.operator"
                     style="width: 150px;"
-                    placeholder="请输入操作者"
+                    clearable
+                    placeholder="请选择操作者"
                     size="small"
                     @change="searchDataByUser">
-                </el-input>
+                    <el-option
+                        v-for="item in userList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                    </el-option>
+                </el-select>
                 <span>操作类型</span>
                 <el-select
                     v-model="params.type"
-                    style="width: 150px;
-                    background-color: #ffffff;"
+                    style="width: 150px;"
                     clearable
                     placeholder="请选择操作类型"
                     size="small"
@@ -65,6 +70,9 @@
                 >
                     <template slot="type" slot-scope="{ row }">
                         <span>{{ getOperateType(row.type)}}</span>
+                    </template>
+                    <template slot="operator" slot-scope="{ row }">
+                        <span>{{ getOperator(row.operator)}}</span>
                     </template>
                     <template slot="operation" slot-scope="{ row }">
                         <el-button

@@ -28,6 +28,7 @@ export const ASSET_RECORD_COLUMNS = [
     {
         label: '操作人',
         key: 'operator',
+        scopedSlots: 'operator',
         align: 'left',
         minWidth: '100px'
     },
