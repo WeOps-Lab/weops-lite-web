@@ -33,7 +33,7 @@
                     </el-form-item>
                     <el-form-item
                         label="模型类型"
-                        prop="type">
+                        prop="model_type">
                         <el-select v-model="formData.model_type" size="small" style="width: 100%;" :disabled="!isAdd">
                             <el-option v-for="option in typeList"
                                 :key="option.id"
