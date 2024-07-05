@@ -66,6 +66,9 @@ export default class AssetRecord extends Vue {
         this.getOperateTypeList()
         this.getLogs()
     }
+    getOperator(id) {
+        return this.userList.find(item => item.id === id)?.name || '--'
+    }
     checkDetail(row) {
         const recordDetial: any = this.$refs.recordDetial
         recordDetial.showDialog(row, this.typeList)
@@ -75,7 +78,7 @@ export default class AssetRecord extends Vue {
     }
     searchDataByUser() {
         this.pagination.current = 1
-        this.getRemote()
+        this.getLogs()
     }
     getRemote = _.debounce(function() {
         this.getLogs()
